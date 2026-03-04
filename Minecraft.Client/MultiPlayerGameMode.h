@@ -65,5 +65,8 @@ public:
 	// 4J Stu - Added for tutorial checks
 	virtual bool isInputAllowed(int mapping) { return true; }
 	virtual bool isTutorial() { return false; }
-	virtual Tutorial *getTutorial() { return NULL; }
+	virtual Tutorial *getTutorial() { return nullptr; }
+
+	// Cache of last destroy progress state sent to avoid redundant calls
+	int lastSentDestroyState;
 };

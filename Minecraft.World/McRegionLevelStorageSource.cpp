@@ -41,10 +41,8 @@ vector<shared_ptr<LevelSummary>> McRegionLevelStorageSource::getLevelList()
     if (subFolders)
     {
         const auto itEnd = subFolders->end();
-        for (auto it = subFolders->begin(); it != itEnd; ++it)
+        for (const File* file : *subFolders)
         {
-            const File* file = *it;
-
             if (file->isDirectory())
                 continue;
 
@@ -73,7 +71,7 @@ vector<shared_ptr<LevelSummary>> McRegionLevelStorageSource::getLevelList()
                     gameType,
                     requiresConversion,
                     levelData->isHardcore(),
-                    false));
+            false));
             }
         }
     }

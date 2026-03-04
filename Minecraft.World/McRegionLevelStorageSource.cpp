@@ -71,7 +71,7 @@ vector<shared_ptr<LevelSummary>> McRegionLevelStorageSource::getLevelList()
                     gameType,
                     requiresConversion,
                     levelData->isHardcore(),
-            false));
+                    false));
             }
         }
     }

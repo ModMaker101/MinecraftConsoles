@@ -836,7 +836,8 @@ int CMinecraftApp::SetDefaultOptions(C_4JProfile::PROFILESETTINGS *pSettings,con
 {
 	SetGameSettings(iPad,eGameSetting_MusicVolume,DEFAULT_VOLUME_LEVEL);
 	SetGameSettings(iPad,eGameSetting_SoundFXVolume,DEFAULT_VOLUME_LEVEL);
-	SetGameSettings(iPad,eGameSetting_Gamma,50);
+	// 75% gamma as it looks better than 50% after the latest update.
+	SetGameSettings(iPad,eGameSetting_Gamma,75);
 
 	// 4J-PB - Don't reset the difficult level if we're in-game
 	if(Minecraft::GetInstance()->level==NULL)

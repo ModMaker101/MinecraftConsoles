@@ -51,6 +51,7 @@
 #include "TexturePackRepository.h"
 #include "TexturePack.h"
 #include "TextureAtlas.h"
+#include "Common/PostProcesser.h"
 
 bool GameRenderer::anaglyph3d = false;
 int GameRenderer::anaglyphPass = 0;
@@ -834,35 +835,15 @@ void GameRenderer::tickLightTexture()
 
 void GameRenderer::updateLightTexture(float a)
 {
+    CachePlayerGammas();
+
     for (int j = 0; j < XUSER_MAX_COUNT; j++)
     {
         shared_ptr<MultiplayerLocalPlayer> player = Minecraft::GetInstance()->localplayers[j];
-        if (player == nullptr) continue;
+        if (player == nullptr)
+            continue;
 
-        Level* level = player->level;
-
-        float slider = app.GetGameSettings(j, eGameSetting_Gamma); // 0..100
-        if (slider < 0.0f) slider = 0.0f;
-        if (slider > 100.0f) slider = 100.0f;
-        const float s = slider / 100.0f;
-
-        float gammaExponent;
-        float brightT = 0.0f;
-        if (s >= 0.5f)
-        {
-            const float t = (s - 0.5f) * 2.0f; // 0..1
-            gammaExponent = 1.0f + (0.5f - 1.0f) * t; // 1.0 -> 0.5
-            brightT = t;
-        }
-        else
-        {
-            const float t = (0.5f - s) * 2.0f; // 0..1
-            gammaExponent = 1.0f + (2.0f - 1.0f) * t; // 1.0 -> 2.0
-            brightT = 0.0f;
-        }
-
-        // Toe lift scales with brightening only
-        const float toe = 0.06f + 0.10f * brightT;
+        Level *level = player->level;
 
         const float skyDarken1 = level->getSkyDarken(1.0f);
         for (int i = 0; i < 256; i++)
@@ -911,52 +892,27 @@ void GameRenderer::updateLightTexture(float a)
             {
                 const float scale = getNightVisionScale(player, a);
                 float dist = 1.0f / _r;
-                if (dist > (1.0f / _g)) dist = (1.0f / _g);
-                if (dist > (1.0f / _b)) dist = (1.0f / _b);
+                if (dist > (1.0f / _g))
+                    dist = (1.0f / _g);
+                if (dist > (1.0f / _b))
+                    dist = (1.0f / _b);
                 _r = _r * (1.0f - scale) + (_r * dist) * scale;
                 _g = _g * (1.0f - scale) + (_g * dist) * scale;
                 _b = _b * (1.0f - scale) + (_b * dist) * scale;
             }
 
-            if (_r > 1.0f) _r = 1.0f; if (_r < 0.0f) _r = 0.0f;
-            if (_g > 1.0f) _g = 1.0f; if (_g < 0.0f) _g = 0.0f;
-            if (_b > 1.0f) _b = 1.0f; if (_b < 0.0f) _b = 0.0f;
-
-            if (gammaExponent > 0.999f && gammaExponent < 1.001f)
-            {
-                // no op
-            }
-            else if (gammaExponent > 0.499f && gammaExponent < 0.501f)
-            {
-                _r = sqrtf(_r);
-                _g = sqrtf(_g);
-                _b = sqrtf(_b);
-            }
-            else if (gammaExponent > 1.999f && gammaExponent < 2.001f)
-            {
-                _r = _r * _r;
-                _g = _g * _g;
-                _b = _b * _b;
-            }
-            else
-            {
-                _r = powf(_r, gammaExponent);
-                _g = powf(_g, gammaExponent);
-                _b = powf(_b, gammaExponent);
-            }
-
-            // Toe lift 
-            float ir = 1.0f - _r; ir = 1.0f - ir * ir * ir * ir;
-            float ig = 1.0f - _g; ig = 1.0f - ig * ig * ig * ig;
-            float ib = 1.0f - _b; ib = 1.0f - ib * ib * ib * ib;
-
-            _r = _r * (1.0f - toe) + ir * toe;
-            _g = _g * (1.0f - toe) + ig * toe;
-            _b = _b * (1.0f - toe) + ib * toe;
-
-            if (_r < 0.0f) _r = 0.0f; if (_r > 1.0f) _r = 1.0f;
-            if (_g < 0.0f) _g = 0.0f; if (_g > 1.0f) _g = 1.0f;
-            if (_b < 0.0f) _b = 0.0f; if (_b > 1.0f) _b = 1.0f;
+            if (_r > 1.0f)
+                _r = 1.0f;
+            if (_r < 0.0f)
+                _r = 0.0f;
+            if (_g > 1.0f)
+                _g = 1.0f;
+            if (_g < 0.0f)
+                _g = 0.0f;
+            if (_b > 1.0f)
+                _b = 1.0f;
+            if (_b < 0.0f)
+                _b = 0.0f;
 
             constexpr int alpha = 255;
             const int r = static_cast<int>(_r * 255);
@@ -973,6 +929,158 @@ void GameRenderer::updateLightTexture(float a)
         }
 
         mc->textures->replaceTextureDirect(lightPixels[j], 16, 16, getLightTexture(j, level));
+    }
+}
+
+float GameRenderer::ComputeGammaFromSlider(float slider0to100)
+{
+    float slider = slider0to100;
+    slider = max(slider, 0.0f);
+    slider = min(slider, 100.0f);
+
+    if (slider > 50.0f)
+        return 1.0f + (slider - 50.0f) / 50.0f * 3.0f; // 1.0 -> 4.0
+    else
+        return 1.0f - (50.0f - slider) / 50.0f * 0.85f; // 1.0 -> 0.15
+}
+
+void GameRenderer::CachePlayerGammas()
+{
+    for (int j = 0; j < XUSER_MAX_COUNT && j < NUM_LIGHT_TEXTURES; ++j)
+    {
+        std::shared_ptr<MultiplayerLocalPlayer> player = Minecraft::GetInstance()->localplayers[j];
+        if (!player)
+        {
+            m_cachedGammaPerPlayer[j] = 1.0f;
+            continue;
+        }
+
+        const float slider = app.GetGameSettings(j, eGameSetting_Gamma); // 0..100
+        m_cachedGammaPerPlayer[j] = ComputeGammaFromSlider(slider);
+    }
+}
+
+bool GameRenderer::ComputeViewportForPlayer(int j, D3D11_VIEWPORT &outViewport) const
+{
+    int active = 0;
+    int indexMap[NUM_LIGHT_TEXTURES] = {-1, -1, -1, -1};
+    for (int i = 0; i < XUSER_MAX_COUNT && i < NUM_LIGHT_TEXTURES; ++i)
+    {
+        if (Minecraft::GetInstance()->localplayers[i])
+            indexMap[active++] = i;
+    }
+
+    if (active <= 1)
+    {
+        outViewport.TopLeftX = 0.0f;
+        outViewport.TopLeftY = 0.0f;
+        outViewport.Width = static_cast<FLOAT>(mc->width);
+        outViewport.Height = static_cast<FLOAT>(mc->height);
+        outViewport.MinDepth = 0.0f;
+        outViewport.MaxDepth = 1.0f;
+        return true;
+    }
+
+    int k = -1;
+    for (int ord = 0; ord < active; ++ord)
+        if (indexMap[ord] == j)
+        {
+            k = ord;
+            break;
+        }
+    if (k < 0)
+        return false;
+
+    const float width = static_cast<float>(mc->width);
+    const float height = static_cast<float>(mc->height);
+
+    if (active == 2)
+    {
+        const float halfH = height * 0.5f;
+        outViewport.TopLeftX = 0.0f;
+        outViewport.Width = width;
+        outViewport.MinDepth = 0.0f;
+        outViewport.MaxDepth = 1.0f;
+        if (k == 0)
+        {
+            outViewport.TopLeftY = 0.0f;
+            outViewport.Height = halfH;
+        }
+        else
+        {
+            outViewport.TopLeftY = halfH;
+            outViewport.Height = halfH;
+        }
+        return true;
+    }
+    else
+    {
+        const float halfW = width * 0.5f;
+        const float halfH = height * 0.5f;
+        const int row = (k >= 2) ? 1 : 0;
+        const int col = (k % 2);
+        outViewport.TopLeftX = col ? halfW : 0.0f;
+        outViewport.TopLeftY = row ? halfH : 0.0f;
+        outViewport.Width = halfW;
+        outViewport.Height = halfH;
+        outViewport.MinDepth = 0.0f;
+        outViewport.MaxDepth = 1.0f;
+        return true;
+    }
+}
+
+uint32_t GameRenderer::BuildPlayerViewports(D3D11_VIEWPORT *outViewports, float *outGammas, UINT maxCount) const
+{
+    UINT count = 0;
+    for (int j = 0; j < XUSER_MAX_COUNT && j < NUM_LIGHT_TEXTURES && count < maxCount; ++j)
+    {
+        if (!Minecraft::GetInstance()->localplayers[j])
+            continue;
+        D3D11_VIEWPORT vp;
+        if (!ComputeViewportForPlayer(j, vp))
+            continue;
+        outViewports[count] = vp;
+        outGammas[count] = m_cachedGammaPerPlayer[j];
+        ++count;
+    }
+    return count;
+}
+
+void GameRenderer::ApplyGammaPostProcess() const
+{
+    D3D11_VIEWPORT vps[NUM_LIGHT_TEXTURES];
+    float gammas[NUM_LIGHT_TEXTURES];
+    const UINT n = BuildPlayerViewports(vps, gammas, NUM_LIGHT_TEXTURES);
+    if (n == 0)
+        return;
+
+    bool anyEffect = false;
+    for (UINT i = 0; i < n; ++i)
+    {
+        if (gammas[i] < 0.99f || gammas[i] > 1.01f)
+        {
+            anyEffect = true;
+            break;
+        }
+    }
+    if (!anyEffect)
+        return;
+
+    if (n == 1)
+    {
+        PostProcesser::GetInstance().SetGamma(gammas[0]);
+        PostProcesser::GetInstance().Apply();
+    }
+    else
+    {
+        PostProcesser::GetInstance().CopyBackbuffer();
+        for (UINT i = 0; i < n; ++i)
+        {
+            PostProcesser::GetInstance().SetGamma(gammas[i]);
+            PostProcesser::GetInstance().SetViewport(vps[i]);
+            PostProcesser::GetInstance().ApplyFromCopied();
+        }
+        PostProcesser::GetInstance().ResetViewport();
     }
 }
 
@@ -1063,6 +1171,7 @@ void GameRenderer::render(float a, bool bFirst)
 
 		lastNsTime = System::nanoTime();
 
+		ApplyGammaPostProcess();
 
 		if (!mc->options->hideGui || mc->screen != NULL)
 		{

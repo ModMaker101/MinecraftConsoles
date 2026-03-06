@@ -41,7 +41,7 @@ UIScene_TeleportMenu::UIScene_TeleportMenu(int iPad, void *initData, UILayer *pa
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if( player != NULL && !(player->IsLocal() && player->GetUserIndex() == m_iPad) )
+		if( player != nullptr && !(player->IsLocal() && player->GetUserIndex() == m_iPad) )
 		{
 			m_players[m_playersCount] = player->GetSmallId();
 			++m_playersCount;
@@ -59,7 +59,7 @@ UIScene_TeleportMenu::UIScene_TeleportMenu(int iPad, void *initData, UILayer *pa
 			}
 
 			int voiceStatus = 0;
-			if(player != NULL && player->HasVoice() )
+			if(player != nullptr && player->HasVoice() )
 			{
 				if( player->IsMutedByLocalUser(m_iPad) )
 				{
@@ -131,7 +131,7 @@ void UIScene_TeleportMenu::handleReload()
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if( player != NULL && !(player->IsLocal() && player->GetUserIndex() == m_iPad)  )
+		if( player != nullptr && !(player->IsLocal() && player->GetUserIndex() == m_iPad)  )
 		{
 			m_players[m_playersCount] = player->GetSmallId();
 			++m_playersCount;
@@ -149,7 +149,7 @@ void UIScene_TeleportMenu::handleReload()
 			}
 
 			int voiceStatus = 0;
-			if(player != NULL && player->HasVoice() )
+			if(player != nullptr && player->HasVoice() )
 			{
 				if( player->IsMutedByLocalUser(m_iPad) )
 				{
@@ -189,7 +189,7 @@ void UIScene_TeleportMenu::tick()
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerBySmallId( m_players[i] );
 
-		if( player != NULL )
+		if( player != nullptr )
 		{
 			m_players[i] = player->GetSmallId();
 
@@ -320,7 +320,7 @@ void UIScene_TeleportMenu::OnPlayerChanged(void *callbackParam, INetworkPlayer *
 		}
 
 		int voiceStatus = 0;
-		if(pPlayer != NULL && pPlayer->HasVoice() )
+		if(pPlayer != nullptr && pPlayer->HasVoice() )
 		{
 			if( pPlayer->IsMutedByLocalUser(scene->m_iPad) )
 			{

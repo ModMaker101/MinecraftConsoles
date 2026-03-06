@@ -186,7 +186,7 @@ int PotionBrewing::getColorValue(vector<MobEffectInstance *> *effects)
 
 	int baseColor = colourTable->getColor( eMinecraftColour_Potion_BaseColour );
 
-	if (effects == NULL || effects->empty())
+	if (effects == nullptr || effects->empty())
 	{
 		return baseColor;
 	}
@@ -238,7 +238,7 @@ int PotionBrewing::getColorValue(int brew, bool includeDisabledEffects)
 		}
 		vector<MobEffectInstance *> *effects = getEffects(brew, false);
 		int color = getColorValue(effects);
-		if(effects != NULL)
+		if(effects != nullptr)
 		{
 			for(auto& effect : *effects)
 			{
@@ -552,13 +552,13 @@ int PotionBrewing::parseEffectFormulaValue(const wstring &definition, int start,
 
 vector<MobEffectInstance *> *PotionBrewing::getEffects(int brew, bool includeDisabledEffects)
 {
-	vector<MobEffectInstance *> *list = NULL;
+	vector<MobEffectInstance *> *list = nullptr;
 
 	//for (MobEffect effect : MobEffect.effects)
 	for(unsigned int i = 0; i < MobEffect::NUM_EFFECTS; ++i)
 	{
 		MobEffect *effect = MobEffect::effects[i];
-		if (effect == NULL || (effect->isDisabled() && !includeDisabledEffects))
+		if (effect == nullptr || (effect->isDisabled() && !includeDisabledEffects))
 		{
 			continue;
 		}
@@ -602,7 +602,7 @@ vector<MobEffectInstance *> *PotionBrewing::getEffects(int brew, bool includeDis
 				}
 			}
 
-			if (list == NULL)
+			if (list == nullptr)
 			{
 				list = new vector<MobEffectInstance *>();
 			}

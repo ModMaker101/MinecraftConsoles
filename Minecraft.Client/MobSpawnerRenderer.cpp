@@ -19,7 +19,7 @@ void MobSpawnerRenderer::render(BaseMobSpawner *spawner, double x, double y, dou
     glTranslatef(static_cast<float>(x) + 0.5f, static_cast<float>(y), static_cast<float>(z) + 0.5f);
 
     shared_ptr<Entity> e = spawner->getDisplayEntity();
-    if (e != NULL)
+    if (e != nullptr)
 	{
         e->setLevel(spawner->getLevel());
         float s = 7 / 16.0f;

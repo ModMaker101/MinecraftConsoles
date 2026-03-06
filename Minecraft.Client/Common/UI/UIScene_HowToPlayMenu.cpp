@@ -122,7 +122,7 @@ void UIScene_HowToPlayMenu::updateTooltips()
 
 void UIScene_HowToPlayMenu::updateComponents()
 {
-	bool bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 	if(bNotInGame)
 	{
 		m_parentLayer->showComponent(m_iPad,eUIComponent_Panorama,true);

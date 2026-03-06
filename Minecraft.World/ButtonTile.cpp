@@ -21,7 +21,7 @@ Icon *ButtonTile::getTexture(int face, int data)
 
 AABB *ButtonTile::getAABB(Level *level, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 int ButtonTile::getTickDelay(Level *level)

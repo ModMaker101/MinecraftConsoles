@@ -106,8 +106,8 @@ GameRenderer::GameRenderer(Minecraft *mc)
 	zoom = 1;
 	zoom_x = 0;
 	zoom_y = 0;
-	rainXa = NULL;
-	rainZa = NULL;
+	rainXa = nullptr;
+	rainZa = nullptr;
 	lastActiveTime = Minecraft::currentTimeMillis();
 	lastNsTime = 0;
 	random = new Random();
@@ -139,7 +139,7 @@ GameRenderer::GameRenderer(Minecraft *mc)
 	}
 
 	this->mc = mc;
-	itemInHandRenderer = NULL;
+	itemInHandRenderer = nullptr;
 
 	// 4J-PB - set up the local players iteminhand renderers here - needs to be done with lighting enabled so that the render geometry gets compiled correctly
 	glEnable(GL_LIGHTING);
@@ -170,7 +170,7 @@ GameRenderer::GameRenderer(Minecraft *mc)
 	m_updateEvents->Set(eUpdateEventIsFinished);
 
 	InitializeCriticalSection(&m_csDeleteStack);
-	m_updateThread = new C4JThread(runUpdate, NULL, "Chunk update");
+	m_updateThread = new C4JThread(runUpdate, nullptr, "Chunk update");
 #ifdef __PS3__
 	m_updateThread->SetPriority(THREAD_PRIORITY_ABOVE_NORMAL);
 #endif// __PS3__
@@ -182,8 +182,8 @@ GameRenderer::GameRenderer(Minecraft *mc)
 // 4J Stu Added to go with 1.8.2 change
 GameRenderer::~GameRenderer()
 {
-	if(rainXa != NULL) delete [] rainXa;
-	if(rainZa != NULL) delete [] rainZa;
+	if(rainXa != nullptr) delete [] rainXa;
+	if(rainZa != nullptr) delete [] rainZa;
 }
 
 void GameRenderer::tick(bool first)		// 4J - add bFirst
@@ -211,7 +211,7 @@ void GameRenderer::tick(bool first)		// 4J - add bFirst
 		accumulatedSmoothYO = 0;
 	}
 
-	if (mc->cameraTargetPlayer == NULL)
+	if (mc->cameraTargetPlayer == nullptr)
 	{
 		mc->cameraTargetPlayer = dynamic_pointer_cast<Mob>(mc->player);
 	}
@@ -249,8 +249,8 @@ void GameRenderer::tick(bool first)		// 4J - add bFirst
 
 void GameRenderer::pick(float a)
 {
-	if (mc->cameraTargetPlayer == NULL) return;
-	if (mc->level == NULL) return;
+	if (mc->cameraTargetPlayer == nullptr) return;
+	if (mc->level == nullptr) return;
 
 	mc->crosshairPickMob = nullptr;
 
@@ -280,7 +280,7 @@ void GameRenderer::pick(float a)
 			( hitz < minxz ) || ( hitz > maxxz) )
 		{
 			delete mc->hitResult;
-			mc->hitResult = NULL;
+			mc->hitResult = nullptr;
 		}
 	}
 
@@ -297,7 +297,7 @@ void GameRenderer::pick(float a)
 		range = dist;
 	}
 
-	if (mc->hitResult != NULL)
+	if (mc->hitResult != nullptr)
 	{
 		dist = mc->hitResult->pos->distanceTo(from);
 	}
@@ -327,7 +327,7 @@ void GameRenderer::pick(float a)
 		else if (p != nullptr)
 		{
 			double dd = from->distanceTo(p->pos);
-			if (e == mc->cameraTargetPlayer->riding != NULL)
+			if (e == mc->cameraTargetPlayer->riding != nullptr)
 			{
 				if (nearest == 0)
 				{
@@ -343,11 +343,11 @@ void GameRenderer::pick(float a)
 		delete p;
 	}
 
-	if (hovered != NULL)
+	if (hovered != nullptr)
 	{
-		if (nearest < dist || (mc->hitResult == NULL))
+		if (nearest < dist || (mc->hitResult == nullptr))
 		{
-			if( mc->hitResult != NULL )
+			if( mc->hitResult != nullptr )
 				delete mc->hitResult;
 			mc->hitResult = new HitResult(hovered);
 			if (hovered->instanceof(eTYPE_LIVINGENTITY))
@@ -532,7 +532,7 @@ void GameRenderer::moveCameraToPlayer(float a)
 
 				// 4J - corrected bug here where zo was also added to x component
 				HitResult *hr = mc->level->clip(Vec3::newTemp(x + xo, y + yo, z + zo), Vec3::newTemp(x - xd + xo, y - yd + yo, z - zd + zo));
-				if (hr != NULL)
+				if (hr != nullptr)
 				{
 					double dist = hr->pos->distanceTo(Vec3::newTemp(x, y, z));
 					if (dist < cameraDist) cameraDist = dist;
@@ -692,7 +692,7 @@ void GameRenderer::renderItemInHand(float a, int eye)
 	bool renderHand = true;
 
 	// 4J-PB - to turn off the hand for screenshots, but not when the item held is a map
-	if ( localplayer!=NULL)
+	if ( localplayer!=nullptr)
 	{
 		shared_ptr<ItemInstance> item = localplayer->inventory->getSelected();
 		if(!(item && item->getItem()->id==Item::map_Id)  && app.GetGameSettings(localplayer->GetXboxPad(),eGameSetting_DisplayHand)==0 ) renderHand = false;
@@ -1156,7 +1156,7 @@ void GameRenderer::render(float a, bool bFirst)
 
 	int maxFps = getFpsCap(mc->options->framerateLimit);
 
-	if (mc->level != NULL)
+	if (mc->level != nullptr)
 	{
 		if (mc->options->framerateLimit == 0)
 		{
@@ -1171,9 +1171,9 @@ void GameRenderer::render(float a, bool bFirst)
 
 		ApplyGammaPostProcess();
 
-		if (!mc->options->hideGui || mc->screen != NULL)
+		if (!mc->options->hideGui || mc->screen != nullptr)
 		{
-			mc->gui->render(a, mc->screen != NULL, xMouse, yMouse);
+			mc->gui->render(a, mc->screen != nullptr, xMouse, yMouse);
 		}
 	}
 	else
@@ -1189,11 +1189,11 @@ void GameRenderer::render(float a, bool bFirst)
 	}
 
 
-	if (mc->screen != NULL)
+	if (mc->screen != nullptr)
 	{
 		glClear(GL_DEPTH_BUFFER_BIT);
 		mc->screen->render(xMouse, yMouse, a);
-		if (mc->screen != NULL && mc->screen->particles != NULL) mc->screen->particles->render(a);
+		if (mc->screen != nullptr && mc->screen->particles != nullptr) mc->screen->particles->render(a);
 	}
 
 }
@@ -1362,7 +1362,7 @@ void GameRenderer::renderLevel(float a, __int64 until)
 	// going to do for the primary player, and the other players can just view whatever they have loaded in - we're sharing render data between players.
 	bool updateChunks = ( mc->player == mc->localplayers[ProfileManager.GetPrimaryPad()] );
 
-	//	if (mc->cameraTargetPlayer == NULL)	// 4J - removed condition as we want to update this is mc->player changes for different local players
+	//	if (mc->cameraTargetPlayer == nullptr)	// 4J - removed condition as we want to update this is mc->player changes for different local players
 	{
 		mc->cameraTargetPlayer = mc->player;
 	}
@@ -1490,7 +1490,7 @@ void GameRenderer::renderLevel(float a, __int64 until)
 			PIXEndNamedEvent();
 			turnOffLightLayer(a);		// 4J - brought forward from 1.8.2
 
-			if ( (mc->hitResult != NULL) && cameraEntity->isUnderLiquid(Material::water) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
+			if ( (mc->hitResult != nullptr) && cameraEntity->isUnderLiquid(Material::water) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
 			{
 				shared_ptr<Player> player = dynamic_pointer_cast<Player>(cameraEntity);
 				glDisable(GL_ALPHA_TEST);
@@ -1559,7 +1559,7 @@ void GameRenderer::renderLevel(float a, __int64 until)
 
 		if ( (zoom == 1) && cameraEntity->instanceof(eTYPE_PLAYER) ) //&& !mc->options.hideGui)
 		{
-			if (mc->hitResult != NULL && !cameraEntity->isUnderLiquid(Material::water))
+			if (mc->hitResult != nullptr && !cameraEntity->isUnderLiquid(Material::water))
 			{
 				shared_ptr<Player> player = dynamic_pointer_cast<Player>(cameraEntity);
 				glDisable(GL_ALPHA_TEST);
@@ -1717,7 +1717,7 @@ void GameRenderer::renderSnowAndRain(float a)
 
 	turnOnLightLayer(a);
 
-	if (rainXa == NULL)
+	if (rainXa == nullptr)
 	{
 		rainXa = new float[32 * 32];
 		rainZa = new float[32 * 32];
@@ -1942,7 +1942,7 @@ void GameRenderer::setupClearColor(float a)
 		if (d > 0)
 		{
 			float *c = level->dimension->getSunriseColor(level->getTimeOfDay(a), a);
-			if (c != NULL)
+			if (c != nullptr)
 			{
 				d *= c[3];
 				fr = fr * (1 - d) + c[0] * d;

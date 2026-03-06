@@ -97,7 +97,7 @@ bool Boat::hurt(DamageSource *source, float hurtDamage)
 
 	// 4J-JEV: Fix for #88212,
 	// Untrusted players shouldn't be able to damage minecarts or boats.
-	if (dynamic_cast<EntityDamageSource *>(source) != NULL)
+	if (dynamic_cast<EntityDamageSource *>(source) != nullptr)
 	{
 		shared_ptr<Entity> attacker = source->getDirectEntity();
 
@@ -113,18 +113,18 @@ bool Boat::hurt(DamageSource *source, float hurtDamage)
 	// 4J Stu - If someone is riding in this, then it can tick multiple times which causes the damage to
 	// decrease too quickly. So just make the damage a bit higher to start with for similar behaviour
 	// to an unridden one. Only do this change if the riding player is attacking it.
-	if( rider.lock() != NULL && rider.lock() == source->getEntity() ) hurtDamage += 1;
+	if( rider.lock() != nullptr && rider.lock() == source->getEntity() ) hurtDamage += 1;
 
 	setDamage(getDamage() + hurtDamage * 10);
 	markHurt();
 
 	// 4J Stu - Brought froward from 12w36 to fix #46611 - TU5: Gameplay: Minecarts and boat requires more hits than one to be destroyed in creative mode
 	// 4J-PB - Fix for XB1 #175735 - [CRASH] [Multi-Plat]: Code: Gameplay: Placing a boat on harmful surfaces causes the game to crash
-	bool creativePlayer = (source->getEntity() != NULL) && source->getEntity()->instanceof(eTYPE_PLAYER) && dynamic_pointer_cast<Player>(source->getEntity())->abilities.instabuild;
+	bool creativePlayer = (source->getEntity() != nullptr) && source->getEntity()->instanceof(eTYPE_PLAYER) && dynamic_pointer_cast<Player>(source->getEntity())->abilities.instabuild;
 
 	if (creativePlayer || getDamage() > 20 * 2)
 	{
-		if (rider.lock() != NULL) rider.lock()->ride( shared_from_this() );
+		if (rider.lock() != nullptr) rider.lock()->ride( shared_from_this() );
 		if (!creativePlayer) spawnAtLocation(Item::boat_Id, 1, 0);
 		remove();
 	}
@@ -318,7 +318,7 @@ void Boat::tick()
 	}
 
 
-	if ( rider.lock() != NULL && rider.lock()->instanceof(eTYPE_LIVINGENTITY) )
+	if ( rider.lock() != nullptr && rider.lock()->instanceof(eTYPE_LIVINGENTITY) )
 	{
 		shared_ptr<LivingEntity> livingRider = dynamic_pointer_cast<LivingEntity>(rider.lock());
 		double forward = livingRider->yya;
@@ -438,7 +438,7 @@ void Boat::tick()
 
 	}
 
-	if (rider.lock() != NULL)
+	if (rider.lock() != nullptr)
 	{
 		if (rider.lock()->removed) rider = weak_ptr<Entity>();
 	}
@@ -446,7 +446,7 @@ void Boat::tick()
 
 void Boat::positionRider()
 {
-	if (rider.lock() == NULL) return;
+	if (rider.lock() == nullptr) return;
 
 	double xa = cos(yRot * PI / 180) * 0.4;
 	double za = sin(yRot * PI / 180) * 0.4;
@@ -475,7 +475,7 @@ wstring Boat::getName()
 
 bool Boat::interact(shared_ptr<Player> player)
 {
-	if ( (rider.lock() != NULL) && rider.lock()->instanceof(eTYPE_PLAYER) && (rider.lock() != player) ) return true;
+	if ( (rider.lock() != nullptr) && rider.lock()->instanceof(eTYPE_PLAYER) && (rider.lock() != player) ) return true;
 	if (!level->isClientSide)
 	{
 		// 4J HEG - Fixed issue with player not being able to dismount boat (issue #4446)

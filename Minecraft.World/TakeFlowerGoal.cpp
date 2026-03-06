@@ -53,7 +53,7 @@ bool TakeFlowerGoal::canUse()
 
 bool TakeFlowerGoal::canContinueToUse()
 {
-	return golem.lock() != NULL && golem.lock()->getOfferFlowerTick() > 0;
+	return golem.lock() != nullptr && golem.lock()->getOfferFlowerTick() > 0;
 }
 
 void TakeFlowerGoal::start()

@@ -70,7 +70,7 @@ Dimension::~Dimension()
 {
 	delete[] brightnessRamp;
 
-	if(biomeSource != NULL)
+	if(biomeSource != nullptr)
 		delete biomeSource;
 }
 
@@ -161,7 +161,7 @@ float *Dimension::getSunriseColor(float td, float a)
 		return sunriseCol;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 Vec3 *Dimension::getFogColor(float td, float a) const
@@ -192,7 +192,7 @@ Dimension *Dimension::getNew(int id)
 	if (id == 0) return new NormalDimension();
 	if (id == 1) return new TheEndDimension();
 
-	return NULL;
+	return nullptr;
 }
 
 float Dimension::getCloudHeight()
@@ -207,7 +207,7 @@ bool Dimension::hasGround()
 
 Pos *Dimension::getSpawnPos()
 {
-	return NULL;
+	return nullptr;
 }
 
 int Dimension::getSpawnYPosition() 

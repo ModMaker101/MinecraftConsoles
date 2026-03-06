@@ -13,7 +13,7 @@ DWORD TheEndPortal::tlsIdx = TlsAlloc();
 // 4J - allowAnywhere is a static in java, implementing as TLS here to make thread safe
 bool TheEndPortal::allowAnywhere()
 {
-	return (TlsGetValue(tlsIdx) != NULL);
+	return (TlsGetValue(tlsIdx) != nullptr);
 }
 
 void TheEndPortal::allowAnywhere(bool set)
@@ -66,7 +66,7 @@ void TheEndPortal::entityInside(Level *level, int x, int y, int z, shared_ptr<En
 {
 	if (entity->GetType() == eTYPE_EXPERIENCEORB ) return;		// 4J added
 
-	if (entity->riding == NULL && entity->rider.lock() == NULL)
+	if (entity->riding == nullptr && entity->rider.lock() == nullptr)
 	{
 		if (!level->isClientSide)
 		{

@@ -39,7 +39,7 @@ HRESULT CXuiSceneTrading::OnInit( XUIMessageInit* pInitData, BOOL& bHandled )
 		app.AdjustSplitscreenScene(m_hObj,&m_OriginalPosition,m_iPad);
 	}
 
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -79,15 +79,15 @@ HRESULT CXuiSceneTrading::OnDestroy()
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
-		if(gameMode != NULL) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
+		if(gameMode != nullptr) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
 	}
 
 	// 4J Stu - Fix for #11302 - TCR 001: Network Connectivity: Host crashed after being killed by the client while accessing a chest during burst packet loss.
 	// We need to make sure that we call closeContainer() anytime this menu is closed, even if it is forced to close by some other reason (like the player dying)
-	if(Minecraft::GetInstance()->localplayers[m_iPad] != NULL) Minecraft::GetInstance()->localplayers[m_iPad]->closeContainer();
+	if(Minecraft::GetInstance()->localplayers[m_iPad] != nullptr) Minecraft::GetInstance()->localplayers[m_iPad]->closeContainer();
 	return S_OK;
 }
 
@@ -97,7 +97,7 @@ HRESULT CXuiSceneTrading::OnTransitionStart( XUIMessageTransition *pTransition, 
 
 	if(pTransition->dwTransType == XUI_TRANSITION_TO || pTransition->dwTransType == XUI_TRANSITION_BACKTO)
 	{
-		HXUIOBJ hObj=NULL;
+		HXUIOBJ hObj=nullptr;
 		HRESULT hr=XuiControlGetVisual(m_offerInfoControl.m_hObj,&hObj);
 		hr=XuiElementGetChildById(hObj,L"text_measurer",&m_hOfferInfoTextMeasurer);
 		hr=XuiElementGetChildById(hObj,L"text_name",&m_hOfferInfoText);

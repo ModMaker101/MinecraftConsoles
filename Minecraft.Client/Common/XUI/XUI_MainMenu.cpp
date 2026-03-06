@@ -72,7 +72,7 @@ HRESULT CScene_Main::OnInit( XUIMessageInit* pInitData, BOOL& bHandled )
 	WCHAR szResourceLocator[ LOCATOR_SIZE ];
 
 	// load from the .xzp file
-	const ULONG_PTR c_ModuleHandle = (ULONG_PTR)GetModuleHandle(NULL);
+	const ULONG_PTR c_ModuleHandle = (ULONG_PTR)GetModuleHandle(nullptr);
 	swprintf(szResourceLocator, LOCATOR_SIZE ,L"section://%X,%ls#%ls",c_ModuleHandle,L"media", L"media/splashes.txt");
 
 	BYTE *splashesData;
@@ -119,7 +119,7 @@ HRESULT CScene_Main::OnInit( XUIMessageInit* pInitData, BOOL& bHandled )
 	m_bIgnorePress=false;
 
 	// 4J Stu - Clear out any loaded game rules
-	app.setLevelGenerationOptions(NULL);
+	app.setLevelGenerationOptions(nullptr);
 
 	// Fix for #45154 - Frontend: DLC: Content can only be downloaded from the frontend if you have not joined/exited multiplayer
 	XBackgroundDownloadSetMode(XBACKGROUND_DOWNLOAD_MODE_ALWAYS_ALLOW);
@@ -359,7 +359,7 @@ HRESULT CScene_Main::OnTransitionStart( XUIMessageTransition *pTransition, BOOL&
 		HRESULT hr=S_OK;
 		float fWidth,fHeight;
 
-		HXUIOBJ visual=NULL;
+		HXUIOBJ visual=nullptr;
 		HXUIOBJ pulser, subtitle, text;
 		hr=XuiControlGetVisual(m_Subtitle.m_hObj,&visual);
 		hr=XuiElementGetChildById(visual,L"Pulser",&pulser);
@@ -436,7 +436,7 @@ HRESULT CScene_Main::OnControlNavigate(XUIMessageControlNavigate *pControlNaviga
 	// added so we can skip greyed out items for Minecon
 	pControlNavigateData->hObjDest=XuiControlGetNavigation(pControlNavigateData->hObjSource,pControlNavigateData->nControlNavigate,TRUE,TRUE);
 	
-	if(pControlNavigateData->hObjDest!=NULL)
+	if(pControlNavigateData->hObjDest!=nullptr)
 	{
 		bHandled=TRUE;
 	}
@@ -907,7 +907,7 @@ void CScene_Main::LoadTrial(void)
 
 	NetworkGameInitData *param = new NetworkGameInitData();
 	param->seed = 0;
-	param->saveData = NULL;
+	param->saveData = nullptr;
 	param->settings = app.GetGameHostOption( eGameHostOption_Tutorial );
 
 	vector<LevelGenerationOptions *> *generators = app.getLevelGenerators();

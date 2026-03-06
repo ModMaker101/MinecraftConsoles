@@ -43,7 +43,7 @@ static __declspec(noinline) void CustomMessage_GetSlotItem(XUIMessage *pMsg, Cus
 	pData->item = nullptr;
 	pData->iDataBitField = iDataBitField;
 	pData->iItemBitField = iItemBitField;
-	pData->szPath = NULL;
+	pData->szPath = nullptr;
 	pData->bDirty = false;
 }
 

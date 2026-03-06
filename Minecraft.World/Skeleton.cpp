@@ -43,7 +43,7 @@ Skeleton::Skeleton(Level *level) : Monster( level )
 	targetSelector.addGoal(1, new HurtByTargetGoal(this, false));
 	targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, typeid(Player), 0, true));
 
-	if (level != NULL && !level->isClientSide) reassessWeaponGoal();
+	if (level != nullptr && !level->isClientSide) reassessWeaponGoal();
 }
 
 Skeleton::~Skeleton()
@@ -119,7 +119,7 @@ void Skeleton::aiStep()
 			bool burn = true;
 
 			shared_ptr<ItemInstance> helmet = getCarried(SLOT_HELM);
-			if (helmet != NULL)
+			if (helmet != nullptr)
 			{
 				if (helmet->isDamageableItem())
 				{
@@ -155,7 +155,7 @@ void Skeleton::rideTick()
 {
 	Monster::rideTick();
 
-	if ( riding != NULL && riding->instanceof(eTYPE_PATHFINDER_MOB) )
+	if ( riding != nullptr && riding->instanceof(eTYPE_PATHFINDER_MOB) )
 	{
 		yBodyRot = dynamic_pointer_cast<PathfinderMob>(riding)->yBodyRot;
 	}
@@ -166,7 +166,7 @@ void Skeleton::die(DamageSource *source)
 {
 	Monster::die(source);
 	
-	if ( source->getDirectEntity() != NULL && source->getDirectEntity()->instanceof(eTYPE_ARROW) && source->getEntity() != NULL && source->getEntity()->instanceof(eTYPE_PLAYER) )
+	if ( source->getDirectEntity() != nullptr && source->getDirectEntity()->instanceof(eTYPE_ARROW) && source->getEntity() != nullptr && source->getEntity()->instanceof(eTYPE_PLAYER) )
 	{
 		shared_ptr<Player> player = dynamic_pointer_cast<Player>( source->getEntity() );
 
@@ -232,7 +232,7 @@ MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData 
 {
 	groupData = Monster::finalizeMobSpawn(groupData);
 
-	if ( dynamic_cast<HellDimension *>(level->dimension) != NULL && getRandom()->nextInt(5) > 0)
+	if ( dynamic_cast<HellDimension *>(level->dimension) != nullptr && getRandom()->nextInt(5) > 0)
 	{
 		goalSelector.addGoal(4, meleeGoal, false);
 
@@ -250,7 +250,7 @@ MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData 
 
 	setCanPickUpLoot(random->nextFloat() < MAX_PICKUP_LOOT_CHANCE * level->getDifficulty(x, y, z));
 
-	if (getCarried(SLOT_HELM) == NULL)
+	if (getCarried(SLOT_HELM) == nullptr)
 	{
 		if (Calendar::GetMonth() + 1 == 10 && Calendar::GetDayOfMonth() == 31 && random->nextFloat() < 0.25f)
 		{
@@ -269,7 +269,7 @@ void Skeleton::reassessWeaponGoal()
 
 	shared_ptr<ItemInstance> carried = getCarriedItem();
 
-	if (carried != NULL && carried->id == Item::bow_Id)
+	if (carried != nullptr && carried->id == Item::bow_Id)
 	{
 		goalSelector.addGoal(4, bowGoal, false);
 	}

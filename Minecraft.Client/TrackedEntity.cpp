@@ -63,7 +63,7 @@ void TrackedEntity::tick(EntityTracker *tracker, vector<shared_ptr<Player> > *pl
 		updatePlayers(tracker, players);
 	}
 
-	if (lastRidingEntity != e->riding || (e->riding != NULL && tickCount % (SharedConstants::TICKS_PER_SECOND * 3) == 0))
+	if (lastRidingEntity != e->riding || (e->riding != nullptr && tickCount % (SharedConstants::TICKS_PER_SECOND * 3) == 0))
 	{
 		lastRidingEntity = e->riding;
 		broadcast(shared_ptr<SetEntityLinkPacket>(new SetEntityLinkPacket(SetEntityLinkPacket::RIDING, e, e->riding)));
@@ -75,7 +75,7 @@ void TrackedEntity::tick(EntityTracker *tracker, vector<shared_ptr<Player> > *pl
 		shared_ptr<ItemFrame> frame = dynamic_pointer_cast<ItemFrame> (e);
 		shared_ptr<ItemInstance> item = frame->getItem();
 
-		if (item != NULL && item->getItem()->id == Item::map_Id && !e->removed)
+		if (item != nullptr && item->getItem()->id == Item::map_Id && !e->removed)
 		{
 			shared_ptr<MapItemSavedData> data = Item::map->getSavedData(item, e->level);
 			for (auto& it : *players)
@@ -86,7 +86,7 @@ void TrackedEntity::tick(EntityTracker *tracker, vector<shared_ptr<Player> > *pl
 				if (!player->removed && player->connection && player->connection->countDelayedPackets() <= 5)
 				{
 					shared_ptr<Packet> packet = Item::map->getUpdatePacket(item, e->level, player);
-					if (packet != NULL) player->connection->send(packet);
+					if (packet != nullptr) player->connection->send(packet);
 				}
 			}
 		}
@@ -107,7 +107,7 @@ void TrackedEntity::tick(EntityTracker *tracker, vector<shared_ptr<Player> > *pl
 		int yRota = yRotn - yRotp;
 		int xRota = xRotn - xRotp;
 
-		if(e->riding == NULL)
+		if(e->riding == nullptr)
 		{
 			teleportDelay++;
 
@@ -264,7 +264,7 @@ void TrackedEntity::tick(EntityTracker *tracker, vector<shared_ptr<Player> > *pl
 
 			}
 
-			if (packet != NULL)
+			if (packet != nullptr)
 			{
 				broadcast(packet);
 			}
@@ -368,7 +368,7 @@ void TrackedEntity::broadcast(shared_ptr<Packet> packet)
 			if( sentTo.size() )
 			{
 				INetworkPlayer *thisPlayer =player->connection->getNetworkPlayer();
-				if( thisPlayer == NULL )
+				if( thisPlayer == nullptr )
 				{
 					dontSend = true;
 				}
@@ -377,7 +377,7 @@ void TrackedEntity::broadcast(shared_ptr<Packet> packet)
 					for(auto& player2 : sentTo)
 					{
 						INetworkPlayer *otherPlayer = player2->connection->getNetworkPlayer();
-						if( otherPlayer != NULL && thisPlayer->IsSameSystem(otherPlayer) )
+						if( otherPlayer != nullptr && thisPlayer->IsSameSystem(otherPlayer) )
 						{
 							dontSend = true;
 						}
@@ -410,7 +410,7 @@ void TrackedEntity::broadcastAndSend(shared_ptr<Packet> packet)
 	vector< shared_ptr<ServerPlayer> > sentTo;
 	broadcast(packet);
 	shared_ptr<ServerPlayer> sp = e->instanceof(eTYPE_SERVERPLAYER) ? dynamic_pointer_cast<ServerPlayer>(e) : nullptr;
-	if (sp != NULL && sp->connection)
+	if (sp != nullptr && sp->connection)
 	{
 		sp->connection->send(packet);
 	}
@@ -477,7 +477,7 @@ TrackedEntity::eVisibility TrackedEntity::isVisible(EntityTracker *tracker, shar
 				if( ep->dimension != sp->dimension ) continue;
 
 				INetworkPlayer * otherPlayer = ep->connection->getNetworkPlayer();
-				if( otherPlayer != NULL && thisPlayer->IsSameSystem(otherPlayer) )
+				if( otherPlayer != nullptr && thisPlayer->IsSameSystem(otherPlayer) )
 				{
 					// 4J Stu - We call update players when the entity has moved more than a certain amount at the start of it's tick
 					// Before this call we set xpu, ypu and zpu to the entities new position, but xp,yp and zp are the old position until later in the tick.
@@ -499,7 +499,7 @@ TrackedEntity::eVisibility TrackedEntity::isVisible(EntityTracker *tracker, shar
 
 	// 4J-JEV: ADDED! An entities mount has to be visible before the entity visible,
 	// this is to ensure that the mount is already in the client's game when the rider is added.
-	if (canBeSeenBy && bVisible && e->riding != NULL)
+	if (canBeSeenBy && bVisible && e->riding != nullptr)
 	{
 		return tracker->getTracker(e->riding)->isVisible(tracker, sp, true);
 	}
@@ -530,11 +530,11 @@ void TrackedEntity::updatePlayer(EntityTracker *tracker, shared_ptr<ServerPlayer
 			shared_ptr<Player> plr = dynamic_pointer_cast<Player>(e);
 			app.DebugPrintf( "TrackedEntity:: Player '%ls' is now visible to player '%ls', %s.\n",
 				plr->name.c_str(), sp->name.c_str(),
-				(e->riding==NULL?"not riding minecart":"in minecart")
+				(e->riding==nullptr?"not riding minecart":"in minecart")
 				);
 		}
 
-		bool isAddMobPacket = dynamic_pointer_cast<AddMobPacket>(packet) != NULL;
+		bool isAddMobPacket = dynamic_pointer_cast<AddMobPacket>(packet) != nullptr;
 
 		// 4J Stu brought forward to fix when Item Frames
 		if (!e->getEntityData()->isEmpty() && !isAddMobPacket)
@@ -560,11 +560,11 @@ void TrackedEntity::updatePlayer(EntityTracker *tracker, shared_ptr<ServerPlayer
 			sp->connection->send( shared_ptr<SetEntityMotionPacket>( new SetEntityMotionPacket(e->entityId, e->xd, e->yd, e->zd) ) );
 		}
 
-		if (e->riding != NULL)
+		if (e->riding != nullptr)
 		{
 			sp->connection->send(shared_ptr<SetEntityLinkPacket>(new SetEntityLinkPacket(SetEntityLinkPacket::RIDING, e, e->riding)));
 		}
-		if ( e->instanceof(eTYPE_MOB) && dynamic_pointer_cast<Mob>(e)->getLeashHolder() != NULL)
+		if ( e->instanceof(eTYPE_MOB) && dynamic_pointer_cast<Mob>(e)->getLeashHolder() != nullptr)
 		{
 			sp->connection->send( shared_ptr<SetEntityLinkPacket>( new SetEntityLinkPacket(SetEntityLinkPacket::LEASH, e, dynamic_pointer_cast<Mob>(e)->getLeashHolder())) );
 		}
@@ -574,7 +574,7 @@ void TrackedEntity::updatePlayer(EntityTracker *tracker, shared_ptr<ServerPlayer
 			for (int i = 0; i < 5; i++)
 			{
 				shared_ptr<ItemInstance> item = dynamic_pointer_cast<LivingEntity>(e)->getCarried(i);
-				if(item != NULL) sp->connection->send( shared_ptr<SetEquippedItemPacket>( new SetEquippedItemPacket(e->entityId, i, item) ) );
+				if(item != nullptr) sp->connection->send( shared_ptr<SetEquippedItemPacket>( new SetEquippedItemPacket(e->entityId, i, item) ) );
 			}
 		}
 
@@ -636,7 +636,7 @@ shared_ptr<Packet> TrackedEntity::getAddEntityPacket()
 	}
 
 	// 4J-PB - replacing with a switch, rather than tons of ifs
-	if (dynamic_pointer_cast<Creature>(e) != NULL)
+	if (dynamic_pointer_cast<Creature>(e) != nullptr)
 	{
 		yHeadRotp = Mth::floor(e->getYHeadRot() * 256 / 360);
 		return shared_ptr<AddMobPacket>( new AddMobPacket(dynamic_pointer_cast<Mob>(e), yRotp, xRotp, xp, yp, zp, yHeadRotp) );
@@ -653,7 +653,7 @@ shared_ptr<Packet> TrackedEntity::getAddEntityPacket()
 
 		PlayerUID xuid = INVALID_XUID;
 		PlayerUID OnlineXuid = INVALID_XUID;
-		if( player != NULL )
+		if( player != nullptr )
 		{
 			xuid = player->getXuid();
 			OnlineXuid = player->getOnlineXuid();
@@ -678,12 +678,12 @@ shared_ptr<Packet> TrackedEntity::getAddEntityPacket()
 	else if (e->instanceof(eTYPE_FISHINGHOOK))
 	{
 		shared_ptr<Entity> owner = dynamic_pointer_cast<FishingHook>(e)->owner;
-		return shared_ptr<AddEntityPacket>( new AddEntityPacket(e, AddEntityPacket::FISH_HOOK, owner != NULL ? owner->entityId : e->entityId, yRotp, xRotp, xp, yp, zp) );
+		return shared_ptr<AddEntityPacket>( new AddEntityPacket(e, AddEntityPacket::FISH_HOOK, owner != nullptr ? owner->entityId : e->entityId, yRotp, xRotp, xp, yp, zp) );
 	}
 	else if (e->instanceof(eTYPE_ARROW))
 	{
 		shared_ptr<Entity> owner = (dynamic_pointer_cast<Arrow>(e))->owner;
-		return shared_ptr<AddEntityPacket>( new AddEntityPacket(e, AddEntityPacket::ARROW, owner != NULL ? owner->entityId : e->entityId, yRotp, xRotp, xp, yp, zp) );
+		return shared_ptr<AddEntityPacket>( new AddEntityPacket(e, AddEntityPacket::ARROW, owner != nullptr ? owner->entityId : e->entityId, yRotp, xRotp, xp, yp, zp) );
 	}
 	else if (e->instanceof(eTYPE_SNOWBALL))
 	{
@@ -728,7 +728,7 @@ shared_ptr<Packet> TrackedEntity::getAddEntityPacket()
 
 		shared_ptr<Fireball> fb = dynamic_pointer_cast<Fireball>(e);
 		shared_ptr<AddEntityPacket> aep = nullptr;
-		if (fb->owner != NULL)
+		if (fb->owner != nullptr)
 		{
 			aep = shared_ptr<AddEntityPacket>( new AddEntityPacket(e, type, fb->owner->entityId, yRotp, xRotp, xp, yp, zp) );
 		}

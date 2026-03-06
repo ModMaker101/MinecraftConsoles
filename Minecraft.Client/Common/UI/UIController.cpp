@@ -60,14 +60,14 @@ DWORD UIController::m_dwTrialTimerLimitSecs=DYNAMIC_CONFIG_DEFAULT_TRIAL_TIME;
 static UIControl_Slider *FindSliderById(UIScene *pScene, int sliderId)
 {
 	vector<UIControl *> *controls = pScene->GetControls();
-	if (!controls) return NULL;
+	if (!controls) return nullptr;
 	for (size_t i = 0; i < controls->size(); ++i)
 	{
 		UIControl *ctrl = (*controls)[i];
 		if (ctrl && ctrl->getControlType() == UIControl::eSlider && ctrl->getId() == sliderId)
 			return static_cast<UIControl_Slider *>(ctrl);
 	}
-	return NULL;
+	return nullptr;
 }
 #endif
 
@@ -180,15 +180,15 @@ static void RADLINK DeallocateFunction ( void * alloc_callback_user_data , void 
 
 UIController::UIController()
 {
-	m_uiDebugConsole = NULL;
-	m_reloadSkinThread = NULL;
+	m_uiDebugConsole = nullptr;
+	m_reloadSkinThread = nullptr;
 
 	m_navigateToHomeOnReload = false;
 
 	m_bCleanupOnReload = false;
-	m_mcTTFFont = NULL;
-	m_moj7 = NULL;
-	m_moj11 = NULL;
+	m_mcTTFFont = nullptr;
+	m_moj7 = nullptr;
+	m_moj11 = nullptr;
 
 	// 4J-JEV: It's important that these remain the same, unless updateCurrentLanguage is going to be called.
 	m_eCurrentFont = m_eTargetFont = eFont_NotLoaded;
@@ -313,7 +313,7 @@ void UIController::postInit()
 
 #ifdef ENABLE_IGGY_EXPLORER
 	iggy_explorer = IggyExpCreate("127.0.0.1", 9190, malloc(IGGYEXP_MIN_STORAGE), IGGYEXP_MIN_STORAGE);
-	if ( iggy_explorer == NULL )
+	if ( iggy_explorer == nullptr )
 	{
 		// not normally an error, just an error for this demo!
 		app.DebugPrintf( "Couldn't connect to Iggy Explorer, did you run it first?" );
@@ -326,7 +326,7 @@ void UIController::postInit()
 
 #ifdef ENABLE_IGGY_PERFMON
 	m_iggyPerfmonEnabled = false;
-	iggy_perfmon = IggyPerfmonCreate(perf_malloc, perf_free, NULL);
+	iggy_perfmon = IggyPerfmonCreate(perf_malloc, perf_free, nullptr);
 	IggyInstallPerfmon(iggy_perfmon);
 #endif
 
@@ -367,7 +367,7 @@ UITTFFont *UIController::createFont(EFont fontLanguage)
 #endif
 	// 4J-JEV, Cyrillic characters have been added to this font now, (4/July/14)
 	// XC_LANGUAGE_RUSSIAN and XC_LANGUAGE_GREEK:
-	default:					return NULL;
+	default:					return nullptr;
 	}
 }
 
@@ -394,17 +394,17 @@ void UIController::SetupFont()
 	if (m_eCurrentFont != eFont_NotLoaded)	app.DebugPrintf("[UIController] Font switch required for language transition to %i.\n", nextLanguage);
 	else									app.DebugPrintf("[UIController] Initialising font for language %i.\n", nextLanguage);
 
-	if (m_mcTTFFont != NULL)
+	if (m_mcTTFFont != nullptr)
 	{
 		delete m_mcTTFFont;
-		m_mcTTFFont = NULL;
+		m_mcTTFFont = nullptr;
 	}
 
 	if(m_eTargetFont == eFont_Bitmap)
 	{
 		// these may have been set up by a previous language being chosen
-		if (m_moj7 == NULL)		m_moj7  = new UIBitmapFont(SFontData::Mojangles_7);
-		if (m_moj11 == NULL)	m_moj11 = new UIBitmapFont(SFontData::Mojangles_11);
+		if (m_moj7 == nullptr)		m_moj7  = new UIBitmapFont(SFontData::Mojangles_7);
+		if (m_moj11 == nullptr)	m_moj11 = new UIBitmapFont(SFontData::Mojangles_11);
 
 		// 4J-JEV: Ensure we redirect to them correctly, even if the objects were previously initialised.
 		m_moj7->registerFont();
@@ -612,7 +612,7 @@ IggyLibrary UIController::loadSkin(const wstring &skinPath, const wstring &skinN
 	if(!skinPath.empty() && app.hasArchiveFile(skinPath))
 	{
 		byteArray baFile = app.getArchiveFile(skinPath);
-		lib = IggyLibraryCreateFromMemoryUTF16( (IggyUTF16 *)skinName.c_str() , (void *)baFile.data, baFile.length, NULL );
+		lib = IggyLibraryCreateFromMemoryUTF16( (IggyUTF16 *)skinName.c_str() , (void *)baFile.data, baFile.length, nullptr );
 
 		delete[] baFile.data;
 #ifdef _DEBUG
@@ -620,7 +620,7 @@ IggyLibrary UIController::loadSkin(const wstring &skinPath, const wstring &skinN
 		rrbool res;
 		int iteration = 0;
 		__int64 totalStatic = 0;
-		while(res = IggyDebugGetMemoryUseInfo ( NULL ,
+		while(res = IggyDebugGetMemoryUseInfo ( nullptr ,
 			lib ,
 			"" ,
 			0 ,
@@ -724,7 +724,7 @@ bool UIController::IsExpectingOrReloadingSkin()
 void UIController::CleanUpSkinReload()
 {
 	delete m_reloadSkinThread;
-	m_reloadSkinThread = NULL;
+	m_reloadSkinThread = nullptr;
 
 	if(!Minecraft::GetInstance()->skins->isUsingDefaultSkin())
 	{
@@ -786,7 +786,7 @@ void UIController::tickInput()
 #ifdef _WINDOWS64
 			if (!g_KBMInput.IsMouseGrabbed() && g_KBMInput.IsKBMActive())
 			{
-				UIScene *pScene = NULL;
+				UIScene *pScene = nullptr;
 				for (int grp = 0; grp < eUIGroup_COUNT && !pScene; ++grp)
 				{
 					pScene = m_groups[grp]->GetTopScene(eUILayer_Debug);
@@ -1006,7 +1006,7 @@ void UIController::handleInput()
 
 		if(ProfileManager.GetLockedProfile() >= 0 && !InputManager.IsPadLocked( ProfileManager.GetLockedProfile() ) && firstUnfocussedUnhandledPad >= 0)
 		{
-			ProfileManager.RequestSignInUI(false, false, false, false, true, NULL, NULL, firstUnfocussedUnhandledPad );
+			ProfileManager.RequestSignInUI(false, false, false, false, true, nullptr, nullptr, firstUnfocussedUnhandledPad );
 		}
 	}
 #endif
@@ -1033,8 +1033,8 @@ void UIController::handleKeyPress(unsigned int iPad, unsigned int key)
 		if((m_bTouchscreenPressed==false) && pTouchData->reportNum==1)
 		{
 			// no active touch? clear active and highlighted touch UI elements
-			m_ActiveUIElement = NULL;
-			m_HighlightedUIElement = NULL;
+			m_ActiveUIElement = nullptr;
+			m_HighlightedUIElement = nullptr;
 
 			// fullscreen first
 			UIScene *pScene=m_groups[(int)eUIGroup_Fullscreen]->getCurrentScene();
@@ -1316,7 +1316,7 @@ void UIController::handleKeyPress(unsigned int iPad, unsigned int key)
 				IggyMemoryUseInfo memoryInfo;
 				rrbool res;
 				int iteration = 0;
-				while(res = IggyDebugGetMemoryUseInfo ( NULL ,
+				while(res = IggyDebugGetMemoryUseInfo ( nullptr ,
 					m_iggyLibraries[i] ,
 					"" ,
 					0 ,
@@ -1360,7 +1360,7 @@ rrbool RADLINK UIController::ExternalFunctionCallback( void * user_callback_data
 {
 	UIScene *scene = static_cast<UIScene *>(IggyPlayerGetUserdata(player));
 
-	if(scene != NULL)
+	if(scene != nullptr)
 	{
 		scene->externalCallback(call);
 	}
@@ -1576,7 +1576,7 @@ void UIController::setupCustomDrawMatrices(UIScene *scene, CustomDrawData *custo
 	if(!m_bScreenWidthSetup)
 	{
 		Minecraft *pMinecraft=Minecraft::GetInstance();
-		if(pMinecraft != NULL)
+		if(pMinecraft != nullptr)
 		{
 			m_fScreenWidth=static_cast<float>(pMinecraft->width_phys);
 			m_fScreenHeight=static_cast<float>(pMinecraft->height_phys);
@@ -1625,7 +1625,7 @@ void RADLINK UIController::CustomDrawCallback(void *user_callback_data, Iggy *pl
 {
 	UIScene *scene = static_cast<UIScene *>(IggyPlayerGetUserdata(player));
 
-	if(scene != NULL)
+	if(scene != nullptr)
 	{
 		scene->customDraw(region);
 	}
@@ -1637,7 +1637,7 @@ void RADLINK UIController::CustomDrawCallback(void *user_callback_data, Iggy *pl
 //width - Input value: optional number of pixels wide specified from AS3, or -1 if not defined. Output value: the number of pixels wide to pretend to Iggy that the bitmap is. SWF and AS3 scales bitmaps based on their pixel dimensions, so you can use this to substitute a texture that is higher or lower resolution that ActionScript thinks it is.
 //height - Input value: optional number of pixels high specified from AS3, or -1 if not defined. Output value: the number of pixels high to pretend to Iggy that the bitmap is. SWF and AS3 scales bitmaps based on their pixel dimensions, so you can use this to substitute a texture that is higher or lower resolution that ActionScript thinks it is.
 //destroy_callback_data - Optional additional output value you can set; the value will be passed along to the corresponding Iggy_TextureSubstitutionDestroyCallback (e.g. you can store the pointer to your own internal structure here).
-//return - A platform-independent wrapped texture handle provided by GDraw, or NULL (NULL with throw an ActionScript 3 ArgumentError that the Flash developer can catch) Use by calling IggySetTextureSubstitutionCallbacks.
+//return - A platform-independent wrapped texture handle provided by GDraw, or nullptr (nullptr with throw an ActionScript 3 ArgumentError that the Flash developer can catch) Use by calling IggySetTextureSubstitutionCallbacks.
 //
 //Discussion
 //
@@ -1652,7 +1652,7 @@ GDrawTexture * RADLINK UIController::TextureSubstitutionCreateCallback ( void * 
 		app.DebugPrintf("Found substitution texture %ls, with %d bytes\n", texture_name,it->second.length);
 
 		BufferedImage image(it->second.data, it->second.length);
-		if( image.getData() != NULL )
+		if( image.getData() != nullptr )
 		{
 			image.preMultiplyAlpha();
 			Textures *t = Minecraft::GetInstance()->textures;
@@ -1675,13 +1675,13 @@ GDrawTexture * RADLINK UIController::TextureSubstitutionCreateCallback ( void * 
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
 	{
 		app.DebugPrintf("Could not find substitution texture %ls\n", static_cast<wchar_t *>(texture_name));
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1866,7 +1866,7 @@ void UIController::NavigateToHomeMenu()
 	TexturePack *pTexPack=Minecraft::GetInstance()->skins->getSelected();
 
 
-	DLCTexturePack *pDLCTexPack=NULL;
+	DLCTexturePack *pDLCTexPack=nullptr;
 	if(pTexPack->hasAudio())
 	{
 		// get the dlc texture pack, and store it
@@ -1887,11 +1887,11 @@ void UIController::NavigateToHomeMenu()
 			eStream_CD_1);
 		pMinecraft->soundEngine->playStreaming(L"", 0, 0, 0, 1, 1);
 
-		// 		if(pDLCTexPack->m_pStreamedWaveBank!=NULL)
+		// 		if(pDLCTexPack->m_pStreamedWaveBank!=nullptr)
 		// 		{
 		// 			pDLCTexPack->m_pStreamedWaveBank->Destroy();
 		// 		}
-		// 		if(pDLCTexPack->m_pSoundBank!=NULL)
+		// 		if(pDLCTexPack->m_pSoundBank!=nullptr)
 		// 		{
 		// 			pDLCTexPack->m_pSoundBank->Destroy();
 		// 		}
@@ -1962,7 +1962,7 @@ void UIController::UnregisterCallbackId(size_t id)
 
 UIScene *UIController::GetSceneFromCallbackId(size_t id)
 {
-	UIScene *scene = NULL;
+	UIScene *scene = nullptr;
     auto it = m_registeredCallbackScenes.find(id);
     if(it != m_registeredCallbackScenes.end() )
 	{
@@ -2439,7 +2439,7 @@ void UIController::HandleInventoryUpdated(int iPad)
 		group = static_cast<EUIGroup>(iPad + 1);
 	}
 
-	m_groups[group]->HandleMessage(eUIMessage_InventoryUpdated, NULL);
+	m_groups[group]->HandleMessage(eUIMessage_InventoryUpdated, nullptr);
 }
 
 void UIController::HandleGameTick()
@@ -2540,7 +2540,7 @@ void UIController::UpdatePlayerBasePositions()
 
 	for( BYTE idx = 0; idx < XUSER_MAX_COUNT; ++idx)
 	{
-		if(pMinecraft->localplayers[idx] != NULL)
+		if(pMinecraft->localplayers[idx] != nullptr)
 		{
 			if(pMinecraft->localplayers[idx]->m_iScreenSection==C4JRender::VIEWPORT_TYPE_FULLSCREEN)
 			{
@@ -2628,7 +2628,7 @@ void UIController::UpdateTrialTimer(unsigned int iPad)
 		// bring up the pause menu to stop the trial over message box being called again?
 		if(!ui.GetMenuDisplayed( iPad ) )
 		{
-			ui.NavigateToScene(iPad, eUIScene_PauseMenu, NULL, eUILayer_Scene);
+			ui.NavigateToScene(iPad, eUIScene_PauseMenu, nullptr, eUILayer_Scene);
 
 			app.SetAction(iPad,eAppAction_TrialOver);
 		}
@@ -2703,7 +2703,7 @@ void UIController::ShowUIDebugConsole(bool show)
 	else
 	{
 		m_groups[eUIGroup_Fullscreen]->removeComponent(eUIComponent_DebugUIConsole, eUILayer_Debug);
-		m_uiDebugConsole = NULL;
+		m_uiDebugConsole = nullptr;
 	}
 #endif
 }
@@ -2719,7 +2719,7 @@ void UIController::ShowUIDebugMarketingGuide(bool show)
 	else
 	{
 		m_groups[eUIGroup_Fullscreen]->removeComponent(eUIComponent_DebugUIMarketingGuide, eUILayer_Debug);
-		m_uiDebugMarketingGuide = NULL;
+		m_uiDebugMarketingGuide = nullptr;
 	}
 #endif
 }
@@ -2806,7 +2806,7 @@ C4JStorage::EMessageResult UIController::RequestMessageBox(UINT uiTitle, UINT ui
 	}
 }
 
-C4JStorage::EMessageResult UIController::RequestUGCMessageBox(UINT title/* = -1 */, UINT message/* = -1 */, int iPad/* = -1*/, int( *Func)(LPVOID,int,const C4JStorage::EMessageResult)/* = NULL*/, LPVOID lpParam/* = NULL*/)
+C4JStorage::EMessageResult UIController::RequestUGCMessageBox(UINT title/* = -1 */, UINT message/* = -1 */, int iPad/* = -1*/, int( *Func)(LPVOID,int,const C4JStorage::EMessageResult)/* = nullptr*/, LPVOID lpParam/* = nullptr*/)
 {
 	// Default title / messages
 	if (title == -1)
@@ -2838,7 +2838,7 @@ C4JStorage::EMessageResult UIController::RequestUGCMessageBox(UINT title/* = -1 
 #endif
 }
 
-C4JStorage::EMessageResult UIController::RequestContentRestrictedMessageBox(UINT title/* = -1 */, UINT message/* = -1 */, int iPad/* = -1*/, int( *Func)(LPVOID,int,const C4JStorage::EMessageResult)/* = NULL*/, LPVOID lpParam/* = NULL*/)
+C4JStorage::EMessageResult UIController::RequestContentRestrictedMessageBox(UINT title/* = -1 */, UINT message/* = -1 */, int iPad/* = -1*/, int( *Func)(LPVOID,int,const C4JStorage::EMessageResult)/* = nullptr*/, LPVOID lpParam/* = nullptr*/)
 {
 	// Default title / messages
 	if (title == -1)
@@ -2876,7 +2876,7 @@ C4JStorage::EMessageResult UIController::RequestContentRestrictedMessageBox(UINT
 void UIController::setFontCachingCalculationBuffer(int length)
 {
 	/* 4J-JEV: As described in an email from Sean.
-	If your `optional_temp_buffer` is NULL, Iggy will allocate the temp
+	If your `optional_temp_buffer` is nullptr, Iggy will allocate the temp
 	buffer on the stack during Iggy draw calls. The size of the buffer it
 	will allocate is 16 bytes times `max_chars` in 32-bit, and 24 bytes
 	times `max_chars` in 64-bit. If the stack of the thread making the
@@ -2889,10 +2889,10 @@ void UIController::setFontCachingCalculationBuffer(int length)
 	static const int CHAR_SIZE = 16;
 #endif
 
-	if (m_tempBuffer != NULL) delete [] m_tempBuffer;
+	if (m_tempBuffer != nullptr) delete [] m_tempBuffer;
 	if (length<0)
 	{
-		if (m_defaultBuffer == NULL) m_defaultBuffer = new char[CHAR_SIZE*5000];
+		if (m_defaultBuffer == nullptr) m_defaultBuffer = new char[CHAR_SIZE*5000];
 		IggySetFontCachingCalculationBuffer(5000, m_defaultBuffer, CHAR_SIZE*5000);
 	}
 	else
@@ -2902,16 +2902,16 @@ void UIController::setFontCachingCalculationBuffer(int length)
 	}
 }
 
-// Returns the first scene of given type if it exists, NULL otherwise
+// Returns the first scene of given type if it exists, nullptr otherwise
 UIScene *UIController::FindScene(EUIScene sceneType)
 {
-	UIScene *pScene = NULL;
+	UIScene *pScene = nullptr;
 
 	for (int i = 0; i < eUIGroup_COUNT; i++)
 	{
 		pScene = m_groups[i]->FindScene(sceneType);
 #ifdef __PS3__
-		if (pScene != NULL) return pScene;
+		if (pScene != nullptr) return pScene;
 #else
 		if (pScene != nullptr) return pScene;
 #endif
@@ -3077,7 +3077,7 @@ bool UIController::TouchBoxHit(UIScene *pUIScene,S32 x, S32 y)
 	}
 
 	//app.DebugPrintf("MISS at x = %i y = %i\n", (int)x, (int)y);
-	m_HighlightedUIElement = NULL;
+	m_HighlightedUIElement = nullptr;
 	return false;
 }
 

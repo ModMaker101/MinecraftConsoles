@@ -25,7 +25,7 @@ void ReceivingLevelScreen::tick()
 	{
         connection->send( shared_ptr<KeepAlivePacket>( new KeepAlivePacket() ) );
     }
-    if (connection != NULL)
+    if (connection != nullptr)
 	{
         connection->tick();
     }

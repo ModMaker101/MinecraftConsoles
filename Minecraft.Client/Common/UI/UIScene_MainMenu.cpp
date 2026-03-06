@@ -104,7 +104,7 @@ UIScene_MainMenu::UIScene_MainMenu(int iPad, void *initData, UILayer *parentLaye
 	m_bLoadTrialOnNetworkManagerReady = false;
 
 	// 4J Stu - Clear out any loaded game rules
-	app.setLevelGenerationOptions(NULL);
+	app.setLevelGenerationOptions(nullptr);
 
 	// 4J Stu - Reset the leaving game flag so that we correctly handle signouts while in the menus
 	g_NetworkManager.ResetLeavingGame();
@@ -303,9 +303,9 @@ void UIScene_MainMenu::handlePress(F64 controlId, F64 childId)
 	int primaryPad = ProfileManager.GetPrimaryPad();
 	
 #ifdef _XBOX_ONE
-	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad, const int iController) = NULL;
+	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad, const int iController) = nullptr;
 #else
-	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = NULL;
+	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = nullptr;
 #endif
 
 	switch(static_cast<int>(controlId))
@@ -396,7 +396,7 @@ void UIScene_MainMenu::handlePress(F64 controlId, F64 childId)
 	bool confirmUser = false;
 
 	// Note: if no sign in returned func, assume this isn't required
-	if (signInReturnedFunc != NULL)
+	if (signInReturnedFunc != nullptr)
 	{
 		if(ProfileManager.IsSignedIn(primaryPad))
 		{
@@ -940,7 +940,7 @@ int UIScene_MainMenu::Leaderboards_SignInReturned(void *pParam,bool bContinue,in
 		{
 			bool bContentRestricted=false;
 #if defined(__PS3__) || defined(__PSVITA__)
-			ProfileManager.GetChatAndContentRestrictions(iPad,true,NULL,&bContentRestricted,NULL);
+			ProfileManager.GetChatAndContentRestrictions(iPad,true,nullptr,&bContentRestricted,nullptr);
 #endif
 			if(bContentRestricted)
 			{				
@@ -1098,7 +1098,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_PlayGame(void *
 
 	UIScene_MainMenu* pClass = (UIScene_MainMenu*)pParam;
 
-	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = NULL;
+	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = nullptr;
 
 	// 4J-PB - Check if there is a patch for the game
 	pClass->m_errorCode = ProfileManager.getNPAvailability(ProfileManager.GetPrimaryPad());
@@ -1141,7 +1141,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_PlayGame(void *
 
 // 		UINT uiIDA[1];
 // 		uiIDA[0]=IDS_OK;
-// 		ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,NULL,pClass);
+// 		ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,nullptr,pClass);
 	}
 
 	// Check if PSN is unavailable because of age restriction
@@ -1157,7 +1157,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_PlayGame(void *
 	bool confirmUser = false;
 
 	// Note: if no sign in returned func, assume this isn't required
-	if (signInReturnedFunc != NULL)
+	if (signInReturnedFunc != nullptr)
 	{
 		if(ProfileManager.IsSignedIn(primaryPad))
 		{
@@ -1187,7 +1187,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_Leaderboards(vo
 
 	UIScene_MainMenu* pClass = (UIScene_MainMenu*)pParam;
 
-	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = NULL;
+	int (*signInReturnedFunc) (LPVOID,const bool, const int iPad) = nullptr;
 
 	// 4J-PB - Check if there is a patch for the game
 	pClass->m_errorCode = ProfileManager.getNPAvailability(ProfileManager.GetPrimaryPad());
@@ -1228,7 +1228,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_Leaderboards(vo
 
 // 		UINT uiIDA[1];
 // 		uiIDA[0]=IDS_OK;
-// 		ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,NULL,pClass);
+// 		ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,nullptr,pClass);
 	}
 
 	bool confirmUser = false;
@@ -1247,7 +1247,7 @@ void UIScene_MainMenu::RefreshChatAndContentRestrictionsReturned_Leaderboards(vo
 	}
 
 	// Note: if no sign in returned func, assume this isn't required
-	if (signInReturnedFunc != NULL)
+	if (signInReturnedFunc != nullptr)
 	{
 		if(ProfileManager.IsSignedIn(primaryPad))
 		{
@@ -1600,7 +1600,7 @@ void UIScene_MainMenu::RunLeaderboards(int iPad)
 
 		bool bContentRestricted=false;
 #if defined(__PS3__) || defined(__PSVITA__)
-		ProfileManager.GetChatAndContentRestrictions(iPad,true,NULL,&bContentRestricted,NULL);
+		ProfileManager.GetChatAndContentRestrictions(iPad,true,nullptr,&bContentRestricted,nullptr);
 #endif
 		if(bContentRestricted)
 		{
@@ -1608,7 +1608,7 @@ void UIScene_MainMenu::RunLeaderboards(int iPad)
 			// you can't see leaderboards
 			UINT uiIDA[1];
 			uiIDA[0]=IDS_CONFIRM_OK;
-			ui.RequestErrorMessage(IDS_ONLINE_SERVICE_TITLE, IDS_CONTENT_RESTRICTION, uiIDA, 1, ProfileManager.GetPrimaryPad(),NULL,this);
+			ui.RequestErrorMessage(IDS_ONLINE_SERVICE_TITLE, IDS_CONTENT_RESTRICTION, uiIDA, 1, ProfileManager.GetPrimaryPad(),nullptr,this);
 #endif
 		}
 		else
@@ -1669,7 +1669,7 @@ void UIScene_MainMenu::RunUnlockOrDLC(int iPad)
 
 // 			UINT uiIDA[1];
 // 			uiIDA[0]=IDS_OK;
-// 			ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,NULL,this);
+// 			ui.RequestMessageBox(IDS_PATCH_AVAILABLE_TITLE, IDS_PATCH_AVAILABLE_TEXT, uiIDA, 1, XUSER_INDEX_ANY,nullptr,this);
 			return;
 		}
 
@@ -1704,7 +1704,7 @@ void UIScene_MainMenu::RunUnlockOrDLC(int iPad)
 				{
 					bool bContentRestricted=false;
 #if defined(__PS3__) || defined(__PSVITA__)
-					ProfileManager.GetChatAndContentRestrictions(iPad,true,NULL,&bContentRestricted,NULL);
+					ProfileManager.GetChatAndContentRestrictions(iPad,true,nullptr,&bContentRestricted,nullptr);
 #endif
 					if(bContentRestricted)
 					{
@@ -1713,7 +1713,7 @@ void UIScene_MainMenu::RunUnlockOrDLC(int iPad)
 						// you can't see the store
 						UINT uiIDA[1];
 						uiIDA[0]=IDS_CONFIRM_OK;
-						ui.RequestErrorMessage(IDS_ONLINE_SERVICE_TITLE, IDS_CONTENT_RESTRICTION, uiIDA, 1, ProfileManager.GetPrimaryPad(),NULL,this);
+						ui.RequestErrorMessage(IDS_ONLINE_SERVICE_TITLE, IDS_CONTENT_RESTRICTION, uiIDA, 1, ProfileManager.GetPrimaryPad(),nullptr,this);
 #endif
 					}
 					else
@@ -1925,7 +1925,7 @@ void UIScene_MainMenu::tick()
 
 			// 4J-PB - need to check this user can access the store
 			bool bContentRestricted=false;
-			ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),true,NULL,&bContentRestricted,NULL);
+			ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),true,nullptr,&bContentRestricted,nullptr);
 			if(bContentRestricted)
 			{
 				UINT uiIDA[1];
@@ -2102,7 +2102,7 @@ void UIScene_MainMenu::LoadTrial(void)
 
 	NetworkGameInitData *param = new NetworkGameInitData();
 	param->seed = 0;
-	param->saveData = NULL;
+	param->saveData = nullptr;
 	param->settings = app.GetGameHostOption( eGameHostOption_Tutorial ) | app.GetGameHostOption(eGameHostOption_DisableSaving);
 
 	vector<LevelGenerationOptions *> *generators = app.getLevelGenerators();

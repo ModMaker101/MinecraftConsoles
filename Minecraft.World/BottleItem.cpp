@@ -18,7 +18,7 @@ Icon *BottleItem::getIcon(int auxValue)
 shared_ptr<ItemInstance> BottleItem::use(shared_ptr<ItemInstance> itemInstance, Level *level, shared_ptr<Player> player)
 {
 	HitResult *hr = getPlayerPOVHitResult(level, player, true);
-	if (hr == NULL) return itemInstance;
+	if (hr == nullptr) return itemInstance;
 
 	if (hr->type == HitResult::TILE)
 	{
@@ -63,7 +63,7 @@ shared_ptr<ItemInstance> BottleItem::use(shared_ptr<ItemInstance> itemInstance, 
 bool BottleItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, shared_ptr<Player> player)
 {
 	HitResult *hr = getPlayerPOVHitResult(level, player, true);
-	if (hr == NULL) return false;
+	if (hr == nullptr) return false;
 
 	if (hr->type == HitResult::TILE)
 	{

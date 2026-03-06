@@ -34,7 +34,7 @@ BasicTree::BasicTree(bool doUpdate) : Feature(doUpdate)
     trunkWidth = 1;
     heightVariance = 12;
     foliageHeight = 4;
-	foliageCoords = NULL;
+	foliageCoords = nullptr;
 	foliageCoordsLength = 0;
 }
 
@@ -126,7 +126,7 @@ void BasicTree::prepare()
 	for( int i = clusterCount; i < clustersPerY * height; i++ )
 	{
 		delete [] tempFoliageCoords[i];
-		tempFoliageCoords[i] = NULL;
+		tempFoliageCoords[i] = nullptr;
 	}
 	// 4J - original code for above is the following, it isn't obvious to me why it is doing a copy of the array, so let's not for now
 //    foliageCoords = new int[clusterCount][4];
@@ -460,7 +460,7 @@ bool BasicTree::checkLocation()
     int endPosition[] = { origin[0], origin[1] + height - 1, origin[2] };
 
 	// 4J Stu Added to stop tree features generating areas previously place by game rule generation
-	if(app.getLevelGenerationOptions() != NULL)
+	if(app.getLevelGenerationOptions() != nullptr)
 	{
 		LevelGenerationOptions *levelGenOptions = app.getLevelGenerationOptions();
 		bool intersects = levelGenOptions->checkIntersects(startPosition[0], startPosition[1], startPosition[2], endPosition[0], endPosition[1], endPosition[2]);

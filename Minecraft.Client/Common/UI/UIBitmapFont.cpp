@@ -351,7 +351,7 @@ rrbool UIBitmapFont::GetGlyphBitmap(S32 glyph,F32 pixel_scale,IggyBitmapCharacte
 	bitmap->stride_in_bytes = m_cFontData->getFontData()->m_uiGlyphMapX;
 
 	// 4J-JEV: Additional information needed to release memory afterwards.
-	bitmap->user_context_for_free = NULL;
+	bitmap->user_context_for_free = nullptr;
 
 	return true;
 }

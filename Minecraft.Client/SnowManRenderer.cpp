@@ -23,7 +23,7 @@ void SnowManRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a
 
 	MobRenderer::additionalRendering(mob, a);
 	shared_ptr<ItemInstance> headGear = shared_ptr<ItemInstance>( new ItemInstance(Tile::pumpkin, 1) );
-	if (headGear != NULL && headGear->getItem()->id < 256)
+	if (headGear != nullptr && headGear->getItem()->id < 256)
 	{
 		glPushMatrix();
 		model->head->translateTo(1 / 16.0f);

@@ -24,14 +24,14 @@ UIScene_InGamePlayerOptionsMenu::UIScene_InGamePlayerOptionsMenu(int iPad, void 
 	INetworkPlayer *localPlayer = g_NetworkManager.GetLocalPlayerByUserIndex( m_iPad );
 	INetworkPlayer *editingPlayer = g_NetworkManager.GetPlayerBySmallId(m_networkSmallId);
 
-	if(editingPlayer != NULL)
+	if(editingPlayer != nullptr)
 	{
 		m_labelGamertag.init(editingPlayer->GetDisplayName());
 	}
 
 	bool trustPlayers = app.GetGameHostOption(eGameHostOption_TrustPlayers) != 0;
 	bool cheats = app.GetGameHostOption(eGameHostOption_CheatsEnabled) != 0;
-	m_editingSelf = (localPlayer != NULL && localPlayer == editingPlayer);
+	m_editingSelf = (localPlayer != nullptr && localPlayer == editingPlayer);
 
 	if( m_editingSelf || trustPlayers || editingPlayer->IsHost())
 	{
@@ -241,7 +241,7 @@ void UIScene_InGamePlayerOptionsMenu::handleReload()
 
 	bool trustPlayers = app.GetGameHostOption(eGameHostOption_TrustPlayers) != 0;
 	bool cheats = app.GetGameHostOption(eGameHostOption_CheatsEnabled) != 0;
-	m_editingSelf = (localPlayer != NULL && localPlayer == editingPlayer);
+	m_editingSelf = (localPlayer != nullptr && localPlayer == editingPlayer);
 
 	if( m_editingSelf || trustPlayers || editingPlayer->IsHost())
 	{
@@ -372,7 +372,7 @@ void UIScene_InGamePlayerOptionsMenu::handleInput(int iPad, int key, bool repeat
 			else
 			{
 				INetworkPlayer *editingPlayer = g_NetworkManager.GetPlayerBySmallId(m_networkSmallId);
-				if(!trustPlayers && (editingPlayer != NULL && !editingPlayer->IsHost() ) )
+				if(!trustPlayers && (editingPlayer != nullptr && !editingPlayer->IsHost() ) )
 				{
 					Player::setPlayerGamePrivilege(m_playerPrivileges,Player::ePlayerGamePrivilege_CannotMine,!m_checkboxes[eControl_BuildAndMine].IsChecked());
 					Player::setPlayerGamePrivilege(m_playerPrivileges,Player::ePlayerGamePrivilege_CannotBuild,!m_checkboxes[eControl_BuildAndMine].IsChecked());
@@ -473,9 +473,9 @@ void UIScene_InGamePlayerOptionsMenu::OnPlayerChanged(void *callbackParam, INetw
 	UIScene_InGamePlayerOptionsMenu *scene = static_cast<UIScene_InGamePlayerOptionsMenu *>(callbackParam);
 
 	UIScene_InGameInfoMenu *infoScene = static_cast<UIScene_InGameInfoMenu *>(scene->getBackScene());
-	if(infoScene != NULL) UIScene_InGameInfoMenu::OnPlayerChanged(infoScene,pPlayer,leaving);
+	if(infoScene != nullptr) UIScene_InGameInfoMenu::OnPlayerChanged(infoScene,pPlayer,leaving);
 
-	if(leaving && pPlayer != NULL && pPlayer->GetSmallId() == scene->m_networkSmallId)
+	if(leaving && pPlayer != nullptr && pPlayer->GetSmallId() == scene->m_networkSmallId)
 	{
 		scene->m_bShouldNavBack = true;
 	}

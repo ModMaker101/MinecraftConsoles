@@ -197,12 +197,12 @@ MobGroupData *Spider::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 	{
 		shared_ptr<Skeleton> skeleton = shared_ptr<Skeleton>( new Skeleton(level) );
 		skeleton->moveTo(x, y, z, yRot, 0);
-		skeleton->finalizeMobSpawn(NULL);
+		skeleton->finalizeMobSpawn(nullptr);
 		level->addEntity(skeleton);
 		skeleton->ride(shared_from_this());
 	}
 
-	if (groupData == NULL)
+	if (groupData == nullptr)
 	{
 		groupData = new SpiderEffectsGroupData();
 
@@ -211,10 +211,10 @@ MobGroupData *Spider::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 			static_cast<SpiderEffectsGroupData *>(groupData)->setRandomEffect(level->random);
 		}
 	}
-	if ( dynamic_cast<SpiderEffectsGroupData *>( groupData ) != NULL)
+	if ( dynamic_cast<SpiderEffectsGroupData *>( groupData ) != nullptr)
 	{
 		int effect = static_cast<SpiderEffectsGroupData *>(groupData)->effectId;
-		if (effect > 0 && MobEffect::effects[effect] != NULL)
+		if (effect > 0 && MobEffect::effects[effect] != nullptr)
 		{
 			addEffect(new MobEffectInstance(effect, Integer::MAX_VALUE));
 		}

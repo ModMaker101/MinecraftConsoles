@@ -49,15 +49,15 @@ void UIScene_AbstractContainerMenu::handleDestroy()
 #endif
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
-		if(gameMode != NULL) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
+		if(gameMode != nullptr) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
 	}
 
 	// 4J Stu - Fix for #11302 - TCR 001: Network Connectivity: Host crashed after being killed by the client while accessing a chest during burst packet loss.
 	// We need to make sure that we call closeContainer() anytime this menu is closed, even if it is forced to close by some other reason (like the player dying)	
-	if(pMinecraft->localplayers[m_iPad] != NULL && pMinecraft->localplayers[m_iPad]->containerMenu->containerId == m_menu->containerId)
+	if(pMinecraft->localplayers[m_iPad] != nullptr && pMinecraft->localplayers[m_iPad]->containerMenu->containerId == m_menu->containerId)
 	{
 		pMinecraft->localplayers[m_iPad]->closeContainer();
 	}
@@ -149,8 +149,8 @@ void UIScene_AbstractContainerMenu::PlatformInitialize(int iPad, int startIndex)
 	m_fPointerMaxX = m_fPanelMaxX + fPointerWidth;
 	m_fPointerMaxY = m_fPanelMaxY + (fPointerHeight/2);
 
-// 	m_hPointerText=NULL;
-// 	m_hPointerTextBkg=NULL;
+// 	m_hPointerText=nullptr;
+// 	m_hPointerTextBkg=nullptr;
 
 	// Put the pointer over first item in use row to start with.
 	UIVec2D itemPos;
@@ -254,7 +254,7 @@ void UIScene_AbstractContainerMenu::render(S32 width, S32 height, C4JRender::eVi
 void UIScene_AbstractContainerMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	shared_ptr<ItemInstance> item = nullptr;
 	int slotId = -1;
@@ -278,7 +278,7 @@ void UIScene_AbstractContainerMenu::customDraw(IggyCustomDrawCallbackRegion *reg
 		}
 	}
 
-	if(item != NULL) customDrawSlotControl(region,m_iPad,item,m_menu->isValidIngredient(item, slotId)?1.0f:0.5f,item->isFoil(),true);
+	if(item != nullptr) customDrawSlotControl(region,m_iPad,item,m_menu->isValidIngredient(item, slotId)?1.0f:0.5f,item->isFoil(),true);
 }
 
 void UIScene_AbstractContainerMenu::handleInput(int iPad, int key, bool repeat, bool pressed, bool released, bool &handled)
@@ -337,7 +337,7 @@ Slot *UIScene_AbstractContainerMenu::getSlot(ESceneSection eSection, int iSlot)
 {
 	Slot *slot = m_menu->getSlot( getSectionStartOffset(eSection) + iSlot );
 	if(slot) return slot;
-	else return NULL;
+	else return nullptr;
 }
 
 bool UIScene_AbstractContainerMenu::isSlotEmpty(ESceneSection eSection, int iSlot)

@@ -215,7 +215,7 @@ bool SonyHttp_Vita::http_get(const char *targetUrl, void** ppOutData, int* pData
 	}
 	reqId = ret;
 
-	ret = sceHttpSendRequest(reqId, NULL, 0);
+	ret = sceHttpSendRequest(reqId, nullptr, 0);
 	if (ret < 0)
 	{
 		app.DebugPrintf("sceHttpSendRequest() error: 0x%08X\n", ret);

@@ -24,7 +24,7 @@ UIScene_BeaconMenu::UIScene_BeaconMenu(int iPad, void *_initData, UILayer *paren
 	BeaconScreenInput *initData = static_cast<BeaconScreenInput *>(_initData);
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[initData->iPad] != NULL )
+	if( pMinecraft->localgameModes[initData->iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[initData->iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -254,7 +254,7 @@ void UIScene_BeaconMenu::setSectionSelectedSlot(ESceneSection eSection, int x, i
 
 	int index = (y * cols) + x;
 
-	UIControl_SlotList *slotList = NULL;
+	UIControl_SlotList *slotList = nullptr;
 	switch( eSection )
 	{
 	case eSectionBeaconItem:
@@ -276,7 +276,7 @@ void UIScene_BeaconMenu::setSectionSelectedSlot(ESceneSection eSection, int x, i
 
 UIControl *UIScene_BeaconMenu::getSection(ESceneSection eSection)
 {
-	UIControl *control = NULL;
+	UIControl *control = nullptr;
 	switch( eSection )
 	{
 	case eSectionBeaconItem:
@@ -324,7 +324,7 @@ UIControl *UIScene_BeaconMenu::getSection(ESceneSection eSection)
 void UIScene_BeaconMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	shared_ptr<ItemInstance> item = nullptr;
 	int slotId = -1;
@@ -351,7 +351,7 @@ void UIScene_BeaconMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 			assert(false);
 			break;
 		};		
-		if(item != NULL) customDrawSlotControl(region,m_iPad,item,1.0f,item->isFoil(),true);
+		if(item != nullptr) customDrawSlotControl(region,m_iPad,item,1.0f,item->isFoil(),true);
 	}
 	else
 	{

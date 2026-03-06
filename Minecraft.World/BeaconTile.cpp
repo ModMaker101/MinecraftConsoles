@@ -19,7 +19,7 @@ bool BeaconTile::use(Level *level, int x, int y, int z, shared_ptr<Player> playe
 	if (level->isClientSide) return true;
 
 	shared_ptr<BeaconTileEntity> beacon = dynamic_pointer_cast<BeaconTileEntity>( level->getTileEntity(x, y, z) );
-	if (beacon != NULL) player->openBeacon(beacon);
+	if (beacon != nullptr) player->openBeacon(beacon);
 
 	return true;
 }

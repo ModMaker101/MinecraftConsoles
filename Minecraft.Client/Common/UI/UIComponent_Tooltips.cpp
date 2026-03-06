@@ -351,7 +351,7 @@ void UIComponent_Tooltips::_SetTooltip(unsigned int iToolTipId, UIString label, 
 void UIComponent_Tooltips::_Relayout()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcUpdateLayout, 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcUpdateLayout, 0 , nullptr );
 
 #ifdef __PSVITA__
 	// rebuild touchboxes

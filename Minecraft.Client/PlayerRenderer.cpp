@@ -60,7 +60,7 @@ int PlayerRenderer::prepareArmor(shared_ptr<LivingEntity> _player, int layer, fl
 	}
 
     shared_ptr<ItemInstance> itemInstance = player->inventory->getArmor(3 - layer);
-    if (itemInstance != NULL)
+    if (itemInstance != nullptr)
 	{
         Item *item = itemInstance->getItem();
         if (dynamic_cast<ArmorItem *>(item))
@@ -79,9 +79,9 @@ int PlayerRenderer::prepareArmor(shared_ptr<LivingEntity> _player, int layer, fl
             armor->leg1->visible = layer == 2 || layer == 3;
 
             setArmor(armor);
-			if (armor != NULL) armor->attackTime = model->attackTime;
-			if (armor != NULL) armor->riding = model->riding;
-			if (armor != NULL) armor->young = model->young;
+			if (armor != nullptr) armor->attackTime = model->attackTime;
+			if (armor != nullptr) armor->riding = model->riding;
+			if (armor != nullptr) armor->young = model->young;
 
 			float brightness = SharedConstants::TEXTURE_LIGHTING ? 1 : player->getBrightness(a);
 			if (armorItem->getMaterial() == ArmorItem::ArmorMaterial::CLOTH)
@@ -114,7 +114,7 @@ void PlayerRenderer::prepareSecondPassArmor(shared_ptr<LivingEntity> _player, in
 	// 4J - dynamic cast required because we aren't using templates/generics in our version
 	shared_ptr<Player> player = dynamic_pointer_cast<Player>(_player);
 	shared_ptr<ItemInstance> itemInstance = player->inventory->getArmor(3 - layer);
-	if (itemInstance != NULL)
+	if (itemInstance != nullptr)
 	{
 		Item *item = itemInstance->getItem();
 		if (dynamic_cast<ArmorItem *>(item))
@@ -136,8 +136,8 @@ void PlayerRenderer::render(shared_ptr<Entity> _mob, double x, double y, double 
 	if(mob->hasInvisiblePrivilege()) return;
 
     shared_ptr<ItemInstance> item = mob->inventory->getSelected();
-    armorParts1->holdingRightHand = armorParts2->holdingRightHand = humanoidModel->holdingRightHand = item != NULL ? 1 : 0;
-	if (item != NULL)
+    armorParts1->holdingRightHand = armorParts2->holdingRightHand = humanoidModel->holdingRightHand = item != nullptr ? 1 : 0;
+	if (item != nullptr)
 	{
 		if (mob->getUseItemDuration() > 0)
 		{
@@ -153,7 +153,7 @@ void PlayerRenderer::render(shared_ptr<Entity> _mob, double x, double y, double 
 		}
 	}
 	// 4J added, for 3rd person view of eating
-	if( item != NULL && mob->getUseItemDuration() > 0 && item->getUseAnimation() == UseAnim_eat )
+	if( item != nullptr && mob->getUseItemDuration() > 0 && item->getUseAnimation() == UseAnim_eat )
 	{
 		// These factors are largely lifted from ItemInHandRenderer to try and keep the 3rd person eating animation as similar as possible
         float t = (mob->getUseItemDuration() - a + 1);
@@ -237,7 +237,7 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 	shared_ptr<Player> mob = dynamic_pointer_cast<Player>(_mob);
 
     shared_ptr<ItemInstance> headGear = mob->inventory->getArmor(3);
-    if (headGear != NULL)
+    if (headGear != nullptr)
 	{
 		// don't render the pumpkin for the skins
 		unsigned int uiAnimOverrideBitmask = mob->getSkinAnimOverrideBitmask( mob->getCustomSkin());
@@ -277,7 +277,7 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
     }
 
 	// need to add a custom texture for deadmau5
-	if (mob != NULL && app.isXuidDeadmau5( mob->getXuid() ) && bindTexture(mob->customTextureUrl, L"" ))
+	if (mob != nullptr && app.isXuidDeadmau5( mob->getXuid() ) && bindTexture(mob->customTextureUrl, L"" ))
 	{
         for (int i = 0; i < 2; i++)
 		{
@@ -345,13 +345,13 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 
     shared_ptr<ItemInstance> item = mob->inventory->getSelected();
 
-    if (item != NULL)
+    if (item != nullptr)
 	{
         glPushMatrix();
         humanoidModel->arm0->translateTo(1 / 16.0f);
         glTranslatef(-1 / 16.0f, 7 / 16.0f, 1 / 16.0f);
 
-        if (mob->fishing != NULL)
+        if (mob->fishing != nullptr)
 		{
             item = shared_ptr<ItemInstance>( new ItemInstance(Item::stick) );
         }
@@ -449,7 +449,7 @@ void PlayerRenderer::renderNameTags(shared_ptr<LivingEntity> player, double x, d
         Scoreboard *scoreboard = player->getScoreboard();
         Objective *objective = scoreboard->getDisplayObjective(Scoreboard::DISPLAY_SLOT_BELOW_NAME);
 
-        if (objective != NULL)
+        if (objective != nullptr)
 		{
             Score *score = scoreboard->getPlayerScore(player->getAName(), objective);
 
@@ -535,7 +535,7 @@ void PlayerRenderer::renderShadow(shared_ptr<Entity> e, double x, double y, doub
 	if(app.GetGameHostOption(eGameHostOption_HostCanBeInvisible) > 0)
 	{
 		shared_ptr<Player> player = dynamic_pointer_cast<Player>(e);
-		if(player != NULL && player->hasInvisiblePrivilege()) return;
+		if(player != nullptr && player->hasInvisiblePrivilege()) return;
 	}
 	EntityRenderer::renderShadow(e,x,y,z,pow,a);
 }

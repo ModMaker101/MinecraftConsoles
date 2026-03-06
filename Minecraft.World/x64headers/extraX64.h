@@ -120,7 +120,7 @@ public:
 		else
 		{
 			LeaveCriticalSection(&m_cs);
-			return NULL;
+			return nullptr;
 		}
 	}
 private:

@@ -173,14 +173,14 @@ void FishingHook::tick()
 	if (!level->isClientSide)
 	{
 		shared_ptr<ItemInstance> selectedItem = owner->getSelectedItem();
-		if (owner->removed || !owner->isAlive() || selectedItem == NULL || selectedItem->getItem() != Item::fishingRod || distanceToSqr(owner) > 32 * 32)
+		if (owner->removed || !owner->isAlive() || selectedItem == nullptr || selectedItem->getItem() != Item::fishingRod || distanceToSqr(owner) > 32 * 32)
 		{
 			remove();
 			owner->fishing = nullptr;
 			return;
 		}
 
-		if (hookedIn != NULL)
+		if (hookedIn != nullptr)
 		{
 			if (hookedIn->removed) hookedIn = nullptr;
 			else
@@ -226,7 +226,7 @@ void FishingHook::tick()
 
 	from = Vec3::newTemp(x, y, z);
 	to = Vec3::newTemp(x + xd, y + yd, z + zd);
-	if (res != NULL) 
+	if (res != nullptr) 
 	{
 		to = Vec3::newTemp(res->pos->x, res->pos->y, res->pos->z);
 	}
@@ -241,7 +241,7 @@ void FishingHook::tick()
 		float rr = 0.3f;
 		AABB *bb = e->bb->grow(rr, rr, rr);
 		HitResult *p = bb->clip(from, to);
-		if (p != NULL)
+		if (p != nullptr)
 		{
 			double dd = from->distanceTo(p->pos);
 			if (dd < nearest || nearest == 0)
@@ -253,15 +253,15 @@ void FishingHook::tick()
 		}
 	}
 
-	if (hitEntity != NULL)
+	if (hitEntity != nullptr)
 	{
 		delete res;
 		res = new HitResult(hitEntity);
 	}
 
-	if (res != NULL)
+	if (res != nullptr)
 	{
-		if (res->entity != NULL) 
+		if (res->entity != nullptr) 
 		{
 			// 4J Stu Move fix for : fix for #48587 - CRASH: Code: Gameplay: Hitting another player with the fishing bobber crashes the game. [Fishing pole, line]
 			// Incorrect dynamic_pointer_cast used around the shared_from_this()
@@ -405,7 +405,7 @@ int FishingHook::retrieve()
 	if (level->isClientSide) return 0;
 
 	int dmg = 0;
-	if (hookedIn != NULL)
+	if (hookedIn != nullptr)
 	{
 		double xa = owner->x - x;
 		double ya = owner->y - y;
@@ -445,5 +445,5 @@ int FishingHook::retrieve()
 void FishingHook::remove()
 {
 	Entity::remove();
-	if (owner != NULL) owner->fishing = nullptr;
+	if (owner != nullptr) owner->fishing = nullptr;
 }

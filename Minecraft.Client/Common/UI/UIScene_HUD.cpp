@@ -114,7 +114,7 @@ void UIScene_HUD::tick()
 	if(getMovie() && app.GetGameStarted())
 	{
 		Minecraft *pMinecraft = Minecraft::GetInstance();
-		if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL)
+		if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr)
 		{
 			return;
 		}
@@ -155,7 +155,7 @@ void UIScene_HUD::tick()
 void UIScene_HUD::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	int slot = -1;
 	swscanf(static_cast<wchar_t *>(region->name),L"slot_%d",&slot);
@@ -167,7 +167,7 @@ void UIScene_HUD::customDraw(IggyCustomDrawCallbackRegion *region)
 	{
 		Slot *invSlot = pMinecraft->localplayers[m_iPad]->inventoryMenu->getSlot(InventoryMenu::USE_ROW_SLOT_START + slot);
 		shared_ptr<ItemInstance> item = invSlot->getItem();
-		if(item != NULL)
+		if(item != nullptr)
 		{
 			unsigned char ucAlpha=app.GetGameSettings(ProfileManager.GetPrimaryPad(),eGameSetting_InterfaceOpacity);
 			float fVal;
@@ -254,7 +254,7 @@ void UIScene_HUD::handleReload()
 
 	int iGuiScale;	
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localplayers[m_iPad]->m_iScreenSection == C4JRender::VIEWPORT_TYPE_FULLSCREEN)
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localplayers[m_iPad]->m_iScreenSection == C4JRender::VIEWPORT_TYPE_FULLSCREEN)
 	{
 		iGuiScale=app.GetGameSettings(m_iPad,eGameSetting_UISize);
 	}
@@ -595,7 +595,7 @@ void UIScene_HUD::SetSelectedLabel(const wstring &label)
 void UIScene_HUD::HideSelectedLabel()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcHideSelectedLabel , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcHideSelectedLabel , 0 , nullptr );
 }
 
 
@@ -744,7 +744,7 @@ void UIScene_HUD::handleTimerComplete(int id)
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 	
 	bool anyVisible = false;
-	if(pMinecraft->localplayers[m_iPad]!= NULL)
+	if(pMinecraft->localplayers[m_iPad]!= nullptr)
 	{
 		Gui *pGui = pMinecraft->gui;
 		//DWORD messagesToDisplay = min( CHAT_LINES_COUNT, pGui->getMessagesCount(m_iPad) );
@@ -859,7 +859,7 @@ void UIScene_HUD::handleGameTick()
 	if(getMovie() && app.GetGameStarted())
 	{
 		Minecraft *pMinecraft = Minecraft::GetInstance();
-		if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL)
+		if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr)
 		{
 			m_parentLayer->showComponent(m_iPad, eUIScene_HUD,false);
 			return;

@@ -14,8 +14,8 @@ EnchantmentTableTile::EnchantmentTableTile(int id) : BaseEntityTile(id, Material
 	updateDefaultShape();
 	setLightBlock(0);
 
-	iconTop = NULL;
-	iconBottom = NULL;
+	iconTop = nullptr;
+	iconBottom = nullptr;
 }
 
 // 4J Added override

@@ -49,7 +49,7 @@ void DataLayer::set(int x, int y, int z, int val)
 
 bool DataLayer::isValid()
 {
-	return data.data != NULL;
+	return data.data != nullptr;
 }
 
 void DataLayer::setAll(int br)

@@ -317,7 +317,7 @@ HRESULT UIScene_PauseMenu::OnNotifyPressEx(HXUIOBJ hObjPressed, XUINotifyPress* 
 				if(pNotifyPressData->UserIndex==ProfileManager.GetPrimaryPad())
 				{
 					int playTime = -1;
-					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != NULL )
+					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != nullptr )
 					{
 						playTime = static_cast<int>(pMinecraft->localplayers[pNotifyPressData->UserIndex]->getSessionTimer());
 					}
@@ -357,7 +357,7 @@ HRESULT UIScene_PauseMenu::OnNotifyPressEx(HXUIOBJ hObjPressed, XUINotifyPress* 
 				else
 				{
 					int playTime = -1;
-					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != NULL )
+					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != nullptr )
 					{
 						playTime = static_cast<int>(pMinecraft->localplayers[pNotifyPressData->UserIndex]->getSessionTimer());
 					}
@@ -375,7 +375,7 @@ HRESULT UIScene_PauseMenu::OnNotifyPressEx(HXUIOBJ hObjPressed, XUINotifyPress* 
 				if(pNotifyPressData->UserIndex==ProfileManager.GetPrimaryPad())
 				{		
 					int playTime = -1;
-					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != NULL )
+					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != nullptr )
 					{
 						playTime = static_cast<int>(pMinecraft->localplayers[pNotifyPressData->UserIndex]->getSessionTimer());
 					}	
@@ -392,7 +392,7 @@ HRESULT UIScene_PauseMenu::OnNotifyPressEx(HXUIOBJ hObjPressed, XUINotifyPress* 
 				else
 				{
 					int playTime = -1;
-					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != NULL )
+					if( pMinecraft->localplayers[pNotifyPressData->UserIndex] != nullptr )
 					{
 						playTime = static_cast<int>(pMinecraft->localplayers[pNotifyPressData->UserIndex]->getSessionTimer());
 					}
@@ -596,7 +596,7 @@ HRESULT UIScene_PauseMenu::OnControlNavigate(XUIMessageControlNavigate *pControl
 {
 	pControlNavigateData->hObjDest=XuiControlGetNavigation(pControlNavigateData->hObjSource,pControlNavigateData->nControlNavigate,TRUE,TRUE);
 	
-	if(pControlNavigateData->hObjDest!=NULL)
+	if(pControlNavigateData->hObjDest!=nullptr)
 	{
 		bHandled=TRUE;
 	}
@@ -790,7 +790,7 @@ int UIScene_PauseMenu::WarningTrialTexturePackReturned(void *pParam,int iPad,C4J
 			// need to allow downloads here, or the player would need to quit the game to let the download of a texture pack happen. This might affect the network traffic, since the download could take all the bandwidth...
 			XBackgroundDownloadSetMode(XBACKGROUND_DOWNLOAD_MODE_ALWAYS_ALLOW);
 
-			StorageManager.InstallOffer(1,ullIndexA,NULL,NULL);
+			StorageManager.InstallOffer(1,ullIndexA,nullptr,nullptr);
 		}
 	}
 	else
@@ -1036,7 +1036,7 @@ void UIScene_PauseMenu::_ExitWorld(LPVOID lpParameter)
 	bool saveStats = true;
 	if (pMinecraft->isClientSide() || g_NetworkManager.IsInSession())
 	{
-		if(lpParameter != NULL )
+		if(lpParameter != nullptr )
 		{
 			// 4J-PB - check if we have lost connection to Live
 			if(ProfileManager.GetLiveConnectionStatus()!=XONLINE_S_LOGON_CONNECTION_ESTABLISHED )
@@ -1104,21 +1104,21 @@ void UIScene_PauseMenu::_ExitWorld(LPVOID lpParameter)
 			uiIDA[0]=IDS_CONFIRM_OK;
 			// 4J Stu - Fix for #48669 - TU5: Code: Compliance: TCR #15: Incorrect/misleading messages after signing out a profile during online game session.
 			// If the primary player is signed out, then that is most likely the cause of the disconnection so don't display a message box. This will allow the message box requested by the libraries to be brought up
-			if( ProfileManager.IsSignedIn(ProfileManager.GetPrimaryPad())) ui.RequestMessageBox( exitReasonTitleId, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+			if( ProfileManager.IsSignedIn(ProfileManager.GetPrimaryPad())) ui.RequestMessageBox( exitReasonTitleId, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 			exitReasonStringId = -1;
 
 			// 4J - Force a disconnection, this handles the situation that the server has already disconnected
-			if( pMinecraft->levels[0] != NULL ) pMinecraft->levels[0]->disconnect(false);
-			if( pMinecraft->levels[1] != NULL ) pMinecraft->levels[1]->disconnect(false);
-			if( pMinecraft->levels[2] != NULL ) pMinecraft->levels[2]->disconnect(false);
+			if( pMinecraft->levels[0] != nullptr ) pMinecraft->levels[0]->disconnect(false);
+			if( pMinecraft->levels[1] != nullptr ) pMinecraft->levels[1]->disconnect(false);
+			if( pMinecraft->levels[2] != nullptr ) pMinecraft->levels[2]->disconnect(false);
 		}
 		else
 		{
 			exitReasonStringId = IDS_EXITING_GAME;
 			pMinecraft->progressRenderer->progressStartNoAbort( IDS_EXITING_GAME );
-			if( pMinecraft->levels[0] != NULL ) pMinecraft->levels[0]->disconnect();
-			if( pMinecraft->levels[1] != NULL ) pMinecraft->levels[1]->disconnect();
-			if( pMinecraft->levels[2] != NULL ) pMinecraft->levels[2]->disconnect();
+			if( pMinecraft->levels[0] != nullptr ) pMinecraft->levels[0]->disconnect();
+			if( pMinecraft->levels[1] != nullptr ) pMinecraft->levels[1]->disconnect();
+			if( pMinecraft->levels[2] != nullptr ) pMinecraft->levels[2]->disconnect();
 		}
 
 		// 4J Stu - This only does something if we actually have a server, so don't need to do any other checks
@@ -1134,7 +1134,7 @@ void UIScene_PauseMenu::_ExitWorld(LPVOID lpParameter)
 	}
 	else
 	{
-		if(lpParameter != NULL && ProfileManager.IsSignedIn(ProfileManager.GetPrimaryPad()) )
+		if(lpParameter != nullptr && ProfileManager.IsSignedIn(ProfileManager.GetPrimaryPad()) )
 		{
 			switch( app.GetDisconnectReason() )
 			{
@@ -1180,7 +1180,7 @@ void UIScene_PauseMenu::_ExitWorld(LPVOID lpParameter)
 
 			UINT uiIDA[1];
 			uiIDA[0]=IDS_CONFIRM_OK;
-			ui.RequestMessageBox( exitReasonTitleId, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+			ui.RequestMessageBox( exitReasonTitleId, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 			exitReasonStringId = -1;
 		}
 	}
@@ -1189,7 +1189,7 @@ void UIScene_PauseMenu::_ExitWorld(LPVOID lpParameter)
 	{
 		Sleep(1);
 	}
-	pMinecraft->setLevel(NULL,exitReasonStringId,nullptr,saveStats);
+	pMinecraft->setLevel(nullptr,exitReasonStringId,nullptr,saveStats);
 
 	TelemetryManager->Flush();
 

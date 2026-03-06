@@ -36,7 +36,7 @@ bool FlowerPotTile::isCubeShaped()
 bool FlowerPotTile::use(Level *level, int x, int y, int z, shared_ptr<Player> player, int clickedFace, float clickX, float clickY, float clickZ, bool soundOnly)
 {
 	shared_ptr<ItemInstance> item = player->inventory->getSelected();
-	if (item == NULL) return false;
+	if (item == nullptr) return false;
 	if (level->getData(x, y, z) != 0) return false;
 	int type = getTypeFromItem(item);
 
@@ -62,7 +62,7 @@ int FlowerPotTile::cloneTileId(Level *level, int x, int y, int z)
 {
 	shared_ptr<ItemInstance> item = getItemFromType(level->getData(x, y, z));
 
-	if (item == NULL)
+	if (item == nullptr)
 	{
 		return Item::flowerPot_Id;
 	}
@@ -76,7 +76,7 @@ int FlowerPotTile::cloneTileData(Level *level, int x, int y, int z)
 {
 	shared_ptr<ItemInstance> item = getItemFromType(level->getData(x, y, z));
 
-	if (item == NULL)
+	if (item == nullptr)
 	{
 		return Item::flowerPot_Id;
 	}
@@ -113,7 +113,7 @@ void FlowerPotTile::spawnResources(Level *level, int x, int y, int z, int data, 
 	if (data > 0)
 	{
 		shared_ptr<ItemInstance> item = getItemFromType(data);
-		if (item != NULL) popResource(level, x, y, z, item);
+		if (item != nullptr) popResource(level, x, y, z, item);
 	}
 }
 

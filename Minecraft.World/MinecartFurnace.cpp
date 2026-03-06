@@ -123,7 +123,7 @@ void MinecartFurnace::applyNaturalSlowdown()
 bool MinecartFurnace::interact(shared_ptr<Player> player)
 {
 	shared_ptr<ItemInstance> selected = player->inventory->getSelected();
-	if (selected != NULL && selected->id == Item::coal_Id)
+	if (selected != nullptr && selected->id == Item::coal_Id)
 	{
 		if (!player->abilities.instabuild && --selected->count == 0) player->inventory->setItem(player->inventory->selected, nullptr);
 		fuel += SharedConstants::TICKS_PER_SECOND * 180;

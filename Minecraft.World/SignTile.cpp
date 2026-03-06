@@ -26,7 +26,7 @@ void SignTile::updateDefaultShape()
 
 AABB *SignTile::getAABB(Level *level, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 AABB *SignTile::getTileAABB(Level *level, int x, int y, int z)

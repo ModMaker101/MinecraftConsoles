@@ -233,7 +233,7 @@ void NotGateTile::levelTimeChanged(Level *level, __int64 delta, __int64 newTime)
 {
 	deque<Toggle> *toggles = recentToggles[level];
 
-	if (toggles != NULL)
+	if (toggles != nullptr)
 	{
 		for (auto& toggle : *toggles)
 		{

@@ -199,7 +199,7 @@ bool Ocelot::mobInteract(shared_ptr<Player> player)
 	}
 	else
 	{
-		if (temptGoal->isRunning() && item != NULL && item->id == Item::fish_raw_Id && player->distanceToSqr(shared_from_this()) < 3 * 3)
+		if (temptGoal->isRunning() && item != nullptr && item->id == Item::fish_raw_Id && player->distanceToSqr(shared_from_this()) < 3 * 3)
 		{
 			// 4J-PB - don't lose the fish in creative mode
 			if (!player->abilities.instabuild) item->count--;
@@ -257,7 +257,7 @@ shared_ptr<AgableMob> Ocelot::getBreedOffspring(shared_ptr<AgableMob> target)
 
 bool Ocelot::isFood(shared_ptr<ItemInstance> itemInstance)
 {
-	return itemInstance != NULL && itemInstance->id == Item::fish_raw_Id;
+	return itemInstance != nullptr && itemInstance->id == Item::fish_raw_Id;
 }
 
 bool Ocelot::canMate(shared_ptr<Animal> animal)
@@ -266,7 +266,7 @@ bool Ocelot::canMate(shared_ptr<Animal> animal)
 	if (!isTame()) return false;
 
 	shared_ptr<Ocelot> partner = dynamic_pointer_cast<Ocelot>(animal);
-	if (partner == NULL) return false;
+	if (partner == nullptr) return false;
 	if (!partner->isTame()) return false;
 
 	return isInLove() && partner->isInLove();

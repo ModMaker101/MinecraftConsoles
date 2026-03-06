@@ -23,7 +23,7 @@ bool UIControl_HTMLLabel::setupControl(UIScene *scene, IggyValuePath *parent, co
 void UIControl_HTMLLabel::startAutoScroll()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcStartAutoScroll , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcStartAutoScroll , 0 , nullptr );
 }
 
 void UIControl_HTMLLabel::ReInit()
@@ -79,7 +79,7 @@ void UIControl_HTMLLabel::TouchScroll(S32 iY, bool bActive)
 S32 UIControl_HTMLLabel::GetRealWidth()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcGetRealWidth, 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcGetRealWidth, 0 , nullptr );
 
 	S32 iRealWidth = m_width;
 	if(result.type == IGGY_DATATYPE_number)
@@ -92,7 +92,7 @@ S32 UIControl_HTMLLabel::GetRealWidth()
 S32 UIControl_HTMLLabel::GetRealHeight()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcGetRealHeight, 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath() , m_funcGetRealHeight, 0 , nullptr );
 
 	S32 iRealHeight = m_height;
 	if(result.type == IGGY_DATATYPE_number)

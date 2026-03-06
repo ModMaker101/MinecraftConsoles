@@ -21,7 +21,7 @@ static bool TryParseBoolean(const wstring &text, bool defaultValue)
 
 Settings::Settings(File *file)
 {
-	if (file != NULL)
+	if (file != nullptr)
 	{
 		filePath = file->getPath();
 	}

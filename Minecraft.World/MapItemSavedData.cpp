@@ -107,7 +107,7 @@ charArray MapItemSavedData::HoldingPlayer::nextUpdatePacket(shared_ptr<ItemInsta
 			++dataIndex;
 		}
 		bool thesame = !itemInstance->isFramed();
-		if (lastSentDecorations.data == NULL || lastSentDecorations.length != data.length)
+		if (lastSentDecorations.data == nullptr || lastSentDecorations.length != data.length)
 		{
 			thesame = false;
 		}
@@ -125,7 +125,7 @@ charArray MapItemSavedData::HoldingPlayer::nextUpdatePacket(shared_ptr<ItemInsta
 
 		if (!thesame)
 		{
-			if( lastSentDecorations.data != NULL )
+			if( lastSentDecorations.data != nullptr )
 			{
 				delete[] lastSentDecorations.data;
 			}
@@ -199,7 +199,7 @@ void MapItemSavedData::load(CompoundTag *tag)
 	{
 		byteArray newColors = tag->getByteArray(L"colors");
 		//4J
-		if(colors.data != NULL)
+		if(colors.data != nullptr)
 		{
 			delete[] colors.data;
 		}
@@ -399,7 +399,7 @@ void MapItemSavedData::tickCarriedBy(shared_ptr<Player> player, shared_ptr<ItemI
 				PlayerList *players = MinecraftServer::getInstance()->getPlayerList();
 				for(auto& decorationPlayer : players->players)
 				{
-					if(decorationPlayer!=NULL && decorationPlayer->dimension == this->dimension)
+					if(decorationPlayer!=nullptr && decorationPlayer->dimension == this->dimension)
 					{
 						float xd = static_cast<float>(decorationPlayer->x - x) / (1 << scale);
 						float yd = static_cast<float>(decorationPlayer->z - z) / (1 << scale);

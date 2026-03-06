@@ -10,13 +10,13 @@ TexturePacket::TexturePacket()
 {
 	this->textureName = L"";
 	this->dwBytes = 0;
-	this->pbData = NULL;
+	this->pbData = nullptr;
 }
 
 TexturePacket::~TexturePacket() 
 {
 	// can't free this - it's used elsewhere
-// 	if(this->pbData!=NULL)
+// 	if(this->pbData!=nullptr)
 // 	{
 // 		delete [] this->pbData;
 // 	}

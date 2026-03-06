@@ -18,9 +18,9 @@ DispenserTile::DispenserTile(int id) : BaseEntityTile(id, Material::stone)
 {
 	random = new Random();
 
-	iconTop = NULL;
-	iconFront = NULL;
-	iconFrontVertical = NULL;
+	iconTop = nullptr;
+	iconFront = nullptr;
+	iconFrontVertical = nullptr;
 }
 
 int DispenserTile::getTickDelay(Level *level)
@@ -115,7 +115,7 @@ void DispenserTile::dispenseFrom(Level *level, int x, int y, int z)
 {
 	BlockSourceImpl source(level, x, y, z);
 	shared_ptr<DispenserTileEntity> trap = dynamic_pointer_cast<DispenserTileEntity>( source.getEntity() );
-	if (trap == NULL) return;
+	if (trap == nullptr) return;
 
 	int slot = trap->getRandomSlot();
 	if (slot < 0)
@@ -186,12 +186,12 @@ void DispenserTile::setPlacedBy(Level *level, int x, int y, int z, shared_ptr<Li
 void DispenserTile::onRemove(Level *level, int x, int y, int z, int id, int data)
 {
 	shared_ptr<Container> container = dynamic_pointer_cast<DispenserTileEntity>( level->getTileEntity(x, y, z) );
-	if (container != NULL )
+	if (container != nullptr )
 	{
 		for (unsigned int i = 0; i < container->getContainerSize(); i++)
 		{
 			shared_ptr<ItemInstance> item = container->getItem(i);
-			if (item != NULL)
+			if (item != nullptr)
 			{
 				float xo = random->nextFloat() * 0.8f + 0.1f;
 				float yo = random->nextFloat() * 0.8f + 0.1f;

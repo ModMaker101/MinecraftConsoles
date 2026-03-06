@@ -19,7 +19,7 @@ shared_ptr<ItemInstance> EnderpearlItem::use(shared_ptr<ItemInstance> instance, 
 {
 	// 4J-PB - Not sure why this was disabled for creative mode, so commenting out
 	//if (player->abilities.instabuild) return instance;
-	if (player->riding != NULL) return instance;
+	if (player->riding != nullptr) return instance;
 	if (!player->abilities.instabuild)
 	{
 		instance->count--;

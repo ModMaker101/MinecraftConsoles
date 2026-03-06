@@ -211,16 +211,16 @@ wstring HellFlatLevelSource::gatherStats()
 vector<Biome::MobSpawnerData *> *HellFlatLevelSource::getMobsAt(MobCategory *mobCategory, int x, int y, int z)
 {
 	Biome *biome = level->getBiome(x, z);
-	if (biome == NULL) 
+	if (biome == nullptr) 
 	{
-		return NULL;
+		return nullptr;
 	}
 	return biome->getMobs(mobCategory);
 }
 
 TilePos *HellFlatLevelSource::findNearestMapFeature(Level *level, const wstring& featureName, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 void HellFlatLevelSource::recreateLogicStructuresForChunk(int chunkX, int chunkZ)

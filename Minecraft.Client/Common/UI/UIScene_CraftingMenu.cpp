@@ -109,7 +109,7 @@ UIScene_CraftingMenu::UIScene_CraftingMenu(int iPad, void *_initData, UILayer *p
 	// Update the tutorial state
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -190,14 +190,14 @@ void UIScene_CraftingMenu::handleDestroy()
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
-		if(gameMode != NULL) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
+		if(gameMode != nullptr) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
 	}
 
 	// We need to make sure that we call closeContainer() anytime this menu is closed, even if it is forced to close by some other reason (like the player dying)	
-	if(Minecraft::GetInstance()->localplayers[m_iPad] != NULL && Minecraft::GetInstance()->localplayers[m_iPad]->containerMenu->containerId == m_menu->containerId)
+	if(Minecraft::GetInstance()->localplayers[m_iPad] != nullptr && Minecraft::GetInstance()->localplayers[m_iPad]->containerMenu->containerId == m_menu->containerId)
 	{
 		Minecraft::GetInstance()->localplayers[m_iPad]->closeContainer();
 	}
@@ -436,7 +436,7 @@ void UIScene_CraftingMenu::handleReload()
 void UIScene_CraftingMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	shared_ptr<ItemInstance> item = nullptr;
 	int slotId = -1;
@@ -511,7 +511,7 @@ void UIScene_CraftingMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 		}
 	}
 
-	if(item != NULL)
+	if(item != nullptr)
 	{
 		if(!inventoryItem)
 		{
@@ -627,7 +627,7 @@ void UIScene_CraftingMenu::setCraftingOutputSlotItem(int iPad, shared_ptr<ItemIn
 {
 	m_craftingOutputSlotInfo.item = item;
 	m_craftingOutputSlotInfo.alpha = 31;
-	m_craftingOutputSlotInfo.show = item != NULL;
+	m_craftingOutputSlotInfo.show = item != nullptr;
 }
 
 void UIScene_CraftingMenu::setCraftingOutputSlotRedBox(bool show)
@@ -639,7 +639,7 @@ void UIScene_CraftingMenu::setIngredientSlotItem(int iPad, int index, shared_ptr
 {
 	m_ingredientsSlotsInfo[index].item = item;
 	m_ingredientsSlotsInfo[index].alpha = 31;
-	m_ingredientsSlotsInfo[index].show = item != NULL;
+	m_ingredientsSlotsInfo[index].show = item != nullptr;
 }
 
 void UIScene_CraftingMenu::setIngredientSlotRedBox(int index, bool show)
@@ -651,7 +651,7 @@ void UIScene_CraftingMenu::setIngredientDescriptionItem(int iPad, int index, sha
 {
 	m_ingredientsInfo[index].item = item;
 	m_ingredientsInfo[index].alpha = 31;
-	m_ingredientsInfo[index].show = item != NULL;
+	m_ingredientsInfo[index].show = item != nullptr;
 
 	IggyDataValue result;
 	IggyDataValue value[2];

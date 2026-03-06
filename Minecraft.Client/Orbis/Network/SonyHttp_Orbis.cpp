@@ -100,16 +100,16 @@ void SonyHttp_Orbis::printSslError(SceInt32 sslErr, SceUInt32 sslErrDetail)
 void SonyHttp_Orbis::printSslCertInfo(int libsslCtxId,SceSslCert *sslCert)
 {
 	SceInt32 ret;
-	SceUChar8 *sboData = NULL ;
+	SceUChar8 *sboData = nullptr ;
 	SceSize sboLen, counter;
 
-	ret = sceSslGetSerialNumber(libsslCtxId, sslCert, NULL, &sboLen);
+	ret = sceSslGetSerialNumber(libsslCtxId, sslCert, nullptr, &sboLen);
 	if (ret < 0){
 		app.DebugPrintf("sceSslGetSerialNumber() returns 0x%x\n", ret);
 	}
 	else {
 		sboData = static_cast<SceUChar8 *>(malloc(sboLen));
-		if ( sboData != NULL ) {
+		if ( sboData != nullptr ) {
 			ret = sceSslGetSerialNumber(libsslCtxId, sslCert, sboData, &sboLen);
 			if (ret < 0){
 				app.DebugPrintf ("sceSslGetSerialNumber() returns 0x%x\n", ret);
@@ -225,7 +225,7 @@ bool SonyHttp_Orbis::http_get(const char *targetUrl, void** ppOutData, int* pDat
 	}
 	reqId = ret;
 
-	ret = sceHttpSendRequest(reqId, NULL, 0);
+	ret = sceHttpSendRequest(reqId, nullptr, 0);
 	if (ret < 0)
 	{
 		app.DebugPrintf("sceHttpSendRequest() error: 0x%08X\n", ret);

@@ -12,7 +12,7 @@ HRESULT CScene_SettingsGraphics::OnInit( XUIMessageInit* pInitData, BOOL& bHandl
 	WCHAR TempString[256];
 	m_iPad=*static_cast<int *>(pInitData->pvInitData);
 	// if we're not in the game, we need to use basescene 0 
-	bool bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 	bool bIsPrimaryPad=(ProfileManager.GetPrimaryPad()==m_iPad);
 
 	MapChildControls();
@@ -198,7 +198,7 @@ HRESULT CScene_SettingsGraphics::OnControlNavigate(XUIMessageControlNavigate *pC
 	// added so we can skip greyed out items
 	pControlNavigateData->hObjDest=XuiControlGetNavigation(pControlNavigateData->hObjSource,pControlNavigateData->nControlNavigate,TRUE,TRUE);
 
-	if(pControlNavigateData->hObjDest!=NULL)
+	if(pControlNavigateData->hObjDest!=nullptr)
 	{
 		bHandled=TRUE;
 	}
@@ -310,7 +310,7 @@ HRESULT CScene_SettingsGraphics::OnTransitionStart( XUIMessageTransition *pTrans
 
 HRESULT CScene_SettingsGraphics::OnNavReturn(HXUIOBJ hObj,BOOL& rfHandled)
 {
-	bool bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 
 	// if we're not in the game, we need to use basescene 0 
 	if(bNotInGame)

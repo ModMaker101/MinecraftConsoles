@@ -36,7 +36,7 @@ VOID XUI_FontRenderer::Term()
 
 HRESULT XUI_FontRenderer::GetCaps( DWORD * pdwCaps )
 {
-    if( pdwCaps != NULL )
+    if( pdwCaps != nullptr )
 	{
         // setting this means XUI calls the DrawCharsToDevice method
         *pdwCaps = XUI_FONT_RENDERER_CAP_INTERNAL_GLYPH_CACHE | XUI_FONT_RENDERER_CAP_POINT_SIZE_RESPECTED | XUI_FONT_RENDERER_STYLE_DROPSHADOW;
@@ -60,8 +60,8 @@ HRESULT XUI_FontRenderer::CreateFont( const TypefaceDescriptor * pTypefaceDescri
 
 	//app.DebugPrintf("point size is: %f, xuiSize is: %d\n", fPointSize, xuiSize);
 
-	XUI_Font *font = NULL;
-	XUI_FontData *fontData = NULL;
+	XUI_Font *font = nullptr;
+	XUI_FontData *fontData = nullptr;
 	FLOAT scale = 1;
 
 	eFontData efontdata;
@@ -77,17 +77,17 @@ HRESULT XUI_FontRenderer::CreateFont( const TypefaceDescriptor * pTypefaceDescri
 	}
 
 	font = m_loadedFonts[efontdata][scale];
-	if (font == NULL)
+	if (font == nullptr)
 	{
 		fontData = m_loadedFontData[efontdata];
-		if (fontData == NULL)
+		if (fontData == nullptr)
 		{
 			SFontData *sfontdata;
 			switch (efontdata)
 			{
 			case eFontData_Mojangles_7:		sfontdata = &SFontData::Mojangles_7;	break;
 			case eFontData_Mojangles_11:	sfontdata = &SFontData::Mojangles_11;	break;
-			default:						sfontdata = NULL;						break;
+			default:						sfontdata = nullptr;						break;
 			}
 
 			fontData = new XUI_FontData();
@@ -108,7 +108,7 @@ HRESULT XUI_FontRenderer::CreateFont( const TypefaceDescriptor * pTypefaceDescri
 VOID XUI_FontRenderer::ReleaseFont( HFONTOBJ hFont )
 {
 	XUI_Font *xuiFont = static_cast<XUI_Font *>(hFont);
-	if (xuiFont != NULL)
+	if (xuiFont != nullptr)
 	{
 		xuiFont->DecRefCount();
 		if (xuiFont->refCount <= 0)
@@ -156,7 +156,7 @@ HRESULT XUI_FontRenderer::GetCharMetrics( HFONTOBJ hFont, WCHAR wch, XUICharMetr
 
 HRESULT XUI_FontRenderer::DrawCharToTexture( HFONTOBJ hFont, WCHAR wch, HXUIDC hDC, IXuiTexture * pTexture, UINT x, UINT y, UINT width, UINT height, UINT insetX, UINT insetY )
 {
-    if( hFont==0 || pTexture==NULL ) return E_INVALIDARG;
+    if( hFont==0 || pTexture==nullptr ) return E_INVALIDARG;
     return( S_OK );
 }
 

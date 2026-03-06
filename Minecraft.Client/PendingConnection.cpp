@@ -45,7 +45,7 @@ PendingConnection::~PendingConnection()
 
 void PendingConnection::tick()
 {
-	if (acceptedLogin != NULL)
+	if (acceptedLogin != nullptr)
 	{
 		this->handleAcceptedLogin(acceptedLogin);
 		acceptedLogin = nullptr;
@@ -121,7 +121,7 @@ void PendingConnection::sendPreLoginResponse()
 			// Need to use the online XUID otherwise friend checks will fail on the client
 			ugcXuids[ugcXuidCount] = player->connection->m_onlineXUID;
 
-			if( player->connection->getNetworkPlayer() != NULL && player->connection->getNetworkPlayer()->IsHost() ) hostIndex = ugcXuidCount;
+			if( player->connection->getNetworkPlayer() != nullptr && player->connection->getNetworkPlayer()->IsHost() ) hostIndex = ugcXuidCount;
 
 			++ugcXuidCount;
 		}
@@ -199,7 +199,7 @@ void PendingConnection::handleLogin(shared_ptr<LoginPacket> packet)
 		vector<shared_ptr<ServerPlayer> >& pl = server->getPlayers()->players;
 		for (const auto& i : pl)
 		{
-			if (i != NULL && i->name == name)
+			if (i != nullptr && i->name == name)
 			{
 				nameTaken = true;
 				break;
@@ -262,10 +262,10 @@ void PendingConnection::handleAcceptedLogin(shared_ptr<LoginPacket> packet)
 	if(playerXuid == INVALID_XUID) playerXuid = packet->m_onlineXuid;
 
 	shared_ptr<ServerPlayer> playerEntity = server->getPlayers()->getPlayerForLogin(this, name, playerXuid,packet->m_onlineXuid);
-	if (playerEntity != NULL)
+	if (playerEntity != nullptr)
 	{
 		server->getPlayers()->placeNewPlayer(connection, playerEntity, packet);
-		connection = NULL;	// We've moved responsibility for this over to the new PlayerConnection, NULL so we don't delete our reference to it here in our dtor
+		connection = nullptr;	// We've moved responsibility for this over to the new PlayerConnection, nullptr so we don't delete our reference to it here in our dtor
 	}
 	done = true;
 

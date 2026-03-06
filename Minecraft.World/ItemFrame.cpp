@@ -37,7 +37,7 @@ ItemFrame::ItemFrame(Level *level, int xTile, int yTile, int zTile, int dir) : H
 
 void ItemFrame::defineSynchedData() 
 {
-	getEntityData()->defineNULL(DATA_ITEM, NULL);
+	getEntityData()->defineNULL(DATA_ITEM, nullptr);
 	getEntityData()->define(DATA_ROTATION, static_cast<byte>(0));
 }
 
@@ -52,7 +52,7 @@ void ItemFrame::dropItem(shared_ptr<Entity> causedBy)
 {
 	shared_ptr<ItemInstance> item = getItem();
 
-	if (causedBy != NULL && causedBy->instanceof(eTYPE_PLAYER))
+	if (causedBy != nullptr && causedBy->instanceof(eTYPE_PLAYER))
 	{
 		if (dynamic_pointer_cast<Player>(causedBy)->abilities.instabuild)
 		{
@@ -62,7 +62,7 @@ void ItemFrame::dropItem(shared_ptr<Entity> causedBy)
 	}
 
 	spawnAtLocation( shared_ptr<ItemInstance>(new ItemInstance(Item::frame) ), 0);
-	if ( (item != NULL) && (random->nextFloat() < dropChance) )
+	if ( (item != nullptr) && (random->nextFloat() < dropChance) )
 	{
 		item = item->copy();
 		removeFramedMap(item);
@@ -72,7 +72,7 @@ void ItemFrame::dropItem(shared_ptr<Entity> causedBy)
 
 void ItemFrame::removeFramedMap(shared_ptr<ItemInstance> item)
 {
-	if (item == NULL) return;
+	if (item == nullptr) return;
 	if (item->id == Item::map_Id)
 	{
 		shared_ptr<MapItemSavedData> mapItemSavedData = Item::map->getSavedData(item, level);
@@ -89,7 +89,7 @@ shared_ptr<ItemInstance> ItemFrame::getItem()
 
 void ItemFrame::setItem(shared_ptr<ItemInstance> item) 
 {
-	if(item != NULL)
+	if(item != nullptr)
 	{
 		item = item->copy();
 		item->count = 1;
@@ -112,7 +112,7 @@ void ItemFrame::setRotation(int rotation)
 
 void ItemFrame::addAdditonalSaveData(CompoundTag *tag) 
 {
-	if (getItem() != NULL) 
+	if (getItem() != nullptr) 
 	{
 		tag->putCompound(L"Item", getItem()->save(new CompoundTag()));
 		tag->putByte(L"ItemRotation", static_cast<byte>(getRotation()));
@@ -124,7 +124,7 @@ void ItemFrame::addAdditonalSaveData(CompoundTag *tag)
 void ItemFrame::readAdditionalSaveData(CompoundTag *tag) 
 {
 	CompoundTag *itemTag = tag->getCompound(L"Item");
-	if (itemTag != NULL && !itemTag->isEmpty()) 
+	if (itemTag != nullptr && !itemTag->isEmpty()) 
 	{
 		setItem(ItemInstance::fromTag(itemTag));
 		setRotation(tag->getByte(L"ItemRotation"));
@@ -141,11 +141,11 @@ bool ItemFrame::interact(shared_ptr<Player> player)
 		return false;
 	}
 
-	if (getItem() == NULL) 
+	if (getItem() == nullptr) 
 	{
 		shared_ptr<ItemInstance> item = player->getCarriedItem();
 
-		if (item != NULL) 
+		if (item != nullptr) 
 		{
 			if (!level->isClientSide)//isClientSide) 
 			{

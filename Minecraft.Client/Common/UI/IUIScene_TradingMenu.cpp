@@ -13,7 +13,7 @@ IUIScene_TradingMenu::IUIScene_TradingMenu()
 	m_validOffersCount = 0;
 	m_selectedSlot = 0;
 	m_offersStartIndex = 0;
-	m_menu = NULL;
+	m_menu = nullptr;
 	m_bHasUpdatedOnce = false;
 }
 
@@ -31,10 +31,10 @@ bool IUIScene_TradingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if( pMinecraft->localgameModes[getPad()] != NULL )
+	if( pMinecraft->localgameModes[getPad()] != nullptr )
 	{
 		Tutorial *tutorial = pMinecraft->localgameModes[getPad()]->getTutorial();
-		if(tutorial != NULL)
+		if(tutorial != nullptr)
 		{
 			tutorial->handleUIInput(iAction);
 			if(ui.IsTutorialVisible(getPad()) && !tutorial->isInputAllowed(iAction))
@@ -76,7 +76,7 @@ bool IUIScene_TradingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 					shared_ptr<MultiplayerLocalPlayer> player = Minecraft::GetInstance()->localplayers[getPad()];
 					int buyAMatches = player->inventory->countMatches(buyAItem);
 					int buyBMatches = player->inventory->countMatches(buyBItem);
-					if( (buyAItem != NULL && buyAMatches >= buyAItem->count) && (buyBItem == NULL || buyBMatches >= buyBItem->count) )
+					if( (buyAItem != nullptr && buyAMatches >= buyAItem->count) && (buyBItem == nullptr || buyBMatches >= buyBItem->count) )
 					{
 						// 4J-JEV: Fix for PS4 #7111: [PATCH 1.12] Trading Librarian villagers for multiple �Enchanted Books� will cause the title to crash.
 						int actualShopItem = m_activeOffers.at(selectedShopItem).second;
@@ -162,7 +162,7 @@ void IUIScene_TradingMenu::handleTick()
 {
 	int offerCount = 0;
 	MerchantRecipeList *offers = m_merchant->getOffers(Minecraft::GetInstance()->localplayers[getPad()]);
-	if (offers != NULL)
+	if (offers != nullptr)
 	{
 		offerCount = offers->size();
 
@@ -181,7 +181,7 @@ void IUIScene_TradingMenu::updateDisplay()
 	int iA = -1;
 
 	MerchantRecipeList *unfilteredOffers = m_merchant->getOffers(Minecraft::GetInstance()->localplayers[getPad()]);
-	if (unfilteredOffers != NULL)
+	if (unfilteredOffers != nullptr)
 	{
 		m_activeOffers.clear();
 		int unfilteredIndex = 0;
@@ -255,10 +255,10 @@ void IUIScene_TradingMenu::updateDisplay()
 			setRequest1Item(buyAItem);
 			setRequest2Item(buyBItem);
 
-			if(buyAItem != NULL) setRequest1Name(buyAItem->getHoverName());
+			if(buyAItem != nullptr) setRequest1Name(buyAItem->getHoverName());
 			else setRequest1Name(L"");
 
-			if(buyBItem != NULL) setRequest2Name(buyBItem->getHoverName());
+			if(buyBItem != nullptr) setRequest2Name(buyBItem->getHoverName());
 			else setRequest2Name(L"");
 
 			bool canMake = true;
@@ -284,15 +284,15 @@ void IUIScene_TradingMenu::updateDisplay()
 			}
 			else
 			{
-				if(buyBItem!=NULL)
+				if(buyBItem!=nullptr)
 				{
 					setRequest2RedBox(true);
 					canMake = false;
 				}
 				else
 				{
-					setRequest2RedBox(buyBItem != NULL);
-					canMake = canMake && buyBItem == NULL;
+					setRequest2RedBox(buyBItem != nullptr);
+					canMake = canMake && buyBItem == nullptr;
 				}
 			}
 
@@ -320,7 +320,7 @@ void IUIScene_TradingMenu::updateDisplay()
 bool IUIScene_TradingMenu::canMake(MerchantRecipe *recipe)
 {
 	bool canMake = false;
-	if (recipe != NULL)
+	if (recipe != nullptr)
 	{
 		if(recipe->isDeprecated()) return false;
 
@@ -335,7 +335,7 @@ bool IUIScene_TradingMenu::canMake(MerchantRecipe *recipe)
 		}
 		else
 		{
-			canMake = buyAItem == NULL;
+			canMake = buyAItem == nullptr;
 		}
 
 		int buyBMatches = player->inventory->countMatches(buyBItem);
@@ -345,7 +345,7 @@ bool IUIScene_TradingMenu::canMake(MerchantRecipe *recipe)
 		}
 		else
 		{
-			canMake = canMake && buyBItem == NULL;
+			canMake = canMake && buyBItem == nullptr;
 		}
 	}
 	return canMake;

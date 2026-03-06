@@ -130,7 +130,7 @@ public:
 	{
 		auto it = tags.find(name);
 		if(it != tags.end()) return it->second;
-		return NULL;
+		return nullptr;
 	}
 
 	bool contains(const wstring &name)

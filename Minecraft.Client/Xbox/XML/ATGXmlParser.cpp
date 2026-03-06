@@ -27,7 +27,7 @@ XMLParser::XMLParser()
 {
     m_pWritePtr = m_pWriteBuf;
     m_pReadPtr = m_pReadBuf;
-    m_pISAXCallback = NULL;
+    m_pISAXCallback = nullptr;
     m_hFile = INVALID_HANDLE_VALUE;
 }
 
@@ -49,7 +49,7 @@ VOID XMLParser::FillBuffer()
 
     m_pReadPtr = m_pReadBuf;
 
-    if( m_hFile == NULL )
+    if( m_hFile == nullptr )
     {
         if( m_uInXMLBufferCharsLeft > XML_READ_BUFFER_SIZE )                    
             NChars = XML_READ_BUFFER_SIZE;
@@ -62,7 +62,7 @@ VOID XMLParser::FillBuffer()
     }
     else
     {
-        if( !ReadFile( m_hFile, m_pReadBuf, XML_READ_BUFFER_SIZE, &NChars, NULL ))
+        if( !ReadFile( m_hFile, m_pReadBuf, XML_READ_BUFFER_SIZE, &NChars, nullptr ))
         {
             return;
         }
@@ -359,7 +359,7 @@ HRESULT XMLParser::AdvanceCharacter( BOOL bOkToFail )
         // Read more from the file
         FillBuffer(); 
 
-        // We are at EOF if it is still NULL
+        // We are at EOF if it is still nullptr
         if ( ( m_pReadPtr[0] == '\0' ) && ( m_pReadPtr[1] == '\0' ) )
         {
             if( !bOkToFail )
@@ -861,7 +861,7 @@ HRESULT XMLParser::ParseXMLFile( CONST CHAR *strFilename )
 {    
     HRESULT hr;
 
-    if( m_pISAXCallback == NULL )
+    if( m_pISAXCallback == nullptr )
         return E_NOINTERFACE;
 
     m_pISAXCallback->m_LineNum = 1;  
@@ -874,9 +874,9 @@ HRESULT XMLParser::ParseXMLFile( CONST CHAR *strFilename )
     m_pReadBuf[ 0 ] = '\0';
     m_pReadBuf[ 1 ] = '\0';    
    
-    m_pInXMLBuffer = NULL;
+    m_pInXMLBuffer = nullptr;
     m_uInXMLBufferCharsLeft = 0;
-    m_hFile = CreateFile( strFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL );    
+    m_hFile = CreateFile( strFilename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, nullptr );    
 
     if( m_hFile == INVALID_HANDLE_VALUE )
     {        
@@ -899,7 +899,7 @@ HRESULT XMLParser::ParseXMLFile( CONST CHAR *strFilename )
     m_hFile = INVALID_HANDLE_VALUE;
 
     // we no longer own strFilename, so un-set it
-    m_pISAXCallback->m_strFilename = NULL;  
+    m_pISAXCallback->m_strFilename = nullptr;  
 
     return hr;
 }
@@ -912,7 +912,7 @@ HRESULT XMLParser::ParseXMLBuffer( CONST CHAR *strBuffer, UINT uBufferSize )
 {    
     HRESULT hr;
  
-    if( m_pISAXCallback == NULL )
+    if( m_pISAXCallback == nullptr )
         return E_NOINTERFACE;
 
     m_pISAXCallback->m_LineNum = 1;  
@@ -925,7 +925,7 @@ HRESULT XMLParser::ParseXMLBuffer( CONST CHAR *strBuffer, UINT uBufferSize )
     m_pReadBuf[ 0 ] = '\0';
     m_pReadBuf[ 1 ] = '\0';    
 
-    m_hFile = NULL;
+    m_hFile = nullptr;
     m_pInXMLBuffer = strBuffer;
     m_uInXMLBufferCharsLeft = uBufferSize;
     m_dwCharsTotal = uBufferSize;
@@ -934,7 +934,7 @@ HRESULT XMLParser::ParseXMLBuffer( CONST CHAR *strBuffer, UINT uBufferSize )
     hr = MainParseLoop();
 
     // we no longer own strFilename, so un-set it
-    m_pISAXCallback->m_strFilename = NULL;  
+    m_pISAXCallback->m_strFilename = nullptr;  
 
     return hr;
 }

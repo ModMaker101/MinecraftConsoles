@@ -32,7 +32,7 @@ vector<LevelSummary *> *DirectoryLevelStorageSource::getLevelList()
 		wstring levelId = wstring(L"World").append( std::to_wstring( (i+1) ) );
 
 		LevelData *levelData = getDataTagFor(saveFile, levelId);
-		if (levelData != NULL)
+		if (levelData != nullptr)
 		{
 			levels->push_back(new LevelSummary(levelId, L"", levelData->getLastPlayed(), levelData->getSizeOnDisk(), levelData.getGameType(), false, levelData->isHardcore()));
 		}
@@ -59,7 +59,7 @@ LevelData *DirectoryLevelStorageSource::getDataTagFor(ConsoleSaveFile *saveFile,
 		return ret;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void DirectoryLevelStorageSource::renameLevel(const wstring& levelId, const wstring& newLevelName)

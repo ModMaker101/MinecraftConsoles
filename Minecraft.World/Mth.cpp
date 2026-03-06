@@ -9,7 +9,7 @@ const float Mth::DEGRAD = PI / 180.0f;
 const float Mth::RADDEG = 180.0f / PI;
 const float Mth::RAD_TO_GRAD = PI / 180.0f;
 
-float *Mth::_sin = NULL;
+float *Mth::_sin = nullptr;
 
 const float Mth::sinScale = 65536.0f / (float) (PI * 2);
 
@@ -25,13 +25,13 @@ void Mth::init()
 
 float Mth::sin(float i)
 {
-	if(_sin == NULL) init();		// 4J - added
+	if(_sin == nullptr) init();		// 4J - added
 	return _sin[static_cast<int>(i * sinScale) & 65535];
 }
 
 float Mth::cos(float i)
 {
-	if(_sin == NULL) init();		// 4J - added
+	if(_sin == nullptr) init();		// 4J - added
 	return _sin[static_cast<int>(i * sinScale + 65536 / 4) & 65535];
 }
 

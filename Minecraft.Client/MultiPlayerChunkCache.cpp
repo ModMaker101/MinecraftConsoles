@@ -88,7 +88,7 @@ MultiPlayerChunkCache::MultiPlayerChunkCache(Level *level)
 	}
 	else
 	{
-		waterChunk = NULL;
+		waterChunk = nullptr;
 	}
 
 	this->level = level;
@@ -132,7 +132,7 @@ bool MultiPlayerChunkCache::reallyHasChunk(int x, int z)
 	int idx = ix * XZSIZE + iz;
 
 	LevelChunk *chunk = cache[idx];
-	if( chunk == NULL )
+	if( chunk == nullptr )
 	{
 		return false;
 	}
@@ -166,7 +166,7 @@ LevelChunk *MultiPlayerChunkCache::create(int x, int z)
 	LevelChunk *chunk = cache[idx];
 	LevelChunk *lastChunk = chunk;
 
-	if( chunk == NULL )
+	if( chunk == nullptr )
 	{
 		EnterCriticalSection(&m_csLoadCreate);
 
@@ -174,7 +174,7 @@ LevelChunk *MultiPlayerChunkCache::create(int x, int z)
 		if( g_NetworkManager.IsHost() )		// force here to disable sharing of data
 		{
 			// 4J-JEV: We are about to use shared data, abort if the server is stopped and the data is deleted.
-			if (MinecraftServer::getInstance()->serverHalted()) return NULL;
+			if (MinecraftServer::getInstance()->serverHalted()) return nullptr;
 
 			// If we're the host, then don't create the chunk, share data from the server's copy
 #ifdef _LARGE_WORLDS
@@ -248,7 +248,7 @@ LevelChunk *MultiPlayerChunkCache::getChunk(int x, int z)
 	int idx = ix * XZSIZE + iz;
 
 	LevelChunk *chunk = cache[idx];
-	if( chunk == NULL )
+	if( chunk == nullptr )
 	{
 		return emptyChunk;
 	}
@@ -279,12 +279,12 @@ void MultiPlayerChunkCache::postProcess(ChunkSource *parent, int x, int z)
 
 vector<Biome::MobSpawnerData *> *MultiPlayerChunkCache::getMobsAt(MobCategory *mobCategory, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 TilePos *MultiPlayerChunkCache::findNearestMapFeature(Level *level, const wstring &featureName, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 void MultiPlayerChunkCache::recreateLogicStructuresForChunk(int chunkX, int chunkZ)

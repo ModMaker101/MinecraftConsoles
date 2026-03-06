@@ -53,8 +53,8 @@ XUI_Font::~XUI_Font()
 VOID XUI_Font::GetTextExtent( const WCHAR* strText, FLOAT* pWidth,
                           FLOAT* pHeight, BOOL bFirstLineOnly ) const
 {
-    assert( pWidth != NULL );
-    assert( pHeight != NULL );
+    assert( pWidth != nullptr );
+    assert( pHeight != nullptr );
 
     // Set default text extent in output parameters
     int iWidth = 0;
@@ -146,8 +146,8 @@ VOID XUI_Font::Begin()
         //m_pFontTexture->GetLevelDesc( 0, &TextureDesc );		// Get the description
  
         // Set render state
-		assert(m_fontData->m_pFontTexture != NULL || m_fontData->m_iFontTexture > 0);
-		if(m_fontData->m_pFontTexture != NULL)
+		assert(m_fontData->m_pFontTexture != nullptr || m_fontData->m_iFontTexture > 0);
+		if(m_fontData->m_pFontTexture != nullptr)
 		{
 			pD3dDevice->SetTexture( 0, m_fontData->m_pFontTexture );
 		}
@@ -236,7 +236,7 @@ VOID XUI_Font::DrawShadowText( FLOAT fOriginX, FLOAT fOriginY, DWORD dwColor, DW
 VOID XUI_Font::DrawText( FLOAT fOriginX, FLOAT fOriginY, DWORD dwColor,
                      const WCHAR* strText, DWORD dwFlags, FLOAT fMaxPixelWidth, bool darken /*= false*/ )
 {
-    if( NULL == strText )    return;
+    if( nullptr == strText )    return;
     if( L'\0' == strText[0] ) return;
  
 	// 4J-PB - if we're in 480 widescreen mode, we need to ensure that the font characters are aligned on an even boundary if they are a 2x multiple

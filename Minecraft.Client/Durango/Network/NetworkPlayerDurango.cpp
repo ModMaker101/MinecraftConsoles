@@ -4,7 +4,7 @@
 NetworkPlayerDurango::NetworkPlayerDurango(DQRNetworkPlayer *qnetPlayer)
 {
 	m_dqrPlayer = qnetPlayer;
-	m_pSocket = NULL;
+	m_pSocket = nullptr;
 }
 
 unsigned char NetworkPlayerDurango::GetSmallId()

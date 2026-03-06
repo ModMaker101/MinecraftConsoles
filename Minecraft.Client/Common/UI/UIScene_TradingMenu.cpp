@@ -29,7 +29,7 @@ UIScene_TradingMenu::UIScene_TradingMenu(int iPad, void *_initData, UILayer *par
 	m_merchant = initData->trader;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[iPad] != NULL )
+	if( pMinecraft->localgameModes[iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -87,15 +87,15 @@ void UIScene_TradingMenu::handleDestroy()
 {
 	app.DebugPrintf("UIScene_TradingMenu::handleDestroy\n");
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
-		if(gameMode != NULL) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
+		if(gameMode != nullptr) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
 	}
 
 	// 4J Stu - Fix for #11302 - TCR 001: Network Connectivity: Host crashed after being killed by the client while accessing a chest during burst packet loss.
 	// We need to make sure that we call closeContainer() anytime this menu is closed, even if it is forced to close by some other reason (like the player dying)	
-	if(pMinecraft->localplayers[m_iPad] != NULL) pMinecraft->localplayers[m_iPad]->closeContainer();
+	if(pMinecraft->localplayers[m_iPad] != nullptr) pMinecraft->localplayers[m_iPad]->closeContainer();
 
 	ui.OverrideSFX(m_iPad,ACTION_MENU_A,false);
 	ui.OverrideSFX(m_iPad,ACTION_MENU_OK,false);
@@ -155,7 +155,7 @@ void UIScene_TradingMenu::handleInput(int iPad, int key, bool repeat, bool press
 void UIScene_TradingMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	shared_ptr<ItemInstance> item = nullptr;
 	int slotId = -1;
@@ -190,7 +190,7 @@ void UIScene_TradingMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 			};
 		}
 	}
-	if(item != NULL) customDrawSlotControl(region,m_iPad,item,1.0f,item->isFoil(),true);
+	if(item != nullptr) customDrawSlotControl(region,m_iPad,item,1.0f,item->isFoil(),true);
 }
 
 void UIScene_TradingMenu::showScrollRightArrow(bool show)

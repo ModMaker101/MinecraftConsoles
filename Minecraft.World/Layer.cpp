@@ -123,7 +123,7 @@ Layer::Layer(__int64 seedMixup)
 void Layer::init(__int64 seed)
 {
 	this->seed = seed;
-	if (parent != NULL) parent->init(seed);
+	if (parent != nullptr) parent->init(seed);
 	this->seed *= this->seed * 6364136223846793005l + 1442695040888963407l;
 	this->seed += seedMixup;
 	this->seed *= this->seed * 6364136223846793005l + 1442695040888963407l;

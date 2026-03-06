@@ -28,7 +28,7 @@ bool BucketItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, sh
 {
 	bool pickLiquid = content == 0;
 	HitResult *hr = getPlayerPOVHitResult(level, player, pickLiquid);
-	if (hr == NULL) return false;
+	if (hr == nullptr) return false;
 
 	if (hr->type == HitResult::TILE)
 	{
@@ -105,7 +105,7 @@ shared_ptr<ItemInstance> BucketItem::use(shared_ptr<ItemInstance> itemInstance, 
 
 	bool pickLiquid = content == 0;
 	HitResult *hr = getPlayerPOVHitResult(level, player, pickLiquid);
-	if (hr == NULL) return itemInstance;
+	if (hr == nullptr) return itemInstance;
 
 	if (hr->type == HitResult::TILE)
 	{
@@ -117,7 +117,7 @@ shared_ptr<ItemInstance> BucketItem::use(shared_ptr<ItemInstance> itemInstance, 
 		{
 			app.DebugPrintf("!!!!!!!!!!! Can't place that here\n");
 			shared_ptr<ServerPlayer> servPlayer = dynamic_pointer_cast<ServerPlayer>(player);
-			if( servPlayer != NULL )
+			if( servPlayer != nullptr )
 			{
 				app.DebugPrintf("Sending ChatPacket::e_ChatCannotPlaceLava to player\n");
 				servPlayer->connection->send( shared_ptr<ChatPacket>( new ChatPacket(L"", ChatPacket::e_ChatCannotPlaceLava ) ) );

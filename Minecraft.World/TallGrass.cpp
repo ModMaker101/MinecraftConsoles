@@ -81,7 +81,7 @@ int TallGrass::getResourceCountForLootBonus(int bonusLevel, Random *random)
 
 void TallGrass::playerDestroy(Level *level, shared_ptr<Player> player, int x, int y, int z, int data)
 {
-    if (!level->isClientSide && player->getSelectedItem() != NULL && player->getSelectedItem()->id == Item::shears->id)
+    if (!level->isClientSide && player->getSelectedItem() != nullptr && player->getSelectedItem()->id == Item::shears->id)
 	{
         player->awardStat(
 			GenericStats::blocksMined(id), 

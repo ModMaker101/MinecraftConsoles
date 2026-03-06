@@ -24,7 +24,7 @@ void DQRNetworkManager::BytesReceived(int smallId, BYTE *bytes, int byteCount)
 	DQRNetworkPlayer *host = GetPlayerBySmallId(m_hostSmallId);
 	DQRNetworkPlayer *client = GetPlayerBySmallId(smallId);
 
-	if( ( host == NULL ) || ( client == NULL ) )
+	if( ( host == nullptr ) || ( client == nullptr ) )
 	{
 		return;
 	}
@@ -238,7 +238,7 @@ void DQRNetworkManager::BytesReceivedInternal(DQRConnectionInfo *connectionInfo,
 					UpdateRoomSyncPlayers((RoomSyncData *)connectionInfo->m_pucRoomSyncData);
 					
 					delete connectionInfo->m_pucRoomSyncData;
-					connectionInfo->m_pucRoomSyncData = NULL;
+					connectionInfo->m_pucRoomSyncData = nullptr;
 					connectionInfo->m_internalDataState = DQRConnectionInfo::ConnectionState_InternalHeaderByte;
 
 					// If we haven't actually established a connection yet for this channel, then this is the point where we can consider this active
@@ -267,7 +267,7 @@ void DQRNetworkManager::BytesReceivedInternal(DQRConnectionInfo *connectionInfo,
 						{
 							if( m_currentUserMask & ( 1 << i ) )
 							{
-								if( GetLocalPlayerByUserIndex(i) == NULL )
+								if( GetLocalPlayerByUserIndex(i) == nullptr )
 								{
 									allLocalPlayersHere = false;
 								}
@@ -307,7 +307,7 @@ void DQRNetworkManager::BytesReceivedInternal(DQRConnectionInfo *connectionInfo,
 					// XUID fully read, can now handle what to do with it
 					AddPlayerFailed(ref new Platform::String( (wchar_t *)connectionInfo->m_pucAddFailedPlayerData ) );
 					delete [] connectionInfo->m_pucAddFailedPlayerData;
-					connectionInfo->m_pucAddFailedPlayerData = NULL;
+					connectionInfo->m_pucAddFailedPlayerData = nullptr;
 					connectionInfo->m_internalDataState = DQRConnectionInfo::ConnectionState_InternalHeaderByte;
 				}
 

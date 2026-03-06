@@ -14,11 +14,11 @@ ZombieRenderer::ZombieRenderer() : HumanoidMobRenderer(new ZombieModel(), .5f, 1
 	defaultModel = humanoidModel;
 	villagerModel = new VillagerZombieModel();
 
-	defaultArmorParts1 = NULL;
-	defaultArmorParts2 = NULL;
+	defaultArmorParts1 = nullptr;
+	defaultArmorParts2 = nullptr;
 
-	villagerArmorParts1 = NULL;
-	villagerArmorParts2 = NULL;
+	villagerArmorParts1 = nullptr;
+	villagerArmorParts2 = nullptr;
 
 	createArmorParts();
 }

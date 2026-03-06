@@ -47,7 +47,7 @@ void OptionsScreen::init()
 void OptionsScreen::buttonClicked(Button *button)
 {
     if (!button->active) return;
-    if (button->id < 100 && (dynamic_cast<SmallButton *>(button) != NULL))
+    if (button->id < 100 && (dynamic_cast<SmallButton *>(button) != nullptr))
 	{
         options->toggle(static_cast<SmallButton *>(button)->getOption(), 1);
         button->msg = options->getMessage(Options::Option::getItem(button->id));

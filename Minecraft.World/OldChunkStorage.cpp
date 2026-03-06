@@ -9,7 +9,7 @@
 #include "FileHeader.h"
 #include "OldChunkStorage.h"
 DWORD OldChunkStorage::tlsIdx = 0;
-OldChunkStorage::ThreadStorage *OldChunkStorage::tlsDefault = NULL;
+OldChunkStorage::ThreadStorage *OldChunkStorage::tlsDefault = nullptr;
 
 OldChunkStorage::ThreadStorage::ThreadStorage()
 {
@@ -30,7 +30,7 @@ OldChunkStorage::ThreadStorage::~ThreadStorage()
 void OldChunkStorage::CreateNewThreadStorage()
 {
 	ThreadStorage *tls = new ThreadStorage();
-	if(tlsDefault == NULL )
+	if(tlsDefault == nullptr )
 	{
 		tlsIdx = TlsAlloc();
 		tlsDefault = tls;
@@ -126,14 +126,14 @@ LevelChunk *OldChunkStorage::load(Level *level, int x, int z)
 			char buf[256];
 			sprintf(buf,"Chunk file at %d, %d is missing level data, skipping\n",x,z);
 			app.DebugPrintf(buf);
-			return NULL;
+			return nullptr;
 		}
 		if (!tag->getCompound(L"Level")->contains(L"Blocks"))
 		{
 			char buf[256];
 			sprintf(buf,"Chunk file at %d, %d is missing block data, skipping\n",x,z);
 			app.DebugPrintf(buf);
-			return NULL;
+			return nullptr;
 		}
 		LevelChunk *levelChunk = OldChunkStorage::load(level, tag->getCompound(L"Level"));
 		if (!levelChunk->isAt(x, z))
@@ -152,7 +152,7 @@ LevelChunk *OldChunkStorage::load(Level *level, int x, int z)
 		//			e.printStackTrace();
 		//		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void OldChunkStorage::save(Level *level, LevelChunk *levelChunk)
@@ -277,7 +277,7 @@ void OldChunkStorage::save(LevelChunk *lc, Level *level, DataOutputStream *dos)
 
 	PIXBeginNamedEvent(0,"Saving tile tick data");
 	vector<TickNextTickData > *ticksInChunk = level->fetchTicksInChunk(lc, false);
-	if (ticksInChunk != NULL)
+	if (ticksInChunk != nullptr)
 	{
 		__int64 levelTime = level->getGameTime();
 
@@ -365,7 +365,7 @@ void OldChunkStorage::save(LevelChunk *lc, Level *level, CompoundTag *tag)
 
 	PIXBeginNamedEvent(0,"Saving tile tick data");
 	vector<TickNextTickData > *ticksInChunk = level->fetchTicksInChunk(lc, false);
-	if (ticksInChunk != NULL)
+	if (ticksInChunk != nullptr)
 	{
 		__int64 levelTime = level->getGameTime();
 
@@ -393,14 +393,14 @@ void OldChunkStorage::save(LevelChunk *lc, Level *level, CompoundTag *tag)
 void OldChunkStorage::loadEntities(LevelChunk *lc, Level *level, CompoundTag *tag)
 {
 	ListTag<CompoundTag> *entityTags = (ListTag<CompoundTag> *) tag->getList(L"Entities");
-	if (entityTags != NULL)
+	if (entityTags != nullptr)
 	{
 		for (int i = 0; i < entityTags->size(); i++)
 		{
 			CompoundTag *teTag = entityTags->get(i);
 			shared_ptr<Entity> te = EntityIO::loadStatic(teTag, level);
 			lc->lastSaveHadEntities = true;
-			if (te != NULL)
+			if (te != nullptr)
 			{
 				lc->addEntity(te);
 			}
@@ -408,13 +408,13 @@ void OldChunkStorage::loadEntities(LevelChunk *lc, Level *level, CompoundTag *ta
 	}
 
 	ListTag<CompoundTag> *tileEntityTags = (ListTag<CompoundTag> *) tag->getList(L"TileEntities");
-	if (tileEntityTags != NULL)
+	if (tileEntityTags != nullptr)
 	{
 		for (int i = 0; i < tileEntityTags->size(); i++)
 		{
 			CompoundTag *teTag = tileEntityTags->get(i);
 			shared_ptr<TileEntity> te = TileEntity::loadStatic(teTag);
-			if (te != NULL)
+			if (te != nullptr)
 			{
 				lc->addTileEntity(te);
 			}
@@ -476,7 +476,7 @@ LevelChunk *OldChunkStorage::load(Level *level, DataInputStream *dis)
 		PIXBeginNamedEvent(0,"Loading TileTicks");
 		ListTag<CompoundTag> *tileTicks = (ListTag<CompoundTag> *) tag->getList(L"TileTicks");
 
-		if (tileTicks != NULL)
+		if (tileTicks != nullptr)
 		{
 			for (int i = 0; i < tileTicks->size(); i++)
 			{
@@ -556,7 +556,7 @@ LevelChunk *OldChunkStorage::load(Level *level, CompoundTag *tag)
 
 	// 4J removed - we shouldn't need this any more
 #if 0
-	if (levelChunk->heightmap.data == NULL || !levelChunk->skyLight->isValid())
+	if (levelChunk->heightmap.data == nullptr || !levelChunk->skyLight->isValid())
 	{
 		static int chunksUpdated = 0;
 		delete [] levelChunk->heightmap.data;
@@ -594,7 +594,7 @@ LevelChunk *OldChunkStorage::load(Level *level, CompoundTag *tag)
 	{
 		ListTag<CompoundTag> *tileTicks = (ListTag<CompoundTag> *) tag->getList(L"TileTicks");
 
-		if (tileTicks != NULL)
+		if (tileTicks != nullptr)
 		{
 			for (int i = 0; i < tileTicks->size(); i++)
 			{

@@ -96,10 +96,10 @@ void Witch::aiStep()
 				shared_ptr<ItemInstance> item = getCarriedItem();
 				setEquippedSlot(SLOT_WEAPON, nullptr);
 
-				if (item != NULL && item->id == Item::potion_Id)
+				if (item != nullptr && item->id == Item::potion_Id)
 				{
 					vector<MobEffectInstance *> *effects = Item::potion->getMobEffects(item);
-					if (effects != NULL)
+					if (effects != nullptr)
 					{
 						for(auto& effect : *effects)
 						{
@@ -124,11 +124,11 @@ void Witch::aiStep()
 			{
 				potion = PotionBrewing::POTION_ID_HEAL;
 			}
-			else if (random->nextFloat() < 0.25f && getTarget() != NULL && !hasEffect(MobEffect::movementSpeed) && getTarget()->distanceToSqr(shared_from_this()) > 11 * 11)
+			else if (random->nextFloat() < 0.25f && getTarget() != nullptr && !hasEffect(MobEffect::movementSpeed) && getTarget()->distanceToSqr(shared_from_this()) > 11 * 11)
 			{
 				potion = PotionBrewing::POTION_ID_SWIFTNESS;
 			}
-			else if (random->nextFloat() < 0.25f && getTarget() != NULL && !hasEffect(MobEffect::movementSpeed) && getTarget()->distanceToSqr(shared_from_this()) > 11 * 11)
+			else if (random->nextFloat() < 0.25f && getTarget() != nullptr && !hasEffect(MobEffect::movementSpeed) && getTarget()->distanceToSqr(shared_from_this()) > 11 * 11)
 			{
 				potion = PotionBrewing::POTION_ID_SWIFTNESS;
 			}

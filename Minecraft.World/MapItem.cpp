@@ -24,7 +24,7 @@ shared_ptr<MapItemSavedData> MapItem::getSavedData(short idNum, Level *level)
 	std::wstring id = wstring( L"map_" ) + std::to_wstring(idNum);
 	shared_ptr<MapItemSavedData> mapItemSavedData = dynamic_pointer_cast<MapItemSavedData>(level->getSavedData(typeid(MapItemSavedData), id));
 
-	if (mapItemSavedData == NULL)
+	if (mapItemSavedData == nullptr)
 	{
 		// 4J Stu - This call comes from ClientConnection, but i don't see why we should be trying to work out
 		// the id again when it's passed as a param. In any case that won't work with the new map setup
@@ -48,7 +48,7 @@ shared_ptr<MapItemSavedData> MapItem::getSavedData(shared_ptr<ItemInstance> item
 	shared_ptr<MapItemSavedData> mapItemSavedData = dynamic_pointer_cast<MapItemSavedData>( level->getSavedData(typeid(MapItemSavedData), id ) );
 
 	bool newData = false;
-	if (mapItemSavedData == NULL)
+	if (mapItemSavedData == nullptr)
 	{
 		// 4J Stu - I don't see why we should be trying to work out the id again when it's passed as a param.
 		// In any case that won't work with the new map setup
@@ -295,7 +295,7 @@ shared_ptr<Packet> MapItem::getUpdatePacket(shared_ptr<ItemInstance> itemInstanc
 {
 	charArray data = MapItem::getSavedData(itemInstance, level)->getUpdatePacket(itemInstance, level, player);
 
-	if (data.data == NULL || data.length == 0) return nullptr;
+	if (data.data == nullptr || data.length == 0) return nullptr;
 
 	shared_ptr<Packet> retval = shared_ptr<Packet>(new ComplexItemDataPacket(static_cast<short>(Item::map->id), static_cast<short>(itemInstance->getAuxValue()), data));
 	delete data.data;
@@ -325,7 +325,7 @@ void MapItem::onCraftedBy(shared_ptr<ItemInstance> itemInstance, Level *level, s
 	shared_ptr<MapItemSavedData> data = getSavedData(itemInstance->getAuxValue(), level);
 	// 4J Stu - We only have one map per player per dimension, so don't reset the one that they have
 	// when a new one is created
-	if( data == NULL )
+	if( data == nullptr )
 	{
 		data = shared_ptr<MapItemSavedData>( new MapItemSavedData(id) );
 	}

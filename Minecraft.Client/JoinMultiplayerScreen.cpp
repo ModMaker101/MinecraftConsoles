@@ -7,7 +7,7 @@
 
 JoinMultiplayerScreen::JoinMultiplayerScreen(Screen *lastScreen)
 {
-	ipEdit = NULL;
+	ipEdit = nullptr;
 	this->lastScreen = lastScreen;
 }
 

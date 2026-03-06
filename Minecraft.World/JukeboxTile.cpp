@@ -31,7 +31,7 @@ void JukeboxTile::Entity::save(CompoundTag *tag)
 {
 	TileEntity::save(tag);
 
-	if (getRecord() != NULL)
+	if (getRecord() != nullptr)
 	{
 		tag->putCompound(L"RecordItem", getRecord()->save(new CompoundTag()));
 
@@ -63,7 +63,7 @@ void JukeboxTile::Entity::setRecord(shared_ptr<ItemInstance> record)
 
 JukeboxTile::JukeboxTile(int id) : BaseEntityTile(id, Material::wood)
 {
-	iconTop = NULL;
+	iconTop = nullptr;
 }
 
 Icon *JukeboxTile::getTexture(int face, int data)
@@ -107,10 +107,10 @@ void JukeboxTile::dropRecording(Level *level, int x, int y, int z)
 	if (level->isClientSide) return;
 
 	shared_ptr<JukeboxTile::Entity> rte = dynamic_pointer_cast<JukeboxTile::Entity>( level->getTileEntity(x, y, z) );
-	if( rte == NULL ) return;
+	if( rte == nullptr ) return;
 
 	shared_ptr<ItemInstance> oldRecord = rte->getRecord();
-	if (oldRecord == NULL) return;
+	if (oldRecord == nullptr) return;
 
 
 	level->levelEvent(LevelEvent::SOUND_PLAY_RECORDING, x, y, z, 0);
@@ -163,5 +163,5 @@ bool JukeboxTile::hasAnalogOutputSignal()
 int JukeboxTile::getAnalogOutputSignal(Level *level, int x, int y, int z, int dir)
 {
 	shared_ptr<ItemInstance> record = dynamic_pointer_cast<JukeboxTile::Entity>( level->getTileEntity(x, y, z))->getRecord();
-	return record == NULL ? Redstone::SIGNAL_NONE : record->id + 1 - Item::record_01_Id;
+	return record == nullptr ? Redstone::SIGNAL_NONE : record->id + 1 - Item::record_01_Id;
 }

@@ -64,7 +64,7 @@ bool Creeper::useNewAi()
 
 int Creeper::getMaxFallDistance()
 {
-	if (getTarget() == NULL) return 3;
+	if (getTarget() == nullptr) return 3;
 	// As long as they survive the fall they should try.
 	return 3 + static_cast<int>(getHealth() - 1);
 }
@@ -142,13 +142,13 @@ void Creeper::die(DamageSource *source)
 {
 	Monster::die(source);
 
-	if ( source->getEntity() != NULL && source->getEntity()->instanceof(eTYPE_SKELETON) )
+	if ( source->getEntity() != nullptr && source->getEntity()->instanceof(eTYPE_SKELETON) )
 	{
 		int recordId = Item::record_01_Id + random->nextInt(Item::record_12_Id - Item::record_01_Id + 1);
 		spawnAtLocation(recordId, 1);
 	}
 
-	if ( source->getDirectEntity() != NULL && source->getDirectEntity()->instanceof(eTYPE_ARROW) && source->getEntity() != NULL && source->getEntity()->instanceof(eTYPE_PLAYER) )
+	if ( source->getDirectEntity() != nullptr && source->getDirectEntity()->instanceof(eTYPE_ARROW) && source->getEntity() != nullptr && source->getEntity()->instanceof(eTYPE_PLAYER) )
 	{
 		shared_ptr<Player> player = dynamic_pointer_cast<Player>(source->getEntity());
 		player->awardStat(GenericStats::archer(), GenericStats::param_archer());

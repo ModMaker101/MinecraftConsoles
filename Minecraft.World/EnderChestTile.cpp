@@ -65,7 +65,7 @@ bool EnderChestTile::use(Level *level, int x, int y, int z, shared_ptr<Player> p
 {
 	shared_ptr<PlayerEnderChestContainer> container = player->getEnderChestInventory();
 	shared_ptr<EnderChestTileEntity> enderChest = dynamic_pointer_cast<EnderChestTileEntity>(level->getTileEntity(x, y, z));
-	if (container == NULL || enderChest == NULL) return true;
+	if (container == nullptr || enderChest == nullptr) return true;
 
 	if (level->isSolidBlockingTile(x, y + 1, z)) return true;
 

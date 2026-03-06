@@ -165,9 +165,9 @@ void Minimap::render(shared_ptr<Player> player, Textures *textures, shared_ptr<M
 		}
 #endif
 
-		// 4J Stu - For item frame renders, the player is NULL. We do not want to show player icons on the frames.
-		if(player == NULL && (imgIndex != 12)) continue;
-		else if (player != NULL && imgIndex == 12) continue;
+		// 4J Stu - For item frame renders, the player is nullptr. We do not want to show player icons on the frames.
+		if(player == nullptr && (imgIndex != 12)) continue;
+		else if (player != nullptr && imgIndex == 12) continue;
 		else if( imgIndex == 12 && dec->entityId != entityId) continue;
 
         glPushMatrix();
@@ -201,9 +201,9 @@ void Minimap::render(shared_ptr<Player> player, Textures *textures, shared_ptr<M
 		char imgIndex = dec->img;
 		imgIndex -= 16;
 
-		// 4J Stu - For item frame renders, the player is NULL. We do not want to show player icons on the frames.
-		if(player == NULL && (imgIndex != 12)) continue;
-		else if (player != NULL && imgIndex == 12) continue;
+		// 4J Stu - For item frame renders, the player is nullptr. We do not want to show player icons on the frames.
+		if(player == nullptr && (imgIndex != 12)) continue;
+		else if (player != nullptr && imgIndex == 12) continue;
 		else if( imgIndex == 12 && dec->entityId != entityId) continue;
 
         glPushMatrix();
@@ -239,7 +239,7 @@ void Minimap::render(shared_ptr<Player> player, Textures *textures, shared_ptr<M
 //#else
 	// 4J Stu - TU-1 hotfix
 	// DCR: Render the players current position here instead
-	if(player != NULL)
+	if(player != nullptr)
 	{
 		wchar_t playerPosText[32];
 		ZeroMemory(&playerPosText, sizeof(wchar_t) * 32);

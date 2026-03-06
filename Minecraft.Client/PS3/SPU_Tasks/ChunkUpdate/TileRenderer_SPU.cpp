@@ -71,7 +71,7 @@ const float smallUV = ( 1.0f / 16.0f );
 
 void TileRenderer_SPU::_init()
 {
-	fixedTexture = NULL;
+	fixedTexture = nullptr;
 	xFlipTexture = false;
 	noCulling = false;
 	blsmooth = 1;
@@ -103,7 +103,7 @@ TileRenderer_SPU::TileRenderer_SPU( ChunkRebuildData* level )
 
 TileRenderer_SPU::TileRenderer_SPU()
 {
-	this->level = NULL;
+	this->level = nullptr;
 	_init();
 }
 
@@ -122,12 +122,12 @@ void TileRenderer_SPU::setFixedTexture( Icon_SPU *fixedTexture )
 
 void TileRenderer_SPU::clearFixedTexture()
 {
-	this->fixedTexture = NULL;
+	this->fixedTexture = nullptr;
 }
 
 bool TileRenderer_SPU::hasFixedTexture()
 {
-	return fixedTexture != NULL;
+	return fixedTexture != nullptr;
 }
 
 void TileRenderer_SPU::setShape(float x0, float y0, float z0, float x1, float y1, float z1)
@@ -838,7 +838,7 @@ bool TileRenderer_SPU::tesselateFlowerPotInWorld(FlowerPotTile_SPU *tt, int x, i
 		float xOff = 0;
 		float yOff = 4;
 		float zOff = 0;
-		Tile *plant = NULL;
+		Tile *plant = nullptr;
 
 		switch (type)
 		{
@@ -858,7 +858,7 @@ bool TileRenderer_SPU::tesselateFlowerPotInWorld(FlowerPotTile_SPU *tt, int x, i
 
 		t->addOffset(xOff / 16.0f, yOff / 16.0f, zOff / 16.0f);
 
-		if (plant != NULL)
+		if (plant != nullptr)
 		{
 			tesselateInWorld(plant, x, y, z);
 		}
@@ -1724,7 +1724,7 @@ bool TileRenderer_SPU::tesselateLeverInWorld( Tile_SPU* tt, int x, int y, int z 
 		}
 	}
 
-	Vec3*		c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	Vec3*		c0 = nullptr, *c1 = nullptr, *c2 = nullptr, *c3 = nullptr;
 	for ( int i = 0; i < 6; i++ )
 	{
 		if ( i == 0 )
@@ -1897,7 +1897,7 @@ bool TileRenderer_SPU::tesselateTripwireSourceInWorld(Tile_SPU *tt, int x, int y
 		corners[i]->z += z + 0.5;
 	}
 
-	Vec3 *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	Vec3 *c0 = nullptr, *c1 = nullptr, *c2 = nullptr, *c3 = nullptr;
 	int stickX0 = 7;
 	int stickX1 = 9;
 	int stickY0 = 9;
@@ -4586,7 +4586,7 @@ bool TileRenderer_SPU::tesselateBlockInWorldWithAmbienceOcclusionTexLighting( Ti
 	else
 	{
 /*#ifdef _DEBUG
-		if(dynamic_cast<StairTile *>(tt)!=NULL)
+		if(dynamic_cast<StairTile *>(tt)!=nullptr)
 		{
 			// stair tile
 			faceFlags |= tt->shouldRenderFace( level, pX, pY - 1, pZ, 0 ) ? 0x01 : 0;
@@ -7626,7 +7626,7 @@ Icon_SPU *TileRenderer_SPU::getTexture(Tile_SPU *tile)
 
 Icon_SPU *TileRenderer_SPU::getTextureOrMissing(Icon_SPU *Icon_SPU)
 {
-	if (Icon_SPU == NULL) 
+	if (Icon_SPU == nullptr) 
 	{
 		assert(0);
 	//	return minecraft->textures->getMissingIcon_SPU(Icon_SPU::TYPE_TERRAIN);

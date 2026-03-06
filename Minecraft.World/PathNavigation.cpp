@@ -16,7 +16,7 @@ PathNavigation::PathNavigation(Mob *mob, Level *level)
 	this->level = level;
 	dist = mob->getAttribute(SharedMonsterAttributes::FOLLOW_RANGE);
 
-	path = NULL;
+	path = nullptr;
 	speedModifier = 0.0;
 	avoidSun = false;
 	_tick = 0;
@@ -30,7 +30,7 @@ PathNavigation::PathNavigation(Mob *mob, Level *level)
 
 PathNavigation::~PathNavigation()
 {
-	if(path != NULL) delete path;
+	if(path != nullptr) delete path;
 	delete lastStuckCheckPos;
 }
 
@@ -86,7 +86,7 @@ float PathNavigation::getMaxDist()
 
 Path *PathNavigation::createPath(double x, double y, double z)
 {
-	if (!canUpdatePath()) return NULL;
+	if (!canUpdatePath()) return nullptr;
 	return level->findPath(mob->shared_from_this(), Mth::floor(x), static_cast<int>(y), Mth::floor(z), getMaxDist(), _canPassDoors, _canOpenDoors, avoidWater, canFloat);
 }
 
@@ -101,7 +101,7 @@ bool PathNavigation::moveTo(double x, double y, double z, double speedModifier)
 
 Path *PathNavigation::createPath(shared_ptr<Entity> target)
 {
-	if (!canUpdatePath()) return NULL;
+	if (!canUpdatePath()) return nullptr;
 	return level->findPath(mob->shared_from_this(), target, getMaxDist(), _canPassDoors, _canOpenDoors, avoidWater, canFloat);
 }
 
@@ -111,21 +111,21 @@ bool PathNavigation::moveTo(shared_ptr<Entity> target, double speedModifier)
 	Path *newPath = createPath(target);
 	MemSect(0);
 	// No need to delete newPath here as this will be copied into the member variable path and the class can assume responsibility for it
-	if (newPath != NULL) return moveTo(newPath, speedModifier);
+	if (newPath != nullptr) return moveTo(newPath, speedModifier);
 	else return false;
 }
 
 bool PathNavigation::moveTo(Path *newPath, double speedModifier)
 {
-	if(newPath == NULL)
+	if(newPath == nullptr)
 	{
-		if(path != NULL) delete path;
-		path = NULL;
+		if(path != nullptr) delete path;
+		path = nullptr;
 		return false;
 	}
 	if(!newPath->sameAs(path))
 	{
-		if(path != NULL) delete path;
+		if(path != nullptr) delete path;
 		path = newPath;
 	}
 	else
@@ -158,7 +158,7 @@ void PathNavigation::tick()
 
 	if (isDone()) return;
 	Vec3 *target = path->currentPos(mob->shared_from_this());
-	if (target == NULL) return;
+	if (target == nullptr) return;
 
 	mob->getMoveControl()->setWantedPosition(target->x, target->y, target->z, speedModifier);
 }
@@ -169,7 +169,7 @@ void PathNavigation::updatePath()
 
 	// find first elevations in path
 	int firstElevation = path->getSize();
-	for (int i = path->getIndex(); path != NULL && i < path->getSize(); ++i)
+	for (int i = path->getIndex(); path != nullptr && i < path->getSize(); ++i)
 	{
 		if (static_cast<int>(path->get(i)->y) != static_cast<int>(mobPos->y))
 		{
@@ -216,13 +216,13 @@ void PathNavigation::updatePath()
 
 bool PathNavigation::isDone()
 {
-	return path == NULL || path->isDone();
+	return path == nullptr || path->isDone();
 }
 
 void PathNavigation::stop()
 {
-	if(path != NULL) delete path;
-	path = NULL;
+	if(path != nullptr) delete path;
+	path = nullptr;
 }
 
 Vec3 *PathNavigation::getTempMobPos()

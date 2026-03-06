@@ -55,9 +55,9 @@ void WitherSkull::onHit(HitResult *res)
 {
 	if (!level->isClientSide)
 	{
-		if (res->entity != NULL)
+		if (res->entity != nullptr)
 		{
-			if (owner != NULL)
+			if (owner != nullptr)
 			{
 				DamageSource *damageSource = DamageSource::mobAttack(owner);
 				if (res->entity->hurt(damageSource, 8))

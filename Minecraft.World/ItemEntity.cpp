@@ -66,7 +66,7 @@ ItemEntity::ItemEntity(Level *level) : Entity( level )
 
 void ItemEntity::defineSynchedData()
 {
-	getEntityData()->defineNULL(DATA_ITEM, NULL);
+	getEntityData()->defineNULL(DATA_ITEM, nullptr);
 }
 
 void ItemEntity::tick()
@@ -192,7 +192,7 @@ bool ItemEntity::hurt(DamageSource *source, float damage)
 	if (level->isClientSide ) return false;
 
 	if (isInvulnerable()) return false;
-	if (getItem() != NULL && getItem()->id == Item::netherStar_Id && source->isExplosion()) return false;
+	if (getItem() != nullptr && getItem()->id == Item::netherStar_Id && source->isExplosion()) return false;
 	markHurt();
 	health -= damage;
 	if (health <= 0)
@@ -206,7 +206,7 @@ void ItemEntity::addAdditonalSaveData(CompoundTag *entityTag)
 {
 	entityTag->putShort(L"Health", static_cast<byte>(health));
 	entityTag->putShort(L"Age", static_cast<short>(age));
-	if (getItem() != NULL) entityTag->putCompound(L"Item", getItem()->save(new CompoundTag()));
+	if (getItem() != nullptr) entityTag->putCompound(L"Item", getItem()->save(new CompoundTag()));
 }
 
 void ItemEntity::readAdditionalSaveData(CompoundTag *tag)
@@ -215,7 +215,7 @@ void ItemEntity::readAdditionalSaveData(CompoundTag *tag)
 	age = tag->getShort(L"Age");
 	CompoundTag *itemTag = tag->getCompound(L"Item");
 	setItem(ItemInstance::fromTag(itemTag));
-	if (getItem() == NULL) remove();
+	if (getItem() == nullptr) remove();
 }
 
 void ItemEntity::playerTouch(shared_ptr<Player> player)
@@ -280,9 +280,9 @@ shared_ptr<ItemInstance> ItemEntity::getItem()
 {
 	shared_ptr<ItemInstance> result = getEntityData()->getItemInstance(DATA_ITEM);
 
-	if (result == NULL)
+	if (result == nullptr)
 	{
-		if (level != NULL)
+		if (level != nullptr)
 		{
 			app.DebugPrintf("Item entity %d has no item?!\n", entityId);
 			//level.getLogger().severe("Item entity " + entityId + " has no item?!");

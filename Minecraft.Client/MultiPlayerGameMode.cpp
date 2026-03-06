@@ -75,7 +75,7 @@ bool MultiPlayerGameMode::destroyBlock(int x, int y, int z, int face)
 
 	if (localPlayerMode->isCreative())
 	{
-        if (minecraft->player->getCarriedItem() != NULL && dynamic_cast<WeaponItem *>(minecraft->player->getCarriedItem()->getItem()) != NULL)
+        if (minecraft->player->getCarriedItem() != nullptr && dynamic_cast<WeaponItem *>(minecraft->player->getCarriedItem()->getItem()) != nullptr)
 		{
             return false;
         }
@@ -84,7 +84,7 @@ bool MultiPlayerGameMode::destroyBlock(int x, int y, int z, int face)
 	Level *level = minecraft->level;
 	Tile *oldTile = Tile::tiles[level->getTile(x, y, z)];
 
-	if (oldTile == NULL) return false;
+	if (oldTile == nullptr) return false;
 
 	level->levelEvent(LevelEvent::PARTICLES_DESTROY_BLOCK, x, y, z, oldTile->id + (level->getData(x, y, z) << Tile::TILE_NUM_SHIFT));
 
@@ -99,7 +99,7 @@ bool MultiPlayerGameMode::destroyBlock(int x, int y, int z, int face)
 	if (!localPlayerMode->isCreative())
 	{
 		shared_ptr<ItemInstance> item = minecraft->player->getSelectedItem();
-		if (item != NULL)
+		if (item != nullptr)
 		{
 			item->mineBlock(level, oldTile->id, x, y, z, minecraft->player);
 			if (item->count == 0)
@@ -212,7 +212,7 @@ void MultiPlayerGameMode::continueDestroyBlock(int x, int y, int z, int face)
 
         if (destroyTicks % 4 == 0)
 		{
-            if (tile != NULL)
+            if (tile != nullptr)
 			{
 				int iStepSound=tile->soundType->getStepSound();
 
@@ -259,8 +259,8 @@ void MultiPlayerGameMode::tick()
 bool MultiPlayerGameMode::sameDestroyTarget(int x, int y, int z)
 {
     shared_ptr<ItemInstance> selected = minecraft->player->getCarriedItem();
-    bool sameItems = destroyingItem == NULL && selected == NULL;
-    if (destroyingItem != NULL && selected != NULL)
+    bool sameItems = destroyingItem == nullptr && selected == nullptr;
+    if (destroyingItem != nullptr && selected != nullptr)
 	{
         sameItems = 
 			selected->id == destroyingItem->id &&
@@ -294,7 +294,7 @@ bool MultiPlayerGameMode::useItemOn(shared_ptr<Player> player, Level *level, sha
 	float clickZ = static_cast<float>(hit->z) - z;
 	bool didSomething = false;
 
-	if (!player->isSneaking() || player->getCarriedItem() == NULL)
+	if (!player->isSneaking() || player->getCarriedItem() == nullptr)
 	{
 		int t = level->getTile(x, y, z);	
 		if (t > 0 && player->isAllowedToUse(Tile::tiles[t]))
@@ -327,15 +327,15 @@ bool MultiPlayerGameMode::useItemOn(shared_ptr<Player> player, Level *level, sha
 		}
 	}
 
-	if (!didSomething && item != NULL && dynamic_cast<TileItem *>(item->getItem()))
+	if (!didSomething && item != nullptr && dynamic_cast<TileItem *>(item->getItem()))
 	{
 		TileItem *tile = dynamic_cast<TileItem *>(item->getItem());
 		if (!tile->mayPlace(level, x, y, z, face, player, item)) return false;
 	}
 
-	// 4J Stu - In Java we send the use packet before the above check for item being NULL
+	// 4J Stu - In Java we send the use packet before the above check for item being nullptr
 	// so the following never gets executed but the packet still gets sent (for opening chests etc)
-	if(item != NULL)
+	if(item != nullptr)
 	{
 		if(!didSomething && player->isAllowedToUse(item))
 		{
@@ -408,7 +408,7 @@ bool MultiPlayerGameMode::useItem(shared_ptr<Player> player, Level *level, share
 	{
 		int oldCount = item->count;
 		shared_ptr<ItemInstance> itemInstance = item->use(level, player);
-		if ((itemInstance != NULL && itemInstance != item) || (itemInstance != NULL && itemInstance->count != oldCount))
+		if ((itemInstance != nullptr && itemInstance != item) || (itemInstance != nullptr && itemInstance->count != oldCount))
 		{
 			player->inventory->items[player->inventory->selected] = itemInstance;
 			if (itemInstance->count == 0)
@@ -470,7 +470,7 @@ void MultiPlayerGameMode::handleCreativeModeItemAdd(shared_ptr<ItemInstance> cli
 
 void MultiPlayerGameMode::handleCreativeModeItemDrop(shared_ptr<ItemInstance> clicked)
 {
-	if (localPlayerMode->isCreative() && clicked != NULL)
+	if (localPlayerMode->isCreative() && clicked != nullptr)
 	{
 		connection->send(shared_ptr<SetCreativeModeSlotPacket>( new SetCreativeModeSlotPacket(-1, clicked) ) );
 	}

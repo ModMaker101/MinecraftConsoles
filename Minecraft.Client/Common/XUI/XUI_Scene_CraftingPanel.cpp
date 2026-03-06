@@ -165,7 +165,7 @@ HRESULT CXuiSceneCraftingPanel::OnInit( XUIMessageInit* pInitData, BOOL& bHandle
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
 #ifdef _XBOX
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = (TutorialMode *)pMinecraft->localgameModes[m_iPad];
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -206,7 +206,7 @@ HRESULT CXuiSceneCraftingPanel::OnTransitionEnd( XUIMessageTransition *pTransDat
 		{
 			for(int i=0;i<m_iMaxGroup3x3;i++)
 			{
-				m_hGroupIconA[i].PlayVisualRange(m_GroupIconNameA[m_pGroupA[i]],NULL,m_GroupIconNameA[m_pGroupA[i]]);
+				m_hGroupIconA[i].PlayVisualRange(m_GroupIconNameA[m_pGroupA[i]],nullptr,m_GroupIconNameA[m_pGroupA[i]]);
 				XuiElementSetShow(m_hGroupIconA[i].m_hObj,TRUE);
 			}
 		}
@@ -214,7 +214,7 @@ HRESULT CXuiSceneCraftingPanel::OnTransitionEnd( XUIMessageTransition *pTransDat
 		{
 			for(int i=0;i<m_iMaxGroup2x2;i++)
 			{
-				m_hGroupIconA[i].PlayVisualRange(m_GroupIconNameA[m_pGroupA[i]],NULL,m_GroupIconNameA[m_pGroupA[i]]);
+				m_hGroupIconA[i].PlayVisualRange(m_GroupIconNameA[m_pGroupA[i]],nullptr,m_GroupIconNameA[m_pGroupA[i]]);
 				XuiElementSetShow(m_hGroupIconA[i].m_hObj,TRUE);
 			}
 		}
@@ -336,7 +336,7 @@ HRESULT CXuiSceneCraftingPanel::OnGetSourceImage(XUIMessageGetSourceImage* pData
 	HRESULT hr = S_OK;
 	//int iId=pData->iItem;
 	int iId=(pData->iData>>22)&0x1FF;
-	pData->szPath = NULL;
+	pData->szPath = nullptr;
 	pData->bDirty=true;
 	rfHandled = TRUE;
 	return hr;
@@ -352,15 +352,15 @@ HRESULT CXuiSceneCraftingPanel::OnDestroy()
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
 #ifdef _XBOX
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = (TutorialMode *)pMinecraft->localgameModes[m_iPad];
-		if(gameMode != NULL) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
+		if(gameMode != nullptr) gameMode->getTutorial()->changeTutorialState(m_previousTutorialState);
 	}
 #endif
 
 	// We need to make sure that we call closeContainer() anytime this menu is closed, even if it is forced to close by some other reason (like the player dying)	
-	if(Minecraft::GetInstance()->localplayers[m_iPad] != NULL) Minecraft::GetInstance()->localplayers[m_iPad]->closeContainer();
+	if(Minecraft::GetInstance()->localplayers[m_iPad] != nullptr) Minecraft::GetInstance()->localplayers[m_iPad]->closeContainer();
 
 	return S_OK;
 }
@@ -433,7 +433,7 @@ void CXuiSceneCraftingPanel::setCraftVSlotItem(int iPad, int iIndex, shared_ptr<
 
 void CXuiSceneCraftingPanel::setCraftingOutputSlotItem(int iPad, shared_ptr<ItemInstance> item)
 {
-	if(item == NULL)
+	if(item == nullptr)
 	{
 		m_pCraftingOutput->SetIcon(iPad, 0,0,0,0,0,false);
 	}
@@ -450,7 +450,7 @@ void CXuiSceneCraftingPanel::setCraftingOutputSlotRedBox(bool show)
 
 void CXuiSceneCraftingPanel::setIngredientSlotItem(int iPad, int index, shared_ptr<ItemInstance> item)
 {
-	if(item == NULL)
+	if(item == nullptr)
 	{
 		m_pCraftingIngredientA[index]->SetIcon(iPad, 0,0,0,0,0,false);
 	}

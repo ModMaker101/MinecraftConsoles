@@ -18,7 +18,7 @@ UIScene_DeathMenu::UIScene_DeathMenu(int iPad, void *initData, UILayer *parentLa
 	m_bIgnoreInput = false;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft != NULL && pMinecraft->localgameModes[iPad] != NULL )
+	if(pMinecraft != nullptr && pMinecraft->localgameModes[iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[iPad]);
 
@@ -30,7 +30,7 @@ UIScene_DeathMenu::UIScene_DeathMenu(int iPad, void *initData, UILayer *parentLa
 UIScene_DeathMenu::~UIScene_DeathMenu()
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft != NULL && pMinecraft->localgameModes[m_iPad] != NULL )
+	if(pMinecraft != nullptr && pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 
@@ -104,7 +104,7 @@ void UIScene_DeathMenu::handlePress(F64 controlId, F64 childId)
 				{
 					UINT uiIDA[3];
 					int playTime = -1;
-					if( pMinecraft->localplayers[m_iPad] != NULL )
+					if( pMinecraft->localplayers[m_iPad] != nullptr )
 					{
 						playTime = static_cast<int>(pMinecraft->localplayers[m_iPad]->getSessionTimer());
 					}

@@ -103,7 +103,7 @@ void CXuiCtrlSlotList::SetData(int m_iPad, AbstractContainerMenu* menu, int rows
 
 		slotControl->SetUserIndex( slotControl->m_hObj,  m_iPad );
 
-		slotControl = NULL;
+		slotControl = nullptr;
 	}
 }
 

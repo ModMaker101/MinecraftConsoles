@@ -12,8 +12,8 @@ UIComponent_TutorialPopup::UIComponent_TutorialPopup(int iPad, void *initData, U
 	// Setup all the Iggy references we need for this scene
 	initialiseMovie();
 
-	m_interactScene = NULL;
-	m_lastInteractSceneMoved = NULL;
+	m_interactScene = nullptr;
+	m_lastInteractSceneMoved = nullptr;
 	m_lastSceneMovedLeft = false;
 	m_bAllowFade = false;
 	m_iconItem = nullptr;
@@ -90,7 +90,7 @@ void UIComponent_TutorialPopup::RemoveInteractSceneReference(UIScene *scene)
 {
 	if( m_interactScene == scene )
 	{
-		m_interactScene = NULL;
+		m_interactScene = nullptr;
 	}
 }
 
@@ -132,7 +132,7 @@ void UIComponent_TutorialPopup::_SetDescription(UIScene *interactScene, const ws
 {	
 	m_interactScene = interactScene;
 	app.DebugPrintf("Setting m_interactScene to %08x\n", m_interactScene);
-	if( interactScene != m_lastInteractSceneMoved ) m_lastInteractSceneMoved = NULL;
+	if( interactScene != m_lastInteractSceneMoved ) m_lastInteractSceneMoved = nullptr;
 	if(desc.empty())
 	{
 		SetVisible( false );
@@ -327,8 +327,8 @@ wstring UIComponent_TutorialPopup::_SetIcon(int icon, int iAuxVal, bool isFoil, 
 			m_iconItem = nullptr;
 		}
 	}
-	if(!isFixedIcon && m_iconItem != NULL) setupIconHolder(e_ICON_TYPE_IGGY);
-	m_controlIconHolder.setVisible( isFixedIcon || m_iconItem != NULL);
+	if(!isFixedIcon && m_iconItem != nullptr) setupIconHolder(e_ICON_TYPE_IGGY);
+	m_controlIconHolder.setVisible( isFixedIcon || m_iconItem != nullptr);
 
 	return temp;
 }
@@ -425,7 +425,7 @@ wstring UIComponent_TutorialPopup::ParseDescription(int iPad, wstring &text)
 
 void UIComponent_TutorialPopup::UpdateInteractScenePosition(bool visible)
 {
-	if( m_interactScene == NULL ) return;
+	if( m_interactScene == nullptr ) return;
 
 	// 4J-PB - check this players screen section to see if we should allow the animation
 	bool bAllowAnim=false;
@@ -529,7 +529,7 @@ void UIComponent_TutorialPopup::render(S32 width, S32 height, C4JRender::eViewpo
 
 void UIComponent_TutorialPopup::customDraw(IggyCustomDrawCallbackRegion *region)
 {
-	if(m_iconItem != NULL) customDrawSlotControl(region,m_iPad,m_iconItem,1.0f,m_iconItem->isFoil() || m_iconIsFoil,false);
+	if(m_iconItem != nullptr) customDrawSlotControl(region,m_iPad,m_iconItem,1.0f,m_iconItem->isFoil() || m_iconIsFoil,false);
 }
 
 void UIComponent_TutorialPopup::setupIconHolder(EIcons icon)

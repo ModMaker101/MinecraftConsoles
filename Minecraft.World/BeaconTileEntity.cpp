@@ -28,7 +28,7 @@ void BeaconTileEntity::staticCtor()
 	{
 		for(unsigned int effect = 0; effect < BEACON_EFFECTS_EFFECTS; ++effect)
 		{
-			BEACON_EFFECTS[tier][effect] = NULL;
+			BEACON_EFFECTS[tier][effect] = nullptr;
 		}
 	}
 	BEACON_EFFECTS[0][0] = MobEffect::movementSpeed;
@@ -213,7 +213,7 @@ void BeaconTileEntity::setPrimaryPower(int primaryPower)
 		for(unsigned int e = 0; e < BEACON_EFFECTS_EFFECTS; ++e)
 		{
 			MobEffect *effect = BEACON_EFFECTS[tier][e];
-			if(effect == NULL) break;
+			if(effect == nullptr) break;
 
 			if (effect->id == primaryPower)
 			{
@@ -236,7 +236,7 @@ void BeaconTileEntity::setSecondaryPower(int secondaryPower)
 			for(unsigned int e = 0; e < BEACON_EFFECTS_EFFECTS; ++e)
 			{
 				MobEffect *effect = BEACON_EFFECTS[tier][e];
-				if(effect == NULL) break;
+				if(effect == nullptr) break;
 
 				if (effect->id == secondaryPower)
 				{
@@ -295,7 +295,7 @@ shared_ptr<ItemInstance> BeaconTileEntity::getItem(unsigned int slot)
 
 shared_ptr<ItemInstance> BeaconTileEntity::removeItem(unsigned int slot, int count)
 {
-	if (slot == 0 && paymentItem != NULL)
+	if (slot == 0 && paymentItem != nullptr)
 	{
 		if (count >= paymentItem->count)
 		{
@@ -314,7 +314,7 @@ shared_ptr<ItemInstance> BeaconTileEntity::removeItem(unsigned int slot, int cou
 
 shared_ptr<ItemInstance> BeaconTileEntity::removeItemNoUpdate(int slot)
 {
-	if (slot == 0 && paymentItem != NULL)
+	if (slot == 0 && paymentItem != nullptr)
 	{
 		shared_ptr<ItemInstance> returnItem = paymentItem;
 		paymentItem = nullptr;

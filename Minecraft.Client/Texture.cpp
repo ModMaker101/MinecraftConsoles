@@ -24,7 +24,7 @@ Texture::Texture(const wstring &name, int mode, int width, int height, int depth
 void Texture::_init(const wstring &name, int mode, int width, int height, int depth, int wrapMode, int format, int minFilter, int magFilter, bool mipMap)
 {
 #ifdef __PS3__
-	if(g_texBlitJobQueuePort == NULL)
+	if(g_texBlitJobQueuePort == nullptr)
 		g_texBlitJobQueuePort = new C4JSpursJobQueue::Port("C4JSpursJob_Texture_blit");
 #endif
 	this->name = name;
@@ -40,7 +40,7 @@ void Texture::_init(const wstring &name, int mode, int width, int height, int de
 	m_bInitialised = false;
 	for( int i = 0 ; i < 10; i++ )
 	{
-		data[i] = NULL;
+		data[i] = nullptr;
 	}
 
 	rect = new Rect2i(0, 0, width, height);
@@ -105,7 +105,7 @@ void Texture::_init(const wstring &name, int mode, int width, int height, int de
 void Texture::_init(const wstring &name, int mode, int width, int height, int depth, int wrapMode, int format, int minFilter, int magFilter, BufferedImage *image, bool mipMap)
 {
 	_init(name, mode, width, height, depth, wrapMode, format, minFilter, magFilter, mipMap);
-	if (image == NULL)
+	if (image == nullptr)
 	{
 		if (width == -1 || height == -1)
 		{
@@ -195,7 +195,7 @@ Texture::~Texture()
 	
 	for(int i  = 0; i < 10; i++ )
 	{
-		if(data[i] != NULL) delete data[i];
+		if(data[i] != nullptr) delete data[i];
 	}
 
 	if(glId >= 0)
@@ -258,7 +258,7 @@ void Texture::writeAsBMP(const wstring &name)
 		outFile.delete();
 	}
 
-	DataOutputStream *outStream = NULL;
+	DataOutputStream *outStream = nullptr;
 	//try {
 	outStream = new DataOutputStream(new FileOutputStream(outFile));
 	//} catch (IOException e) {
@@ -384,7 +384,7 @@ void Texture::blit(int x, int y, Texture *source, bool rotated)
 	{
 		ByteBuffer *srcBuffer = source->getData(level);
 
-		if(srcBuffer == NULL) break;
+		if(srcBuffer == nullptr) break;
 
 		int yy = y >> level;
 		int xx = x >> level;
@@ -598,10 +598,10 @@ void Texture::transferFromImage(BufferedImage *image)
 
 	for(int i  = 0; i < 10; i++ )
 	{
-		if(data[i] != NULL)
+		if(data[i] != nullptr)
 		{
 			delete data[i];
-			data[i] = NULL;
+			data[i] = nullptr;
 		}
 	}
 
@@ -618,7 +618,7 @@ void Texture::transferFromImage(BufferedImage *image)
 
 	delete [] tempBytes.data;
 
-	if(mipmapped || image->getData(1) != NULL)
+	if(mipmapped || image->getData(1) != nullptr)
 	{
 		mipmapped = true;
 		for(unsigned int level = 1; level < MAX_MIP_LEVELS; ++level)
@@ -807,7 +807,7 @@ void Texture::updateOnGPU()
 	{
 		for (int level = 1; level < m_iMipLevels; level++)
 		{
-			if(data[level] == NULL) break;
+			if(data[level] == nullptr) break;
 		
 			data[level]->flip();
 		}

@@ -17,7 +17,7 @@ public:
 	DWORD getSkinID()				{ return m_dwSkinId; }
 
 	virtual void addData(PBYTE pbData, DWORD dwBytes) {}
-	virtual PBYTE getData(DWORD &dwBytes) { dwBytes = 0; return NULL; }
+	virtual PBYTE getData(DWORD &dwBytes) { dwBytes = 0; return nullptr; }
 	virtual void addParameter(DLCManager::EDLCParameterType type, const wstring &value) {}
 
 	virtual wstring getParameterAsString(DLCManager::EDLCParameterType type) { return L""; }

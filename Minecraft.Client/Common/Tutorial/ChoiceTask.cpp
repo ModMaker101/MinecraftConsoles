@@ -12,7 +12,7 @@
 ChoiceTask::ChoiceTask(Tutorial *tutorial, int descriptionId, int promptId /*= -1*/, bool requiresUserInput /*= false*/,
 	int iConfirmMapping /*= 0*/, int iCancelMapping /*= 0*/,
 	eTutorial_CompletionAction cancelAction /*= e_Tutorial_Completion_None*/, ETelemetryChallenges telemetryEvent /*= eTelemetryTutorial_NoEvent*/)
-	: TutorialTask( tutorial, descriptionId, false, NULL, true, false, false )
+	: TutorialTask( tutorial, descriptionId, false, nullptr, true, false, false )
 {
 	if(requiresUserInput == true)
 	{

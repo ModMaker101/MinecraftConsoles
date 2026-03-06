@@ -13,12 +13,12 @@ bool ArmorDyeRecipe::matches(shared_ptr<CraftingContainer> craftSlots, Level *le
 	for (int slot = 0; slot < craftSlots->getContainerSize(); slot++)
 	{
 		shared_ptr<ItemInstance> item = craftSlots->getItem(slot);
-		if (item == NULL) continue;
+		if (item == nullptr) continue;
 
 		ArmorItem *armor = dynamic_cast<ArmorItem *>(item->getItem());
 		if (armor)
 		{
-			if (armor->getMaterial() == ArmorItem::ArmorMaterial::CLOTH && target == NULL)
+			if (armor->getMaterial() == ArmorItem::ArmorMaterial::CLOTH && target == nullptr)
 			{
 				target = item;
 			}
@@ -37,7 +37,7 @@ bool ArmorDyeRecipe::matches(shared_ptr<CraftingContainer> craftSlots, Level *le
 		}
 	}
 
-	return target != NULL && !dyes.empty();
+	return target != nullptr && !dyes.empty();
 }
 
 shared_ptr<ItemInstance> ArmorDyeRecipe::assembleDyedArmor(shared_ptr<CraftingContainer> craftSlots)
@@ -46,19 +46,19 @@ shared_ptr<ItemInstance> ArmorDyeRecipe::assembleDyedArmor(shared_ptr<CraftingCo
 	int colorTotals[3] = {0,0,0};
 	int intensityTotal = 0;
 	int colourCounts = 0;
-	ArmorItem *armor = NULL;
+	ArmorItem *armor = nullptr;
 
-	if(craftSlots != NULL)
+	if(craftSlots != nullptr)
 	{
 		for (int slot = 0; slot < craftSlots->getContainerSize(); slot++)
 		{
 			shared_ptr<ItemInstance> item = craftSlots->getItem(slot);
-			if (item == NULL) continue;
+			if (item == nullptr) continue;
 
 			armor = dynamic_cast<ArmorItem *>(item->getItem());
 			if (armor)
 			{
-				if (armor->getMaterial() == ArmorItem::ArmorMaterial::CLOTH && target == NULL)
+				if (armor->getMaterial() == ArmorItem::ArmorMaterial::CLOTH && target == nullptr)
 				{
 					target = item->copy();
 					target->count = 1;
@@ -104,7 +104,7 @@ shared_ptr<ItemInstance> ArmorDyeRecipe::assembleDyedArmor(shared_ptr<CraftingCo
 		}
 	}
 
-	if (armor == NULL) return nullptr;
+	if (armor == nullptr) return nullptr;
 
 	int red = (colorTotals[0] / colourCounts);
 	int green = (colorTotals[1] / colourCounts);
@@ -138,7 +138,7 @@ int ArmorDyeRecipe::size()
 
 const ItemInstance *ArmorDyeRecipe::getResultItem()
 {
-	return NULL;
+	return nullptr;
 }
 
 const int ArmorDyeRecipe::getGroup()
@@ -175,7 +175,7 @@ void ArmorDyeRecipe::requires(INGREDIENTS_REQUIRED *pIngReq)
 #if 0
 	for ( ItemInstance *expected : *ingredients )
 	{
-		if (expected!=NULL) 
+		if (expected!=nullptr) 
 		{			
 			int iAuxVal = expected->getAuxValue();
 			TempIngReq.uiGridA[iCount++]=expected->id | iAuxVal<<24;

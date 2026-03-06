@@ -50,7 +50,7 @@ intArray IntCache::allocate(int size)
 	{
 		if (tls->tcache.empty())
 		{
-			intArray result = intArray(TINY_CUTOFF, true);
+			intArray result = intArray(static_cast<unsigned int>(TINY_CUTOFF), true);
 			tls->tallocated.push_back(result);
 			return result;
 		}
@@ -76,7 +76,7 @@ intArray IntCache::allocate(int size)
 		tls->cache.clear();
 		tls->allocated.clear();
 
-		intArray result = intArray(tls->maxSize, true);
+		intArray result = intArray(static_cast<unsigned int>(tls->maxSize), true);
 		tls->allocated.push_back(result);
 		return result;
 	}
@@ -84,7 +84,7 @@ intArray IntCache::allocate(int size)
 	{
 		if (tls->cache.empty())
 		{
-			intArray result = intArray(tls->maxSize, true);
+			intArray result = intArray(static_cast<unsigned int>(tls->maxSize), true);
 			tls->allocated.push_back(result);
 			return result;
 		}

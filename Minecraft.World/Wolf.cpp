@@ -81,7 +81,7 @@ bool Wolf::useNewAi()
 void Wolf::setTarget(shared_ptr<LivingEntity> target)
 {
 	TamableAnimal::setTarget(target);
-	if ( target == NULL )
+	if ( target == nullptr )
 	{
 		setAngry(false);
 	}
@@ -286,7 +286,7 @@ bool Wolf::hurt(DamageSource *source, float dmg)
 	if (isTame())
 	{		
 		shared_ptr<Entity> entity = source->getDirectEntity();
-		if (entity != NULL && entity->instanceof(eTYPE_PLAYER))
+		if (entity != nullptr && entity->instanceof(eTYPE_PLAYER))
 		{
 			shared_ptr<Player> attacker = dynamic_pointer_cast<Player>(entity);
 			attacker->canHarmPlayer(getOwnerUUID());
@@ -296,7 +296,7 @@ bool Wolf::hurt(DamageSource *source, float dmg)
 	if (isInvulnerable()) return false;
 	shared_ptr<Entity> sourceEntity = source->getEntity();
 	sitGoal->wantToSit(false);
-	if (sourceEntity != NULL && !(sourceEntity->instanceof(eTYPE_PLAYER) || sourceEntity->instanceof(eTYPE_ARROW))) 
+	if (sourceEntity != nullptr && !(sourceEntity->instanceof(eTYPE_PLAYER) || sourceEntity->instanceof(eTYPE_ARROW))) 
 	{
 		// Take half damage from non-players and arrows
 		dmg = (dmg + 1) / 2;
@@ -327,7 +327,7 @@ void Wolf::setTame(bool value)
 void Wolf::tame(const wstring &wsOwnerUUID, bool bDisplayTamingParticles, bool bSetSitting) 
 {
 	setTame(true);
-	setPath(NULL);
+	setPath(nullptr);
 	setTarget(nullptr);
 	sitGoal->wantToSit(bSetSitting);
 	setHealth(TAME_HEALTH);
@@ -344,9 +344,9 @@ bool Wolf::mobInteract(shared_ptr<Player> player)
 
 	if (isTame()) 
 	{
-		if (item != NULL)
+		if (item != nullptr)
 		{
-			if(dynamic_cast<FoodItem *>(Item::items[item->id]) != NULL)
+			if(dynamic_cast<FoodItem *>(Item::items[item->id]) != nullptr)
 			{
 				FoodItem *food = dynamic_cast<FoodItem *>( Item::items[item->id] );
 
@@ -387,7 +387,7 @@ bool Wolf::mobInteract(shared_ptr<Player> player)
 			{
 				sitGoal->wantToSit(!isSitting());
 				jumping = false;
-				setPath(NULL);
+				setPath(nullptr);
 				setAttackTarget(nullptr);
 				setTarget(nullptr);
 			}
@@ -395,7 +395,7 @@ bool Wolf::mobInteract(shared_ptr<Player> player)
 	}
 	else
 	{
-		if (item != NULL && item->id == Item::bone->id && !isAngry()) 
+		if (item != nullptr && item->id == Item::bone->id && !isAngry()) 
 		{
 			// 4J-PB - don't lose the bone in creative mode
 			if (player->abilities.instabuild==false)
@@ -430,7 +430,7 @@ bool Wolf::mobInteract(shared_ptr<Player> player)
 		}
 
 		// 4J-PB - stop wild wolves going in to Love Mode (even though they do on Java, but don't breed)
-		if((item != NULL) && isFood(item))
+		if((item != nullptr) && isFood(item))
 		{
 			return false;
 		}
@@ -467,8 +467,8 @@ float Wolf::getTailAngle()
 
 bool Wolf::isFood(shared_ptr<ItemInstance> item)
 {
-	if (item == NULL) return false;
-	if (dynamic_cast<FoodItem *>(Item::items[item->id]) == NULL) return false;
+	if (item == nullptr) return false;
+	if (dynamic_cast<FoodItem *>(Item::items[item->id]) == nullptr) return false;
 	return static_cast<FoodItem *>(Item::items[item->id])->isMeat();
 }
 
@@ -552,7 +552,7 @@ bool Wolf::canMate(shared_ptr<Animal> animal)
 	if (!animal->instanceof(eTYPE_WOLF)) return false;
 	shared_ptr<Wolf> partner = dynamic_pointer_cast<Wolf>(animal);
 
-	if (partner == NULL) return false;
+	if (partner == nullptr) return false;
 	if (!partner->isTame()) return false;
 	if (partner->isSitting()) return false;
 

@@ -79,11 +79,11 @@ LocalPlayer::LocalPlayer(Minecraft *minecraft, Level *level, User *user, int dim
 	this->minecraft = minecraft;
 	this->dimension = dimension;
 
-	if (user != NULL && user->name.length() > 0)
+	if (user != nullptr && user->name.length() > 0)
 	{
 		customTextureUrl = L"http://s3.amazonaws.com/MinecraftSkins/" + user->name + L".png";
 	}
-	if( user != NULL )
+	if( user != nullptr )
 	{
 		this->name = user->name;
 		//wprintf(L"Created LocalPlayer with name %ls\n", name.c_str() );
@@ -95,7 +95,7 @@ LocalPlayer::LocalPlayer(Minecraft *minecraft, Level *level, User *user, int dim
 		}
 
 	}
-	input = NULL;
+	input = nullptr;
 	m_iPad = -1;
 	m_iScreenSection=C4JRender::VIEWPORT_TYPE_FULLSCREEN; // assume singleplayer default
 	m_bPlayerRespawned=false;
@@ -124,7 +124,7 @@ LocalPlayer::LocalPlayer(Minecraft *minecraft, Level *level, User *user, int dim
 
 LocalPlayer::~LocalPlayer()
 {
-	if( this->input != NULL )
+	if( this->input != nullptr )
 		delete input;
 }
 
@@ -188,9 +188,9 @@ void LocalPlayer::aiStep()
 	{
 		if (!level->isClientSide)
 		{
-			if (riding != NULL) this->ride(nullptr);
+			if (riding != nullptr) this->ride(nullptr);
 		}
-		if (minecraft->screen != NULL) minecraft->setScreen(NULL);
+		if (minecraft->screen != nullptr) minecraft->setScreen(nullptr);
 
 		if (portalTime == 0)
 		{
@@ -574,7 +574,7 @@ void LocalPlayer::readAdditionalSaveData(CompoundTag *entityTag)
 void LocalPlayer::closeContainer()
 {
 	Player::closeContainer();
-	minecraft->setScreen(NULL);
+	minecraft->setScreen(nullptr);
 
 	// 4J - Close any xui here
 	// Fix for #9164 - CRASH: MP: Title crashes upon opening a chest and having another user destroy it.
@@ -755,7 +755,7 @@ void LocalPlayer::hurtTo(float newHealth, ETelemetryChallenges damageSource)
 	if( this->getHealth() <= 0)
 	{
 		int deathTime = static_cast<int>(level->getGameTime() % Level::TICKS_PER_DAY)/1000;
-		int carriedId = inventory->getSelected() == NULL ? 0 : inventory->getSelected()->id;
+		int carriedId = inventory->getSelected() == nullptr ? 0 : inventory->getSelected()->id;
 		TelemetryManager->RecordPlayerDiedOrFailed(GetXboxPad(), 0, y, 0, 0, carriedId, 0, damageSource);
 
 		// if there are any xuiscenes up for this player, close them
@@ -800,7 +800,7 @@ void LocalPlayer::awardStat(Stat *stat, byteArray param)
 	delete [] param.data;
 
 	if (!app.CanRecordStatsAndAchievements())	return;
-	if (stat == NULL)							return;
+	if (stat == nullptr)							return;
 
 	if (stat->isAchievement())
 	{
@@ -1196,7 +1196,7 @@ void LocalPlayer::playSound(int soundId, float volume, float pitch)
 
 bool LocalPlayer::isRidingJumpable()
 {
-	return riding != NULL && riding->GetType() == eTYPE_HORSE;
+	return riding != nullptr && riding->GetType() == eTYPE_HORSE;
 }
 
 float LocalPlayer::getJumpRidingScale()
@@ -1215,7 +1215,7 @@ bool LocalPlayer::hasPermission(EGameCommand command)
 
 void LocalPlayer::onCrafted(shared_ptr<ItemInstance> item)
 {
-	if( minecraft->localgameModes[m_iPad] != NULL )
+	if( minecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(minecraft->localgameModes[m_iPad]);
 		gameMode->getTutorial()->onCrafted(item);
@@ -1272,14 +1272,14 @@ void LocalPlayer::mapPlayerChunk(const unsigned int flagTileType)
 void LocalPlayer::handleMouseDown(int button, bool down)
 {
 	// 4J Stu - We should not accept any input while asleep, except the above to wake up
-	if(isSleeping() && level != NULL && level->isClientSide)
+	if(isSleeping() && level != nullptr && level->isClientSide)
 	{
 		return;
 	}
 	if (!down) missTime = 0;
 	if (button == 0 && missTime > 0) return;
 
-	if (down && minecraft->hitResult != NULL && minecraft->hitResult->type == HitResult::TILE && button == 0)
+	if (down && minecraft->hitResult != nullptr && minecraft->hitResult->type == HitResult::TILE && button == 0)
 	{
 		int x = minecraft->hitResult->x;
 		int y = minecraft->hitResult->y;
@@ -1486,7 +1486,7 @@ bool LocalPlayer::handleMouseClick(int button)
 
 	// 4J-PB - Adding a special case in here for sleeping in a bed in a multiplayer game - we need to wake up, and we don't have the inbedchatscreen with a button
 
-	if(button==1 && (isSleeping() && level != NULL && level->isClientSide))
+	if(button==1 && (isSleeping() && level != nullptr && level->isClientSide))
 	{
 		if(lastClickState == lastClick_oldRepeat) return false;
 
@@ -1497,14 +1497,14 @@ bool LocalPlayer::handleMouseClick(int button)
 	
 	}
 	// 4J Stu - We should not accept any input while asleep, except the above to wake up
-	if(isSleeping() && level != NULL && level->isClientSide)
+	if(isSleeping() && level != nullptr && level->isClientSide)
 	{
 		return false;
 	}
 
 	shared_ptr<ItemInstance> oldItem = inventory->getSelected();
 
-	if (minecraft->hitResult == NULL)
+	if (minecraft->hitResult == nullptr)
 	{
 		if (button == 0 && minecraft->localgameModes[GetXboxPad()]->hasMissTime()) missTime = 10;
 	}
@@ -1555,7 +1555,7 @@ bool LocalPlayer::handleMouseClick(int button)
 		else
 		{
 			shared_ptr<ItemInstance> item = oldItem;
-			int oldCount = item != NULL ? item->count : 0;
+			int oldCount = item != nullptr ? item->count : 0;
 			bool usedItem = false;
 			if (minecraft->gameMode->useItemOn(minecraft->localplayers[GetXboxPad()], level, item, x, y, z, face, minecraft->hitResult->pos, false, &usedItem))
 			{
@@ -1568,7 +1568,7 @@ bool LocalPlayer::handleMouseClick(int button)
 				//app.DebugPrintf("Player %d is swinging\n",GetXboxPad());
 				swing();
 			}
-			if (item == NULL)
+			if (item == nullptr)
 			{
 				return false;
 			}
@@ -1587,7 +1587,7 @@ bool LocalPlayer::handleMouseClick(int button)
 	if (mayUse && button == 1)
 	{
 		shared_ptr<ItemInstance> item = inventory->getSelected();
-		if (item != NULL)
+		if (item != nullptr)
 		{
 			if (minecraft->gameMode->useItem(minecraft->localplayers[GetXboxPad()], level, item))
 			{
@@ -1603,23 +1603,23 @@ void LocalPlayer::updateRichPresence()
 	if((m_iPad!=-1)/* && !ui.GetMenuDisplayed(m_iPad)*/ )
 	{
 		shared_ptr<ItemInstance> selectedItem = inventory->getSelected();
-		if(selectedItem != NULL && selectedItem->id == Item::fishingRod_Id)
+		if(selectedItem != nullptr && selectedItem->id == Item::fishingRod_Id)
 		{
 			app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_FISHING);
 		}
-		else if(selectedItem != NULL && selectedItem->id == Item::map_Id)
+		else if(selectedItem != nullptr && selectedItem->id == Item::map_Id)
 		{
 			app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_MAP);
 		}	
-		else if ( (riding != NULL) && riding->instanceof(eTYPE_MINECART) )
+		else if ( (riding != nullptr) && riding->instanceof(eTYPE_MINECART) )
 		{
 			app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_RIDING_MINECART);
 		}
-		else if ( (riding != NULL) && riding->instanceof(eTYPE_BOAT) )
+		else if ( (riding != nullptr) && riding->instanceof(eTYPE_BOAT) )
 		{
 			app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_BOATING);
 		}
-		else if ( (riding != NULL) && riding->instanceof(eTYPE_PIG) )
+		else if ( (riding != nullptr) && riding->instanceof(eTYPE_PIG) )
 		{
 			app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_RIDING_PIG);
 		}
@@ -1660,13 +1660,13 @@ float LocalPlayer::getAndResetChangeDimensionTimer()
 
 void LocalPlayer::handleCollectItem(shared_ptr<ItemInstance> item)
 {
-	if(item != NULL)
+	if(item != nullptr)
 	{
 		unsigned int itemCountAnyAux = 0;
 		unsigned int itemCountThisAux = 0;
 		for (unsigned int k = 0; k < inventory->items.length; ++k)
 		{
-			if (inventory->items[k] != NULL)
+			if (inventory->items[k] != nullptr)
 			{
 				// do they have the item
 				if(inventory->items[k]->id == item->id)

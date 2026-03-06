@@ -73,6 +73,6 @@ RecordingItem *RecordingItem::getByName(const wstring &name)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }

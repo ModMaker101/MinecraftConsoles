@@ -68,7 +68,7 @@ void VillagerGolem::serverAiMobStep()
 		villageUpdateInterval = 70 + random->nextInt(50);
 		shared_ptr<Village> _village = level->villages->getClosestVillage(Mth::floor(x), Mth::floor(y), Mth::floor(z), Villages::MaxDoorDist);
 		village = _village;
-		if (_village == NULL) clearRestriction();
+		if (_village == nullptr) clearRestriction();
 		else
 		{
 			Pos *center = _village->getCenter();
@@ -244,7 +244,7 @@ void VillagerGolem::setPlayerCreated(bool value)
 
 void VillagerGolem::die(DamageSource *source)
 {
-	if (!isPlayerCreated() && lastHurtByPlayer != NULL && village.lock() != NULL)
+	if (!isPlayerCreated() && lastHurtByPlayer != nullptr && village.lock() != nullptr)
 	{
 		village.lock()->modifyStanding(lastHurtByPlayer->getName(), -5);
 	}
@@ -257,7 +257,7 @@ bool VillagerGolem::hurt(DamageSource *source, float dmg)
 	if (isPlayerCreated())
 	{
 		shared_ptr<Entity> entity = source->getDirectEntity();
-		if (entity != NULL && entity->instanceof(eTYPE_PLAYER))
+		if (entity != nullptr && entity->instanceof(eTYPE_PLAYER))
 		{
 			shared_ptr<Player> player = dynamic_pointer_cast<Player>(entity);
 			if (!player->isAllowedToAttackPlayers()) return false;

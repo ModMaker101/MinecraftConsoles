@@ -41,7 +41,7 @@ UIScene_MessageBox::UIScene_MessageBox(int iPad, void *initData, UILayer *parent
 	m_labelTitle.init(app.GetString(param->uiTitle));
 	m_labelContent.init(app.GetString(param->uiText));
 
-	out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcAutoResize , 0 , NULL );
+	out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcAutoResize , 0 , nullptr );
 
 	m_Func = param->Func;
 	m_lpParam = param->lpParam;
@@ -87,7 +87,7 @@ void UIScene_MessageBox::handleReload()
 	value[1].number = static_cast<F64>(getControlFocus());
 	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcInit , 2 , value );
 
-	out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcAutoResize , 0 , NULL );
+	out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcAutoResize , 0 , nullptr );
 }
 
 void UIScene_MessageBox::handleInput(int iPad, int key, bool repeat, bool pressed, bool released, bool &handled)

@@ -46,7 +46,7 @@ shared_ptr<ItemInstance> ContainerMenu::quickMoveStack(shared_ptr<Player> player
 {
 	shared_ptr<ItemInstance> clicked = nullptr;
 	Slot *slot = slots.at(slotIndex);
-	if (slot != NULL && slot->hasItem())
+	if (slot != nullptr && slot->hasItem())
 	{
 		shared_ptr<ItemInstance> stack = slot->getItem();
 		clicked = stack->copy();
@@ -97,7 +97,7 @@ shared_ptr<ItemInstance> ContainerMenu::clicked(int slotIndex, int buttonNum, in
 #ifdef _EXTENDED_ACHIEVEMENTS
 	shared_ptr<LocalPlayer> localPlayer = dynamic_pointer_cast<LocalPlayer>(player);
 
-	if (localPlayer != NULL)	// 4J-JEV: For "Chestful o'Cobblestone" achievement.
+	if (localPlayer != nullptr)	// 4J-JEV: For "Chestful o'Cobblestone" achievement.
 	{
 		int cobblecount = 0;
 		for (int i = 0; i < container->getContainerSize(); i++)

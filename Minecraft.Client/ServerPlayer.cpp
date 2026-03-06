@@ -101,7 +101,7 @@ ServerPlayer::ServerPlayer(MinecraftServer *server, Level *level, const wstring&
 				waterDepth++;
 			}
 			attemptCount++;
-			playerNear = ( level->getNearestPlayer(xx + 0.5, yy, zz + 0.5,3) != NULL );
+			playerNear = ( level->getNearestPlayer(xx + 0.5, yy, zz + 0.5,3) != nullptr );
 		} while ( ( waterDepth > 1 ) && (!playerNear) && ( attemptCount < 20 ) );
 		xx = xx2;
 		yy = yy2;
@@ -180,7 +180,7 @@ void ServerPlayer::readAdditionalSaveData(CompoundTag *entityTag)
 	}
 
 	GameRulesInstance *grs = gameMode->getGameRules();
-	if (entityTag->contains(L"GameRules") && grs != NULL)
+	if (entityTag->contains(L"GameRules") && grs != nullptr)
 	{
 		byteArray ba = entityTag->getByteArray(L"GameRules");
 		ByteArrayInputStream bais(ba);
@@ -197,13 +197,13 @@ void ServerPlayer::addAdditonalSaveData(CompoundTag *entityTag)
 	Player::addAdditonalSaveData(entityTag);
 
 	GameRulesInstance *grs = gameMode->getGameRules();
-	if (grs != NULL)
+	if (grs != nullptr)
 	{
 		ByteArrayOutputStream baos;
 		DataOutputStream dos(&baos);
 		grs->write(&dos);
 		entityTag->putByteArray(L"GameRules", baos.buf);
-		baos.buf.data = NULL;
+		baos.buf.data = nullptr;
 		dos.close();
 		baos.close();
 	}
@@ -308,14 +308,14 @@ void ServerPlayer::doTickA()
 	for (unsigned int i = 0; i < inventory->getContainerSize(); i++)
 	{
 		shared_ptr<ItemInstance> ie = inventory->getItem(i);
-		if (ie != NULL)
+		if (ie != nullptr)
 		{
 			// 4J - removed condition. These were getting lower priority than tile update packets etc. on the slow outbound queue, and so were extremely slow to send sometimes,
 			// particularly at the start of a game. They don't typically seem to be massive and shouldn't be send when there isn't actually any updating to do.
 			if (Item::items[ie->id]->isComplex() ) // && connection->countDelayedPackets() <= 2)
 			{
 				shared_ptr<Packet> packet = (dynamic_cast<ComplexItem *>(Item::items[ie->id])->getUpdatePacket(ie, level, dynamic_pointer_cast<Player>( shared_from_this() ) ) );
-				if (packet != NULL)
+				if (packet != nullptr)
 				{
 					connection->send(packet);
 				}
@@ -352,7 +352,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 			}
 		}
 
-		//        if (nearest != NULL)		// 4J - removed as we don't have references here
+		//        if (nearest != nullptr)		// 4J - removed as we don't have references here
 		if( nearestValid )
 		{
 			bool okToSend = false;
@@ -372,7 +372,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 //					app.DebugPrintf("%d: canSendToPlayer %d, countDelayedPackets %d GetSendQueueSizeBytes %d done: %d\n",
 //						connection->getNetworkPlayer()->GetSmallId(),
 //						canSendToPlayer, connection->countDelayedPackets(),
-//						g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( NULL, true ),
+//						g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( nullptr, true ),
 //						connection->done);
 //				}
 
@@ -381,12 +381,12 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks)
 #ifdef _XBOX_ONE
 					// The network manager on xbox one doesn't currently split data into slow & fast queues - since we can only measure
 					// both together then bytes provides a better metric than count of data items to determine if we should avoid queueing too much up
-					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeBytes( NULL, true ) < 8192 )&&
+					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeBytes( nullptr, true ) < 8192 )&&
 #elif defined _XBOX
-					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( NULL, true ) < 4 )&&
+					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( nullptr, true ) < 4 )&&
 #else
 					(connection->countDelayedPackets() < 4 )&&
-					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( NULL, true ) < 4 )&&
+					(g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages( nullptr, true ) < 4 )&&
 #endif
 					//(tickCount - lastBrupSendTickCount) > (connection->getNetworkPlayer()->GetCurrentRtt()>>4) &&
 					!connection->done) )
@@ -584,7 +584,7 @@ void ServerPlayer::die(DamageSource *source)
 	}
 
 	shared_ptr<LivingEntity> killer = getKillCredit();
-	if (killer != NULL) killer->awardKillScore(shared_from_this(), deathScore);
+	if (killer != nullptr) killer->awardKillScore(shared_from_this(), deathScore);
 	//awardStat(Stats::deaths, 1);
 }
 
@@ -597,10 +597,10 @@ bool ServerPlayer::hurt(DamageSource *dmgSource, float dmg)
 	//bool allowFallDamage = server->isPvpAllowed() && server->isDedicatedServer() && server->isPvpAllowed() && (dmgSource->msgId.compare(L"fall") == 0);
 	if (!server->isPvpAllowed() && invulnerableTime > 0 && dmgSource != DamageSource::outOfWorld) return false;
 
-	if (dynamic_cast<EntityDamageSource *>(dmgSource) != NULL)
+	if (dynamic_cast<EntityDamageSource *>(dmgSource) != nullptr)
 	{
 		// 4J Stu - Fix for #46422 - TU5: Crash: Gameplay: Crash when being hit by a trap using a dispenser
-		// getEntity returns the owner of projectiles, and this would never be the arrow. The owner is sometimes NULL.
+		// getEntity returns the owner of projectiles, and this would never be the arrow. The owner is sometimes nullptr.
 		shared_ptr<Entity> source = dmgSource->getDirectEntity();
 
 		if (source->instanceof(eTYPE_PLAYER) && !dynamic_pointer_cast<Player>(source)->canHarmPlayer(dynamic_pointer_cast<Player>(shared_from_this())))
@@ -608,10 +608,10 @@ bool ServerPlayer::hurt(DamageSource *dmgSource, float dmg)
 			return false;
 		}
 
-		if ( (source != NULL) && source->instanceof(eTYPE_ARROW) )
+		if ( (source != nullptr) && source->instanceof(eTYPE_ARROW) )
 		{
 			shared_ptr<Arrow> arrow = dynamic_pointer_cast<Arrow>(source);
-			if ( (arrow->owner != NULL) && arrow->owner->instanceof(eTYPE_PLAYER) && !canHarmPlayer(dynamic_pointer_cast<Player>(arrow->owner))  )
+			if ( (arrow->owner != nullptr) && arrow->owner->instanceof(eTYPE_PLAYER) && !canHarmPlayer(dynamic_pointer_cast<Player>(arrow->owner))  )
 			{
 				return false;
 			}
@@ -634,7 +634,7 @@ bool ServerPlayer::hurt(DamageSource *dmgSource, float dmg)
 		else
 		{
 			shared_ptr<Entity> source = dmgSource->getEntity();
-			if( source != NULL )
+			if( source != nullptr )
 			{
 				switch(source->GetType())
 				{
@@ -670,10 +670,10 @@ bool ServerPlayer::hurt(DamageSource *dmgSource, float dmg)
 					m_lastDamageSource = eTelemetryPlayerDeathSource_Explosion_Tnt;
 					break;
 				case eTYPE_ARROW:
-					if ((dynamic_pointer_cast<Arrow>(source))->owner != NULL)
+					if ((dynamic_pointer_cast<Arrow>(source))->owner != nullptr)
 					{
 						shared_ptr<Entity> attacker = (dynamic_pointer_cast<Arrow>(source))->owner;
-						if (attacker != NULL)
+						if (attacker != nullptr)
 						{
 							switch(attacker->GetType())
 							{
@@ -712,7 +712,7 @@ bool ServerPlayer::canHarmPlayer(wstring targetName)
 	bool canHarm = true;
 
 	shared_ptr<ServerPlayer> owner = server->getPlayers()->getPlayer(targetName);
-	if (owner != NULL)
+	if (owner != nullptr)
 	{
 		if ((shared_from_this() != owner) && canHarmPlayer(owner)) canHarm = false;
 	}
@@ -749,7 +749,7 @@ void ServerPlayer::changeDimension(int i)
 			for(auto& servPlayer : MinecraftServer::getInstance()->getPlayers()->players)
 			{
 				INetworkPlayer *checkPlayer = servPlayer->connection->getNetworkPlayer();
-				if(thisPlayer != checkPlayer && checkPlayer != NULL && thisPlayer->IsSameSystem( checkPlayer ) && !servPlayer->wonGame )
+				if(thisPlayer != checkPlayer && checkPlayer != nullptr && thisPlayer->IsSameSystem( checkPlayer ) && !servPlayer->wonGame )
 				{
 					servPlayer->wonGame = true;
 					servPlayer->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::WIN_GAME, thisPlayer->GetUserIndex() ) ) );
@@ -766,7 +766,7 @@ void ServerPlayer::changeDimension(int i)
 			awardStat(GenericStats::theEnd(), GenericStats::param_theEnd());
 
 			Pos *pos = server->getLevel(i)->getDimensionSpecificSpawn();
-			if (pos != NULL)
+			if (pos != nullptr)
 			{
 				connection->teleport(pos->x, pos->y, pos->z, 0, 0);
 				delete pos;
@@ -789,10 +789,10 @@ void ServerPlayer::changeDimension(int i)
 // 4J Added delay param
 void ServerPlayer::broadcast(shared_ptr<TileEntity> te, bool delay /*= false*/)
 {
-	if (te != NULL)
+	if (te != nullptr)
 	{
 		shared_ptr<Packet> p = te->getUpdatePacket();
-		if (p != NULL)
+		if (p != nullptr)
 		{
 			p->shouldDelay = delay;
 			if(delay) connection->queueSend(p);
@@ -827,7 +827,7 @@ void ServerPlayer::stopSleepInBed(bool forcefulWakeUp, bool updateLevelList, boo
 		getLevel()->getTracker()->broadcastAndSend(shared_from_this(), shared_ptr<AnimatePacket>( new AnimatePacket(shared_from_this(), AnimatePacket::WAKE_UP) ) );
 	}
 	Player::stopSleepInBed(forcefulWakeUp, updateLevelList, saveRespawnPoint);
-	if (connection != NULL) connection->teleport(x, y, z, yRot, xRot);
+	if (connection != nullptr) connection->teleport(x, y, z, yRot, xRot);
 }
 
 void ServerPlayer::ride(shared_ptr<Entity> e)
@@ -853,7 +853,7 @@ void ServerPlayer::doCheckFallDamage(double ya, bool onGround)
 void ServerPlayer::openTextEdit(shared_ptr<TileEntity> sign)
 {
 	shared_ptr<SignTileEntity> signTE = dynamic_pointer_cast<SignTileEntity>(sign);
-	if (signTE != NULL)
+	if (signTE != nullptr)
 	{
 		signTE->setAllowedPlayerEditor(dynamic_pointer_cast<Player>(shared_from_this()));
 		connection->send( shared_ptr<TileEditorOpenPacket>( new TileEditorOpenPacket(TileEditorOpenPacket::SIGN, sign->x, sign->y, sign->z)) );
@@ -893,7 +893,7 @@ bool ServerPlayer::openFireworks(int x, int y, int z)
 		containerMenu->containerId = containerCounter;
 		containerMenu->addSlotListener(this);
 	}
-	else if(dynamic_cast<CraftingMenu *>(containerMenu) != NULL)
+	else if(dynamic_cast<CraftingMenu *>(containerMenu) != nullptr)
 	{
 		closeContainer();
 
@@ -1092,7 +1092,7 @@ bool ServerPlayer::openTrading(shared_ptr<Merchant> traderTarget, const wstring 
 		connection->send(shared_ptr<ContainerOpenPacket>(new ContainerOpenPacket(containerCounter, ContainerOpenPacket::TRADER_NPC, name.empty()?L"":name, container->getContainerSize(), !name.empty())));
 
 		MerchantRecipeList *offers = traderTarget->getOffers(dynamic_pointer_cast<Player>(shared_from_this()));
-		if (offers != NULL)
+		if (offers != nullptr)
 		{
 			ByteArrayOutputStream rawOutput;
 			DataOutputStream output(&rawOutput);
@@ -1203,7 +1203,7 @@ void ServerPlayer::doCloseContainer()
 
 void ServerPlayer::setPlayerInput(float xxa, float yya, bool jumping, bool sneaking)
 {
-	if(riding != NULL)
+	if(riding != nullptr)
 	{
 		if (xxa >= -1 && xxa <= 1) this->xxa = xxa;
 		if (yya >= -1 && yya <= 1) this->yya = yya;
@@ -1214,7 +1214,7 @@ void ServerPlayer::setPlayerInput(float xxa, float yya, bool jumping, bool sneak
 
 void ServerPlayer::awardStat(Stat *stat, byteArray param)
 {
-	if (stat == NULL)
+	if (stat == nullptr)
 	{
 		delete [] param.data;
 		return;
@@ -1237,7 +1237,7 @@ void ServerPlayer::awardStat(Stat *stat, byteArray param)
 
 void ServerPlayer::disconnect()
 {
-	if (rider.lock() != NULL) rider.lock()->ride(shared_from_this() );
+	if (rider.lock() != nullptr) rider.lock()->ride(shared_from_this() );
 	if (m_isSleeping)
 	{
 		stopSleepInBed(true, false, false);
@@ -1501,7 +1501,7 @@ void ServerPlayer::startUsingItem(shared_ptr<ItemInstance> instance, int duratio
 {
 	Player::startUsingItem(instance, duration);
 
-	if (instance != NULL && instance->getItem() != NULL && instance->getItem()->getUseAnimation(instance) == UseAnim_eat)
+	if (instance != nullptr && instance->getItem() != nullptr && instance->getItem()->getUseAnimation(instance) == UseAnim_eat)
 	{
 		getLevel()->getTracker()->broadcastAndSend(shared_from_this(), shared_ptr<AnimatePacket>( new AnimatePacket(shared_from_this(), AnimatePacket::EAT) ) );
 	}
@@ -1553,7 +1553,7 @@ void ServerPlayer::magicCrit(shared_ptr<Entity> entity)
 
 void ServerPlayer::onUpdateAbilities()
 {
-	if (connection == NULL) return;
+	if (connection == nullptr) return;
 	connection->send(shared_ptr<PlayerAbilitiesPacket>(new PlayerAbilitiesPacket(&abilities)));
 }
 
@@ -1651,7 +1651,7 @@ int ServerPlayer::getPlayerViewDistanceModifier()
 	{
 		INetworkPlayer *player = connection->getNetworkPlayer();
 
-		if( player != NULL )
+		if( player != nullptr )
 		{
 			DWORD rtt = player->GetCurrentRtt();
 
@@ -1666,7 +1666,7 @@ int ServerPlayer::getPlayerViewDistanceModifier()
 
 void ServerPlayer::handleCollectItem(shared_ptr<ItemInstance> item)
 {
-	if(gameMode->getGameRules() != NULL) gameMode->getGameRules()->onCollectItem(item);
+	if(gameMode->getGameRules() != nullptr) gameMode->getGameRules()->onCollectItem(item);
 }
 
 #ifndef _CONTENT_PACKAGE

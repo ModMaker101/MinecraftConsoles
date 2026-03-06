@@ -140,16 +140,16 @@ wstring FlatLevelSource::gatherStats()
 vector<Biome::MobSpawnerData *> *FlatLevelSource::getMobsAt(MobCategory *mobCategory, int x, int y, int z)
 {
  	Biome *biome = level->getBiome(x, z);
- 	if (biome == NULL) 
+ 	if (biome == nullptr) 
  	{
- 		return NULL;
+ 		return nullptr;
  	}
  	return biome->getMobs(mobCategory);
 }
 
 TilePos *FlatLevelSource::findNearestMapFeature(Level *level, const wstring& featureName, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 void FlatLevelSource::recreateLogicStructuresForChunk(int chunkX, int chunkZ)

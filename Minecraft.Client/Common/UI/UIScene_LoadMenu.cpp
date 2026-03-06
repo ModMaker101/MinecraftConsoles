@@ -50,7 +50,7 @@ int UIScene_LoadMenu::LoadSaveDataThumbnailReturned(LPVOID lpParam,PBYTE pbThumb
 		}
 		else
 		{
-			app.DebugPrintf("Thumbnail data is NULL, or has size 0\n");
+			app.DebugPrintf("Thumbnail data is nullptr, or has size 0\n");
 			pClass->m_bThumbnailGetFailed = true;
 		}
 		pClass->m_bRetrievingSaveThumbnail = false;
@@ -102,7 +102,7 @@ UIScene_LoadMenu::UIScene_LoadMenu(int iPad, void *initData, UILayer *parentLaye
 	m_bSaveThumbnailReady = false;
 	m_bRetrievingSaveThumbnail = true;
 	m_bShowTimer = false;
-	m_pDLCPack = NULL;
+	m_pDLCPack = nullptr;
 	m_bAvailableTexturePacksChecked=false;
 	m_bRequestQuadrantSignin = false;
 	m_iTexturePacksNotInstalled=0;
@@ -249,7 +249,7 @@ UIScene_LoadMenu::UIScene_LoadMenu(int iPad, void *initData, UILayer *parentLaye
 #endif
 #endif
 #ifdef _WINDOWS64
-		if (params->saveDetails != NULL && params->saveDetails->UTF8SaveName[0] != '\0')
+		if (params->saveDetails != nullptr && params->saveDetails->UTF8SaveName[0] != '\0')
 		{
 			wchar_t wSaveName[128];
 			ZeroMemory(wSaveName, sizeof(wSaveName));
@@ -305,7 +305,7 @@ UIScene_LoadMenu::UIScene_LoadMenu(int iPad, void *initData, UILayer *parentLaye
 		if(!m_bAvailableTexturePacksChecked)
 #endif
 		{		
-			DLC_INFO *pDLCInfo=NULL;
+			DLC_INFO *pDLCInfo=nullptr;
 
 			// first pass - look to see if there are any that are not in the list
 			bool bTexturePackAlreadyListed;
@@ -451,9 +451,9 @@ void UIScene_LoadMenu::tick()
 
 		// #ifdef _DEBUG
 		// 			// dump out the thumbnail
-		// 			HANDLE hThumbnail = CreateFile("GAME:\\thumbnail.png", GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, NULL);
+		// 			HANDLE hThumbnail = CreateFile("GAME:\\thumbnail.png", GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, nullptr);
 		// 			DWORD dwBytes;
-		// 			WriteFile(hThumbnail,pbImageData,dwImageBytes,&dwBytes,NULL);
+		// 			WriteFile(hThumbnail,pbImageData,dwImageBytes,&dwBytes,nullptr);
 		// 			XCloseHandle(hThumbnail);
 		// #endif
 
@@ -771,7 +771,7 @@ void UIScene_LoadMenu::StartSharedLaunchFlow()
 		// texture pack hasn't been set yet, so check what it will be
 		TexturePack *pTexturePack = pMinecraft->skins->getTexturePackById(m_MoreOptionsParams.dwTexturePack);
 
-		if(pTexturePack==NULL)
+		if(pTexturePack==nullptr)
 		{
 #if TO_BE_IMPLEMENTED
 			// They've selected a texture pack they don't have yet
@@ -849,7 +849,7 @@ void UIScene_LoadMenu::StartSharedLaunchFlow()
 				DLC_INFO *pDLCInfo = app.GetDLCInfoForTrialOfferID(m_pDLCPack->getPurchaseOfferId());
 				ULONGLONG ullOfferID_Full;
 
-				if(pDLCInfo!=NULL)
+				if(pDLCInfo!=nullptr)
 				{
 					ullOfferID_Full=pDLCInfo->ullOfferID_Full;
 				}
@@ -1107,7 +1107,7 @@ void UIScene_LoadMenu::LaunchGame(void)
 					// inform them that leaderboard writes and achievements will be disabled
 					//ui.RequestMessageBox(IDS_TITLE_START_GAME, IDS_CONFIRM_START_SAVEDINCREATIVE_CONTINUE, uiIDA, 1, m_iPad,&CScene_LoadGameSettings::ConfirmLoadReturned,this,app.GetStringTable());
 
-					if(m_levelGen != NULL)
+					if(m_levelGen != nullptr)
 					{
 						m_bIsCorrupt = false;
 						LoadDataComplete(this);
@@ -1150,7 +1150,7 @@ void UIScene_LoadMenu::LaunchGame(void)
 	}
 	else
 	{
-		if(m_levelGen != NULL)
+		if(m_levelGen != nullptr)
 		{
 			m_bIsCorrupt = false;
 			LoadDataComplete(this);
@@ -1210,7 +1210,7 @@ int UIScene_LoadMenu::ConfirmLoadReturned(void *pParam,int iPad,C4JStorage::EMes
 
 	if(result==C4JStorage::EMessage_ResultAccept) 
 	{
-		if(pClass->m_levelGen != NULL)
+		if(pClass->m_levelGen != nullptr)
 		{
 			pClass->m_bIsCorrupt = false;
 			pClass->LoadDataComplete(pClass);
@@ -1312,7 +1312,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 #if defined(__PS3__) || defined(__PSVITA__)
 		if(isOnlineGame)
 		{
-			ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,NULL,&bContentRestricted,NULL);
+			ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,nullptr,&bContentRestricted,nullptr);
 		}
 #endif
 
@@ -1362,7 +1362,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 					// MGH -  added this so we don't try and upsell when we don't know if the player has PS Plus yet (if it can't connect to the PS Plus server).
 					UINT uiIDA[1];
 					uiIDA[0]=IDS_OK;
-					ui.RequestAlertMessage(IDS_ERROR_NETWORK_TITLE, IDS_ERROR_NETWORK, uiIDA, 1, ProfileManager.GetPrimaryPad(), NULL, NULL);
+					ui.RequestAlertMessage(IDS_ERROR_NETWORK_TITLE, IDS_ERROR_NETWORK, uiIDA, 1, ProfileManager.GetPrimaryPad(), nullptr, nullptr);
 					return 0;
 				}
 
@@ -1381,7 +1381,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 // 				UINT uiIDA[2];
 // 				uiIDA[0]=IDS_PLAY_OFFLINE;
 // 				uiIDA[1]=IDS_PLAYSTATIONPLUS_SIGNUP;
-// 				ui.RequestMessageBox( IDS_FAILED_TO_CREATE_GAME_TITLE, IDS_NO_PLAYSTATIONPLUS, uiIDA,2,ProfileManager.GetPrimaryPad(),&UIScene_LoadMenu::PSPlusReturned,pClass, app.GetStringTable(),NULL,0,false);
+// 				ui.RequestMessageBox( IDS_FAILED_TO_CREATE_GAME_TITLE, IDS_NO_PLAYSTATIONPLUS, uiIDA,2,ProfileManager.GetPrimaryPad(),&UIScene_LoadMenu::PSPlusReturned,pClass, app.GetStringTable(),nullptr,0,false);
 			}
 
 #endif		
@@ -1392,7 +1392,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 				if(isOnlineGame)
 				{
 					bool chatRestricted = false;
-					ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&chatRestricted,NULL,NULL);
+					ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&chatRestricted,nullptr,nullptr);
 					if(chatRestricted)
 					{
 						ProfileManager.DisplaySystemMessage( SCE_MSG_DIALOG_SYSMSG_TYPE_TRC_PSN_CHAT_RESTRICTION, ProfileManager.GetPrimaryPad() );
@@ -1431,7 +1431,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 					// MGH -  added this so we don't try and upsell when we don't know if the player has PS Plus yet (if it can't connect to the PS Plus server).
 					UINT uiIDA[1];
 					uiIDA[0]=IDS_OK;
-					ui.RequestAlertMessage(IDS_ERROR_NETWORK_TITLE, IDS_ERROR_NETWORK, uiIDA, 1, ProfileManager.GetPrimaryPad(), NULL, NULL);
+					ui.RequestAlertMessage(IDS_ERROR_NETWORK_TITLE, IDS_ERROR_NETWORK, uiIDA, 1, ProfileManager.GetPrimaryPad(), nullptr, nullptr);
 					return 0;
 				}
 
@@ -1450,7 +1450,7 @@ int UIScene_LoadMenu::LoadDataComplete(void *pParam)
 // 				UINT uiIDA[2];
 // 				uiIDA[0]=IDS_PLAY_OFFLINE;
 // 				uiIDA[1]=IDS_PLAYSTATIONPLUS_SIGNUP;
-// 				ui.RequestMessageBox( IDS_FAILED_TO_CREATE_GAME_TITLE, IDS_NO_PLAYSTATIONPLUS, uiIDA,2,ProfileManager.GetPrimaryPad(),&UIScene_LoadMenu::PSPlusReturned,pClass, app.GetStringTable(),NULL,0,false);
+// 				ui.RequestMessageBox( IDS_FAILED_TO_CREATE_GAME_TITLE, IDS_NO_PLAYSTATIONPLUS, uiIDA,2,ProfileManager.GetPrimaryPad(),&UIScene_LoadMenu::PSPlusReturned,pClass, app.GetStringTable(),nullptr,0,false);
 			}
 #endif
 			else
@@ -1554,7 +1554,7 @@ int UIScene_LoadMenu::DeleteSaveDataReturned(void *pParam,bool bSuccess)
 // 4J Stu - Shared functionality that is the same whether we needed a quadrant sign-in or not
 void UIScene_LoadMenu::StartGameFromSave(UIScene_LoadMenu* pClass, DWORD dwLocalUsersMask)
 {
-	if(pClass->m_levelGen == NULL)
+	if(pClass->m_levelGen == nullptr)
 	{
 		INT saveOrCheckpointId = 0;
 		bool validSave = StorageManager.GetSaveUniqueNumber(&saveOrCheckpointId);
@@ -1582,7 +1582,7 @@ void UIScene_LoadMenu::StartGameFromSave(UIScene_LoadMenu* pClass, DWORD dwLocal
 
 	NetworkGameInitData *param = new NetworkGameInitData();
 	param->seed = pClass->m_seed;
-	param->saveData = NULL;	
+	param->saveData = nullptr;	
 	param->levelGen = pClass->m_levelGen;
 	param->texturePackId = pClass->m_MoreOptionsParams.dwTexturePack;
 	param->levelName = pClass->m_levelName;
@@ -1779,7 +1779,7 @@ int UIScene_LoadMenu::StartGame_SignInReturned(void *pParam,bool bContinue, int 
 						if(ProfileManager.IsSignedInLive(i))
 						{
 							bool chatRestricted = false;
-							ProfileManager.GetChatAndContentRestrictions(i,false,&chatRestricted,NULL,NULL);
+							ProfileManager.GetChatAndContentRestrictions(i,false,&chatRestricted,nullptr,nullptr);
 							if(chatRestricted)
 							{
 								ProfileManager.DisplaySystemMessage( SCE_MSG_DIALOG_SYSMSG_TYPE_TRC_PSN_CHAT_RESTRICTION, i );

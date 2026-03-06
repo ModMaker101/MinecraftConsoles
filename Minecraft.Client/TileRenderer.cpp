@@ -19,7 +19,7 @@ const float smallUV = ( 1.0f / 16.0f );
 
 void TileRenderer::_init()
 {
-	fixedTexture = NULL;
+	fixedTexture = nullptr;
 	xFlipTexture = false;
 	noCulling = false;
 	applyAmbienceOcclusion = false;
@@ -44,7 +44,7 @@ void TileRenderer::_init()
 	xMin = 0;
 	yMin = 0;
 	zMin = 0;
-	cache = NULL;
+	cache = nullptr;
 }
 
 bool TileRenderer::isTranslucentAt(LevelSource *level, int x, int y, int z)
@@ -170,7 +170,7 @@ TileRenderer::TileRenderer( LevelSource* level )
 
 TileRenderer::TileRenderer()
 {
-	this->level = NULL;
+	this->level = nullptr;
 	_init();
 }
 
@@ -181,7 +181,7 @@ void TileRenderer::setFixedTexture( Icon *fixedTexture )
 
 void TileRenderer::clearFixedTexture()
 {
-	this->fixedTexture = NULL;
+	this->fixedTexture = nullptr;
 }
 
 bool TileRenderer::hasFixedTexture()
@@ -195,7 +195,7 @@ bool TileRenderer::hasFixedTexture()
 	}
 #endif
 
-	return fixedTexture != NULL;
+	return fixedTexture != nullptr;
 }
 
 void TileRenderer::setShape(float x0, float y0, float z0, float x1, float y1, float z1)
@@ -907,7 +907,7 @@ bool TileRenderer::tesselateFlowerPotInWorld(FlowerPotTile *tt, int x, int y, in
 		float xOff = 0;
 		float yOff = 4;
 		float zOff = 0;
-		Tile *plant = NULL;
+		Tile *plant = nullptr;
 
 		switch (type)
 		{
@@ -927,7 +927,7 @@ bool TileRenderer::tesselateFlowerPotInWorld(FlowerPotTile *tt, int x, int y, in
 
 		t->addOffset(xOff / 16.0f, yOff / 16.0f, zOff / 16.0f);
 
-		if (plant != NULL)
+		if (plant != nullptr)
 		{
 			tesselateInWorld(plant, x, y, z);
 		}
@@ -1902,7 +1902,7 @@ bool TileRenderer::tesselateLeverInWorld( Tile* tt, int x, int y, int z )
 		}
 	}
 
-	Vec3*		c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	Vec3*		c0 = nullptr, *c1 = nullptr, *c2 = nullptr, *c3 = nullptr;
 	for ( int i = 0; i < 6; i++ )
 	{
 		if ( i == 0 )
@@ -2073,7 +2073,7 @@ bool TileRenderer::tesselateTripwireSourceInWorld(Tile *tt, int x, int y, int z)
 		corners[i]->z += z + 0.5;
 	}
 
-	Vec3 *c0 = NULL, *c1 = NULL, *c2 = NULL, *c3 = NULL;
+	Vec3 *c0 = nullptr, *c1 = nullptr, *c2 = nullptr, *c3 = nullptr;
 	int stickX0 = 7;
 	int stickX1 = 9;
 	int stickY0 = 9;
@@ -3241,7 +3241,7 @@ bool TileRenderer::tesselateThinPaneInWorld(Tile *tt, int x, int y, int z)
 	Icon *tex;
 	Icon *edgeTex;
 
-	bool stained = dynamic_cast<StainedGlassPaneBlock *>(tt) != NULL;
+	bool stained = dynamic_cast<StainedGlassPaneBlock *>(tt) != nullptr;
 	if (hasFixedTexture())
 	{
 		tex = fixedTexture;
@@ -5207,7 +5207,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionTexLighting( Tile* 
 	// but they also happen to draw a lot of faces, and the code for determining which texture to use is more complex than in most
 	// cases. Optimisation here then to store a uniform texture where appropriate (could be extended beyond leaves) that will stop
 	// any other faces being evaluated.
-	Icon *uniformTex = NULL;
+	Icon *uniformTex = nullptr;
 	int id = tt->id;
 	if( id == Tile::leaves_Id )
 	{
@@ -5257,7 +5257,7 @@ bool TileRenderer::tesselateBlockInWorldWithAmbienceOcclusionTexLighting( Tile* 
 	Tesselator* t = Tesselator::getInstance();
 	t->tex2( 0xf000f );
 
-	if( uniformTex == NULL )
+	if( uniformTex == nullptr )
 	{
 		if ( getTexture(tt)->getFlags() == Icon::IS_GRASS_TOP ) tintSides = false;
 	}
@@ -8550,7 +8550,7 @@ Icon *TileRenderer::getTexture(Tile *tile)
 
 Icon *TileRenderer::getTextureOrMissing(Icon *icon)
 {
-	if (icon == NULL) return minecraft->textures->getMissingIcon(Icon::TYPE_TERRAIN);
+	if (icon == nullptr) return minecraft->textures->getMissingIcon(Icon::TYPE_TERRAIN);
 
 #ifdef __PSVITA__
 	// AP - alpha cut out is expensive on vita. Pass on the Alpha Cut out flag to the tesselator

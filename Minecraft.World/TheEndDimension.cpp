@@ -26,7 +26,7 @@ float TheEndDimension::getTimeOfDay(__int64 time, float a) const
 
 float *TheEndDimension::getSunriseColor(float td, float a)
 {
-	return NULL;
+	return nullptr;
 }
 
 Vec3 *TheEndDimension::getFogColor(float td, float a) const

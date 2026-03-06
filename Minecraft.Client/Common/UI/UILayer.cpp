@@ -197,7 +197,7 @@ bool UILayer::GetMenuDisplayed()
 
 bool UILayer::NavigateToScene(int iPad, EUIScene scene, void *initData)
 {
-	UIScene *newScene = NULL;
+	UIScene *newScene = nullptr;
 	switch(scene)
 	{
 		// Debug
@@ -424,7 +424,7 @@ bool UILayer::NavigateToScene(int iPad, EUIScene scene, void *initData)
 		break;
 	};
 
-	if(newScene == NULL)
+	if(newScene == nullptr)
 	{
 		app.DebugPrintf("WARNING: Scene %d was not created. Add it to UILayer::NavigateToScene\n", scene);
 		return false;
@@ -451,7 +451,7 @@ bool UILayer::NavigateBack(int iPad, EUIScene eScene)
 	bool navigated = false;
 	if(eScene < eUIScene_COUNT)
 	{
-		UIScene *scene = NULL;
+		UIScene *scene = nullptr;
 		do
 		{
 			scene = m_sceneStack.back();
@@ -523,9 +523,9 @@ UIScene *UILayer::addComponent(int iPad, EUIScene scene, void *initData)
 				return itComp;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
-	UIScene *newScene = NULL;
+	UIScene *newScene = nullptr;
 
 	switch(scene)
 	{
@@ -573,7 +573,7 @@ UIScene *UILayer::addComponent(int iPad, EUIScene scene, void *initData)
 		break;
 	};
 
-	if(newScene == NULL) return NULL;
+	if(newScene == nullptr) return nullptr;
 
 	m_components.push_back(newScene);
 
@@ -661,12 +661,12 @@ void UILayer::closeAllScenes()
 	}
 }
 
-// Get top scene on stack (or NULL if stack is empty)
+// Get top scene on stack (or nullptr if stack is empty)
 UIScene *UILayer::GetTopScene()
 {
 	if(m_sceneStack.size() == 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -789,7 +789,7 @@ UIScene *UILayer::getCurrentScene()
 		}
 }
 
-	return NULL;
+	return nullptr;
 }
 #endif
 
@@ -894,7 +894,7 @@ void UILayer::PrintTotalMemoryUsage(__int64 &totalStatic, __int64 &totalDynamic)
 	totalDynamic += layerDynamic;
 }
 
-// Returns the first scene of given type if it exists, NULL otherwise
+// Returns the first scene of given type if it exists, nullptr otherwise
 UIScene *UILayer::FindScene(EUIScene sceneType)
 {
 	for (int i = 0; i < m_sceneStack.size(); i++)
@@ -905,5 +905,5 @@ UIScene *UILayer::FindScene(EUIScene sceneType)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }

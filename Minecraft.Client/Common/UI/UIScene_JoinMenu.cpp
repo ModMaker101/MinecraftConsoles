@@ -62,7 +62,7 @@ void UIScene_JoinMenu::tick()
 #if defined(__PS3__) || defined(__ORBIS__) || defined __PSVITA__
 		for( int i = 0; i < MINECRAFT_NET_MAX_PLAYERS; i++ )
 		{
-			if( m_selectedSession->data.players[i] != NULL )
+			if( m_selectedSession->data.players[i] != nullptr )
 			{
 	#ifndef _CONTENT_PACKAGE
 				if(app.DebugSettingsOn() && (app.GetGameSettingsDebugMask()&(1L<<eDebugSetting_DebugLeaderboards)))
@@ -88,7 +88,7 @@ void UIScene_JoinMenu::tick()
 			}
 			else
 			{
-				// Leave the loop when we hit the first NULL player
+				// Leave the loop when we hit the first nullptr player
 				break;
 			}
 		}
@@ -272,7 +272,7 @@ void UIScene_JoinMenu::handleInput(int iPad, int key, bool repeat, bool pressed,
 		break;
 #ifdef _DURANGO
 	case ACTION_MENU_Y:
-		if(m_selectedSession != NULL && getControlFocus() == eControl_GamePlayers && m_buttonListPlayers.getItemCount() > 0)
+		if(m_selectedSession != nullptr && getControlFocus() == eControl_GamePlayers && m_buttonListPlayers.getItemCount() > 0)
 		{
 			PlayerUID uid = m_selectedSession->searchResult.m_playerXuids[m_buttonListPlayers.getCurrentSelection()];
 			if( uid != INVALID_XUID ) ProfileManager.ShowProfileCard(ProfileManager.GetLockedProfile(),uid);
@@ -473,7 +473,7 @@ void UIScene_JoinMenu::JoinGame(UIScene_JoinMenu* pClass)
 #if defined(__PS3__) || defined(__PSVITA__)
 	if(isSignedInLive)
 	{
-		ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&noUGC,NULL,NULL);
+		ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&noUGC,nullptr,nullptr);
 	}
 #else
 	ProfileManager.AllowedPlayerCreatedContent(ProfileManager.GetPrimaryPad(),false,&pccAllowed,&pccFriendsAllowed);
@@ -511,7 +511,7 @@ void UIScene_JoinMenu::JoinGame(UIScene_JoinMenu* pClass)
 	{
 #if defined(__ORBIS__) || defined(__PSVITA__)
 		bool chatRestricted = false;
-		ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&chatRestricted,NULL,NULL);
+		ProfileManager.GetChatAndContentRestrictions(ProfileManager.GetPrimaryPad(),false,&chatRestricted,nullptr,nullptr);
 		if(chatRestricted)
 		{
 			ProfileManager.DisplaySystemMessage( SCE_MSG_DIALOG_SYSMSG_TYPE_TRC_PSN_CHAT_RESTRICTION, ProfileManager.GetPrimaryPad() );
@@ -566,7 +566,7 @@ void UIScene_JoinMenu::handleTimerComplete(int id)
 				int selectedIndex = 0;
 				for(unsigned int i = 0; i < MINECRAFT_NET_MAX_PLAYERS; ++i)
 				{
-					if( m_selectedSession->data.players[i] != NULL )
+					if( m_selectedSession->data.players[i] != nullptr )
 					{
 						if(m_selectedSession->data.players[i] == selectedPlayerXUID) selectedIndex = i;
 						playersList.InsertItems(i,1);
@@ -583,7 +583,7 @@ void UIScene_JoinMenu::handleTimerComplete(int id)
 					}
 					else
 					{
-						// Leave the loop when we hit the first NULL player
+						// Leave the loop when we hit the first nullptr player
 						break;
 					}
 				}

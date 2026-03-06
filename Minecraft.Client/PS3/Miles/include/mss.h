@@ -584,7 +584,7 @@ typedef enum
 } MSS_SPEAKER;
 
 //
-// Pass to AIL_midiOutOpen for NULL MIDI driver
+// Pass to AIL_midiOutOpen for nullptr MIDI driver
 //
 
 #define MIDI_NULL_DRIVER ((U32)(S32)-2)
@@ -833,7 +833,7 @@ the enumeration function until it returns 0.
 #define DEFAULT_DPWOD              ((UINTa)-1)  // Preferred WaveOut device == WAVE_MAPPER
 
 #define DIG_PREFERRED_DS_DEVICE    20
-#define DEFAULT_DPDSD              0      // Preferred DirectSound device == default NULL GUID
+#define DEFAULT_DPDSD              0      // Preferred DirectSound device == default nullptr GUID
 
 
 #define MDI_SEQUENCES              21
@@ -1305,7 +1305,7 @@ typedef ASIRESULT (AILCALL *ASI_STARTUP)(void);
 typedef ASIRESULT (AILCALL * ASI_SHUTDOWN)(void);
 
 //
-// Return codec error message, or NULL if no errors have occurred since
+// Return codec error message, or nullptr if no errors have occurred since
 // last call
 //
 // The ASI error text state is global to all streams
@@ -1878,7 +1878,7 @@ typedef struct _S3DSTATE           // Portion of HSAMPLE that deals with 3D posi
 
    F32           spread;
    
-   HSAMPLE       owner;            // May be NULL if used for temporary/internal calculations
+   HSAMPLE       owner;            // May be nullptr if used for temporary/internal calculations
    AILFALLOFFCB  falloff_function; // User function for min/max distance calculations, if desired
 
    MSSVECTOR3D   position_graph[MILES_MAX_SEGMENT_COUNT];
@@ -2460,7 +2460,7 @@ typedef struct _DIG_DRIVER          // Handle to digital audio driver
 
    S32 DS_initialized;
 
-   AILLPDIRECTSOUNDBUFFER DS_sec_buff;    // Secondary buffer (or NULL if none)
+   AILLPDIRECTSOUNDBUFFER DS_sec_buff;    // Secondary buffer (or nullptr if none)
    AILLPDIRECTSOUNDBUFFER DS_out_buff;    // Output buffer (may be sec or prim)
    S32 DS_buffer_size;                    // Size of entire output buffer
 
@@ -4866,10 +4866,10 @@ typedef struct
    U8 *MP3_file_image;       // Original MP3_file_image pointer passed to AIL_inspect_MP3()
    S32     MP3_image_size;       // Original MP3_image_size passed to AIL_inspect_MP3()
 
-   U8 *ID3v2;                // ID3v2 tag, if not NULL
+   U8 *ID3v2;                // ID3v2 tag, if not nullptr
    S32     ID3v2_size;           // Size of tag in bytes
 
-   U8 *ID3v1;                // ID3v1 tag, if not NULL (always 128 bytes long if present)
+   U8 *ID3v1;                // ID3v1 tag, if not nullptr (always 128 bytes long if present)
 
    U8 *start_MP3_data;       // Pointer to start of data area in file (not necessarily first valid frame)
    U8 *end_MP3_data;         // Pointer to last valid byte in MP3 data area (before ID3v1 tag, if any)

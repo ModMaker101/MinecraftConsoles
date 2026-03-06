@@ -42,7 +42,7 @@
 
 WeighedTreasureArray ServerLevel::RANDOM_BONUS_ITEMS;
 
-C4JThread* ServerLevel::m_updateThread = NULL;
+C4JThread* ServerLevel::m_updateThread = nullptr;
 C4JThread::EventArray* ServerLevel::m_updateTrigger;
 CRITICAL_SECTION ServerLevel::m_updateCS[3];
 
@@ -63,7 +63,7 @@ void ServerLevel::staticCtor()
 	InitializeCriticalSection(&m_updateCS[1]);
 	InitializeCriticalSection(&m_updateCS[2]);
 
-	m_updateThread = new C4JThread(runUpdate, NULL, "Tile update");
+	m_updateThread = new C4JThread(runUpdate, nullptr, "Tile update");
 	m_updateThread->SetProcessor(CPU_CORE_TILE_UPDATE);
 #ifdef __ORBIS__
 	m_updateThread->SetPriority(THREAD_PRIORITY_BELOW_NORMAL);	// On Orbis, this core is also used for Matching 2, and that priority of that seems to be always at default no matter what we set it to. Prioritise this below Matching 2.
@@ -123,7 +123,7 @@ ServerLevel::ServerLevel(MinecraftServer *server, shared_ptr<LevelStorage>levelS
 	scoreboard = new ServerScoreboard(server);
 
 	//shared_ptr<ScoreboardSaveData> scoreboardSaveData = dynamic_pointer_cast<ScoreboardSaveData>( savedDataStorage->get(typeid(ScoreboardSaveData), ScoreboardSaveData::FILE_ID) );
-	//if (scoreboardSaveData == NULL)
+	//if (scoreboardSaveData == nullptr)
 	//{
 	//	scoreboardSaveData = shared_ptr<ScoreboardSaveData>( new ScoreboardSaveData() );
 	//	savedDataStorage->set(ScoreboardSaveData::FILE_ID, scoreboardSaveData);
@@ -258,7 +258,7 @@ void ServerLevel::tick()
 	{
 		//app.DebugPrintf("Incremental save\n");
 		PIXBeginNamedEvent(0,"Incremental save");
-		save(false, NULL);
+		save(false, nullptr);
 		PIXEndNamedEvent();
 	}
 
@@ -313,7 +313,7 @@ void ServerLevel::tick()
 Biome::MobSpawnerData *ServerLevel::getRandomMobSpawnAt(MobCategory *mobCategory, int x, int y, int z)
 {
 	vector<Biome::MobSpawnerData *> *mobList = getChunkSource()->getMobsAt(mobCategory, x, y, z);
-	if (mobList == NULL || mobList->empty()) return NULL;
+	if (mobList == nullptr || mobList->empty()) return nullptr;
 
 	return static_cast<Biome::MobSpawnerData *>(WeighedRandom::getRandomItem(random, (vector<WeighedRandomItem *> *)mobList));
 }
@@ -433,7 +433,7 @@ void ServerLevel::tickTiles()
 		if( hasChunkAt(x,y,z) )
 		{
 			int id = getTile(x,y,z);
-			if (Tile::tiles[id] != NULL && Tile::tiles[id]->isTicking())
+			if (Tile::tiles[id] != nullptr && Tile::tiles[id]->isTicking())
 			{
 				/*if(id == 2) ++grassTicks;
 				else if(id == 11) ++lavaTicks;
@@ -776,7 +776,7 @@ void ServerLevel::tick(shared_ptr<Entity> e, bool actual)
 	{
 		e->remove();
 	}
-	if (!server->isNpcsEnabled() && (dynamic_pointer_cast<Npc>(e) != NULL))
+	if (!server->isNpcsEnabled() && (dynamic_pointer_cast<Npc>(e) != nullptr))
 	{
 		e->remove();
 	}
@@ -860,7 +860,7 @@ void ServerLevel::setInitialSpawn(LevelSettings *levelSettings)
 	int minXZ = - (dimension->getXZSize() * 16 ) / 2;
 	int maxXZ = (dimension->getXZSize() * 16 ) / 2 - 1;
 
-	if (findBiome != NULL)
+	if (findBiome != nullptr)
 	{
 		xSpawn = findBiome->x;
 		zSpawn = findBiome->z;
@@ -914,7 +914,7 @@ void ServerLevel::generateBonusItemsNearSpawn()
 			if( getTile( x, y, z ) == Tile::chest_Id )
 			{
 				shared_ptr<ChestTileEntity> chest = dynamic_pointer_cast<ChestTileEntity>(getTileEntity(x, y, z));
-				if (chest != NULL)
+				if (chest != nullptr)
 				{
 					if( chest->isBonusChest )
 					{
@@ -960,7 +960,7 @@ void ServerLevel::save(bool force, ProgressListener *progressListener, bool bAut
 	if(StorageManager.GetSaveDisabled()) return;
 
 
-	if (progressListener != NULL)
+	if (progressListener != nullptr)
 	{
 		if(bAutosave)
 		{
@@ -976,7 +976,7 @@ void ServerLevel::save(bool force, ProgressListener *progressListener, bool bAut
 	saveLevelData();
 	PIXEndNamedEvent();
 
-	if (progressListener != NULL) progressListener->progressStage(IDS_PROGRESS_SAVING_CHUNKS);
+	if (progressListener != nullptr) progressListener->progressStage(IDS_PROGRESS_SAVING_CHUNKS);
 
 #if defined(_XBOX_ONE) || defined(__ORBIS__)
 	// Our autosave is a minimal save. All the chunks are saves by the constant save process
@@ -1009,7 +1009,7 @@ void ServerLevel::save(bool force, ProgressListener *progressListener, bool bAut
 
 	//if( force && !isClientSide )
 	//{
-	//	if (progressListener != NULL) progressListener->progressStage(IDS_PROGRESS_SAVING_TO_DISC);
+	//	if (progressListener != nullptr) progressListener->progressStage(IDS_PROGRESS_SAVING_TO_DISC);
 	//	levelStorage->flushSaveFile();
 	//}
 }
@@ -1034,7 +1034,7 @@ void ServerLevel::saveToDisc(ProgressListener *progressListener, bool autosave)
 		}
 	}
 
-	if (progressListener != NULL) progressListener->progressStage(IDS_PROGRESS_SAVING_TO_DISC);
+	if (progressListener != nullptr) progressListener->progressStage(IDS_PROGRESS_SAVING_TO_DISC);
 	levelStorage->flushSaveFile(autosave);
 }
 
@@ -1122,7 +1122,7 @@ shared_ptr<Explosion> ServerLevel::explode(shared_ptr<Entity> source, double x, 
 		if( sentTo.size() )
 		{
 			INetworkPlayer *thisPlayer = player->connection->getNetworkPlayer();
-			if( thisPlayer == NULL )
+			if( thisPlayer == nullptr )
 			{
 				continue;
 			}
@@ -1131,7 +1131,7 @@ shared_ptr<Explosion> ServerLevel::explode(shared_ptr<Entity> source, double x, 
 				for(auto& player2 : sentTo)
 				{
 					INetworkPlayer *otherPlayer = player2->connection->getNetworkPlayer();
-					if( otherPlayer != NULL && thisPlayer->IsSameSystem(otherPlayer) )
+					if( otherPlayer != nullptr && thisPlayer->IsSameSystem(otherPlayer) )
 					{
 						knockbackOnly = true;
 					}
@@ -1578,7 +1578,7 @@ int ServerLevel::runUpdate(void* lpParam)
 					if( (id == Tile::grass_Id && grassTicks >= MAX_GRASS_TICKS) || (id == Tile::calmLava_Id && lavaTicks >= MAX_LAVA_TICKS) ) continue;
 
 					// 4J Stu - Added shouldTileTick as some tiles won't even do anything if they are set to tick and use up one of our updates
-					if (Tile::tiles[id] != NULL && Tile::tiles[id]->isTicking() && Tile::tiles[id]->shouldTileTick(m_level[iLev],x + (cx * 16), y, z + (cz * 16) ) )
+					if (Tile::tiles[id] != nullptr && Tile::tiles[id]->isTicking() && Tile::tiles[id]->shouldTileTick(m_level[iLev],x + (cx * 16), y, z + (cz * 16) ) )
 					{
 						if(id == Tile::grass_Id) ++grassTicks;
 						else if(id == Tile::calmLava_Id) ++lavaTicks;

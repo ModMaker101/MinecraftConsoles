@@ -52,7 +52,7 @@ void TextEditScreen::buttonClicked(Button *button)
     if (button->id == 0)
 	{
         sign->setChanged();
-        minecraft->setScreen(NULL);
+        minecraft->setScreen(nullptr);
     }
 }
 

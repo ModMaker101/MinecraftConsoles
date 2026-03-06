@@ -35,7 +35,7 @@ void SonyRemoteStorage_PS3::npauthhandler(int event, int result, void *arg)
 	{
 		psnTicketSize = result;
 		psnTicket = malloc(psnTicketSize);
-		if (psnTicket == NULL) 
+		if (psnTicket == nullptr) 
 		{
 			app.DebugPrintf("Failed to allocate for ticket\n");
 		}
@@ -67,7 +67,7 @@ int SonyRemoteStorage_PS3::initPreconditions()
 	SceNpTicketVersion ticketVersion;
 	ticketVersion.major = 3;
 	ticketVersion.minor = 0;
-	ret = sceNpManagerRequestTicket2(&npId, &ticketVersion, TICKETING_SERVICE_ID, NULL, 0, NULL, 0);
+	ret = sceNpManagerRequestTicket2(&npId, &ticketVersion, TICKETING_SERVICE_ID, nullptr, 0, nullptr, 0);
 	if(ret < 0) 
 	{
 		return ret;
@@ -78,7 +78,7 @@ int SonyRemoteStorage_PS3::initPreconditions()
 		cellSysutilCheckCallback();
 		sys_timer_usleep(50000); //50 milliseconds.
 	}
-	if(psnTicket == NULL)
+	if(psnTicket == nullptr)
 		return -1;
 
 	return 0;
@@ -239,7 +239,7 @@ bool SonyRemoteStorage_PS3::init(CallbackFunc cb, LPVOID lpParam)
 	params.timeout.receiveMs = 120 * 1000;	//120 seconds is the default
 	params.timeout.sendMs = 120 * 1000;		//120 seconds is the default
 	params.pool.memPoolSize = 7 * 1024 * 1024;
-	if(m_memPoolBuffer == NULL)
+	if(m_memPoolBuffer == nullptr)
 		m_memPoolBuffer = malloc(params.pool.memPoolSize);
 	params.pool.memPoolBuffer = m_memPoolBuffer;
 
@@ -345,7 +345,7 @@ bool SonyRemoteStorage_PS3::setDataInternal()
 		char seed[22];
 		app.GetImageTextData(m_thumbnailData, m_thumbnailDataSize,(unsigned char *)seed, uiHostOptions, bHostOptionsRead, uiTexturePack);
 
-		__int64 iSeed = strtoll(seed,NULL,10);
+		__int64 iSeed = strtoll(seed,nullptr,10);
 		char seedHex[17];
 		sprintf(seedHex,"%016llx",iSeed);
 		memcpy(descData.m_seed,seedHex,16); // Don't copy null

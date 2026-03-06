@@ -10,7 +10,7 @@
 ConsoleGenerateStructure::ConsoleGenerateStructure() : StructurePiece(0)
 {
 	m_x = m_y = m_z = 0;
-	boundingBox = NULL;
+	boundingBox = nullptr;
 	orientation = Direction::NORTH;
 	m_dimension = 0;
 }
@@ -25,7 +25,7 @@ void ConsoleGenerateStructure::getChildren(vector<GameRuleDefinition *> *childre
 
 GameRuleDefinition *ConsoleGenerateStructure::addChild(ConsoleGameRules::EGameRuleType ruleType)
 {
-	GameRuleDefinition *rule = NULL;
+	GameRuleDefinition *rule = nullptr;
 	if(ruleType == ConsoleGameRules::eGameRuleType_GenerateBox)
 	{
 		rule = new XboxStructureActionGenerateBox();
@@ -112,7 +112,7 @@ void ConsoleGenerateStructure::addAttribute(const wstring &attributeName, const 
 
 BoundingBox* ConsoleGenerateStructure::getBoundingBox()
 {
-	if(boundingBox == NULL)
+	if(boundingBox == nullptr)
 	{
 		// Find the max bounds
 		int maxX, maxY, maxZ;

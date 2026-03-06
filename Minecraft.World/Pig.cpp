@@ -64,7 +64,7 @@ bool Pig::canBeControlledByRider()
 {
 	shared_ptr<ItemInstance> item = dynamic_pointer_cast<Player>(rider.lock())->getCarriedItem();
 
-	return item != NULL && item->id == Item::carrotOnAStick_Id;
+	return item != nullptr && item->id == Item::carrotOnAStick_Id;
 }
 
 void Pig::defineSynchedData() 
@@ -109,7 +109,7 @@ bool Pig::mobInteract(shared_ptr<Player> player)
 {
 	if(!Animal::mobInteract(player))
 	{
-		if (hasSaddle() && !level->isClientSide && (rider.lock() == NULL || rider.lock() == player)) 
+		if (hasSaddle() && !level->isClientSide && (rider.lock() == nullptr || rider.lock() == player)) 
 		{
 			// 4J HEG - Fixed issue with player not being able to dismount pig (issue #4479)
 			player->ride( rider.lock() == player ? nullptr : shared_from_this() );
@@ -173,7 +173,7 @@ void Pig::thunderHit(const LightningBolt *lightningBolt)
 void Pig::causeFallDamage(float distance) 
 {
 	Animal::causeFallDamage(distance);
-	if ( (distance > 5) && rider.lock() != NULL && rider.lock()->instanceof(eTYPE_PLAYER) )
+	if ( (distance > 5) && rider.lock() != nullptr && rider.lock()->instanceof(eTYPE_PLAYER) )
 	{
 		(dynamic_pointer_cast<Player>(rider.lock()))->awardStat(GenericStats::flyPig(),GenericStats::param_flyPig());
 	}
@@ -194,7 +194,7 @@ shared_ptr<AgableMob> Pig::getBreedOffspring(shared_ptr<AgableMob> target)
 
 bool Pig::isFood(shared_ptr<ItemInstance> itemInstance)
 {
-	return itemInstance != NULL && itemInstance->id == Item::carrots_Id;
+	return itemInstance != nullptr && itemInstance->id == Item::carrots_Id;
 }
 
 ControlledByPlayerGoal *Pig::getControlGoal()

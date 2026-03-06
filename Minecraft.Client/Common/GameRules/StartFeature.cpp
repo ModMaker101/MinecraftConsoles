@@ -58,6 +58,6 @@ void StartFeature::addAttribute(const wstring &attributeName, const wstring &att
 
 bool StartFeature::isFeatureChunk(int chunkX, int chunkZ, StructureFeature::EFeatureTypes feature, int *orientation)
 {
-	if(orientation != NULL) *orientation = m_orientation;
+	if(orientation != nullptr) *orientation = m_orientation;
 	return chunkX == m_chunkX && chunkZ == m_chunkZ && feature == m_feature;
 }

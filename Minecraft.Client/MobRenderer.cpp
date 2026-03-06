@@ -30,7 +30,7 @@ void MobRenderer::renderLeash(shared_ptr<Mob> entity, double x, double y, double
 {
     shared_ptr<Entity> roper = entity->getLeashHolder();
     // roper = entityRenderDispatcher.cameraEntity;
-    if (roper != NULL)
+    if (roper != nullptr)
 	{
 		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 

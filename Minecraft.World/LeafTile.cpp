@@ -17,7 +17,7 @@ const wstring LeafTile::TEXTURES[2][4] = { {L"leaves", L"leaves_spruce", L"leave
 
 LeafTile::LeafTile(int id) : TransparentTile(id, Material::leaves, false, isSolidRender())
 {
-	checkBuffer = NULL;
+	checkBuffer = nullptr;
 	fancyTextureSet = 0;
 	setTicking(true);
 }
@@ -123,7 +123,7 @@ void LeafTile::tick(Level *level, int x, int y, int z, Random *random)
 		int W = 32;
 		int WW = W * W;
 		int WO = W / 2;
-		if (checkBuffer == NULL)
+		if (checkBuffer == nullptr)
 		{
 			checkBuffer = new int[W * W * W];
 		}
@@ -270,7 +270,7 @@ void LeafTile::spawnResources(Level *level, int x, int y, int z, int data, float
 
 void LeafTile::playerDestroy(Level *level, shared_ptr<Player> player, int x, int y, int z, int data)
 {
-	if (!level->isClientSide && player->getSelectedItem() != NULL && player->getSelectedItem()->id == Item::shears->id)
+	if (!level->isClientSide && player->getSelectedItem() != nullptr && player->getSelectedItem()->id == Item::shears->id)
 	{
 		player->awardStat(
 			GenericStats::blocksMined(id),

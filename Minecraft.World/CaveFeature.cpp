@@ -35,7 +35,7 @@ bool CaveFeature::place(Level *level, Random *random, int x, int y, int z)
 		double hr = (Mth::sin(d / 16.0f * PI) * radius + 1) * ss + 1;
 
 		// 4J Stu Added to stop cave features generating areas previously place by game rule generation
-		if(app.getLevelGenerationOptions() != NULL)
+		if(app.getLevelGenerationOptions() != nullptr)
 		{
 			LevelGenerationOptions *levelGenOptions = app.getLevelGenerationOptions();
 			bool intersects = levelGenOptions->checkIntersects((xx - r / 2), (yy - hr / 2), (zz - r / 2), (xx + r / 2), (yy + hr / 2), (zz + r / 2));

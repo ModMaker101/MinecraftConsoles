@@ -79,7 +79,7 @@ void IUIScene_HUD::updateFrameTick()
 	{
 		//SetRidingHorse(false, 0);
 		shared_ptr<Entity> riding = pMinecraft->localplayers[iPad]->riding;
-		if(riding == NULL)
+		if(riding == nullptr)
 		{
 			SetRidingHorse(false, false, 0);
 		}
@@ -171,7 +171,7 @@ void IUIScene_HUD::updateFrameTick()
 	SetOpacity(fVal);
 
 	bool bDisplayGui=app.GetGameStarted() && !ui.GetMenuDisplayed(iPad) && !(app.GetXuiAction(iPad)==eAppAction_AutosaveSaveGameCapturedThumbnail) && app.GetGameSettings(iPad,eGameSetting_DisplayHUD)!=0;
-	if(bDisplayGui && pMinecraft->localplayers[iPad] != NULL)
+	if(bDisplayGui && pMinecraft->localplayers[iPad] != nullptr)
 	{
 		SetVisible(true);			
 	}
@@ -219,7 +219,7 @@ void IUIScene_HUD::renderPlayerHealth()
 
 	shared_ptr<Entity> riding = pMinecraft->localplayers[iPad]->riding;
 
-	if(riding == NULL || riding && !riding->instanceof(eTYPE_LIVINGENTITY))
+	if(riding == nullptr || riding && !riding->instanceof(eTYPE_LIVINGENTITY))
 	{
 		SetRidingHorse(false, false, 0);
 

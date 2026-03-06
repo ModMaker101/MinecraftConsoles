@@ -10,7 +10,7 @@ BiomeCache::Block::Block(int x, int z, BiomeCache *parent)
 // 	temps = floatArray(ZONE_SIZE * ZONE_SIZE, false);		// MGH - added "no clear" flag to arrayWithLength
 // 	downfall = floatArray(ZONE_SIZE * ZONE_SIZE, false);
 // 	biomes = BiomeArray(ZONE_SIZE * ZONE_SIZE, false);
-	biomeIndices = byteArray(ZONE_SIZE * ZONE_SIZE, false);
+	biomeIndices = byteArray(static_cast<unsigned int>(ZONE_SIZE * ZONE_SIZE), false);
 
 	lastUse = 0;
 	this->x = x;
@@ -87,7 +87,7 @@ BiomeCache::Block *BiomeCache::getBlockAt(int x, int z)
 	z >>= ZONE_SIZE_BITS;
 	__int64 slot = (static_cast<__int64>(x) & 0xffffffffl) | ((static_cast<__int64>(z) & 0xffffffffl) << 32l);
 	auto it = cached.find(slot);
-	Block *block = NULL;
+	Block *block = nullptr;
 	if (it == cached.end())
 	{
 		MemSect(48);

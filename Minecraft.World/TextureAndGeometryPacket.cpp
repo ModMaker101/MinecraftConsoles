@@ -10,21 +10,21 @@ TextureAndGeometryPacket::TextureAndGeometryPacket()
 {
 	this->textureName = L"";
 	this->dwTextureBytes = 0;
-	this->pbData = NULL;
+	this->pbData = nullptr;
 	this->dwBoxC = 0;
-	this->BoxDataA = NULL;
+	this->BoxDataA = nullptr;
 	uiAnimOverrideBitmask=0;
 }
 
 TextureAndGeometryPacket::~TextureAndGeometryPacket()
 {
 	// can't free these - they're used elsewhere
-// 	if(this->BoxDataA!=NULL)
+// 	if(this->BoxDataA!=nullptr)
 // 	{
 // 		delete [] this->BoxDataA;
 // 	}
 //
-// 	if(this->pbData!=NULL)
+// 	if(this->pbData!=nullptr)
 // 	{
 // 		delete [] this->pbData;
 // 	}
@@ -43,7 +43,7 @@ TextureAndGeometryPacket::TextureAndGeometryPacket(const wstring &textureName, P
 	this->pbData = pbData;
 	this->dwTextureBytes = dwBytes;
 	this->dwBoxC = 0;
-	this->BoxDataA=NULL;
+	this->BoxDataA=nullptr;
 	this->uiAnimOverrideBitmask=0;
 }
 
@@ -75,7 +75,7 @@ TextureAndGeometryPacket::TextureAndGeometryPacket(const wstring &textureName, P
 	}
 	else
 	{
-		this->BoxDataA=NULL;
+		this->BoxDataA=nullptr;
 	}
 }
 
@@ -93,10 +93,10 @@ TextureAndGeometryPacket::TextureAndGeometryPacket(const wstring &textureName, P
 	this->pbData = pbData;
 	this->dwTextureBytes = dwBytes;
 	this->uiAnimOverrideBitmask = uiAnimOverrideBitmask;
-	if(pvSkinBoxes==NULL)
+	if(pvSkinBoxes==nullptr)
 	{
 		this->dwBoxC=0;
-		this->BoxDataA=NULL;
+		this->BoxDataA=nullptr;
 	}
 	else
 	{

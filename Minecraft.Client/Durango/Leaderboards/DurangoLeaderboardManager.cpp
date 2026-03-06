@@ -14,7 +14,7 @@ DurangoLeaderboardManager::DurangoLeaderboardManager()
 
 	m_openSessions = 0;
 	m_xboxLiveContext = nullptr;
-	m_scores = NULL;
+	m_scores = nullptr;
 	m_readCount = 0;
 	m_maxRank = 0;
 	m_waitingForProfiles = false;
@@ -160,7 +160,7 @@ void DurangoLeaderboardManager::Tick()
 				m_displayNames.clear();
 			}
 
-			//assert(m_scores != NULL || m_readCount == 0);
+			//assert(m_scores != nullptr || m_readCount == 0);
 
 			view.m_numQueries = m_readCount;
 			view.m_queries = m_scores;
@@ -170,7 +170,7 @@ void DurangoLeaderboardManager::Tick()
 
 			eStatsReturn ret = view.m_numQueries > 0 ? eStatsReturn_Success : eStatsReturn_NoResults;
 
-			if (m_readListener != NULL)
+			if (m_readListener != nullptr)
 			{
 				app.DebugPrintf("[LeaderboardManager] OnStatsReadComplete(%i, %i, _)\n", ret, m_readCount);
 				m_readListener->OnStatsReadComplete(ret, m_maxRank, view);
@@ -178,7 +178,7 @@ void DurangoLeaderboardManager::Tick()
 
 			app.DebugPrintf("[LeaderboardManager] Deleting scores\n");
 			delete [] m_scores;
-			m_scores = NULL;
+			m_scores = nullptr;
 
 			setState(eStatsState_Idle);
 		}
@@ -186,9 +186,9 @@ void DurangoLeaderboardManager::Tick()
 
 	case eStatsState_Failed:
 		view.m_numQueries = 0;
-		view.m_queries = NULL;
+		view.m_queries = nullptr;
 
-		if ( m_readListener != NULL )
+		if ( m_readListener != nullptr )
 		{
 			m_readListener->OnStatsReadComplete(eStatsReturn_NetworkError, 0, view);
 		}
@@ -371,7 +371,7 @@ void DurangoLeaderboardManager::FlushStats()
 //Cancel the current operation
 void DurangoLeaderboardManager::CancelOperation()
 {
-	m_readListener = NULL;
+	m_readListener = nullptr;
 	setState(eStatsState_Canceled);
 
 	if(m_leaderboardAsyncOp) m_leaderboardAsyncOp->Cancel();
@@ -458,7 +458,7 @@ void DurangoLeaderboardManager::runLeaderboardRequest(WF::IAsyncOperation<MXSL::
 			m_maxRank = lastResult->TotalRowCount;
 			m_readCount = lastResult->Rows->Size;
 
-			if (m_scores != NULL) delete [] m_scores;
+			if (m_scores != nullptr) delete [] m_scores;
 			m_scores = new ReadScore[m_readCount];
 			ZeroMemory(m_scores, sizeof(ReadScore) * m_readCount);
 

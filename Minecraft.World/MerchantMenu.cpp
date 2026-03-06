@@ -67,10 +67,10 @@ bool MerchantMenu::stillValid(shared_ptr<Player> player)
 shared_ptr<ItemInstance> MerchantMenu::quickMoveStack(shared_ptr<Player> player, int slotIndex)
 {
 	shared_ptr<ItemInstance> clicked = nullptr;
-	Slot *slot = NULL;
+	Slot *slot = nullptr;
 	
 	if(slotIndex < slots.size()) slot = slots.at(slotIndex);
-	if (slot != NULL && slot->hasItem())
+	if (slot != nullptr && slot->hasItem())
 	{
 		shared_ptr<ItemInstance> stack = slot->getItem();
 		clicked = stack->copy();
@@ -138,7 +138,7 @@ void MerchantMenu::removed(shared_ptr<Player> player)
 		player->drop(item);
 	}
 	item = tradeContainer->removeItemNoUpdate(PAYMENT2_SLOT);
-	if (item != NULL)
+	if (item != nullptr)
 	{
 		player->drop(item);
 	}

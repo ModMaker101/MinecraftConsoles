@@ -129,7 +129,7 @@ void MultiplayerLocalPlayer::sendPosition()
 
 	bool move = (xdd * xdd + ydd1 * ydd1 + zdd * zdd) > 0.03 * 0.03 || positionReminder >= POSITION_REMINDER_INTERVAL;
     bool rot = rydd != 0 || rxdd != 0;
-    if (riding != NULL)
+    if (riding != nullptr)
 	{
 		connection->send( shared_ptr<MovePlayerPacket>( new MovePlayerPacket::PosRot(xd, -999, -999, zd, yRot, xRot, onGround, abilities.flying) ) );
         move = false;
@@ -211,7 +211,7 @@ void MultiplayerLocalPlayer::actuallyHurt(DamageSource *source, float dmg)
 void MultiplayerLocalPlayer::completeUsingItem()
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(useItem != NULL && pMinecraft->localgameModes[m_iPad] != NULL )
+	if(useItem != nullptr && pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		Tutorial *tutorial = gameMode->getTutorial();
@@ -223,7 +223,7 @@ void MultiplayerLocalPlayer::completeUsingItem()
 void MultiplayerLocalPlayer::onEffectAdded(MobEffectInstance *effect)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localgameModes[m_iPad] != NULL )
+	if(pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		Tutorial *tutorial = gameMode->getTutorial();
@@ -236,7 +236,7 @@ void MultiplayerLocalPlayer::onEffectAdded(MobEffectInstance *effect)
 void MultiplayerLocalPlayer::onEffectUpdated(MobEffectInstance *effect, bool doRefreshAttributes)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localgameModes[m_iPad] != NULL )
+	if(pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		Tutorial *tutorial = gameMode->getTutorial();
@@ -249,7 +249,7 @@ void MultiplayerLocalPlayer::onEffectUpdated(MobEffectInstance *effect, bool doR
 void MultiplayerLocalPlayer::onEffectRemoved(MobEffectInstance *effect)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localgameModes[m_iPad] != NULL )
+	if(pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		Tutorial *tutorial = gameMode->getTutorial();
@@ -286,7 +286,7 @@ void MultiplayerLocalPlayer::hurtTo(float newHealth, ETelemetryChallenges damage
 
 void MultiplayerLocalPlayer::awardStat(Stat *stat, byteArray param)
 {
-    if (stat == NULL)
+    if (stat == nullptr)
 	{
 		delete [] param.data;
         return;
@@ -305,7 +305,7 @@ void MultiplayerLocalPlayer::awardStat(Stat *stat, byteArray param)
 
 void MultiplayerLocalPlayer::awardStatFromServer(Stat *stat, byteArray param)
 {
-	if ( stat != NULL && !stat->awardLocallyOnly )
+	if ( stat != nullptr && !stat->awardLocallyOnly )
 	{
 		LocalPlayer::awardStat(stat, param);
 	}
@@ -334,9 +334,9 @@ void MultiplayerLocalPlayer::sendOpenInventory()
 
 void MultiplayerLocalPlayer::ride(shared_ptr<Entity> e)
 {
-	bool wasRiding = riding != NULL;
+	bool wasRiding = riding != nullptr;
 	LocalPlayer::ride(e);
-	bool isRiding = riding != NULL;
+	bool isRiding = riding != nullptr;
 
 	// 4J Added
 	if(wasRiding && !isRiding)
@@ -348,7 +348,7 @@ void MultiplayerLocalPlayer::ride(shared_ptr<Entity> e)
 	if( isRiding )
 	{
 		ETelemetryChallenges eventType = eTelemetryChallenges_Unknown;
-		if( this->riding != NULL )
+		if( this->riding != nullptr )
 		{
 			switch(riding->GetType())
 			{
@@ -370,7 +370,7 @@ void MultiplayerLocalPlayer::ride(shared_ptr<Entity> e)
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 	
-	if( pMinecraft->localgameModes[m_iPad] != NULL )
+	if( pMinecraft->localgameModes[m_iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[m_iPad]);
 		if(wasRiding && !isRiding)

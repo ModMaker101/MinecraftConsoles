@@ -20,7 +20,7 @@ UIScene_AnvilMenu::UIScene_AnvilMenu(int iPad, void *_initData, UILayer *parentL
 	m_inventory = initData->inventory;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[iPad] != NULL )
+	if( pMinecraft->localgameModes[iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -250,7 +250,7 @@ void UIScene_AnvilMenu::setSectionSelectedSlot(ESceneSection eSection, int x, in
 
 	int index = (y * cols) + x;
 
-	UIControl_SlotList *slotList = NULL;
+	UIControl_SlotList *slotList = nullptr;
 	switch( eSection )
 	{
 	case eSectionAnvilItem1:
@@ -278,7 +278,7 @@ void UIScene_AnvilMenu::setSectionSelectedSlot(ESceneSection eSection, int x, in
 
 UIControl *UIScene_AnvilMenu::getSection(ESceneSection eSection)
 {
-	UIControl *control = NULL;
+	UIControl *control = nullptr;
 	switch( eSection )
 	{
 	case eSectionAnvilItem1:

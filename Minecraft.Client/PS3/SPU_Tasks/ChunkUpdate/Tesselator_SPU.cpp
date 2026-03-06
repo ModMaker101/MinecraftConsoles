@@ -170,7 +170,7 @@ float convertHFloatToFloat(hfloat hf)
 // 
 Tesselator_SPU *Tesselator_SPU::getInstance()
 {
-	return NULL;
+	return nullptr;
 // 	return (Tesselator_SPU *)TlsGetValue(tlsIdx);
 }
 

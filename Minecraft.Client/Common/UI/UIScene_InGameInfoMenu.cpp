@@ -23,7 +23,7 @@ UIScene_InGameInfoMenu::UIScene_InGameInfoMenu(int iPad, void *initData, UILayer
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if( player != NULL )
+		if( player != nullptr )
 		{
 			PlayerInfo *info = BuildPlayerInfo(player);
 
@@ -36,7 +36,7 @@ UIScene_InGameInfoMenu::UIScene_InGameInfoMenu(int iPad, void *initData, UILayer
 
 	INetworkPlayer *thisPlayer = g_NetworkManager.GetLocalPlayerByUserIndex( m_iPad );
 	m_isHostPlayer = false;
-	if(thisPlayer != NULL) m_isHostPlayer = thisPlayer->IsHost() == TRUE;
+	if(thisPlayer != nullptr) m_isHostPlayer = thisPlayer->IsHost() == TRUE;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 	shared_ptr<MultiplayerLocalPlayer> localPlayer = pMinecraft->localplayers[m_iPad];
@@ -109,7 +109,7 @@ void UIScene_InGameInfoMenu::updateTooltips()
 		{
 			keyA = IDS_TOOLTIPS_SELECT;
 		}
-		else if( selectedPlayer != NULL)
+		else if( selectedPlayer != nullptr)
 		{
 			bool editingHost = selectedPlayer->IsHost();
 			if( (cheats && (m_isHostPlayer || !editingHost ) ) || (!trust && (m_isHostPlayer || !editingHost))
@@ -134,7 +134,7 @@ void UIScene_InGameInfoMenu::updateTooltips()
 	if(!m_buttonGameOptions.hasFocus())
 	{
 		// if the player is me, then view gamer profile
-		if(selectedPlayer != NULL && selectedPlayer->IsLocal() && selectedPlayer->GetUserIndex()==m_iPad)
+		if(selectedPlayer != nullptr && selectedPlayer->IsLocal() && selectedPlayer->GetUserIndex()==m_iPad)
 		{
 			ikeyY = IDS_TOOLTIPS_VIEW_GAMERPROFILE;
 		}
@@ -172,7 +172,7 @@ void UIScene_InGameInfoMenu::handleReload()
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if( player != NULL )
+		if( player != nullptr )
 		{
 			PlayerInfo *info = BuildPlayerInfo(player);
 
@@ -183,7 +183,7 @@ void UIScene_InGameInfoMenu::handleReload()
 
 	INetworkPlayer *thisPlayer = g_NetworkManager.GetLocalPlayerByUserIndex( m_iPad );
 	m_isHostPlayer = false;
-	if(thisPlayer != NULL) m_isHostPlayer = thisPlayer->IsHost() == TRUE;
+	if(thisPlayer != nullptr) m_isHostPlayer = thisPlayer->IsHost() == TRUE;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 	shared_ptr<MultiplayerLocalPlayer> localPlayer = pMinecraft->localplayers[m_iPad];
@@ -209,7 +209,7 @@ void UIScene_InGameInfoMenu::tick()
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if(player != NULL)
+		if(player != nullptr)
 		{
 			PlayerInfo *info = BuildPlayerInfo(player);
 
@@ -283,7 +283,7 @@ void UIScene_InGameInfoMenu::handleInput(int iPad, int key, bool repeat, bool pr
 		if(pressed && m_playerList.hasFocus() && (m_playerList.getItemCount() > 0) && (m_playerList.getCurrentSelection() < m_players.size()) )
 		{
 			INetworkPlayer *player = g_NetworkManager.GetPlayerBySmallId(m_players[m_playerList.getCurrentSelection()]->m_smallId);
-			if( player != NULL )
+			if( player != nullptr )
 			{
 				PlayerUID uid = player->GetUID();
 				if( uid != INVALID_XUID )
@@ -344,7 +344,7 @@ void UIScene_InGameInfoMenu::handlePress(F64 controlId, F64 childId)
 		bool cheats = app.GetGameHostOption(eGameHostOption_CheatsEnabled) != 0;
 		bool trust = app.GetGameHostOption(eGameHostOption_TrustPlayers) != 0;
 
-		if( isOp && selectedPlayer != NULL)
+		if( isOp && selectedPlayer != nullptr)
 		{
 			bool editingHost = selectedPlayer->IsHost();
 			if( (cheats && (m_isHostPlayer || !editingHost ) ) || (!trust && (m_isHostPlayer || !editingHost))
@@ -473,7 +473,7 @@ UIScene_InGameInfoMenu::PlayerInfo *UIScene_InGameInfoMenu::BuildPlayerInfo(INet
 	}
 
 	int voiceStatus = 0;
-	if(player != NULL && player->HasVoice() )
+	if(player != nullptr && player->HasVoice() )
 	{
 		if( player->IsMutedByLocalUser(m_iPad) )
 		{

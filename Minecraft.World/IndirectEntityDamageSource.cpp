@@ -32,20 +32,20 @@ shared_ptr<ChatPacket> IndirectEntityDamageSource::getDeathMessagePacket(shared_
 	shared_ptr<ItemInstance> held = entity->instanceof(eTYPE_LIVINGENTITY) ? dynamic_pointer_cast<LivingEntity>(entity)->getCarriedItem() : nullptr;
 	wstring additional = L"";
 	int type;
-	if(owner != NULL)
+	if(owner != nullptr)
 	{
 		type = owner->GetType();
 		if(type == eTYPE_SERVERPLAYER)
 		{
 			shared_ptr<Player> sourcePlayer = dynamic_pointer_cast<Player>(owner);
-			if(sourcePlayer != NULL) additional = sourcePlayer->name;
+			if(sourcePlayer != nullptr) additional = sourcePlayer->name;
 		}
 	}
 	else
 	{
 		type = entity->GetType();
 	}
-	if(held != NULL && held->hasCustomHoverName() )
+	if(held != nullptr && held->hasCustomHoverName() )
 	{
 		return shared_ptr<ChatPacket>( new ChatPacket(player->getNetworkName(), m_msgWithItemId, type, additional, held->getHoverName() ) );
 	}

@@ -40,7 +40,7 @@ LPCWSTR CXuiCtrlMinecraftSlot::xzpIcons[15]=
 
 //-----------------------------------------------------------------------------
 CXuiCtrlMinecraftSlot::CXuiCtrlMinecraftSlot() :
-	//m_hBrush(NULL),
+	//m_hBrush(nullptr),
 	m_bDirty(FALSE),
 		m_iPassThroughDataAssociation(0),
 		m_iPassThroughIdAssociation(0),
@@ -60,7 +60,7 @@ CXuiCtrlMinecraftSlot::CXuiCtrlMinecraftSlot() :
 
 	Minecraft *pMinecraft=Minecraft::GetInstance();
 
-	if(pMinecraft != NULL)
+	if(pMinecraft != nullptr)
 	{
 		m_fScreenWidth=static_cast<float>(pMinecraft->width_phys);
 		m_fScreenHeight=static_cast<float>(pMinecraft->height_phys);
@@ -109,7 +109,7 @@ HRESULT CXuiCtrlMinecraftSlot::OnGetSourceImage(XUIMessageGetSourceImage* pData,
 			pData->szPath = MsgGetSlotItem.szPath;
 			pData->bDirty = MsgGetSlotItem.bDirty;
 
-			if(MsgGetSlotItem.item != NULL)
+			if(MsgGetSlotItem.item != nullptr)
 			{
 				m_item = MsgGetSlotItem.item;
 				m_iID = m_item->id;
@@ -145,7 +145,7 @@ HRESULT CXuiCtrlMinecraftSlot::OnGetSourceImage(XUIMessageGetSourceImage* pData,
 					pData->szPath = xzpIcons[m_iID-32000];
 				}
 
-				if(m_item != NULL && (m_item->id != m_iID || m_item->getAuxValue() != m_iAuxVal || m_item->GetCount() != m_iCount) ) m_item = nullptr;
+				if(m_item != nullptr && (m_item->id != m_iID || m_item->getAuxValue() != m_iAuxVal || m_item->GetCount() != m_iCount) ) m_item = nullptr;
 			}
 
 
@@ -184,11 +184,11 @@ HRESULT CXuiCtrlMinecraftSlot::OnRender(XUIMessageRender *pRenderData, BOOL &bHa
 	hr = XuiSendMessage(m_hObj, &Message);
 
 	// We cannot have an Item with id 0
-	if(m_item != NULL || (m_iID > 0 && m_iID<32000) )
+	if(m_item != nullptr || (m_iID > 0 && m_iID<32000) )
 	{
 		HXUIDC hDC = pRenderData->hDC;
 		CXuiControl xuiControl(m_hObj);
-		if(m_item == NULL) m_item = shared_ptr<ItemInstance>( new ItemInstance(m_iID, m_iCount, m_iAuxVal) );
+		if(m_item == nullptr) m_item = shared_ptr<ItemInstance>( new ItemInstance(m_iID, m_iCount, m_iAuxVal) );
 
 		// build and render with the game call
 
@@ -225,7 +225,7 @@ HRESULT CXuiCtrlMinecraftSlot::OnRender(XUIMessageRender *pRenderData, BOOL &bHa
 		if(!m_bScreenWidthSetup)
 		{
 			Minecraft *pMinecraft=Minecraft::GetInstance();
-			if(pMinecraft != NULL)
+			if(pMinecraft != nullptr)
 			{
 				m_fScreenWidth=static_cast<float>(pMinecraft->width_phys);
 				m_fScreenHeight=static_cast<float>(pMinecraft->height_phys);

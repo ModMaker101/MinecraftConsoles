@@ -135,14 +135,14 @@ void Slime::serverAiStep()
 {
 	checkDespawn();
 	shared_ptr<Player> player = level->getNearestAttackablePlayer(shared_from_this(), 16);
-	if (player != NULL)
+	if (player != nullptr)
 	{
 		lookAt(player, 10, 20);
 	}
 	if (onGround && jumpDelay-- <= 0) 
 	{
 		jumpDelay = getJumpDelay();
-		if (player != NULL)
+		if (player != nullptr)
 		{
 			jumpDelay /= 3;
 		}

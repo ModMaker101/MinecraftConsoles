@@ -20,7 +20,7 @@ ByteArrayOutputStream::ByteArrayOutputStream(unsigned int size)
 
 ByteArrayOutputStream::~ByteArrayOutputStream()
 {
-	if (buf.data != NULL)
+	if (buf.data != nullptr)
 		delete[] buf.data;
 }
 

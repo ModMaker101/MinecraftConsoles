@@ -11,8 +11,8 @@ UIScene::UIScene(int iPad, UILayer *parentLayer)
 {
 	m_parentLayer = parentLayer;
 	m_iPad = iPad;
-	swf = NULL;
-	m_pItemRenderer = NULL;
+	swf = nullptr;
+	m_pItemRenderer = nullptr;
 
 	bHasFocus = false;
 	m_hasTickedOnce = false;
@@ -26,7 +26,7 @@ UIScene::UIScene(int iPad, UILayer *parentLayer)
 	m_lastOpacity = 1.0f;
 	m_bUpdateOpacity = false;
 
-	m_backScene = NULL;
+	m_backScene = nullptr;
 
 	m_cacheSlotRenders = false;
 	m_needsCacheRendered = true;
@@ -49,14 +49,14 @@ UIScene::~UIScene()
 		ui.UnregisterCallbackId(m_callbackUniqueId);
 	}
 
-	if(m_pItemRenderer != NULL) delete m_pItemRenderer;
+	if(m_pItemRenderer != nullptr) delete m_pItemRenderer;
 }
 
 void UIScene::destroyMovie()
 {
 	/* Destroy the Iggy player. */
 	IggyPlayerDestroy( swf );
-	swf = NULL;
+	swf = nullptr;
 
 	// Clear out the controls collection (doesn't delete the controls, and they get re-setup later)
 	m_controls.clear();
@@ -115,7 +115,7 @@ bool UIScene::needsReloaded()
 
 bool UIScene::hasMovie()
 {
-	return swf != NULL;
+	return swf != nullptr;
 }
 
 F64 UIScene::getSafeZoneHalfHeight()
@@ -330,7 +330,7 @@ void UIScene::loadMovie()
 
 	byteArray baFile = ui.getMovieData(moviePath.c_str());
 	__int64 beforeLoad = ui.iggyAllocCount;
-	swf = IggyPlayerCreateFromMemory ( baFile.data , baFile.length, NULL);
+	swf = IggyPlayerCreateFromMemory ( baFile.data , baFile.length, nullptr);
 	__int64 afterLoad = ui.iggyAllocCount;
 	IggyPlayerInitializeAndTickRS ( swf );
 	__int64 afterTick = ui.iggyAllocCount;
@@ -365,7 +365,7 @@ void UIScene::loadMovie()
 	__int64 totalStatic = 0;
 	__int64 totalDynamic = 0;
 	while(res = IggyDebugGetMemoryUseInfo ( swf ,
-		NULL ,
+		nullptr ,
 		0 ,
 		0 ,
 		iteration ,
@@ -393,7 +393,7 @@ void UIScene::getDebugMemoryUseRecursive(const wstring &moviePath, IggyMemoryUse
 	IggyMemoryUseInfo internalMemoryInfo;
 	int internalIteration = 0;
 	while(res = IggyDebugGetMemoryUseInfo ( swf ,
-		NULL ,
+		nullptr ,
 		memoryInfo.subcategory ,
 		memoryInfo.subcategory_stringlen ,
 		internalIteration ,
@@ -416,7 +416,7 @@ void UIScene::PrintTotalMemoryUsage(__int64 &totalStatic, __int64 &totalDynamic)
 	__int64 sceneStatic = 0;
 	__int64 sceneDynamic = 0;
 	while(res = IggyDebugGetMemoryUseInfo ( swf ,
-		NULL ,
+		nullptr ,
 		"" ,
 		0 ,
 		iteration ,
@@ -451,7 +451,7 @@ void UIScene::tick()
 
 UIControl* UIScene::GetMainPanel()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -545,19 +545,19 @@ void UIScene::removeControl( UIControl_Base *control, bool centreScene)
 void UIScene::slideLeft()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcSlideLeft , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcSlideLeft , 0 , nullptr );
 }
 
 void UIScene::slideRight()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcSlideRight , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcSlideRight , 0 , nullptr );
 }
 
 void UIScene::doHorizontalResizeCheck()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcHorizontalResizeCheck , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcHorizontalResizeCheck , 0 , nullptr );
 }
 
 void UIScene::render(S32 width, S32 height, C4JRender::eViewportType viewport)
@@ -600,7 +600,7 @@ void UIScene::customDraw(IggyCustomDrawCallbackRegion *region)
 
 void UIScene::customDrawSlotControl(IggyCustomDrawCallbackRegion *region, int iPad, shared_ptr<ItemInstance> item, float fAlpha, bool isFoil, bool bDecorations)
 {
-	if (item!= NULL)
+	if (item!= nullptr)
 	{
 		if(m_cacheSlotRenders)
 		{
@@ -739,7 +739,7 @@ void UIScene::_customDrawSlotControl(CustomDrawData *region, int iPad, shared_pt
 	}
 
 	PIXBeginNamedEvent(0,"Render and decorate");
-	if(m_pItemRenderer == NULL) m_pItemRenderer = new ItemRenderer();
+	if(m_pItemRenderer == nullptr) m_pItemRenderer = new ItemRenderer();
 	RenderManager.StateSetBlendEnable(true);
 	RenderManager.StateSetBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	RenderManager.StateSetBlendFactor(0xffffffff);
@@ -776,9 +776,9 @@ void UIScene::_customDrawSlotControl(CustomDrawData *region, int iPad, shared_pt
 // 4J Stu - Not threadsafe
 //void UIScene::navigateForward(int iPad, EUIScene scene, void *initData)
 //{
-//	if(m_parentLayer == NULL)
+//	if(m_parentLayer == nullptr)
 //	{
-//		app.DebugPrintf("A scene is trying to navigate forwards, but it's parent layer is NULL!\n");
+//		app.DebugPrintf("A scene is trying to navigate forwards, but it's parent layer is nullptr!\n");
 //#ifndef _CONTENT_PACKAGE
 //		__debugbreak();
 //#endif
@@ -796,9 +796,9 @@ void UIScene::navigateBack()
 
 	ui.NavigateBack(m_iPad);
 
-	if(m_parentLayer == NULL)
+	if(m_parentLayer == nullptr)
 	{
-//		app.DebugPrintf("A scene is trying to navigate back, but it's parent layer is NULL!\n");
+//		app.DebugPrintf("A scene is trying to navigate back, but it's parent layer is nullptr!\n");
 #ifndef _CONTENT_PACKAGE
 //		__debugbreak();
 #endif

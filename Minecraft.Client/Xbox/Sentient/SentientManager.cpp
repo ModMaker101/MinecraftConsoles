@@ -52,7 +52,7 @@ HRESULT CSentientManager::Tick()
 					m_lastHeartbeat = currentTime;
 					for(DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
 					{
-						if(Minecraft::GetInstance()->localplayers[i] != NULL)
+						if(Minecraft::GetInstance()->localplayers[i] != nullptr)
 						{
 							SenStatHeartBeat(i, m_lastHeartbeat - m_initialiseTime);
 						}
@@ -63,7 +63,7 @@ HRESULT CSentientManager::Tick()
 				{
 					for(DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
 					{
-						if(Minecraft::GetInstance()->localplayers[i] != NULL && m_fLevelStartTime[i] - currentTime > 60)
+						if(Minecraft::GetInstance()->localplayers[i] != nullptr && m_fLevelStartTime[i] - currentTime > 60)
 						{
 							Flush();
 						}
@@ -257,7 +257,7 @@ INT CSentientManager::GetMode(DWORD dwUserId)
 	
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if( pMinecraft->localplayers[dwUserId] != NULL && pMinecraft->localplayers[dwUserId]->level != NULL && pMinecraft->localplayers[dwUserId]->level->getLevelData() != NULL )
+	if( pMinecraft->localplayers[dwUserId] != nullptr && pMinecraft->localplayers[dwUserId]->level != nullptr && pMinecraft->localplayers[dwUserId]->level->getLevelData() != nullptr )
 	{
 		GameType *gameType = pMinecraft->localplayers[dwUserId]->level->getLevelData()->getGameType();
 
@@ -329,7 +329,7 @@ INT CSentientManager::GetSubLevelId(DWORD dwUserId)
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
 
-	if(pMinecraft->localplayers[dwUserId] != NULL)
+	if(pMinecraft->localplayers[dwUserId] != nullptr)
 	{
 		switch(pMinecraft->localplayers[dwUserId]->dimension)
 		{

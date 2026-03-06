@@ -35,7 +35,7 @@ bool HangingEntityItem::useOn(shared_ptr<ItemInstance> instance, shared_ptr<Play
 
 	if (!player->mayUseItemAt(xt, yt, zt, face, instance)) return false;
 
-	if (entity != NULL && entity->survives()) 
+	if (entity != nullptr && entity->survives()) 
 	{
 		if (!level->isClientSide) 
 		{

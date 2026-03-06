@@ -102,7 +102,7 @@ void UIScene_FullscreenProgress::handleDestroy()
 	DWORD exitcode = *((DWORD *)&code);
 
 	// If we're active, have a cancel func, and haven't already cancelled, call cancel func
-	if( exitcode == STILL_ACTIVE && m_cancelFunc != NULL && !m_bWasCancelled)
+	if( exitcode == STILL_ACTIVE && m_cancelFunc != nullptr && !m_bWasCancelled)
 	{
 		m_bWasCancelled = true;
 		m_cancelFunc(m_cancelFuncParam);
@@ -224,7 +224,7 @@ void UIScene_FullscreenProgress::tick()
 
 						// This just allows it to be shown
 						Minecraft *pMinecraft = Minecraft::GetInstance();
-						if(pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()] != NULL) pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()]->getTutorial()->showTutorialPopup(true);
+						if(pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()] != nullptr) pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()]->getTutorial()->showTutorialPopup(true);
 						ui.UpdatePlayerBasePositions();
 						navigateBack();
 					}
@@ -286,7 +286,7 @@ void UIScene_FullscreenProgress::handleInput(int iPad, int key, bool repeat, boo
 			break;
 		case ACTION_MENU_B:
 		case ACTION_MENU_CANCEL:
-			if( pressed && m_cancelFunc != NULL && !m_bWasCancelled ) 			
+			if( pressed && m_cancelFunc != nullptr && !m_bWasCancelled ) 			
 			{
 				m_bWasCancelled = true;
 				m_cancelFunc( m_cancelFuncParam );

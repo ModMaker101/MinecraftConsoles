@@ -32,7 +32,7 @@ int CommandBlockEntity::performCommand(Level *level)
 	}
 
 	MinecraftServer *instance = MinecraftServer::getInstance();
-	if (instance != NULL && instance->isCommandBlockEnabled())
+	if (instance != nullptr && instance->isCommandBlockEnabled())
 	{
 		CommandDispatcher *commandDispatcher = instance->getCommandDispatcher();
 		return commandDispatcher->performCommand(dynamic_pointer_cast<CommandSender>(shared_from_this()), command, byteArray() );

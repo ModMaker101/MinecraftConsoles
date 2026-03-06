@@ -136,7 +136,7 @@ bool EnderEyeItem::useOn(shared_ptr<ItemInstance> instance, shared_ptr<Player> p
 bool EnderEyeItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, shared_ptr<Player> player)
 {
 	HitResult *hr = getPlayerPOVHitResult(level, player, false);
-	if (hr != NULL && hr->type == HitResult::TILE)
+	if (hr != nullptr && hr->type == HitResult::TILE)
 	{
 		int tile = level->getTile(hr->x, hr->y, hr->z);
 		delete hr;
@@ -145,7 +145,7 @@ bool EnderEyeItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, 
 			return false;
 		}
 	}
-	else if( hr != NULL )
+	else if( hr != nullptr )
 	{
 		delete hr;
 	}
@@ -177,7 +177,7 @@ bool EnderEyeItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, 
 
 		}
 // 		TilePos *nearestMapFeature = level->findNearestMapFeature(LargeFeature::STRONGHOLD, (int) player->x, (int) player->y, (int) player->z);
-// 		if (nearestMapFeature != NULL)
+// 		if (nearestMapFeature != nullptr)
 // 		{
 // 			delete nearestMapFeature;
 // 			return true;
@@ -189,7 +189,7 @@ bool EnderEyeItem::TestUse(shared_ptr<ItemInstance> itemInstance, Level *level, 
 shared_ptr<ItemInstance> EnderEyeItem::use(shared_ptr<ItemInstance> instance, Level *level, shared_ptr<Player> player)
 {
 	HitResult *hr = getPlayerPOVHitResult(level, player, false);
-	if (hr != NULL && hr->type == HitResult::TILE)
+	if (hr != nullptr && hr->type == HitResult::TILE)
 	{
 		int tile = level->getTile(hr->x, hr->y, hr->z);
 		delete hr;
@@ -198,7 +198,7 @@ shared_ptr<ItemInstance> EnderEyeItem::use(shared_ptr<ItemInstance> instance, Le
 			return instance;
 		}
 	}
-	else if( hr != NULL )
+	else if( hr != nullptr )
 	{
 		delete hr;
 	}

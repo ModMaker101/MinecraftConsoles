@@ -299,15 +299,15 @@ intArray Textures::loadTexturePixels(TEXTURE_NAME texId, const wstring& resource
     {
         intArray id = pixelsMap[resourceName];
 		// 4J - if resourceName isn't in the map, it should add an element and as that will use the default constructor, its
-		// internal data pointer will be NULL
-        if (id.data != NULL) return id;
+		// internal data pointer will be nullptr
+        if (id.data != nullptr) return id;
     }
 
 	// 4J - removed try/catch
 //    try {
         intArray res;
 		//wstring in = skin->getResource(resourceName);
-		if (false)// 4J - removed - was ( in == NULL)
+		if (false)// 4J - removed - was ( in == nullptr)
 		{
 			res = loadTexturePixels(missingNo);
 		}
@@ -458,7 +458,7 @@ void Textures::bindTextureLayers(ResourceLocation *resource)
 
 			wstring resourceName = wstring(preLoaded[textureName]) + L".png";
 			BufferedImage *image = readImage(textureName, resourceName);
-			if( image == NULL )
+			if( image == nullptr )
 			{
 				continue;
 			}
@@ -618,7 +618,7 @@ int Textures::loadTexture(TEXTURE_NAME texId, const wstring& resourceName)
 	if (clamp) pathName = resourceName.substr(7);
 
 	//wstring in = skins->getSelected()->getResource(pathName);
-	if (false ) // 4J - removed was ( in == NULL)
+	if (false ) // 4J - removed was ( in == nullptr)
 	{
 		loadTexture(missingNo, id, blur, clamp);
 	}
@@ -711,7 +711,7 @@ void Textures::loadTexture(BufferedImage *img, int id, bool blur, bool clamp)
     intArray rawPixels(w*h);
     img->getRGB(0, 0, w, h, rawPixels, 0, w);
 
-	if (options != NULL && options->anaglyph3d)
+	if (options != nullptr && options->anaglyph3d)
 	{
 		rawPixels = anaglyph(rawPixels);
 	}
@@ -877,7 +877,7 @@ void Textures::replaceTexture(intArray rawPixels, int w, int h, int id)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	if (options != NULL && options->anaglyph3d)
+	if (options != nullptr && options->anaglyph3d)
 	{
 		rawPixels = anaglyph(rawPixels);
 	}
@@ -890,7 +890,7 @@ void Textures::replaceTexture(intArray rawPixels, int w, int h, int id)
         int g = (rawPixels[i] >> 8) & 0xff;
         int b = (rawPixels[i]) & 0xff;
 
-		if (options != NULL && options->anaglyph3d)
+		if (options != nullptr && options->anaglyph3d)
 		{
             int rr = (r * 30 + g * 59 + b * 11) / 100;
             int gg = (r * 30 + g * 70) / (100);
@@ -1004,9 +1004,9 @@ void Textures::releaseTexture(int id)
 int Textures::loadHttpTexture(const wstring& url, const wstring& backup)
 {
     HttpTexture *texture = httpTextures[url];
-    if (texture != NULL)
+    if (texture != nullptr)
 	{
-        if (texture->loadedImage != NULL && !texture->isLoaded)
+        if (texture->loadedImage != nullptr && !texture->isLoaded)
 		{
             if (texture->id < 0)
 			{
@@ -1019,7 +1019,7 @@ int Textures::loadHttpTexture(const wstring& url, const wstring& backup)
             texture->isLoaded = true;
         }
     }
-    if (texture == NULL || texture->id < 0)
+    if (texture == nullptr || texture->id < 0)
 	{
 		if (backup.empty() ) return -1;
         return loadTexture(TN_COUNT, backup);
@@ -1030,9 +1030,9 @@ int Textures::loadHttpTexture(const wstring& url, const wstring& backup)
 int Textures::loadHttpTexture(const wstring& url, int backup)
 {
     HttpTexture *texture = httpTextures[url];
-    if (texture != NULL)
+    if (texture != nullptr)
 	{
-        if (texture->loadedImage != NULL && !texture->isLoaded)
+        if (texture->loadedImage != nullptr && !texture->isLoaded)
 		{
             if (texture->id < 0)
 			{
@@ -1045,7 +1045,7 @@ int Textures::loadHttpTexture(const wstring& url, int backup)
             texture->isLoaded = true;
         }
     }
-    if (texture == NULL || texture->id < 0)
+    if (texture == nullptr || texture->id < 0)
 	{
         return loadTexture(backup);
     }
@@ -1060,7 +1060,7 @@ bool Textures::hasHttpTexture(const wstring &url)
 HttpTexture *Textures::addHttpTexture(const wstring& url, HttpTextureProcessor *processor)
 {
     HttpTexture *texture = httpTextures[url];
-    if (texture == NULL)
+    if (texture == nullptr)
 	{
         httpTextures[url] = new HttpTexture(url, processor);
     }
@@ -1074,7 +1074,7 @@ HttpTexture *Textures::addHttpTexture(const wstring& url, HttpTextureProcessor *
 void Textures::removeHttpTexture(const wstring& url)
 {
     HttpTexture *texture = httpTextures[url];
-    if (texture != NULL)
+    if (texture != nullptr)
 	{
         texture->count--;
         if (texture->count == 0)
@@ -1088,20 +1088,20 @@ void Textures::removeHttpTexture(const wstring& url)
 // 4J-PB - adding for texture in memory (from global title storage)
 int Textures::loadMemTexture(const wstring& url, const wstring& backup)
 {
-	MemTexture *texture = NULL;
+	MemTexture *texture = nullptr;
     auto it = memTextures.find(url);
     if (it != memTextures.end())
 	{
 		texture = (*it).second;
 	}
-	if(texture == NULL && app.IsFileInMemoryTextures(url))
+	if(texture == nullptr && app.IsFileInMemoryTextures(url))
 	{
 		// If we haven't loaded it yet, but we have the data for it then add it
 		texture = addMemTexture(url, new MobSkinMemTextureProcessor() );
 	}
-	if(texture != NULL)
+	if(texture != nullptr)
 	{
-		if (texture->loadedImage != NULL && !texture->isLoaded)
+		if (texture->loadedImage != nullptr && !texture->isLoaded)
 		{
 			// 4J - Disable mipmapping in general for skins & capes. Have seen problems with edge-on polys for some eg mumbo jumbo
 			if( ( url.substr(0,7) == L"dlcskin" ) ||
@@ -1122,7 +1122,7 @@ int Textures::loadMemTexture(const wstring& url, const wstring& backup)
 			MIPMAP = true;
 		}
 	}
-	if (texture == NULL || texture->id < 0)
+	if (texture == nullptr || texture->id < 0)
 	{
 		if (backup.empty() ) return -1;
 		return loadTexture(TN_COUNT,backup);
@@ -1132,21 +1132,21 @@ int Textures::loadMemTexture(const wstring& url, const wstring& backup)
 
 int Textures::loadMemTexture(const wstring& url, int backup)
 {
-	MemTexture *texture = NULL;
+	MemTexture *texture = nullptr;
     auto it = memTextures.find(url);
     if (it != memTextures.end())
 	{
 		texture = (*it).second;
 	}
-	if(texture == NULL && app.IsFileInMemoryTextures(url))
+	if(texture == nullptr && app.IsFileInMemoryTextures(url))
 	{
 		// If we haven't loaded it yet, but we have the data for it then add it
 		texture = addMemTexture(url, new MobSkinMemTextureProcessor() );
 	}
-	if(texture != NULL)
+	if(texture != nullptr)
 	{
 		texture->ticksSinceLastUse = 0;
-		if (texture->loadedImage != NULL && !texture->isLoaded)
+		if (texture->loadedImage != nullptr && !texture->isLoaded)
 		{
 			// 4J - Disable mipmapping in general for skins & capes. Have seen problems with edge-on polys for some eg mumbo jumbo
 			if( ( url.substr(0,7) == L"dlcskin" ) ||
@@ -1166,7 +1166,7 @@ int Textures::loadMemTexture(const wstring& url, int backup)
 			MIPMAP = true;
 		}
 	}
-	if (texture == NULL || texture->id < 0)
+	if (texture == nullptr || texture->id < 0)
 	{
 		return loadTexture(backup);
 	}
@@ -1175,16 +1175,16 @@ int Textures::loadMemTexture(const wstring& url, int backup)
 
 MemTexture *Textures::addMemTexture(const wstring& name,MemTextureProcessor *processor)
 {
-	MemTexture *texture = NULL;
+	MemTexture *texture = nullptr;
     auto it = memTextures.find(name);
     if (it != memTextures.end())
 	{
 		texture = (*it).second;
 	}
-	if(texture == NULL)
+	if(texture == nullptr)
 	{
 		// can we find it in the app mem files?
-		PBYTE pbData=NULL;
+		PBYTE pbData=nullptr;
 		DWORD dwBytes=0;
 		app.GetMemFileDetails(name,&pbData,&dwBytes);
 
@@ -1196,7 +1196,7 @@ MemTexture *Textures::addMemTexture(const wstring& name,MemTextureProcessor *pro
 		else
 		{
 			// 4J Stu - Make an entry for this anyway and we can populate it later
-			memTextures[name] = NULL;
+			memTextures[name] = nullptr;
 		}
 	}
 	else
@@ -1212,7 +1212,7 @@ MemTexture *Textures::addMemTexture(const wstring& name,MemTextureProcessor *pro
 // MemTexture *Textures::getMemTexture(const wstring& url, MemTextureProcessor *processor)
 // {
 // 	MemTexture *texture = memTextures[url];
-// 	if (texture != NULL)
+// 	if (texture != nullptr)
 // 	{
 // 		texture->count++;
 // 	}
@@ -1221,16 +1221,16 @@ MemTexture *Textures::addMemTexture(const wstring& name,MemTextureProcessor *pro
 
 void Textures::removeMemTexture(const wstring& url)
 {
-	MemTexture *texture = NULL;
+	MemTexture *texture = nullptr;
     auto it = memTextures.find(url);
     if (it != memTextures.end())
 	{
 		texture = (*it).second;
 
-		// If it's NULL then we should just remove the entry
-		if( texture == NULL ) memTextures.erase(url);
+		// If it's nullptr then we should just remove the entry
+		if( texture == nullptr ) memTextures.erase(url);
 	}
-	if(texture != NULL)
+	if(texture != nullptr)
 	{
 		texture->count--;
 		if (texture->count == 0)
@@ -1380,7 +1380,7 @@ Icon *Textures::getMissingIcon(int type)
 
 BufferedImage *Textures::readImage(TEXTURE_NAME texId, const wstring& name)	// 4J was InputStream *in
 {
-	BufferedImage *img=NULL;
+	BufferedImage *img=nullptr;
 	MemSect(32);
 	// is this image one of the Title Update ones?
 	bool isTu = IsTUImage(texId, name);
@@ -1534,7 +1534,7 @@ wchar_t *TUImagePaths[] =
 
 	//
 
-	NULL
+	nullptr
 };
 
 bool Textures::IsTUImage(TEXTURE_NAME texId, const wstring& name)
@@ -1583,7 +1583,7 @@ wchar_t *OriginalImagesPaths[] =
 {
 	L"misc/watercolor.png",
 
-	NULL
+	nullptr
 };
 
 bool Textures::IsOriginalImage(TEXTURE_NAME texId, const wstring& name)

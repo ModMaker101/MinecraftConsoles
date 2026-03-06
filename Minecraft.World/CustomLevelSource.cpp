@@ -30,7 +30,7 @@ CustomLevelSource::CustomLevelSource(Level *level, __int64 seed, bool generateSt
 	string path = "GAME:\\GameRules\\heightmap.bin";
 #endif
 #endif
-	HANDLE file = CreateFile(path.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE file = CreateFile(path.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if( file == INVALID_HANDLE_VALUE )
 	{
 		app.FatalLoadError();
@@ -44,14 +44,14 @@ CustomLevelSource::CustomLevelSource(Level *level, __int64 seed, bool generateSt
 		__debugbreak();	// TODO
 		DWORD bytesRead,dwFileSize = 0;
 #else
-		DWORD bytesRead,dwFileSize = GetFileSize(file,NULL);
+		DWORD bytesRead,dwFileSize = GetFileSize(file,nullptr);
 #endif
 		if(dwFileSize > m_heightmapOverride.length)
 		{
 			app.DebugPrintf("Heightmap binary is too large!!\n");
 			__debugbreak();
 		}
-		BOOL bSuccess = ReadFile(file,m_heightmapOverride.data,dwFileSize,&bytesRead,NULL);
+		BOOL bSuccess = ReadFile(file,m_heightmapOverride.data,dwFileSize,&bytesRead,nullptr);
 
 		if(bSuccess==FALSE)
 		{
@@ -72,7 +72,7 @@ CustomLevelSource::CustomLevelSource(Level *level, __int64 seed, bool generateSt
 	string waterHeightPath = "GAME:\\GameRules\\waterheight.bin";
 #endif
 #endif
-	file = CreateFile(waterHeightPath.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(waterHeightPath.c_str(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if( file == INVALID_HANDLE_VALUE )
 	{
 		DWORD error = GetLastError();
@@ -86,14 +86,14 @@ CustomLevelSource::CustomLevelSource(Level *level, __int64 seed, bool generateSt
 		__debugbreak();	// TODO
 		DWORD bytesRead,dwFileSize = 0;
 #else
-		DWORD bytesRead,dwFileSize = GetFileSize(file,NULL);
+		DWORD bytesRead,dwFileSize = GetFileSize(file,nullptr);
 #endif
 		if(dwFileSize > m_waterheightOverride.length)
 		{
 			app.DebugPrintf("waterheight binary is too large!!\n");
 			__debugbreak();
 		}
-		BOOL bSuccess = ReadFile(file,m_waterheightOverride.data,dwFileSize,&bytesRead,NULL);
+		BOOL bSuccess = ReadFile(file,m_waterheightOverride.data,dwFileSize,&bytesRead,nullptr);
 
 		if(bSuccess==FALSE)
 		{
@@ -270,7 +270,7 @@ void CustomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 			byte material = b->material;
 
 			LevelGenerationOptions *lgo = app.getLevelGenerationOptions();
-			if(lgo != NULL)
+			if(lgo != nullptr)
 			{
 				lgo->getBiomeOverride(b->id,material,top);
 			}
@@ -313,7 +313,7 @@ void CustomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 							{
 								top = b->topMaterial;
 								material = b->material;
-								if(lgo != NULL)
+								if(lgo != nullptr)
 								{
 									lgo->getBiomeOverride(b->id,material,top);
 								}
@@ -357,7 +357,7 @@ LevelChunk *CustomLevelSource::create(int x, int z)
 #ifdef _OVERRIDE_HEIGHTMAP
 	return getChunk(x,z);
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -411,7 +411,7 @@ LevelChunk *CustomLevelSource::getChunk(int xOffs, int zOffs)
 
 	return levelChunk;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -622,9 +622,9 @@ vector<Biome::MobSpawnerData *> *CustomLevelSource::getMobsAt(MobCategory *mobCa
 {
 #ifdef _OVERRIDE_HEIGHTMAP
 	Biome *biome = level->getBiome(x, z);
-	if (biome == NULL)
+	if (biome == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (mobCategory == MobCategory::monster && scatteredFeature->isSwamphut(x, y, z))
 	{
@@ -632,19 +632,19 @@ vector<Biome::MobSpawnerData *> *CustomLevelSource::getMobsAt(MobCategory *mobCa
 	}
 	return biome->getMobs(mobCategory);
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
 TilePos *CustomLevelSource::findNearestMapFeature(Level *level, const wstring& featureName, int x, int y, int z)
 {
 #ifdef _OVERRIDE_HEIGHTMAP
-	if (LargeFeature::STRONGHOLD == featureName && strongholdFeature != NULL)
+	if (LargeFeature::STRONGHOLD == featureName && strongholdFeature != nullptr)
 	{
 		return strongholdFeature->getNearestGeneratedFeature(level, x, y, z);
 	}
 #endif
-	return NULL;
+	return nullptr;
 }
 
 void CustomLevelSource::recreateLogicStructuresForChunk(int chunkX, int chunkZ)
@@ -652,10 +652,10 @@ void CustomLevelSource::recreateLogicStructuresForChunk(int chunkX, int chunkZ)
 	if (generateStructures)
 	{
 #ifdef _OVERRIDE_HEIGHTMAP
-		mineShaftFeature->apply(this, level, chunkX, chunkZ, NULL);
-		villageFeature->apply(this, level, chunkX, chunkZ, NULL);
-		strongholdFeature->apply(this, level, chunkX, chunkZ, NULL);
-		scatteredFeature->apply(this, level, chunkX, chunkZ, NULL);
+		mineShaftFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		villageFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		strongholdFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		scatteredFeature->apply(this, level, chunkX, chunkZ, byteArray());
 #endif
 	}
 }

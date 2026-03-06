@@ -44,7 +44,7 @@ UIScene_DebugOverlay::UIScene_DebugOverlay(int iPad, void *initData, UILayer *pa
     std::vector<std::pair<std::wstring, unsigned int>> sortedItems;
     for (size_t i = 0; i < Item::items.length; ++i)
     {
-        if (Item::items[i] != NULL)
+        if (Item::items[i] != nullptr)
         {
 			sortedItems.emplace_back(std::wstring(app.GetString(Item::items[i]->getDescriptionId())), i);
         }
@@ -137,18 +137,18 @@ wstring UIScene_DebugOverlay::getMoviePath()
 void UIScene_DebugOverlay::customDraw(IggyCustomDrawCallbackRegion *region)
 {
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if(pMinecraft->localplayers[m_iPad] == NULL || pMinecraft->localgameModes[m_iPad] == NULL) return;
+	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	int itemId = -1;
 	swscanf(static_cast<wchar_t *>(region->name),L"item_%d",&itemId);
-	if (itemId == -1 || itemId > Item::ITEM_NUM_COUNT || Item::items[itemId] == NULL)
+	if (itemId == -1 || itemId > Item::ITEM_NUM_COUNT || Item::items[itemId] == nullptr)
 	{
 		app.DebugPrintf("This is not the control we are looking for\n");
 	}
 	else
 	{
 		shared_ptr<ItemInstance> item = shared_ptr<ItemInstance>( new ItemInstance(itemId,1,0) );
-		if(item != NULL) customDrawSlotControl(region,m_iPad,item,1.0f,false,false);
+		if(item != nullptr) customDrawSlotControl(region,m_iPad,item,1.0f,false,false);
 	}
 }
 
@@ -211,14 +211,14 @@ void UIScene_DebugOverlay::handlePress(F64 controlId, F64 childId)
 	case eControl_Schematic:
 		{
 #ifndef _CONTENT_PACKAGE
-			ui.NavigateToScene(ProfileManager.GetPrimaryPad(),eUIScene_DebugCreateSchematic,NULL,eUILayer_Debug);
+			ui.NavigateToScene(ProfileManager.GetPrimaryPad(),eUIScene_DebugCreateSchematic,nullptr,eUILayer_Debug);
 #endif
 		}
 		break;
 	case eControl_SetCamera:
 		{
 #ifndef _CONTENT_PACKAGE
-			ui.NavigateToScene(ProfileManager.GetPrimaryPad(),eUIScene_DebugSetCamera,NULL,eUILayer_Debug);
+			ui.NavigateToScene(ProfileManager.GetPrimaryPad(),eUIScene_DebugSetCamera,nullptr,eUILayer_Debug);
 #endif
 		}
 		break;

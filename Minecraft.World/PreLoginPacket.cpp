@@ -9,7 +9,7 @@
 PreLoginPacket::PreLoginPacket() 
 {
 	loginKey = L"";
-	m_playerXuids = NULL;
+	m_playerXuids = nullptr;
 	m_dwPlayerCount = 0;
 	m_friendsOnlyBits = 0;
 	m_ugcPlayersVersion = 0;
@@ -23,7 +23,7 @@ PreLoginPacket::PreLoginPacket()
 PreLoginPacket::PreLoginPacket(wstring userName) 
 {
 	this->loginKey = userName;
-	m_playerXuids = NULL;
+	m_playerXuids = nullptr;
 	m_dwPlayerCount = 0;
 	m_friendsOnlyBits = 0;
 	m_ugcPlayersVersion = 0;
@@ -50,7 +50,7 @@ PreLoginPacket::PreLoginPacket(wstring userName, PlayerUID *playerXuids, DWORD p
 
 PreLoginPacket::~PreLoginPacket()
 {
-	if( m_playerXuids != NULL ) delete [] m_playerXuids;
+	if( m_playerXuids != nullptr ) delete [] m_playerXuids;
 }
 
 void PreLoginPacket::read(DataInputStream *dis) //throws IOException 

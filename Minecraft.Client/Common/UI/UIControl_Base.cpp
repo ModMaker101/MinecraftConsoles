@@ -72,7 +72,7 @@ void UIControl_Base::setLabel(UIString label, bool instant, bool force)
 const wchar_t* UIControl_Base::getLabel()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS(m_parentScene->getMovie(), &result, getIggyValuePath(), m_funcGetLabel, 0, NULL);
+	IggyResult out = IggyPlayerCallMethodRS(m_parentScene->getMovie(), &result, getIggyValuePath(), m_funcGetLabel, 0, nullptr);
 
 	if(result.type == IGGY_DATATYPE_string_UTF16)
 	{

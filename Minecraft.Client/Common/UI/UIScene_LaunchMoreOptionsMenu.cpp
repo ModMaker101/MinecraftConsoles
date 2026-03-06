@@ -305,7 +305,7 @@ void UIScene_LaunchMoreOptionsMenu::handleInput(int iPad, int key, bool repeat, 
 			m_tabIndex = m_tabIndex == 0 ? 1 : 0;
 			updateTooltips();
 			IggyDataValue result;
-			IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcChangeTab , 0 , NULL );
+			IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcChangeTab , 0 , nullptr );
 		}
 		break;
 	}
@@ -327,7 +327,7 @@ void UIScene_LaunchMoreOptionsMenu::handleTouchInput(unsigned int iPad, S32 x, S
 				m_tabIndex = iNewTabIndex;
 				updateTooltips();
 				IggyDataValue result;
-				IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcChangeTab , 0 , NULL );
+				IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcChangeTab , 0 , nullptr );
 			}
 			ui.TouchBoxRebuild(this);
 			break;

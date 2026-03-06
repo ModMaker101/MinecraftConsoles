@@ -10,7 +10,7 @@ int CXuiCtrlFireProgress::GetValue()
 	void* pvUserData;
 	this->GetUserData( &pvUserData );
 
-	if( pvUserData != NULL )
+	if( pvUserData != nullptr )
 	{
 		FurnaceTileEntity *pFurnaceTileEntity = static_cast<FurnaceTileEntity *>(pvUserData);
 

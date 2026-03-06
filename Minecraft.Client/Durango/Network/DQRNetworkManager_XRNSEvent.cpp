@@ -603,7 +603,7 @@ void DQRNetworkManager::RTS_StartCient()
 	EnterCriticalSection(&m_csRTSMessageQueueOutgoing);
 	RTS_Message message;
 	message.m_eType = eRTSMessageType::RTS_MESSAGE_START_CLIENT;
-	message.m_pucData = NULL;
+	message.m_pucData = nullptr;
 	message.m_dataSize = 0;
 	m_RTSMessageQueueOutgoing.push(message);
 	LeaveCriticalSection(&m_csRTSMessageQueueOutgoing);
@@ -614,7 +614,7 @@ void DQRNetworkManager::RTS_StartHost()
 	EnterCriticalSection(&m_csRTSMessageQueueOutgoing);
 	RTS_Message message;
 	message.m_eType = eRTSMessageType::RTS_MESSAGE_START_HOST;
-	message.m_pucData = NULL;
+	message.m_pucData = nullptr;
 	message.m_dataSize = 0;
 	m_RTSMessageQueueOutgoing.push(message);
 	LeaveCriticalSection(&m_csRTSMessageQueueOutgoing);
@@ -625,7 +625,7 @@ void DQRNetworkManager::RTS_Terminate()
 	EnterCriticalSection(&m_csRTSMessageQueueOutgoing);
 	RTS_Message message;
 	message.m_eType = eRTSMessageType::RTS_MESSAGE_TERMINATE;
-	message.m_pucData = NULL;
+	message.m_pucData = nullptr;
 	message.m_dataSize = 0;
 	m_RTSMessageQueueOutgoing.push(message);
 	LeaveCriticalSection(&m_csRTSMessageQueueOutgoing);

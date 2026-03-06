@@ -26,7 +26,7 @@ void HugeExplosionSeedParticle::tick()
 		double zz = z + (random->nextDouble() - random->nextDouble()) * 4;
 		level->addParticle(eParticleType_largeexplode, xx, yy, zz, life / static_cast<float>(lifeTime), 0, 0);
 	}
-	Minecraft::GetInstance()->animateTickLevel = NULL;
+	Minecraft::GetInstance()->animateTickLevel = nullptr;
 	life++;
 	if (life == lifeTime) remove();
 }

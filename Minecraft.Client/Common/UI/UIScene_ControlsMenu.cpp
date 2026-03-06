@@ -25,7 +25,7 @@ UIScene_ControlsMenu::UIScene_ControlsMenu(int iPad, void *initData, UILayer *pa
 #endif
 	IggyResult out = IggyPlayerCallMethodRS ( getMovie() , &result, IggyPlayerRootPath( getMovie() ), m_funcSetPlatform , 1 , value );
 
-	bool bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 
 	if(bNotInGame)
 	{

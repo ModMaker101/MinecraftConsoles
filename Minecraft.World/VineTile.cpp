@@ -102,7 +102,7 @@ void VineTile::updateShape(LevelSource *level, int x, int y, int z, int forceDat
 
 AABB *VineTile::getAABB(Level *level, int x, int y, int z)
 {
-	return NULL;
+	return nullptr;
 }
 
 bool VineTile::mayPlace(Level *level, int x, int y, int z, int face)
@@ -259,7 +259,7 @@ testLoop:		if(noSideSpread) break;
 
 				int edgeTile = level->getTile(x + Direction::STEP_X[testDirection], y, z + Direction::STEP_Z[testDirection]);
 
-				if (edgeTile == 0 || Tile::tiles[edgeTile] == NULL)
+				if (edgeTile == 0 || Tile::tiles[edgeTile] == nullptr)
 				{
 					// if the edge tile is air, we could possibly cling
 					// to something
@@ -371,7 +371,7 @@ int VineTile::getResourceCount(Random *random)
 
 void VineTile::playerDestroy(Level *level, shared_ptr<Player>player, int x, int y, int z, int data)
 {
-	if (!level->isClientSide && player->getSelectedItem() != NULL && player->getSelectedItem()->id == Item::shears->id)
+	if (!level->isClientSide && player->getSelectedItem() != nullptr && player->getSelectedItem()->id == Item::shears->id)
 	{
 		player->awardStat(
 			GenericStats::blocksMined(id),

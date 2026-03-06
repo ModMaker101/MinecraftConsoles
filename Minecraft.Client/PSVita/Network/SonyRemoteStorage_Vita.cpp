@@ -218,7 +218,7 @@ bool SonyRemoteStorage_Vita::init(CallbackFunc cb, LPVOID lpParam)
 	params.timeout.receiveMs = 120 * 1000;	//120 seconds is the default
 	params.timeout.sendMs = 120 * 1000;		//120 seconds is the default
 	params.pool.memPoolSize = 7 * 1024 * 1024;
-	if(m_memPoolBuffer == NULL)
+	if(m_memPoolBuffer == nullptr)
 		m_memPoolBuffer = malloc(params.pool.memPoolSize);
 	params.pool.memPoolBuffer = m_memPoolBuffer;
 
@@ -298,7 +298,7 @@ bool SonyRemoteStorage_Vita::setDataInternal()
 
 	snprintf(m_saveFilename, sizeof(m_saveFilename), "%s:%s/GAMEDATA.bin", "savedata0", m_setDataSaveInfo->UTF8SaveFilename);
 
-	SceFiosSize outSize = sceFiosFileGetSizeSync(NULL, m_saveFilename);
+	SceFiosSize outSize = sceFiosFileGetSizeSync(nullptr, m_saveFilename);
 	m_uploadSaveSize = static_cast<int>(outSize);
 	
 	strcpy(m_saveFileDesc, m_setDataSaveInfo->UTF8SaveTitle);

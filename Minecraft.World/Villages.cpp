@@ -11,7 +11,7 @@ const wstring Villages::VILLAGE_FILE_ID = L"villages";
 Villages::Villages(const wstring &id) : SavedData(id)
 {
 	_tick = 0;
-	level = NULL;
+	level = nullptr;
 }
 
 Villages::Villages(Level *level) : SavedData(VILLAGE_FILE_ID)
@@ -147,7 +147,7 @@ void Villages::addDoorInfos(Pos *pos)
 				if (isDoor(xx, yy, zz))
 				{
 					shared_ptr<DoorInfo> currentDoor = getDoorInfo(xx, yy, zz);
-					if (currentDoor == NULL) createDoorInfo(xx, yy, zz);
+					if (currentDoor == nullptr) createDoorInfo(xx, yy, zz);
 					else currentDoor->timeStamp = _tick;
 				}
 			}

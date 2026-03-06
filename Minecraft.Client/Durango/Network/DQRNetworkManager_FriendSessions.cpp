@@ -49,7 +49,7 @@ bool DQRNetworkManager::FriendPartyManagerSearch()
 
 	m_sessionResultCount = 0;
 	delete [] m_sessionSearchResults;
-	m_sessionSearchResults = NULL;
+	m_sessionSearchResults = nullptr;
 
 	m_GetFriendPartyThread = new C4JThread(&_GetFriendsThreadProc,this,"GetFriendsThreadProc");
 	m_GetFriendPartyThread->Run();
@@ -61,7 +61,7 @@ bool DQRNetworkManager::FriendPartyManagerSearch()
 void DQRNetworkManager::FriendPartyManagerGetSessionInfo(int idx, SessionSearchResult *searchResult)
 {
 	assert( idx < m_sessionResultCount );
-	assert( ( m_GetFriendPartyThread == NULL ) || ( !m_GetFriendPartyThread->isRunning()) );
+	assert( ( m_GetFriendPartyThread == nullptr ) || ( !m_GetFriendPartyThread->isRunning()) );
 
 	// Need to make sure that copied data has independently allocated m_extData, so both copies can be freed
 	*searchResult = m_sessionSearchResults[idx];

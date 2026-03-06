@@ -42,12 +42,12 @@ void MinecartRenderer::render(shared_ptr<Entity> _cart, double x, double y, doub
 
 	float xRot = cart->xRotO + (cart->xRot - cart->xRotO) * a;
 
-	if (p != NULL)
+	if (p != nullptr)
 	{
 		Vec3 *p0 = cart->getPosOffs(xx, yy, zz, r);
 		Vec3 *p1 = cart->getPosOffs(xx, yy, zz, -r);
-		if (p0 == NULL) p0 = p;
-		if (p1 == NULL) p1 = p;
+		if (p0 == nullptr) p0 = p;
+		if (p1 == nullptr) p1 = p;
 
 		x += p->x - xx;
 		y += (p0->y + p1->y) / 2 - yy;
@@ -80,7 +80,7 @@ void MinecartRenderer::render(shared_ptr<Entity> _cart, double x, double y, doub
 	Tile *tile = cart->getDisplayTile();
 	int tileData = cart->getDisplayData();
 
-	if (tile != NULL)
+	if (tile != nullptr)
 	{
 		glPushMatrix();
 

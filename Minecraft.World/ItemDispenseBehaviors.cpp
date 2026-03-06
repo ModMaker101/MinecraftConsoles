@@ -104,7 +104,7 @@ shared_ptr<ItemInstance> SpawnEggDispenseBehavior::execute(BlockSource *source, 
 	shared_ptr<Entity> entity = SpawnEggItem::spawnMobAt(source->getWorld(), dispensed->getAuxValue(), spawnX, spawnY, spawnZ, &iResult);
 
 	// 4J-JEV: Added in-case spawn limit is encountered.
-	if (entity == NULL)
+	if (entity == nullptr)
 	{
 		outcome = LEFT_ITEM;
 		return dispensed;

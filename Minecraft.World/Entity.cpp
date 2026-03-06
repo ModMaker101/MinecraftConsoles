@@ -41,7 +41,7 @@ int Entity::extraWanderCount = 0;
 int Entity::getSmallId()
 {
 	unsigned int *puiUsedFlags = entityIdUsedFlags;
-	unsigned int *puiRemovedFlags = NULL;
+	unsigned int *puiRemovedFlags = nullptr;
 
 	// If we are the server (we should be, if we are allocating small Ids), then check with the server if there are any small Ids which are
 	// still in the ServerPlayer's vectors of entities to be removed - these are used to gather up a set of entities into one network packet
@@ -260,7 +260,7 @@ void Entity::_init(bool useSmallId, Level *level)
 	riding = nullptr;
 	forcedLoading = false;
 
-	//level = NULL; // Level is assigned to in the original c_tor code
+	//level = nullptr; // Level is assigned to in the original c_tor code
 	xo = yo = zo = 0.0;
 	x = y = z = 0.0;
 	xd = yd = zd = 0.0;
@@ -355,7 +355,7 @@ Entity::Entity(Level *level, bool useSmallId)	// 4J - added useSmallId parameter
 	// resetPos();
 	setPos(0, 0, 0);
 
-	if (level != NULL)
+	if (level != nullptr)
 	{
 		dimension = level->dimension->id;
 	}
@@ -398,7 +398,7 @@ return entityId;
 
 void Entity::resetPos()
 {
-	if (level == NULL) return;
+	if (level == nullptr) return;
 
 	shared_ptr<Entity> sharedThis = shared_from_this();
 	while (true && y > 0)
@@ -510,7 +510,7 @@ void Entity::baseTick()
 	// 4J Stu - Not needed
 	//util.Timer.push("entityBaseTick");
 
-	if (riding != NULL && riding->removed)
+	if (riding != nullptr && riding->removed)
 	{
 		riding = nullptr;
 	}
@@ -533,7 +533,7 @@ void Entity::baseTick()
 			{
 				if (server->isNetherEnabled())
 				{
-					if (riding == NULL)
+					if (riding == nullptr)
 					{
 						if (portalTime++ >= waitTime)
 						{
@@ -883,7 +883,7 @@ void Entity::move(double xa, double ya, double za, bool noEntityCubes)   // 4J -
 	double zm = z - zo;
 
 
-	if (makeStepSound() && !isPlayerSneaking && riding == NULL)
+	if (makeStepSound() && !isPlayerSneaking && riding == nullptr)
 	{
 		int xt = Mth::floor(x);
 		int yt = Mth::floor(y - 0.2f - heightOffset);
@@ -1029,7 +1029,7 @@ void Entity::checkFallDamage(double ya, bool onGround)
 
 AABB *Entity::getCollideBox()
 {
-	return NULL;
+	return nullptr;
 }
 
 void Entity::burn(int dmg)
@@ -1047,7 +1047,7 @@ bool Entity::isFireImmune()
 
 void Entity::causeFallDamage(float distance)
 {
-	if (rider.lock() != NULL) rider.lock()->causeFallDamage(distance);
+	if (rider.lock() != nullptr) rider.lock()->causeFallDamage(distance);
 }
 
 
@@ -1348,7 +1348,7 @@ bool Entity::saveAsMount(CompoundTag *entityTag)
 bool Entity::save(CompoundTag *entityTag)
 {
 	wstring id = getEncodeId();
-	if (removed || id.empty() || (rider.lock() != NULL) )
+	if (removed || id.empty() || (rider.lock() != nullptr) )
 	{
 		return false;
 	}
@@ -1376,7 +1376,7 @@ void Entity::saveWithoutId(CompoundTag *entityTag)
 
 	addAdditonalSaveData(entityTag);
 
-	if (riding != NULL)
+	if (riding != nullptr)
 	{
 		CompoundTag *ridingTag = new CompoundTag(RIDING_TAG);
 		if (riding->saveAsMount(ridingTag))
@@ -1556,7 +1556,7 @@ bool Entity::interact(shared_ptr<Player> player)
 
 AABB *Entity::getCollideAgainstBox(shared_ptr<Entity> entity)
 {
-	return NULL;
+	return nullptr;
 }
 
 void Entity::rideTick()
@@ -1569,7 +1569,7 @@ void Entity::rideTick()
 	xd = yd = zd = 0;
 	tick();
 
-	if (riding == NULL) return;
+	if (riding == nullptr) return;
 
 	// Sets riders old&new position to it's mount's old&new position (plus the ride y-seperatation).
 	riding->positionRider();
@@ -1605,7 +1605,7 @@ void Entity::rideTick()
 void Entity::positionRider()
 {
 	shared_ptr<Entity> lockedRider = rider.lock();
-	if( lockedRider == NULL)
+	if( lockedRider == nullptr)
 	{
 		return;
 	}
@@ -1627,9 +1627,9 @@ void Entity::ride(shared_ptr<Entity> e)
 	xRideRotA = 0;
 	yRideRotA = 0;
 
-	if (e == NULL)
+	if (e == nullptr)
 	{
-		if (riding != NULL)
+		if (riding != nullptr)
 		{
 			// 4J Stu - Position should already be updated before the SetEntityLinkPacket comes in
 			if(!level->isClientSide) moveTo(riding->x, riding->bb->y0 + riding->bbHeight, riding->z, yRot, xRot);
@@ -1638,7 +1638,7 @@ void Entity::ride(shared_ptr<Entity> e)
 		riding = nullptr;
 		return;
 	}
-	if (riding != NULL)
+	if (riding != nullptr)
 	{
 		riding->rider = weak_ptr<Entity>();
 	}
@@ -1677,7 +1677,7 @@ float Entity::getPickRadius()
 
 Vec3 *Entity::getLookAngle()
 {
-	return NULL;
+	return nullptr;
 }
 
 void Entity::handleInsidePortal()
@@ -1721,7 +1721,7 @@ void Entity::animateHurt()
 
 ItemInstanceArray Entity::getEquipmentSlots() // ItemInstance[]
 {
-	return ItemInstanceArray();	// Default ctor creates NULL internal array
+	return ItemInstanceArray();	// Default ctor creates nullptr internal array
 }
 
 // 4J Stu - Brought forward change from 1.3 to fix #64688 - Customer Encountered: TU7: Content: Art: Aura of enchanted item is not displayed for other players in online game
@@ -1736,7 +1736,7 @@ bool Entity::isOnFire()
 
 bool Entity::isRiding()
 {
-	return riding != NULL;
+	return riding != nullptr;
 }
 
 bool Entity::isSneaking()
@@ -1937,7 +1937,7 @@ wstring Entity::getAName()
 
 vector<shared_ptr<Entity> > *Entity::getSubEntities()
 {
-	return NULL;
+	return nullptr;
 }
 
 bool Entity::is(shared_ptr<Entity> other)
@@ -2023,7 +2023,7 @@ void Entity::changeDimension(int i)
 	server->getPlayers()->repositionAcrossDimension(shared_from_this(), lastDimension, oldLevel, newLevel);
 	shared_ptr<Entity> newEntity = EntityIO::newEntity(EntityIO::getEncodeId(shared_from_this()), newLevel);
 
-	if (newEntity != NULL)
+	if (newEntity != nullptr)
 	{
 		newEntity->restoreFrom(shared_from_this(), true);
 

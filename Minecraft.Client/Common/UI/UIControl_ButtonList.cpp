@@ -60,7 +60,7 @@ void UIControl_ButtonList::ReInit()
 void UIControl_ButtonList::clearList()
 {
 	IggyDataValue result;
-	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath(), m_removeAllItemsFunc , 0 , NULL );
+	IggyResult out = IggyPlayerCallMethodRS ( m_parentScene->getMovie() , &result, getIggyValuePath(), m_removeAllItemsFunc , 0 , nullptr );
 
 	m_itemCount = 0;
 }

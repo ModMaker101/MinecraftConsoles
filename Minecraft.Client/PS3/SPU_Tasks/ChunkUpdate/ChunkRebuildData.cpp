@@ -696,7 +696,7 @@ bool ChunkRebuildData::isEmptyTile(int x, int y, int z)
 bool ChunkRebuildData::isSolidRenderTile(int x, int y, int z)
 {
 	TileRef_SPU tile(getTile(x,y,z));
-	if (tile.getPtr() == NULL) return false;
+	if (tile.getPtr() == nullptr) return false;
 
 
 	// 4J - addition here to make rendering big blocks of leaves more efficient. Normally leaves never consider themselves as solid, so
@@ -727,7 +727,7 @@ bool ChunkRebuildData::isSolidRenderTile(int x, int y, int z)
 bool ChunkRebuildData::isSolidBlockingTile(int x, int y, int z)
 {
 	TileRef_SPU tile(getTile(x, y, z));
-	if (tile.getPtr() == NULL) return false;
+	if (tile.getPtr() == nullptr) return false;
 	bool ret =  tile->getMaterial()->blocksMotion() && tile->isCubeShaped();
 	return ret;
 }

@@ -79,7 +79,7 @@ int SkullTile::cloneTileData(Level *level, int x, int y, int z)
 {
 	shared_ptr<TileEntity> tileEntity = level->getTileEntity(x, y, z);
 	shared_ptr<SkullTileEntity> skull = dynamic_pointer_cast<SkullTileEntity>(tileEntity);
-	if (skull != NULL)
+	if (skull != nullptr)
 	{
 		return skull->getSkullType();
 	}
@@ -274,7 +274,7 @@ bool SkullTile::isSkullAt(Level *level, int x, int y, int z, int skullType)
 	}
 	shared_ptr<TileEntity> te = level->getTileEntity(x, y, z);
 	shared_ptr<SkullTileEntity> skull = dynamic_pointer_cast<SkullTileEntity>(te);
-	if (skull == NULL)
+	if (skull == nullptr)
 	{
 		return false;
 	}

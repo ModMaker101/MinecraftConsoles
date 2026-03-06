@@ -240,8 +240,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
     shared_ptr<ItemInstance> headGear = minecraft->player->inventory->getArmor(3);
 
 	// 4J-PB - changing this to be per player
-	//if (!minecraft->options->thirdPersonView && headGear != NULL && headGear->id == Tile::pumpkin_Id) renderPumpkin(screenWidth, screenHeight);
-	if ((minecraft->player->ThirdPersonView()==0) && headGear != NULL && headGear->id == Tile::pumpkin_Id) renderPumpkin(screenWidth, screenHeight);
+	//if (!minecraft->options->thirdPersonView && headGear != nullptr && headGear->id == Tile::pumpkin_Id) renderPumpkin(screenWidth, screenHeight);
+	if ((minecraft->player->ThirdPersonView()==0) && headGear != nullptr && headGear->id == Tile::pumpkin_Id) renderPumpkin(screenWidth, screenHeight);
 	if (!minecraft->player->hasEffect(MobEffect::confusion))
 	{
 		float pt = minecraft->player->oPortalTime + (minecraft->player->portalTime - minecraft->player->oPortalTime) * a;
@@ -525,7 +525,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
 
 				std::shared_ptr<Entity> riding = minecraft->localplayers[iPad].get()->riding;
 				std::shared_ptr<LivingEntity> living = dynamic_pointer_cast<LivingEntity>(riding);
-				if (riding == NULL)
+				if (riding == nullptr)
 				{
 					// render food
 					for (int i = 0; i < FoodConstants::MAX_FOOD / 2; i++)
@@ -908,7 +908,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
 		int px = Mth::floor(minecraft->player->x);
 		int py = Mth::floor(minecraft->player->y);
 		int pz = Mth::floor(minecraft->player->z);
-		if (minecraft->level != NULL && minecraft->level->hasChunkAt(px, py, pz))
+		if (minecraft->level != nullptr && minecraft->level->hasChunkAt(px, py, pz))
 		{
 			LevelChunk *chunkAt = minecraft->level->getChunkAt(px, pz);
 			Biome *biome = chunkAt->getBiome(px & 15, pz & 15, minecraft->level->getBiomeSource());
@@ -961,7 +961,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
 
     unsigned int max = 10;
     bool isChatting = false;
-    if (dynamic_cast<ChatScreen *>(minecraft->screen) != NULL)
+    if (dynamic_cast<ChatScreen *>(minecraft->screen) != nullptr)
 	{
         max = 20;
         isChatting = true;
@@ -1090,10 +1090,10 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse)
 // Moved to the xui base scene
 // void Gui::renderBossHealth(void)
 // {
-// 	if (EnderDragonRenderer::bossInstance == NULL) return;
+// 	if (EnderDragonRenderer::bossInstance == nullptr) return;
 //
 // 	shared_ptr<EnderDragon> boss = EnderDragonRenderer::bossInstance;
-// 	EnderDragonRenderer::bossInstance = NULL;
+// 	EnderDragonRenderer::bossInstance = nullptr;
 //
 // 	Minecraft *pMinecraft=Minecraft::GetInstance();
 //
@@ -1214,7 +1214,7 @@ void Gui::renderTp(float br, int w, int h)
 void Gui::renderSlot(int slot, int x, int y, float a)
 {
     shared_ptr<ItemInstance> item = minecraft->player->inventory->items[slot];
-    if (item == NULL) return;
+    if (item == nullptr) return;
 
     float pop = item->popTime - a;
     if (pop > 0)
@@ -1460,7 +1460,7 @@ void Gui::renderGraph(int dataLength, int dataPos, __int64 *dataA, float dataASc
 	int height = minecraft->height;
 	// This causes us to cover xScale*dataLength pixels in the horizontal
 	int xScale = 1;
-	if(dataA != NULL && dataB != NULL) xScale = 2;
+	if(dataA != nullptr && dataB != nullptr) xScale = 2;
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_PROJECTION);
@@ -1483,7 +1483,7 @@ void Gui::renderGraph(int dataLength, int dataPos, __int64 *dataA, float dataASc
 		int cc2 = cc * cc / 255;
 		cc2 = cc2 * cc2 / 255;
 
-		if( dataA != NULL )
+		if( dataA != nullptr )
 		{
 			if (dataA[i] > dataAWarning)
 			{
@@ -1500,7 +1500,7 @@ void Gui::renderGraph(int dataLength, int dataPos, __int64 *dataA, float dataASc
 			t->vertex((float)(xScale*i + 0.5f), (float)( height + 0.5f), static_cast<float>(0));
 		}
 
-		if( dataB != NULL )
+		if( dataB != nullptr )
 		{
 			if (dataB[i]>dataBWarning)
 			{

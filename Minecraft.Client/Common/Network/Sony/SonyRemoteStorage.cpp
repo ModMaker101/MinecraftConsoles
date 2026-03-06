@@ -30,7 +30,7 @@ static SceRemoteStorageStatus statParams;
 // {
 // 	app.DebugPrintf("remoteStorageCallback err : 0x%08x\n");
 // 
-// 	app.getRemoteStorage()->getRemoteFileInfo(&statParams, remoteStorageGetInfoCallback, NULL);
+// 	app.getRemoteStorage()->getRemoteFileInfo(&statParams, remoteStorageGetInfoCallback, nullptr);
 // }
 
 
@@ -181,7 +181,7 @@ const char* SonyRemoteStorage::getLocalFilename()
 const char* SonyRemoteStorage::getSaveNameUTF8()
 {
 	if(m_getInfoStatus != e_infoFound)
-		return NULL;
+		return nullptr;
 	return m_retrievedDescData.m_saveNameUTF8;
 }
 
@@ -261,12 +261,12 @@ int SonyRemoteStorage::LoadSaveDataThumbnailReturned(LPVOID lpParam,PBYTE pbThum
 	}
 	else
 	{
-		app.DebugPrintf("Thumbnail data is NULL, or has size 0\n");
-		pClass->m_thumbnailData = NULL;
+		app.DebugPrintf("Thumbnail data is nullptr, or has size 0\n");
+		pClass->m_thumbnailData = nullptr;
 		pClass->m_thumbnailDataSize = 0;
 	}
 
-	if(pClass->m_SetDataThread != NULL)
+	if(pClass->m_SetDataThread != nullptr)
 		delete pClass->m_SetDataThread;
 
 	pClass->m_SetDataThread = new C4JThread(setDataThread, pClass, "setDataThread");
@@ -346,7 +346,7 @@ bool SonyRemoteStorage::shutdown()
 			app.DebugPrintf("Term request done \n");
 			m_bInitialised = false;
 			free(m_memPoolBuffer);
-			m_memPoolBuffer = NULL;
+			m_memPoolBuffer = nullptr;
 			return true;
 		} 
 		else 
@@ -409,7 +409,7 @@ void SonyRemoteStorage::GetDescriptionData( DescriptionData& descData)
 		char seed[22];
 		app.GetImageTextData(m_thumbnailData, m_thumbnailDataSize,(unsigned char *)seed, uiHostOptions, bHostOptionsRead, uiTexturePack);
 
-		__int64 iSeed = strtoll(seed,NULL,10);
+		__int64 iSeed = strtoll(seed,nullptr,10);
 		SetU64HexBytes(descData.m_seed, iSeed);
 		// Save the host options that this world was last played with
 		SetU32HexBytes(descData.m_hostOptions, uiHostOptions);
@@ -448,7 +448,7 @@ void SonyRemoteStorage::GetDescriptionData( DescriptionData_V2& descData)
 		char seed[22];
 		app.GetImageTextData(m_thumbnailData, m_thumbnailDataSize,(unsigned char *)seed, uiHostOptions, bHostOptionsRead, uiTexturePack);
 
-		__int64 iSeed = strtoll(seed,NULL,10);
+		__int64 iSeed = strtoll(seed,nullptr,10);
 		SetU64HexBytes(descData.m_seed, iSeed);
 		// Save the host options that this world was last played with
 		SetU32HexBytes(descData.m_hostOptions, uiHostOptions);

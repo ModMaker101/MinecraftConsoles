@@ -7,7 +7,7 @@ HRESULT CXuiCtrl4JList::OnInit(XUIMessageInit *pInitData, BOOL& bHandled)
 {
 	InitializeCriticalSection(&m_AccessListData);
 
-	m_hSelectionChangedHandlerObj = NULL;
+	m_hSelectionChangedHandlerObj = nullptr;
 
 	return S_OK;
 }
@@ -315,7 +315,7 @@ HRESULT CXuiCtrl4JList::OnGetSourceDataImage(XUIMessageGetSourceImage *pGetSourc
 	{
 		// Check for a brush
 		EnterCriticalSection(&m_AccessListData);
-		if(GetData(pGetSourceImageData->iItem).hXuiBrush!=NULL)
+		if(GetData(pGetSourceImageData->iItem).hXuiBrush!=nullptr)
 		{
 			pGetSourceImageData->hBrush=GetData(pGetSourceImageData->iItem).hXuiBrush;
 		}

@@ -22,14 +22,14 @@
 #endif
 
 unsigned int ConsoleSaveFileOriginal::pagesCommitted = 0;
-void *ConsoleSaveFileOriginal::pvHeap = NULL;
+void *ConsoleSaveFileOriginal::pvHeap = nullptr;
 
-ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID pvSaveData /*= NULL*/, DWORD dFileSize /*= 0*/, bool forceCleanSave /*= false*/, ESavePlatform plat /*= SAVE_FILE_PLATFORM_LOCAL*/)
+ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID pvSaveData /*= nullptr*/, DWORD dFileSize /*= 0*/, bool forceCleanSave /*= false*/, ESavePlatform plat /*= SAVE_FILE_PLATFORM_LOCAL*/)
 {
 	InitializeCriticalSectionAndSpinCount(&m_lock,5120);
 
 	// One time initialise of static stuff required for our storage
-	if( pvHeap == NULL )
+	if( pvHeap == nullptr )
 	{
 		// Reserve a chunk of 64MB of virtual address space for our saves, using 64KB pages.
 		// We'll only be committing these as required to grow the storage we need, which will
@@ -38,7 +38,7 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID
 		// AP - The Vita doesn't have virtual memory so a pretend system has been implemented in PSVitaStubs.cpp. 
 		// All access to the memory must be done via the access function as the pointer returned from VirtualAlloc
 		// can't be used directly.
-		pvHeap = VirtualAlloc(NULL, MAX_PAGE_COUNT * CSF_PAGE_SIZE, RESERVE_ALLOCATION, PAGE_READWRITE );
+		pvHeap = VirtualAlloc(nullptr, MAX_PAGE_COUNT * CSF_PAGE_SIZE, RESERVE_ALLOCATION, PAGE_READWRITE );
 	}
 
 	pvSaveMem = pvHeap;
@@ -49,13 +49,13 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID
 	// Load a save from the game rules
 	bool bLevelGenBaseSave = false;
 	LevelGenerationOptions *levelGen = app.getLevelGenerationOptions();
-	if( pvSaveData == NULL && levelGen != NULL && levelGen->requiresBaseSave())
+	if( pvSaveData == nullptr && levelGen != nullptr && levelGen->requiresBaseSave())
 	{
 		pvSaveData = levelGen->getBaseSaveData(fileSize);
 		if(pvSaveData && fileSize != 0) bLevelGenBaseSave = true;
 	}
 
-	if( pvSaveData == NULL || fileSize == 0)
+	if( pvSaveData == nullptr || fileSize == 0)
 		fileSize = StorageManager.GetSaveSize();
 
 	if( forceCleanSave )
@@ -75,7 +75,7 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID
 	unsigned int pagesRequired = ( heapSize + (CSF_PAGE_SIZE - 1 ) ) / CSF_PAGE_SIZE;
 
 	void *pvRet = VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE, COMMIT_ALLOCATION, PAGE_READWRITE);
-	if( pvRet == NULL )
+	if( pvRet == nullptr )
 	{
 #ifndef _CONTENT_PACKAGE
 		// Out of physical memory
@@ -87,7 +87,7 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID
 	if( fileSize > 0)
 	{
 		bool AllocData = false;
-		if(pvSaveData != NULL)
+		if(pvSaveData != nullptr)
 		{
 #ifdef __PSVITA__
 			// AP - use this to access the virtual memory
@@ -181,7 +181,7 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(const wstring &fileName, LPVOID
 					{
 						unsigned int pagesRequired = ( desiredSize + (CSF_PAGE_SIZE - 1 ) ) / CSF_PAGE_SIZE;
 						void *pvRet = VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE, COMMIT_ALLOCATION, PAGE_READWRITE);
-						if( pvRet == NULL )
+						if( pvRet == nullptr )
 						{
 							// Out of physical memory
 							__debugbreak();
@@ -214,9 +214,9 @@ ConsoleSaveFileOriginal::~ConsoleSaveFileOriginal()
 	pagesCommitted = 0;
 	// Make sure we don't have any thumbnail data still waiting round - we can't need it now we've destroyed the save file anyway
 #if defined _XBOX 
-	app.GetSaveThumbnail(NULL,NULL);
+	app.GetSaveThumbnail(nullptr,nullptr);
 #elif defined __PS3__
-	app.GetSaveThumbnail(NULL,NULL, NULL,NULL);
+	app.GetSaveThumbnail(nullptr,nullptr, nullptr,nullptr);
 #endif
 
 	DeleteCriticalSection(&m_lock);
@@ -235,7 +235,7 @@ FileEntry *ConsoleSaveFileOriginal::createFile( const ConsoleSavePath &fileName 
 
 void ConsoleSaveFileOriginal::deleteFile( FileEntry *file )
 {
-	if( file == NULL ) return;
+	if( file == nullptr ) return;
 
 	LockSaveAccess();
 
@@ -339,8 +339,8 @@ void ConsoleSaveFileOriginal::PrepareForWrite( FileEntry *file, DWORD nNumberOfB
 
 BOOL ConsoleSaveFileOriginal::writeFile(FileEntry *file,LPCVOID lpBuffer, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten)
 {
-	assert( pvSaveMem != NULL );
-	if( pvSaveMem == NULL )
+	assert( pvSaveMem != nullptr );
+	if( pvSaveMem == nullptr )
 	{
 		return 0;
 	}
@@ -376,8 +376,8 @@ BOOL ConsoleSaveFileOriginal::writeFile(FileEntry *file,LPCVOID lpBuffer, DWORD 
 
 BOOL ConsoleSaveFileOriginal::zeroFile(FileEntry *file, DWORD nNumberOfBytesToWrite, LPDWORD lpNumberOfBytesWritten)
 {
-	assert( pvSaveMem != NULL );
-	if( pvSaveMem == NULL )
+	assert( pvSaveMem != nullptr );
+	if( pvSaveMem == nullptr )
 	{
 		return 0;
 	}
@@ -414,8 +414,8 @@ BOOL ConsoleSaveFileOriginal::zeroFile(FileEntry *file, DWORD nNumberOfBytesToWr
 BOOL ConsoleSaveFileOriginal::readFile( FileEntry *file, LPVOID lpBuffer, DWORD nNumberOfBytesToRead, LPDWORD lpNumberOfBytesRead)
 {
 	DWORD actualBytesToRead;
-	assert( pvSaveMem != NULL );
-	if( pvSaveMem == NULL )
+	assert( pvSaveMem != nullptr );
+	if( pvSaveMem == nullptr )
 	{
 		return 0;
 	}
@@ -489,7 +489,7 @@ void ConsoleSaveFileOriginal::MoveDataBeyond(FileEntry *file, DWORD nNumberOfByt
 	{
 		unsigned int pagesRequired = ( desiredSize + (CSF_PAGE_SIZE - 1 ) ) / CSF_PAGE_SIZE;
 		void *pvRet = VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE, COMMIT_ALLOCATION, PAGE_READWRITE);
-		if( pvRet == NULL )
+		if( pvRet == nullptr )
 		{
 			// Out of physical memory
 			__debugbreak();
@@ -676,12 +676,12 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail )
 #ifdef __PSVITA__
 	// AP - make sure we always allocate just what is needed so it will only SAVE what is needed.
 	// If we don't do this the StorageManager will save a file of uncompressed size unnecessarily.
-	compData = NULL;
+	compData = nullptr;
 #endif
 
-	// If we failed to allocate then compData will be NULL
+	// If we failed to allocate then compData will be nullptr
 	// Pre-calculate the compressed data size so that we can attempt to allocate a smaller buffer
-	if(compData == NULL)
+	if(compData == nullptr)
 	{
 		// Length should be 0 here so that the compression call knows that we want to know the length back
 		compLength = 0;
@@ -692,9 +692,9 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail )
 		QueryPerformanceCounter( &qwTime );
 #ifdef __PSVITA__
 		// AP - get the compressed size via the access function. This uses a special RLE format
-		VirtualCompress(NULL,&compLength,pvSaveMem,fileSize);
+		VirtualCompress(nullptr,&compLength,pvSaveMem,fileSize);
 #else
-		Compression::getCompression()->Compress(NULL,&compLength,pvSaveMem,fileSize);
+		Compression::getCompression()->Compress(nullptr,&compLength,pvSaveMem,fileSize);
 #endif
 		QueryPerformanceCounter( &qwNewTime );
 
@@ -713,7 +713,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail )
 	}
 #endif
 
-	if(compData != NULL)
+	if(compData != nullptr)
 	{
 		// No compression on PS3 - see comment above
 #ifndef __PS3__
@@ -743,10 +743,10 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail )
 		app.DebugPrintf("Save data compressed from %d to %d\n", fileSize, compLength);
 #endif
 
-		PBYTE pbThumbnailData=NULL;
+		PBYTE pbThumbnailData=nullptr;
 		DWORD dwThumbnailDataSize=0;
 
-		PBYTE pbDataSaveImage=NULL;
+		PBYTE pbDataSaveImage=nullptr;
 		DWORD dwDataSizeSaveImage=0;
 
 #if ( defined _XBOX || defined _DURANGO || defined _WINDOWS64 )
@@ -760,7 +760,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail )
 
 		__int64 seed = 0;
 		bool hasSeed = false;
-		if(MinecraftServer::getInstance()!= NULL && MinecraftServer::getInstance()->levels[0]!=NULL)
+		if(MinecraftServer::getInstance()!= nullptr && MinecraftServer::getInstance()->levels[0]!=nullptr)
 		{
 			seed = MinecraftServer::getInstance()->levels[0]->getLevelData()->getSeed();
 			hasSeed = true;
@@ -827,7 +827,7 @@ int ConsoleSaveFileOriginal::SaveSaveDataCallback(LPVOID lpParam,bool bRes)
 #endif
 
 #ifndef _CONTENT_PACKAGE
-void ConsoleSaveFileOriginal::DebugFlushToFile(void *compressedData /*= NULL*/, unsigned int compressedDataSize /*= 0*/)
+void ConsoleSaveFileOriginal::DebugFlushToFile(void *compressedData /*= nullptr*/, unsigned int compressedDataSize /*= 0*/)
 {
 	LockSaveAccess();
 
@@ -867,16 +867,16 @@ void ConsoleSaveFileOriginal::DebugFlushToFile(void *compressedData /*= NULL*/, 
 	LPCSTR lpFileName = wstringtofilename( targetFileDir.getPath() + wstring(fileName) );
 #endif
 #ifndef __PSVITA__
-	HANDLE hSaveFile = CreateFile( lpFileName, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, NULL);
+	HANDLE hSaveFile = CreateFile( lpFileName, GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, nullptr);
 #endif
 
-	if(compressedData != NULL && compressedDataSize > 0)
+	if(compressedData != nullptr && compressedDataSize > 0)
 	{
 #ifdef __PSVITA__
 		// AP - Use the access function to save
-		VirtualWriteFile( lpFileName, compressedData, compressedDataSize, &numberOfBytesWritten, NULL);
+		VirtualWriteFile( lpFileName, compressedData, compressedDataSize, &numberOfBytesWritten, nullptr);
 #else
-		WriteFile( hSaveFile,compressedData,compressedDataSize,&numberOfBytesWritten,NULL);
+		WriteFile( hSaveFile,compressedData,compressedDataSize,&numberOfBytesWritten,nullptr);
 #endif
 		assert(numberOfBytesWritten == compressedDataSize);
 	}
@@ -884,9 +884,9 @@ void ConsoleSaveFileOriginal::DebugFlushToFile(void *compressedData /*= NULL*/, 
 	{
 #ifdef __PSVITA__
 		// AP - Use the access function to save
-		VirtualWriteFile( lpFileName, compressedData, compressedDataSize, &numberOfBytesWritten, NULL);
+		VirtualWriteFile( lpFileName, compressedData, compressedDataSize, &numberOfBytesWritten, nullptr);
 #else
-		WriteFile(hSaveFile,pvSaveMem,fileSize,&numberOfBytesWritten,NULL);
+		WriteFile(hSaveFile,pvSaveMem,fileSize,&numberOfBytesWritten,nullptr);
 #endif
 		assert(numberOfBytesWritten == fileSize);
 	}
@@ -917,7 +917,7 @@ vector<FileEntry *> *ConsoleSaveFileOriginal::getFilesWithPrefix(const wstring &
 
 vector<FileEntry *> *ConsoleSaveFileOriginal::getRegionFilesByDimension(unsigned int dimensionIndex)
 {
-	return NULL;
+	return nullptr;
 }
 
 #if defined(__PS3__) || defined(__ORBIS__) || defined(__PSVITA__)

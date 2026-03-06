@@ -274,7 +274,7 @@ int UIScene_QuadrantSignin::AvatarReturned(LPVOID lpParam,PBYTE pbThumbnail,DWOR
 {
 	UIScene_QuadrantSignin *pClass = static_cast<UIScene_QuadrantSignin *>(lpParam);
 	app.DebugPrintf(app.USER_SR,"AvatarReturned callback\n");
-	if(pbThumbnail != NULL)
+	if(pbThumbnail != nullptr)
 	{
 		// 4J-JEV - Added to ensure each new texture gets a unique name.
 		static unsigned int quadrantImageCount = 0;

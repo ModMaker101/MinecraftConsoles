@@ -24,7 +24,7 @@ UIScene_ContainerMenu::UIScene_ContainerMenu(int iPad, void *_initData, UILayer 
 	ContainerMenu* menu = new ContainerMenu( initData->inventory, initData->container );
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if( pMinecraft->localgameModes[iPad] != NULL )
+	if( pMinecraft->localgameModes[iPad] != nullptr )
 	{
 		TutorialMode *gameMode = static_cast<TutorialMode *>(pMinecraft->localgameModes[initData->iPad]);
 		m_previousTutorialState = gameMode->getTutorial()->getCurrentState();
@@ -181,7 +181,7 @@ void UIScene_ContainerMenu::setSectionSelectedSlot(ESceneSection eSection, int x
 
 	int index = (y * cols) + x;
 
-	UIControl_SlotList *slotList = NULL;
+	UIControl_SlotList *slotList = nullptr;
 	switch( eSection )
 	{
 	case eSectionContainerChest:
@@ -203,7 +203,7 @@ void UIScene_ContainerMenu::setSectionSelectedSlot(ESceneSection eSection, int x
 
 UIControl *UIScene_ContainerMenu::getSection(ESceneSection eSection)
 {
-	UIControl *control = NULL;
+	UIControl *control = nullptr;
 	switch( eSection )
 	{
 	case eSectionContainerChest:

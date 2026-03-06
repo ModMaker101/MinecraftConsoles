@@ -84,7 +84,7 @@ void Input::tick(LocalPlayer *player)
     }
 
 	// 4J: In flying mode, don't actually toggle sneaking (unless we're riding in which case we need to sneak to dismount)
-	if(!player->abilities.flying || player->riding != NULL)
+	if(!player->abilities.flying || player->riding != nullptr)
 	{
 		if((player->ullButtonsPressed&(1LL<<MINECRAFT_ACTION_SNEAK_TOGGLE)) && pMinecraft->localgameModes[iPad]->isInputAllowed(MINECRAFT_ACTION_SNEAK_TOGGLE))
 		{

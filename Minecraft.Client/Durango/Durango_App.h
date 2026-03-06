@@ -58,7 +58,7 @@ public:
 	static void Callback_SaveGameIncomplete(void *pParam, C4JStorage::ESaveIncompleteType saveIncompleteType);
 	static int Callback_SaveGameIncompleteMessageBoxReturned(void *pParam,int iPad,C4JStorage::EMessageResult result);
 
-	C4JStringTable *GetStringTable()																									{ return NULL;}
+	C4JStringTable *GetStringTable()																									{ return nullptr;}
 
 	// original code
 	virtual void TemporaryCreateGameStart();

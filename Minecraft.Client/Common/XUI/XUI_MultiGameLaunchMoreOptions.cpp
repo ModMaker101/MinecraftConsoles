@@ -231,7 +231,7 @@ HRESULT CScene_MultiGameLaunchMoreOptions::OnControlNavigate(XUIMessageControlNa
 {
 	pControlNavigateData->hObjDest=XuiControlGetNavigation(pControlNavigateData->hObjSource,pControlNavigateData->nControlNavigate,TRUE,TRUE);
 	
-	if(pControlNavigateData->hObjDest!=NULL)
+	if(pControlNavigateData->hObjDest!=nullptr)
 	{
 		bHandled=TRUE;
 	}

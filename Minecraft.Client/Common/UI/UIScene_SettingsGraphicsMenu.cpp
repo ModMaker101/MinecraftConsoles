@@ -37,7 +37,7 @@ UIScene_SettingsGraphicsMenu::UIScene_SettingsGraphicsMenu(int iPad, void *initD
 	initialiseMovie();
 	Minecraft* pMinecraft = Minecraft::GetInstance();
 	
-	m_bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	m_bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 
 	m_checkboxClouds.init(app.GetString(IDS_CHECKBOX_RENDER_CLOUDS),eControl_Clouds,(app.GetGameSettings(m_iPad,eGameSetting_Clouds)!=0));
 	m_checkboxBedrockFog.init(app.GetString(IDS_CHECKBOX_RENDER_BEDROCKFOG),eControl_BedrockFog,(app.GetGameSettings(m_iPad,eGameSetting_BedrockFog)!=0));
@@ -58,7 +58,7 @@ UIScene_SettingsGraphicsMenu::UIScene_SettingsGraphicsMenu(int iPad, void *initD
 
 	doHorizontalResizeCheck();
 	
-	bool bInGame=(Minecraft::GetInstance()->level!=NULL);
+	bool bInGame=(Minecraft::GetInstance()->level!=nullptr);
 	bool bIsPrimaryPad=(ProfileManager.GetPrimaryPad()==m_iPad);
 	// if we're not in the game, we need to use basescene 0 
 	if(bInGame)
@@ -113,7 +113,7 @@ void UIScene_SettingsGraphicsMenu::updateTooltips()
 
 void UIScene_SettingsGraphicsMenu::updateComponents()
 {
-	bool bNotInGame=(Minecraft::GetInstance()->level==NULL);
+	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 	if(bNotInGame)
 	{
 		m_parentLayer->showComponent(m_iPad,eUIComponent_Panorama,true);

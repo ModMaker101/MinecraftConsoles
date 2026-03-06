@@ -336,7 +336,7 @@ shared_ptr<Packet> Packet::readPacket(DataInputStream *dis, bool isServer) // th
 	}
 
 	packet = getPacket(id);
-	if (packet == NULL) assert(false);//throw new IOException(wstring(L"Bad packet id ") + std::to_wstring(id));
+	if (packet == nullptr) assert(false);//throw new IOException(wstring(L"Bad packet id ") + std::to_wstring(id));
 
 	//app.DebugPrintf("%s reading packet %d\n", isServer ? "Server" : "Client", packet->getId());
 	packet->read(dis);
@@ -345,7 +345,7 @@ shared_ptr<Packet> Packet::readPacket(DataInputStream *dis, bool isServer) // th
 	//	{
 	//       // reached end of stream
 	//        OutputDebugString("Reached end of stream");
-	//        return NULL;
+	//        return nullptr;
 	//    }
 
 	// 4J - Don't bother tracking stats in a content package
@@ -525,7 +525,7 @@ shared_ptr<ItemInstance> Packet::readItem(DataInputStream *dis)
 
 void Packet::writeItem(shared_ptr<ItemInstance> item, DataOutputStream *dos)
 {
-	if (item == NULL)
+	if (item == nullptr)
 	{
 		dos->writeShort(-1);
 	}
@@ -545,7 +545,7 @@ void Packet::writeItem(shared_ptr<ItemInstance> item, DataOutputStream *dos)
 CompoundTag *Packet::readNbt(DataInputStream *dis)
 {
 	int size = dis->readShort();
-	if (size < 0) return NULL;
+	if (size < 0) return nullptr;
 	byteArray buff(size);
 	dis->readFully(buff);
 	CompoundTag *result = (CompoundTag *) NbtIo::decompress(buff);
@@ -555,7 +555,7 @@ CompoundTag *Packet::readNbt(DataInputStream *dis)
 
 void Packet::writeNbt(CompoundTag *tag, DataOutputStream *dos)
 {
-	if (tag == NULL)
+	if (tag == nullptr)
 	{
 		dos->writeShort(-1);
 	}

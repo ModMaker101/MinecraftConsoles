@@ -67,10 +67,10 @@ HRESULT CScene_FullscreenProgress::OnInit( XUIMessageInit* pInitData, BOOL& bHan
 // The framework calls this handler when the object is to be destroyed. 
 HRESULT CScene_FullscreenProgress::OnDestroy()
 {
-	if( thread != NULL && thread != INVALID_HANDLE_VALUE )
+	if( thread != nullptr && thread != INVALID_HANDLE_VALUE )
 		delete thread;
 
-	if( m_CompletionData != NULL )
+	if( m_CompletionData != nullptr )
 		delete m_CompletionData;
 
 	return S_OK;
@@ -86,7 +86,7 @@ HRESULT CScene_FullscreenProgress::OnKeyDown(XUIMessageInput* pInputData, BOOL& 
 	case VK_PAD_B:
 	case VK_ESCAPE:		
 		// 4J-JEV: Fix for Xbox360 #162749 - TU17: Save Upload: Content: UI: Player is presented with non-functional Tooltips after the Upload Save For Xbox One is completed.
-		if( m_cancelFunc != NULL && !m_threadCompleted ) 
+		if( m_cancelFunc != nullptr && !m_threadCompleted ) 
 		{
 			m_cancelFunc( m_cancelFuncParam );
 			m_bWasCancelled=true;
@@ -244,7 +244,7 @@ HRESULT CScene_FullscreenProgress::OnTimer( XUIMessageTimer *pTimer, BOOL& bHand
 
 				UINT uiIDA[1];
 				uiIDA[0]=IDS_CONFIRM_OK;
-				StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, IDS_CONNECTION_LOST_SERVER, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+				StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, IDS_CONNECTION_LOST_SERVER, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 			
 				app.NavigateToHomeMenu();
 				ui.UpdatePlayerBasePositions();
@@ -292,7 +292,7 @@ HRESULT CScene_FullscreenProgress::OnTimer( XUIMessageTimer *pTimer, BOOL& bHand
 						CXuiSceneBase::ShowOtherPlayersBaseScene(iPad, true);
 						// This just allows it to be shown
 						Minecraft *pMinecraft = Minecraft::GetInstance();
-						if(pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()] != NULL) pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()]->getTutorial()->showTutorialPopup(true);
+						if(pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()] != nullptr) pMinecraft->localgameModes[ProfileManager.GetPrimaryPad()]->getTutorial()->showTutorialPopup(true);
 						ui.UpdatePlayerBasePositions();
 					}
 					break;

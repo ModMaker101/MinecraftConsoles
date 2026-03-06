@@ -36,7 +36,7 @@ void CompleteAllRuleDefinition::updateStatus(GameRule *rule)
 			progress += it.second.gr->getGameRuleDefinition()->getProgress(it.second.gr);
 		}
 	}
-	if(rule->getConnection() != NULL)
+	if(rule->getConnection() != nullptr)
 	{
 		PacketData data;
 		data.goal = goal;
@@ -45,11 +45,11 @@ void CompleteAllRuleDefinition::updateStatus(GameRule *rule)
 		int icon = -1;
 		int auxValue = 0;
 
-		if(m_lastRuleStatusChanged != NULL)
+		if(m_lastRuleStatusChanged != nullptr)
 		{
 			icon = m_lastRuleStatusChanged->getIcon();
 			auxValue = m_lastRuleStatusChanged->getAuxValue();
-			m_lastRuleStatusChanged = NULL;
+			m_lastRuleStatusChanged = nullptr;
 		}
 		rule->getConnection()->send( shared_ptr<UpdateGameRuleProgressPacket>( new UpdateGameRuleProgressPacket(getActionType(), this->m_descriptionId,icon, auxValue, 0,&data,sizeof(PacketData))));
 	}

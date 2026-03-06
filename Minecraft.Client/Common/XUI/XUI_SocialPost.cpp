@@ -89,7 +89,7 @@ HRESULT CScene_SocialPost::OnControlNavigate(XUIMessageControlNavigate *pControl
 {
 	pControlNavigateData->hObjDest=XuiControlGetNavigation(pControlNavigateData->hObjSource,pControlNavigateData->nControlNavigate,TRUE,TRUE);
 
-	if(pControlNavigateData->hObjDest==NULL)
+	if(pControlNavigateData->hObjDest==nullptr)
 	{
 		pControlNavigateData->hObjDest=pControlNavigateData->hObjSource;
 	}

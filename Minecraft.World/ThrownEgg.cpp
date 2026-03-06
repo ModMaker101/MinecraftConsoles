@@ -33,7 +33,7 @@ ThrownEgg::ThrownEgg(Level *level, double x, double y, double z) : Throwable(lev
 
 void ThrownEgg::onHit(HitResult *res)
 {
-	if (res->entity != NULL)
+	if (res->entity != nullptr)
 	{
 		DamageSource *damageSource = DamageSource::thrown(shared_from_this(), owner);
 		res->entity->hurt(damageSource, 0);

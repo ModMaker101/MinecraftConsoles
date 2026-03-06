@@ -51,7 +51,7 @@ void FallingTileRenderer::render(shared_ptr<Entity> _tile, double x, double y, d
 			t->offset(0, 0, 0);
 			t->end();
 		}
-		else if( tt != NULL )
+		else if( tt != nullptr )
 		{
 			tileRenderer->setShape(tt);
 			tileRenderer->renderBlock(tt, level, Mth::floor(tile->x), Mth::floor(tile->y), Mth::floor(tile->z), tile->data);

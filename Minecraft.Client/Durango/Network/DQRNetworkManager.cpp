@@ -25,7 +25,7 @@ int DQRNetworkManager::m_bootUserIndex;
 wstring	DQRNetworkManager::m_bootSessionName;
 wstring	DQRNetworkManager::m_bootServiceConfig;
 wstring	DQRNetworkManager::m_bootSessionTemplate;
-DQRNetworkManager * DQRNetworkManager::s_pDQRManager = NULL;
+DQRNetworkManager * DQRNetworkManager::s_pDQRManager = nullptr;
 
 //using namespace Windows::Xbox::Networking;
 
@@ -87,16 +87,16 @@ DQRNetworkManager::DQRNetworkManager(IDQRNetworkManagerListener *listener)
 	memset(&m_roomSyncData, 0, sizeof(m_roomSyncData));
 	memset(m_players, 0, sizeof(m_players));
 
-	m_CreateSessionThread	= NULL;
-	m_GetFriendPartyThread  = NULL;
-	m_UpdateCustomSessionDataThread = NULL;
+	m_CreateSessionThread	= nullptr;
+	m_GetFriendPartyThread  = nullptr;
+	m_UpdateCustomSessionDataThread = nullptr;
 
-	m_CheckPartyInviteThread = NULL;
+	m_CheckPartyInviteThread = nullptr;
 	m_notifyForFullParty	 = false;
 
 	m_customDataDirtyUpdateTicks = 0;
 	m_sessionResultCount	= 0;
-	m_sessionSearchResults	= NULL;
+	m_sessionSearchResults	= nullptr;
 	m_joinSessionUserMask	= 0;
 	m_cancelJoinFromSearchResult = false;
 
@@ -274,7 +274,7 @@ void DQRNetworkManager::JoinSession(int playerMask)
 			// If we found the session, then set the status of this member to be active (should be reserved). This will stop our slot timing out and us being dropped out of the session.
 			if( session != nullptr )
 			{
-				if(!IsPlayerInSession(joiningUser->XboxUserId, session, NULL) )
+				if(!IsPlayerInSession(joiningUser->XboxUserId, session, nullptr) )
 				{
 					app.DebugPrintf("DNM_INT_STATE_JOINING_FAILED didn't find required player in session\n");
 					SetState(DNM_INT_STATE_JOINING_FAILED);
@@ -600,7 +600,7 @@ bool DQRNetworkManager::AddLocalPlayerByUserIndex(int userIndex)
 					m_joinSessionXUIDs[userIndex] = ProfileManager.GetUser(userIndex)->XboxUserId;
 					m_partyController->AddLocalUsersToParty(1 << userIndex, ProfileManager.GetUser(0));
 
-					m_addLocalPlayerSuccessPlayer = NULL;
+					m_addLocalPlayerSuccessPlayer = nullptr;
 					m_addLocalPlayerState = DNM_ADD_PLAYER_STATE_COMPLETE_SUCCESS;
 				}
 			}
@@ -763,7 +763,7 @@ DQRNetworkPlayer *DQRNetworkManager::GetPlayerBySmallId(int idx)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 DQRNetworkPlayer *DQRNetworkManager::GetPlayerByXuid(PlayerUID xuid)
@@ -778,7 +778,7 @@ DQRNetworkPlayer *DQRNetworkManager::GetPlayerByXuid(PlayerUID xuid)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Retrieve player display name by gamertag
@@ -809,7 +809,7 @@ DQRNetworkPlayer *DQRNetworkManager::GetLocalPlayerByUserIndex(int idx)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 DQRNetworkPlayer *DQRNetworkManager::GetHostPlayer()
@@ -967,19 +967,19 @@ void DQRNetworkManager::Tick_Party()
 void DQRNetworkManager::Tick_CustomSessionData()
 {
 	// If there was a thread updaing our custom session data, then clear it up if it is done
-	if( m_UpdateCustomSessionDataThread != NULL )
+	if( m_UpdateCustomSessionDataThread != nullptr )
 	{
 		if( !m_UpdateCustomSessionDataThread->isRunning() )
 		{
 			delete m_UpdateCustomSessionDataThread;
-			m_UpdateCustomSessionDataThread = NULL;
+			m_UpdateCustomSessionDataThread = nullptr;
 		}
 	}
 
 	// If our custom data is dirty, and we aren't currently updating, then kick off a thread to update it
 	if( m_isHosting && ( !m_isOfflineGame ) )
 	{
-		if( m_UpdateCustomSessionDataThread == NULL )
+		if( m_UpdateCustomSessionDataThread == nullptr )
 		{
 			if( m_customDataDirtyUpdateTicks )
 			{
@@ -1003,7 +1003,7 @@ void DQRNetworkManager::Tick_AddAndRemoveLocalPlayers()
 	// A lot of handling adding local players is handled asynchronously. Trying to avoid having the callbacks that may result from this being called from the task threads, so handling this aspect of it here in the tick
 	if( m_addLocalPlayerState == DNM_ADD_PLAYER_STATE_COMPLETE_SUCCESS )
 	{
-		// If we've completed, and we're the host, then we should have the new player to create stored here in m_localPlayerSuccessCreated. For clients, this will just be NULL as the actual
+		// If we've completed, and we're the host, then we should have the new player to create stored here in m_localPlayerSuccessCreated. For clients, this will just be nullptr as the actual
 		// adding of the player happens as part of a longer process of the host creating us a reserved slot etc. etc.
 		if( m_addLocalPlayerSuccessPlayer )
 		{
@@ -1201,7 +1201,7 @@ void DQRNetworkManager::Tick_StateMachine()
 			break;
 		case DNM_INT_STATE_HOSTING_WAITING_TO_PLAY:
 			delete m_CreateSessionThread;
-			m_CreateSessionThread = NULL;
+			m_CreateSessionThread = nullptr;
 			// If the game is offline we can transition straight to playing
 			if (m_isOfflineGame) StartGame();
 			break;
@@ -1247,10 +1247,10 @@ void DQRNetworkManager::Tick_CheckInviteParty()
 			if( !m_CheckPartyInviteThread->isRunning() )
 			{
 				delete m_CheckPartyInviteThread;
-				m_CheckPartyInviteThread = NULL;
+				m_CheckPartyInviteThread = nullptr;
 			}
 		}
-		if( m_CheckPartyInviteThread == NULL )
+		if( m_CheckPartyInviteThread == nullptr )
 		{
 			m_inviteReceived = false;
 			m_CheckPartyInviteThread = new C4JThread(&DQRNetworkManager::_CheckInviteThreadProc, this, "Check invite thread");
@@ -1449,7 +1449,7 @@ void DQRNetworkManager::UpdateRoomSyncPlayers(RoomSyncData *pNewSyncData)
 	for( int j = 0; j < m_roomSyncData.playerCount; j++ )
 	{
 		tempPlayers.push_back(m_players[j]);
-		m_players[j] = NULL;
+		m_players[j] = nullptr;
 	}
 
 	// For each new player, it's either:
@@ -1597,7 +1597,7 @@ void DQRNetworkManager::RemoveRoomSyncPlayersWithSessionAddress(unsigned int ses
 		m_listener->HandlePlayerLeaving(removedPlayers[i]);
 		delete removedPlayers[i];
 		memset(&m_roomSyncData.players[m_roomSyncData.playerCount + i], 0, sizeof(PlayerSyncData));
-		m_players[m_roomSyncData.playerCount + i] = NULL;
+		m_players[m_roomSyncData.playerCount + i] = nullptr;
 	}
 	LeaveCriticalSection(&m_csRoomSyncData);
 }
@@ -1628,7 +1628,7 @@ void DQRNetworkManager::RemoveRoomSyncPlayer(DQRNetworkPlayer *pPlayer)
 		m_listener->HandlePlayerLeaving(removedPlayers[i]);
 		delete removedPlayers[i];
 		memset(&m_roomSyncData.players[m_roomSyncData.playerCount + i], 0, sizeof(PlayerSyncData));
-		m_players[m_roomSyncData.playerCount + i] = NULL;
+		m_players[m_roomSyncData.playerCount + i] = nullptr;
 	}
 }
 
@@ -1643,7 +1643,7 @@ void DQRNetworkManager::SendRoomSyncInfo()
 	// (2) A single byte internal data tag
 	// (3) An unsigned int encoding the size of the combined size of all the strings in stage (5)
 	// (4) The RoomSyncData structure itself
-	// (5) A wchar NULL terminated string for every active player to encode the XUID
+	// (5) A wchar nullptr terminated string for every active player to encode the XUID
 	unsigned int xuidBytes = 0;
 	for( int i = 0 ; i < m_roomSyncData.playerCount; i++ )
 	{
@@ -1689,7 +1689,7 @@ void DQRNetworkManager::SendAddPlayerFailed(Platform::String^ xuid)
 	// (1) 2 byte general header
 	// (2) A single byte internal data tag
 	// (3) An unsigned int encoding the size size of the string
-	// (5) A wchar NULL terminated string storing the xuid of the player which has failed to join
+	// (5) A wchar nullptr terminated string storing the xuid of the player which has failed to join
 
 	unsigned int xuidBytes = sizeof(wchar_t) * ( xuid->Length() + 1 );
 
@@ -2614,7 +2614,7 @@ void DQRNetworkManager::LeaveRoom()
 		for( int i = 0; i < m_roomSyncData.playerCount; i++ )
 		{
 			delete m_players[i];
-			m_players[i] = NULL;
+			m_players[i] = nullptr;
 		}
 		memset(&m_roomSyncData, 0, sizeof(m_roomSyncData));
 		m_displayNames.clear();

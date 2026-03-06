@@ -8,7 +8,7 @@
 
 DLCAudioFile::DLCAudioFile(const wstring &path) : DLCFile(DLCManager::e_DLCType_Audio,path)
 {	
-	m_pbData = NULL;
+	m_pbData = nullptr;
 	m_dwBytes = 0;
 }
 
@@ -133,7 +133,7 @@ bool DLCAudioFile::processDLCDataFile(PBYTE pbData, DWORD dwLength)
 
 	if(uiVersion < CURRENT_AUDIO_VERSION_NUM)
 	{
-		if(pbData!=NULL) delete [] pbData;
+		if(pbData!=nullptr) delete [] pbData;
 		app.DebugPrintf("DLC version of %d is too old to be read\n", uiVersion);
 		return false;
 	}

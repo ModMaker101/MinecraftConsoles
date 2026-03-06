@@ -58,7 +58,7 @@ void RemotePlayer::tick()
     walkAnimSpeed += (wst - walkAnimSpeed) * 0.4f;
     walkAnimPos += walkAnimSpeed;
 
-	if (!hasStartedUsingItem && isUsingItemFlag() && inventory->items[inventory->selected] != NULL)
+	if (!hasStartedUsingItem && isUsingItemFlag() && inventory->items[inventory->selected] != nullptr)
 	{
 		shared_ptr<ItemInstance> item = inventory->items[inventory->selected];
 		startUsingItem(inventory->items[inventory->selected], Item::items[item->id]->getUseDuration(item));

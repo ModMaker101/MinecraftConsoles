@@ -54,12 +54,12 @@ void PauseScreen::buttonClicked(Button button)
             minecraft->level->disconnect();
         }
 
-        minecraft->setLevel(NULL);
+        minecraft->setLevel(nullptr);
         minecraft->setScreen(new TitleScreen());
     }
     if (button.id == 4)
 	{
-        minecraft->setScreen(NULL);
+        minecraft->setScreen(nullptr);
  //       minecraft->grabMouse();		// 4J - removed
     }
 

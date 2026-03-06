@@ -17,7 +17,7 @@ ResourceLocation ParticleEngine::PARTICLES_LOCATION = ResourceLocation(TN_PARTIC
 
 ParticleEngine::ParticleEngine(Level *level, Textures *textures)
 {
-//    if (level != NULL)	// 4J - removed - we want level to be initialised to *something*
+//    if (level != nullptr)	// 4J - removed - we want level to be initialised to *something*
 	{
         this->level = level;
     }
@@ -188,8 +188,8 @@ void ParticleEngine::renderLit(shared_ptr<Entity> player, float a, int list)
 void ParticleEngine::setLevel(Level *level)
 {
     this->level = level;
-	// 4J - we've now got a set of particle vectors for each dimension, and only clearing them when its game over & the level is set to NULL
-	if( level == NULL )
+	// 4J - we've now got a set of particle vectors for each dimension, and only clearing them when its game over & the level is set to nullptr
+	if( level == nullptr )
 	{
 		for( int l = 0; l < 3; l++ )
 		{

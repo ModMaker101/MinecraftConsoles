@@ -4,7 +4,7 @@
 NetworkPlayerXbox::NetworkPlayerXbox(IQNetPlayer *qnetPlayer)
 {
 	m_qnetPlayer = qnetPlayer;
-	m_pSocket = NULL;
+	m_pSocket = nullptr;
 }
 
 unsigned char NetworkPlayerXbox::GetSmallId()
@@ -34,14 +34,14 @@ int NetworkPlayerXbox::GetSendQueueSizeBytes( INetworkPlayer *player, bool lowPr
 {
 	DWORD flags = QNET_GETSENDQUEUESIZE_BYTES;
 	if( lowPriority ) flags |= QNET_GETSENDQUEUESIZE_SECONDARY_TYPE;
-	return m_qnetPlayer->GetSendQueueSize(player ? static_cast<NetworkPlayerXbox *>(player)->m_qnetPlayer : NULL , flags);
+	return m_qnetPlayer->GetSendQueueSize(player ? static_cast<NetworkPlayerXbox *>(player)->m_qnetPlayer : nullptr , flags);
 }
 
 int NetworkPlayerXbox::GetSendQueueSizeMessages( INetworkPlayer *player, bool lowPriority )
 {
 	DWORD flags = QNET_GETSENDQUEUESIZE_MESSAGES;
 	if( lowPriority ) flags |= QNET_GETSENDQUEUESIZE_SECONDARY_TYPE;
-	return m_qnetPlayer->GetSendQueueSize(player ? static_cast<NetworkPlayerXbox *>(player)->m_qnetPlayer : NULL , flags);
+	return m_qnetPlayer->GetSendQueueSize(player ? static_cast<NetworkPlayerXbox *>(player)->m_qnetPlayer : nullptr , flags);
 }
 
 int NetworkPlayerXbox::GetCurrentRtt()

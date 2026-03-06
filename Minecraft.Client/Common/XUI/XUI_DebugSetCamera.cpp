@@ -25,7 +25,7 @@ HRESULT CScene_DebugSetCamera::OnInit( XUIMessageInit *pInitData, BOOL &bHandled
 	currentPosition->player = playerNo;
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
-	if (pMinecraft != NULL)
+	if (pMinecraft != nullptr)
 	{
 		Vec3 *vec = pMinecraft->localplayers[playerNo]->getPos(1.0);
 
@@ -94,7 +94,7 @@ HRESULT CScene_DebugSetCamera::OnKeyDown(XUIMessageInput* pInputData, BOOL& rfHa
 		NavigateBack();
 
 		//delete currentPosition;
-		//currentPosition = NULL;
+		//currentPosition = nullptr;
 
 		rfHandled = TRUE;
 		break;

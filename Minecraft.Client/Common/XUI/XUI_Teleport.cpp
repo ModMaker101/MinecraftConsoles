@@ -51,7 +51,7 @@ HRESULT CScene_Teleport::OnInit( XUIMessageInit* pInitData, BOOL& bHandled )
 	{
 		INetworkPlayer *player = g_NetworkManager.GetPlayerByIndex( i );
 
-		if( player != NULL && !(player->IsLocal() && player->GetUserIndex() == m_iPad) )
+		if( player != nullptr && !(player->IsLocal() && player->GetUserIndex() == m_iPad) )
 		{
 			m_players[m_playersCount] = player->GetSmallId();
 			++m_playersCount;
@@ -167,7 +167,7 @@ HRESULT CScene_Teleport::OnGetSourceDataText(XUIMessageGetSourceText *pGetSource
 		if( pGetSourceTextData->iItem < m_playersCount )
 		{
 			INetworkPlayer *player = g_NetworkManager.GetPlayerBySmallId( m_players[pGetSourceTextData->iItem] );
-			if( player != NULL )
+			if( player != nullptr )
 			{
 #ifndef _CONTENT_PACKAGE
 				if(app.DebugSettingsOn() && (app.GetGameSettingsDebugMask()&(1L<<eDebugSetting_DebugLeaderboards)))
@@ -253,7 +253,7 @@ HRESULT CScene_Teleport::OnGetSourceDataText(XUIMessageGetSourceText *pGetSource
 			hr=XuiElementGetChildById(hVisual,L"VoiceGroup",&hVoiceIcon);
 
 			playFrame = -1;
-			if(player != NULL && player->HasVoice() )
+			if(player != nullptr && player->HasVoice() )
 			{
 				if( player->IsMutedByLocalUser(m_iPad) )
 				{

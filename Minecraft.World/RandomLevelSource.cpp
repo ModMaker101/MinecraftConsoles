@@ -58,8 +58,8 @@ RandomLevelSource::RandomLevelSource(Level *level, __int64 seed, bool generateSt
 	}
 	else
 	{
-		floatingIslandScale = NULL;
-		floatingIslandNoise = NULL;
+		floatingIslandScale = nullptr;
+		floatingIslandNoise = nullptr;
 	}
 
 	forestNoise = new PerlinNoise(random, 8);
@@ -93,7 +93,7 @@ RandomLevelSource::~RandomLevelSource()
 
 	delete forestNoise;
 
-	if( pows.data != NULL ) delete [] pows.data;
+	if( pows.data != nullptr ) delete [] pows.data;
 }
 
 
@@ -385,7 +385,7 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 			byte material = b->material;
 
 			LevelGenerationOptions *lgo = app.getLevelGenerationOptions();
-			if(lgo != NULL)
+			if(lgo != nullptr)
 			{
 				lgo->getBiomeOverride(b->id,material,top);
 			}
@@ -420,7 +420,7 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs, byteArray blocks, Bi
 							{
 								top = b->topMaterial;
 								material = b->material;
-								if(lgo != NULL)
+								if(lgo != nullptr)
 								{
 									lgo->getBiomeOverride(b->id,material,top);
 								}
@@ -525,11 +525,11 @@ void RandomLevelSource::lightChunk(LevelChunk *lc)
 
 doubleArray RandomLevelSource::getHeights(doubleArray buffer, int x, int y, int z, int xSize, int ySize, int zSize, BiomeArray& biomes)
 {
-	if (buffer.data == NULL)
+	if (buffer.data == nullptr)
 	{
 		buffer = doubleArray(xSize * ySize * zSize);
 	}
-	if (pows.data == NULL)
+	if (pows.data == nullptr)
 	{
 		pows = floatArray(5 * 5);
 		for (int xb = -2; xb <= 2; xb++)
@@ -882,9 +882,9 @@ wstring RandomLevelSource::gatherStats()
 vector<Biome::MobSpawnerData *> *RandomLevelSource::getMobsAt(MobCategory *mobCategory, int x, int y, int z)
 {
 	Biome *biome = level->getBiome(x, z);
-	if (biome == NULL)
+	if (biome == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (mobCategory == MobCategory::monster && scatteredFeature->isSwamphut(x, y, z))
 	{
@@ -895,20 +895,20 @@ vector<Biome::MobSpawnerData *> *RandomLevelSource::getMobsAt(MobCategory *mobCa
 
 TilePos *RandomLevelSource::findNearestMapFeature(Level *level, const wstring& featureName, int x, int y, int z)
 {
-	if (LargeFeature::STRONGHOLD == featureName && strongholdFeature != NULL)
+	if (LargeFeature::STRONGHOLD == featureName && strongholdFeature != nullptr)
 	{
 		return strongholdFeature->getNearestGeneratedFeature(level, x, y, z);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void RandomLevelSource::recreateLogicStructuresForChunk(int chunkX, int chunkZ)
 {
 	if (generateStructures)
 	{
-		mineShaftFeature->apply(this, level, chunkX, chunkZ, NULL);
-		villageFeature->apply(this, level, chunkX, chunkZ, NULL);
-		strongholdFeature->apply(this, level, chunkX, chunkZ, NULL);
-		scatteredFeature->apply(this, level, chunkX, chunkZ, NULL);
+		mineShaftFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		villageFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		strongholdFeature->apply(this, level, chunkX, chunkZ, byteArray());
+		scatteredFeature->apply(this, level, chunkX, chunkZ, byteArray());
 	}
 }

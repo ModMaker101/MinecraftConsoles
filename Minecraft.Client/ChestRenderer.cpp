@@ -52,7 +52,7 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 		Tile *tile = chest->getTile();
 		data = chest->getData();
 
-		if (dynamic_cast<ChestTile*>(tile) != NULL && data == 0)
+		if (dynamic_cast<ChestTile*>(tile) != nullptr && data == 0)
 		{
 			static_cast<ChestTile *>(tile)->recalcLockDir(chest->getLevel(), chest->x, chest->y, chest->z);
 			data = chest->getData();
@@ -60,11 +60,11 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 
 		chest->checkNeighbors();
 	}
-	if (chest->n.lock() != NULL || chest->w.lock() != NULL) return;
+	if (chest->n.lock() != nullptr || chest->w.lock() != nullptr) return;
 
 
 	ChestModel *model;
-	if (chest->e.lock() != NULL || chest->s.lock() != NULL)
+	if (chest->e.lock() != nullptr || chest->s.lock() != nullptr)
 	{
 		model = largeChestModel;
 
@@ -112,11 +112,11 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 	if (data == 4) rot = 90;
 	if (data == 5) rot = -90;
 
-	if (data == 2 && chest->e.lock() != NULL)
+	if (data == 2 && chest->e.lock() != nullptr)
 	{
 		glTranslatef(1, 0, 0);
 	}
-	if (data == 5 && chest->s.lock() != NULL)
+	if (data == 5 && chest->s.lock() != nullptr)
 	{
 		glTranslatef(0, 0, -1);
 	}
@@ -124,12 +124,12 @@ void ChestRenderer::render(shared_ptr<TileEntity>  _chest, double x, double y, d
 	glTranslatef(-0.5f, -0.5f, -0.5f);
 
 	float open = chest->oOpenness + (chest->openness - chest->oOpenness) * a;
-	if (chest->n.lock() != NULL)
+	if (chest->n.lock() != nullptr)
 	{
 		float open2 = chest->n.lock()->oOpenness + (chest->n.lock()->openness - chest->n.lock()->oOpenness) * a;
 		if (open2 > open) open = open2;
 	}
-	if (chest->w.lock() != NULL)
+	if (chest->w.lock() != nullptr)
 	{
 		float open2 = chest->w.lock()->oOpenness + (chest->w.lock()->openness - chest->w.lock()->oOpenness) * a;
 		if (open2 > open) open = open2;

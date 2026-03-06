@@ -11,8 +11,8 @@
 
 SOCKET WinsockNetLayer::s_listenSocket = INVALID_SOCKET;
 SOCKET WinsockNetLayer::s_hostConnectionSocket = INVALID_SOCKET;
-HANDLE WinsockNetLayer::s_acceptThread = NULL;
-HANDLE WinsockNetLayer::s_clientRecvThread = NULL;
+HANDLE WinsockNetLayer::s_acceptThread = nullptr;
+HANDLE WinsockNetLayer::s_clientRecvThread = nullptr;
 
 bool WinsockNetLayer::s_isHost = false;
 bool WinsockNetLayer::s_connected = false;
@@ -29,14 +29,14 @@ CRITICAL_SECTION WinsockNetLayer::s_connectionsLock;
 std::vector<Win64RemoteConnection> WinsockNetLayer::s_connections;
 
 SOCKET WinsockNetLayer::s_advertiseSock = INVALID_SOCKET;
-HANDLE WinsockNetLayer::s_advertiseThread = NULL;
+HANDLE WinsockNetLayer::s_advertiseThread = nullptr;
 volatile bool WinsockNetLayer::s_advertising = false;
 Win64LANBroadcast WinsockNetLayer::s_advertiseData = {};
 CRITICAL_SECTION WinsockNetLayer::s_advertiseLock;
 int WinsockNetLayer::s_hostGamePort = WIN64_NET_DEFAULT_PORT;
 
 SOCKET WinsockNetLayer::s_discoverySock = INVALID_SOCKET;
-HANDLE WinsockNetLayer::s_discoveryThread = NULL;
+HANDLE WinsockNetLayer::s_discoveryThread = nullptr;
 volatile bool WinsockNetLayer::s_discovering = false;
 CRITICAL_SECTION WinsockNetLayer::s_discoveryLock;
 std::vector<Win64LANSession> WinsockNetLayer::s_discoveredSessions;
@@ -113,18 +113,18 @@ void WinsockNetLayer::Shutdown()
 	s_connections.clear();
 	LeaveCriticalSection(&s_connectionsLock);
 
-	if (s_acceptThread != NULL)
+	if (s_acceptThread != nullptr)
 	{
 		WaitForSingleObject(s_acceptThread, 2000);
 		CloseHandle(s_acceptThread);
-		s_acceptThread = NULL;
+		s_acceptThread = nullptr;
 	}
 
-	if (s_clientRecvThread != NULL)
+	if (s_clientRecvThread != nullptr)
 	{
 		WaitForSingleObject(s_clientRecvThread, 2000);
 		CloseHandle(s_clientRecvThread);
-		s_clientRecvThread = NULL;
+		s_clientRecvThread = nullptr;
 	}
 
 	if (s_initialized)
@@ -157,22 +157,22 @@ bool WinsockNetLayer::HostGame(int port, const char* bindIp)
 	LeaveCriticalSection(&s_freeSmallIdLock);
 
 	struct addrinfo hints = {};
-	struct addrinfo* result = NULL;
+	struct addrinfo* result = nullptr;
 
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
-	hints.ai_flags = (bindIp == NULL || bindIp[0] == 0) ? AI_PASSIVE : 0;
+	hints.ai_flags = (bindIp == nullptr || bindIp[0] == 0) ? AI_PASSIVE : 0;
 
 	char portStr[16];
 	sprintf_s(portStr, "%d", port);
 
-	const char* resolvedBindIp = (bindIp != NULL && bindIp[0] != 0) ? bindIp : NULL;
+	const char* resolvedBindIp = (bindIp != nullptr && bindIp[0] != 0) ? bindIp : nullptr;
 	int iResult = getaddrinfo(resolvedBindIp, portStr, &hints, &result);
 	if (iResult != 0)
 	{
 		app.DebugPrintf("getaddrinfo failed for %s:%d - %d\n",
-			resolvedBindIp != NULL ? resolvedBindIp : "*",
+			resolvedBindIp != nullptr ? resolvedBindIp : "*",
 			port,
 			iResult);
 		return false;
@@ -211,10 +211,10 @@ bool WinsockNetLayer::HostGame(int port, const char* bindIp)
 	s_active = true;
 	s_connected = true;
 
-	s_acceptThread = CreateThread(NULL, 0, AcceptThreadProc, NULL, 0, NULL);
+	s_acceptThread = CreateThread(nullptr, 0, AcceptThreadProc, nullptr, 0, nullptr);
 
 	app.DebugPrintf("Win64 LAN: Hosting on %s:%d\n",
-		resolvedBindIp != NULL ? resolvedBindIp : "*",
+		resolvedBindIp != nullptr ? resolvedBindIp : "*",
 		port);
 	return true;
 }
@@ -235,7 +235,7 @@ bool WinsockNetLayer::JoinGame(const char* ip, int port)
 	}
 
 	struct addrinfo hints = {};
-	struct addrinfo* result = NULL;
+	struct addrinfo* result = nullptr;
 
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
@@ -306,7 +306,7 @@ bool WinsockNetLayer::JoinGame(const char* ip, int port)
 	s_active = true;
 	s_connected = true;
 
-	s_clientRecvThread = CreateThread(NULL, 0, ClientRecvThreadProc, NULL, 0, NULL);
+	s_clientRecvThread = CreateThread(nullptr, 0, ClientRecvThreadProc, nullptr, 0, nullptr);
 
 	return true;
 }
@@ -401,18 +401,18 @@ void WinsockNetLayer::HandleDataReceived(BYTE fromSmallId, BYTE toSmallId, unsig
 	INetworkPlayer* pPlayerFrom = g_NetworkManager.GetPlayerBySmallId(fromSmallId);
 	INetworkPlayer* pPlayerTo = g_NetworkManager.GetPlayerBySmallId(toSmallId);
 
-	if (pPlayerFrom == NULL || pPlayerTo == NULL) return;
+	if (pPlayerFrom == nullptr || pPlayerTo == nullptr) return;
 
 	if (s_isHost)
 	{
 		::Socket* pSocket = pPlayerFrom->GetSocket();
-		if (pSocket != NULL)
+		if (pSocket != nullptr)
 			pSocket->pushDataToQueue(data, dataSize, false);
 	}
 	else
 	{
 		::Socket* pSocket = pPlayerTo->GetSocket();
-		if (pSocket != NULL)
+		if (pSocket != nullptr)
 			pSocket->pushDataToQueue(data, dataSize, true);
 	}
 }
@@ -421,7 +421,7 @@ DWORD WINAPI WinsockNetLayer::AcceptThreadProc(LPVOID param)
 {
 	while (s_active)
 	{
-		SOCKET clientSocket = accept(s_listenSocket, NULL, NULL);
+		SOCKET clientSocket = accept(s_listenSocket, nullptr, nullptr);
 		if (clientSocket == INVALID_SOCKET)
 		{
 			if (s_active)
@@ -473,7 +473,7 @@ DWORD WINAPI WinsockNetLayer::AcceptThreadProc(LPVOID param)
 		conn.tcpSocket = clientSocket;
 		conn.smallId = assignedSmallId;
 		conn.active = true;
-		conn.recvThread = NULL;
+		conn.recvThread = nullptr;
 
 		EnterCriticalSection(&s_connectionsLock);
 		s_connections.push_back(conn);
@@ -492,7 +492,7 @@ DWORD WINAPI WinsockNetLayer::AcceptThreadProc(LPVOID param)
 
 		DWORD* threadParam = new DWORD;
 		*threadParam = connIdx;
-		HANDLE hThread = CreateThread(NULL, 0, RecvThreadProc, threadParam, 0, NULL);
+		HANDLE hThread = CreateThread(nullptr, 0, RecvThreadProc, threadParam, 0, nullptr);
 
 		EnterCriticalSection(&s_connectionsLock);
 		if (connIdx < static_cast<int>(s_connections.size()))
@@ -693,7 +693,7 @@ bool WinsockNetLayer::StartAdvertising(int gamePort, const wchar_t* hostName, un
 	setsockopt(s_advertiseSock, SOL_SOCKET, SO_BROADCAST, (const char*)&broadcast, sizeof(broadcast));
 
 	s_advertising = true;
-	s_advertiseThread = CreateThread(NULL, 0, AdvertiseThreadProc, NULL, 0, NULL);
+	s_advertiseThread = CreateThread(nullptr, 0, AdvertiseThreadProc, nullptr, 0, nullptr);
 
 	app.DebugPrintf("Win64 LAN: Started advertising on UDP port %d\n", WIN64_LAN_DISCOVERY_PORT);
 	return true;
@@ -709,11 +709,11 @@ void WinsockNetLayer::StopAdvertising()
 		s_advertiseSock = INVALID_SOCKET;
 	}
 
-	if (s_advertiseThread != NULL)
+	if (s_advertiseThread != nullptr)
 	{
 		WaitForSingleObject(s_advertiseThread, 2000);
 		CloseHandle(s_advertiseThread);
-		s_advertiseThread = NULL;
+		s_advertiseThread = nullptr;
 	}
 }
 
@@ -792,7 +792,7 @@ bool WinsockNetLayer::StartDiscovery()
 	setsockopt(s_discoverySock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&timeout, sizeof(timeout));
 
 	s_discovering = true;
-	s_discoveryThread = CreateThread(NULL, 0, DiscoveryThreadProc, NULL, 0, NULL);
+	s_discoveryThread = CreateThread(nullptr, 0, DiscoveryThreadProc, nullptr, 0, nullptr);
 
 	app.DebugPrintf("Win64 LAN: Listening for LAN games on UDP port %d\n", WIN64_LAN_DISCOVERY_PORT);
 	return true;
@@ -808,11 +808,11 @@ void WinsockNetLayer::StopDiscovery()
 		s_discoverySock = INVALID_SOCKET;
 	}
 
-	if (s_discoveryThread != NULL)
+	if (s_discoveryThread != nullptr)
 	{
 		WaitForSingleObject(s_discoveryThread, 2000);
 		CloseHandle(s_discoveryThread);
-		s_discoveryThread = NULL;
+		s_discoveryThread = nullptr;
 	}
 
 	EnterCriticalSection(&s_discoveryLock);

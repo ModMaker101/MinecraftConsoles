@@ -13,7 +13,7 @@ TamableAnimal::TamableAnimal(Level *level) : Animal(level)
 
 TamableAnimal::~TamableAnimal()
 {
-	if(sitGoal != NULL) delete sitGoal;
+	if(sitGoal != nullptr) delete sitGoal;
 }
 
 void TamableAnimal::defineSynchedData()
@@ -169,7 +169,7 @@ Team *TamableAnimal::getTeam()
 	if (isTame())
 	{
 		shared_ptr<LivingEntity> owner = dynamic_pointer_cast<LivingEntity>(getOwner());
-		if (owner != NULL)
+		if (owner != nullptr)
 		{
 			return owner->getTeam();
 		}
@@ -186,7 +186,7 @@ bool TamableAnimal::isAlliedTo(shared_ptr<LivingEntity> other)
 		{
 			return true;
 		}
-		if (owner != NULL)
+		if (owner != nullptr)
 		{
 			return owner->isAlliedTo(other);
 		}

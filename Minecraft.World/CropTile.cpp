@@ -9,7 +9,7 @@ CropTile::CropTile(int id) : Bush(id)
 {
 	setTicking(true);
 	updateDefaultShape();
-	icons = NULL;
+	icons = nullptr;
 
 	setDestroyTime(0.0f);
 	setSoundType(SOUND_GRASS);

@@ -150,7 +150,7 @@ bool HangingEntity::survives()
 
 			vector<shared_ptr<Entity> > *entities = level->getEntities(shared_from_this(), bb);
 
-			if (entities != NULL && entities->size() > 0)
+			if (entities != nullptr && entities->size() > 0)
 			{
 				for (auto& e : *entities)
 				{
@@ -184,11 +184,11 @@ bool HangingEntity::hurt(DamageSource *source, float damage)
 	if (isInvulnerable()) return false;
 	if (!removed && !level->isClientSide)
 	{
-		if (dynamic_cast<EntityDamageSource *>(source) != NULL)
+		if (dynamic_cast<EntityDamageSource *>(source) != nullptr)
 		{
 			shared_ptr<Entity> sourceEntity = source->getDirectEntity();
 
-			if ( (sourceEntity != NULL) && sourceEntity->instanceof(eTYPE_PLAYER) && !dynamic_pointer_cast<Player>(sourceEntity)->isAllowedToHurtEntity(shared_from_this()) )
+			if ( (sourceEntity != nullptr) && sourceEntity->instanceof(eTYPE_PLAYER) && !dynamic_pointer_cast<Player>(sourceEntity)->isAllowedToHurtEntity(shared_from_this()) )
 			{
 				return false;
 			}
@@ -199,12 +199,12 @@ bool HangingEntity::hurt(DamageSource *source, float damage)
 
 		shared_ptr<Player> player = nullptr;
 		shared_ptr<Entity> e = source->getEntity();
-		if ( (e!=NULL) && e->instanceof(eTYPE_PLAYER) ) // check if it's serverplayer or player
+		if ( (e!=nullptr) && e->instanceof(eTYPE_PLAYER) ) // check if it's serverplayer or player
 		{
 			player = dynamic_pointer_cast<Player>( e );
 		}
 
-		if (player != NULL && player->abilities.instabuild)
+		if (player != nullptr && player->abilities.instabuild)
 		{
 			return true;
 		}

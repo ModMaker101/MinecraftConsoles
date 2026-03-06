@@ -23,7 +23,7 @@ void PistonMovingPiece::onPlace(Level *level, int x, int y, int z)
 void PistonMovingPiece::onRemove(Level *level, int x, int y, int z, int id, int data)
 {
 	shared_ptr<TileEntity> tileEntity = level->getTileEntity(x, y, z);
-	if (tileEntity != NULL && dynamic_pointer_cast<PistonPieceEntity>(tileEntity) != NULL)
+	if (tileEntity != nullptr && dynamic_pointer_cast<PistonPieceEntity>(tileEntity) != nullptr)
 	{
 		dynamic_pointer_cast<PistonPieceEntity>(tileEntity)->finalTick();
 	}
@@ -62,7 +62,7 @@ bool PistonMovingPiece::use(Level *level, int x, int y, int z, shared_ptr<Player
 {
 	if( soundOnly) return false;
 	// this is a special case in order to help removing invisible, unbreakable, blocks in the world
-	if (!level->isClientSide && level->getTileEntity(x, y, z) == NULL)
+	if (!level->isClientSide && level->getTileEntity(x, y, z) == nullptr)
 	{
 		// this block is no longer valid
 		level->removeTile(x, y, z);
@@ -81,7 +81,7 @@ void PistonMovingPiece::spawnResources(Level *level, int x, int y, int z, int da
 	if (level->isClientSide) return;
 
 	shared_ptr<PistonPieceEntity> entity = getEntity(level, x, y, z);
-	if (entity == NULL)
+	if (entity == nullptr)
 	{
 		return;
 	}
@@ -93,7 +93,7 @@ void PistonMovingPiece::neighborChanged(Level *level, int x, int y, int z, int t
 {
 	if (!level->isClientSide)
 	{
-		level->getTileEntity(x, y, z) == NULL;
+		level->getTileEntity(x, y, z) == nullptr;
 	}
 }
 
@@ -105,9 +105,9 @@ shared_ptr<TileEntity> PistonMovingPiece::newMovingPieceEntity(int block, int da
 AABB *PistonMovingPiece::getAABB(Level *level, int x, int y, int z)
 {
 	shared_ptr<PistonPieceEntity> entity = getEntity(level, x, y, z);
-	if (entity == NULL)
+	if (entity == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// move the aabb depending on the animation
@@ -122,11 +122,11 @@ AABB *PistonMovingPiece::getAABB(Level *level, int x, int y, int z)
 void PistonMovingPiece::updateShape(LevelSource *level, int x, int y, int z, int forceData, shared_ptr<TileEntity> forceEntity) // 4J added forceData, forceEntity param
 {
 	shared_ptr<PistonPieceEntity> entity = dynamic_pointer_cast<PistonPieceEntity>(forceEntity);
-	if( entity == NULL ) entity = getEntity(level, x, y, z);
-	if (entity != NULL)
+	if( entity == nullptr ) entity = getEntity(level, x, y, z);
+	if (entity != nullptr)
 	{
 		Tile *tile = Tile::tiles[entity->getId()];
-		if (tile == NULL || tile == this)
+		if (tile == nullptr || tile == this)
 		{
 			return;
 		}
@@ -152,13 +152,13 @@ AABB *PistonMovingPiece::getAABB(Level *level, int x, int y, int z, int tile, fl
 {
 	if (tile == 0 || tile == id)
 	{
-		return NULL;
+		return nullptr;
 	}
 	AABB *aabb = Tile::tiles[tile]->getAABB(level, x, y, z);
 
-	if (aabb == NULL)
+	if (aabb == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// move the aabb depending on the animation
@@ -192,7 +192,7 @@ AABB *PistonMovingPiece::getAABB(Level *level, int x, int y, int z, int tile, fl
 shared_ptr<PistonPieceEntity> PistonMovingPiece::getEntity(LevelSource *level, int x, int y, int z)
 {
 	shared_ptr<TileEntity> tileEntity = level->getTileEntity(x, y, z);
-	if (tileEntity != NULL && dynamic_pointer_cast<PistonPieceEntity>(tileEntity) != NULL)
+	if (tileEntity != nullptr && dynamic_pointer_cast<PistonPieceEntity>(tileEntity) != nullptr)
 	{
 		return  dynamic_pointer_cast<PistonPieceEntity>(tileEntity);
 	}

@@ -197,7 +197,7 @@ void Arrow::tick()
 		{
 			Tile::tiles[t]->updateShape(level, xTile, yTile, zTile);
 			AABB *aabb = Tile::tiles[t]->getAABB(level, xTile, yTile, zTile);
-			if (aabb != NULL && aabb->contains(Vec3::newTemp(x, y, z)))
+			if (aabb != nullptr && aabb->contains(Vec3::newTemp(x, y, z)))
 			{
 				inGround = true;
 			}
@@ -242,7 +242,7 @@ void Arrow::tick()
 
 	from = Vec3::newTemp(x, y, z);
 	to = Vec3::newTemp(x + xd, y + yd, z + zd);
-	if (res != NULL)
+	if (res != nullptr)
 	{
 		to = Vec3::newTemp(res->pos->x, res->pos->y, res->pos->z);
 	}
@@ -256,7 +256,7 @@ void Arrow::tick()
 		float rr = 0.3f;
 		AABB *bb = e->bb->grow(rr, rr, rr);
 		HitResult *p = bb->clip(from, to);
-		if (p != NULL)
+		if (p != nullptr)
 		{
 			double dd = from->distanceTo(p->pos);
 			if (dd < nearest || nearest == 0)
@@ -268,33 +268,33 @@ void Arrow::tick()
 		}
 	}
 
-	if (hitEntity != NULL)
+	if (hitEntity != nullptr)
 	{
 		delete res;
 		res = new HitResult(hitEntity);
 	}
 
-	if ( (res != NULL) && (res->entity != NULL) && res->entity->instanceof(eTYPE_PLAYER))
+	if ( (res != nullptr) && (res->entity != nullptr) && res->entity->instanceof(eTYPE_PLAYER))
 	{
 		shared_ptr<Player> player = dynamic_pointer_cast<Player>(res->entity);
 		// 4J: Check for owner being null
-		if ( player->abilities.invulnerable || ((owner != NULL) && (owner->instanceof(eTYPE_PLAYER) && !dynamic_pointer_cast<Player>(owner)->canHarmPlayer(player))))
+		if ( player->abilities.invulnerable || ((owner != nullptr) && (owner->instanceof(eTYPE_PLAYER) && !dynamic_pointer_cast<Player>(owner)->canHarmPlayer(player))))
 		{
-			res = NULL;
+			res = nullptr;
 		}
 	}
 
-	if (res != NULL)
+	if (res != nullptr)
 	{
-		if (res->entity != NULL)
+		if (res->entity != nullptr)
 		{
 			float pow = Mth::sqrt(xd * xd + yd * yd + zd * zd);
 			int dmg = (int) Mth::ceil(static_cast<float>(pow * baseDamage));
 
 			if(isCritArrow()) dmg += random->nextInt(dmg / 2 + 2);
 
-			DamageSource *damageSource = NULL;
-			if (owner == NULL)
+			DamageSource *damageSource = nullptr;
+			if (owner == nullptr)
 			{
 				damageSource = DamageSource::arrow(dynamic_pointer_cast<Arrow>(shared_from_this()), shared_from_this());
 			}
@@ -331,19 +331,19 @@ void Arrow::tick()
 						}
 					}
 
-					if (owner != NULL)
+					if (owner != nullptr)
 					{
 						ThornsEnchantment::doThornsAfterAttack(owner, mob, random);
 					}
 
-					if (owner != NULL && res->entity != owner && owner->GetType() == eTYPE_SERVERPLAYER)
+					if (owner != nullptr && res->entity != owner && owner->GetType() == eTYPE_SERVERPLAYER)
 					{
 						dynamic_pointer_cast<ServerPlayer>(owner)->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::SUCCESSFUL_BOW_HIT, 0)) );
 					}
 				}
 
 				// 4J : WESTY : For award, need to track if creeper was killed by arrow from the player.
-				if (owner != NULL && owner->instanceof(eTYPE_PLAYER)				// arrow owner is a player
+				if (owner != nullptr && owner->instanceof(eTYPE_PLAYER)				// arrow owner is a player
 					&&	!res->entity->isAlive()						// target is now dead
 					&&	(res->entity->GetType() == eTYPE_CREEPER))	// target is a creeper
 

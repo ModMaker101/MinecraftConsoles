@@ -18,7 +18,7 @@ ResourceLocation EntityRenderer::SHADOW_LOCATION = ResourceLocation(TN__CLAMP__M
 // 4J - added
 EntityRenderer::EntityRenderer()
 {
-	model = NULL;
+	model = nullptr;
 	tileRenderer = new TileRenderer();
 	shadowRadius = 0;
 	shadowStrength = 1.0f;
@@ -113,7 +113,7 @@ void EntityRenderer::renderFlame(shared_ptr<Entity> e, double x, double y, doubl
 	t->begin();
 	while (h > 0)
 	{
-		Icon *tex = NULL;
+		Icon *tex = nullptr;
 		if (ss % 2 == 0)
 		{
 			tex = fire1;
@@ -406,5 +406,5 @@ void EntityRenderer::registerTerrainTextures(IconRegister *iconRegister)
 
 ResourceLocation *EntityRenderer::getTextureLocation(shared_ptr<Entity> mob)
 {
-	return NULL;
+	return nullptr;
 }

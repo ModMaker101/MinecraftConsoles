@@ -39,7 +39,7 @@ HRESULT CScene_MultiGameInfo::OnInit( XUIMessageInit* pInitData, BOOL& bHandled 
 
 	for(unsigned int i = 0; i < MINECRAFT_NET_MAX_PLAYERS; ++i)
 	{
-		if( m_selectedSession->data.players[i] != NULL )
+		if( m_selectedSession->data.players[i] != nullptr )
 		{
 			playersList.InsertItems(i,1);
 #ifndef _CONTENT_PACKAGE
@@ -55,7 +55,7 @@ HRESULT CScene_MultiGameInfo::OnInit( XUIMessageInit* pInitData, BOOL& bHandled 
 		}
 		else
 		{
-			// Leave the loop when we hit the first NULL player
+			// Leave the loop when we hit the first nullptr player
 			break;
 		}
 	}
@@ -185,7 +185,7 @@ HRESULT CScene_MultiGameInfo::OnKeyDown(XUIMessageInput* pInputData, BOOL& rfHan
 		rfHandled = TRUE;
 		break;
 	case VK_PAD_Y:
-		if(m_selectedSession != NULL && playersList.TreeHasFocus() && playersList.GetItemCount() > 0)
+		if(m_selectedSession != nullptr && playersList.TreeHasFocus() && playersList.GetItemCount() > 0)
 		{
 			PlayerUID xuid = m_selectedSession->data.players[playersList.GetCurSel()];
 			if( xuid != INVALID_XUID )
@@ -302,7 +302,7 @@ void CScene_MultiGameInfo::JoinGame(CScene_MultiGameInfo* pClass)
 		int messageText = IDS_NO_USER_CREATED_CONTENT_PRIVILEGE_SINGLE_LOCAL;
 		if(dwSignedInUsers > 1) messageText = IDS_NO_USER_CREATED_CONTENT_PRIVILEGE_ALL_LOCAL;
 
-		StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, messageText, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+		StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, messageText, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 	
 	}
 	else if(noPrivileges)
@@ -311,7 +311,7 @@ void CScene_MultiGameInfo::JoinGame(CScene_MultiGameInfo* pClass)
 		pClass->m_bIgnoreInput=false;
 		UINT uiIDA[1];
 		uiIDA[0]=IDS_CONFIRM_OK;
-		StorageManager.RequestMessageBox( IDS_NO_MULTIPLAYER_PRIVILEGE_TITLE, IDS_NO_MULTIPLAYER_PRIVILEGE_JOIN_TEXT, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+		StorageManager.RequestMessageBox( IDS_NO_MULTIPLAYER_PRIVILEGE_TITLE, IDS_NO_MULTIPLAYER_PRIVILEGE_JOIN_TEXT, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 	}
 	else
 	{
@@ -338,7 +338,7 @@ void CScene_MultiGameInfo::JoinGame(CScene_MultiGameInfo* pClass)
 			{
 				UINT uiIDA[1];
 				uiIDA[0]=IDS_CONFIRM_OK;
-				StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),NULL,NULL, app.GetStringTable());
+				StorageManager.RequestMessageBox( IDS_CONNECTION_FAILED, exitReasonStringId, uiIDA,1,ProfileManager.GetPrimaryPad(),nullptr,nullptr, app.GetStringTable());
 				exitReasonStringId = -1;
 
 				app.NavigateToHomeMenu();
@@ -361,7 +361,7 @@ HRESULT CScene_MultiGameInfo::OnTimer( XUIMessageTimer *pTimer, BOOL& bHandled )
 			int selectedIndex = 0;
 			for(unsigned int i = 0; i < MINECRAFT_NET_MAX_PLAYERS; ++i)
 			{
-				if( m_selectedSession->data.players[i] != NULL )
+				if( m_selectedSession->data.players[i] != nullptr )
 				{
 					if(m_selectedSession->data.players[i] == selectedPlayerXUID) selectedIndex = i;
 					playersList.InsertItems(i,1);
@@ -378,7 +378,7 @@ HRESULT CScene_MultiGameInfo::OnTimer( XUIMessageTimer *pTimer, BOOL& bHandled )
 				}
 				else
 				{
-					// Leave the loop when we hit the first NULL player
+					// Leave the loop when we hit the first nullptr player
 					break;
 				}
 			}

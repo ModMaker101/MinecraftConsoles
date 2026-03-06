@@ -26,7 +26,7 @@ StitchedTexture *StitchedTexture::create(const wstring &name)
 StitchedTexture::StitchedTexture(const wstring &name, const wstring &filename) : name(name)
 {
 	// 4J Initialisers
-	source = NULL;
+	source = nullptr;
 	rotated = false;
 	x = 0;
 	y = 0;
@@ -40,9 +40,9 @@ StitchedTexture::StitchedTexture(const wstring &name, const wstring &filename) :
 	heightTranslation = 0.0f;
 	frame = 0;
 	subFrame = 0;
-	frameOverride = NULL;
+	frameOverride = nullptr;
 	flags = 0;
-	frames = NULL;
+	frames = nullptr;
 	m_fileName = filename;
 }
 
@@ -192,7 +192,7 @@ int StitchedTexture::getSourceHeight() const
 
 void StitchedTexture::cycleFrames()
 {
-	if (frameOverride != NULL)
+	if (frameOverride != nullptr)
 	{
 		pair<int, int> current = frameOverride->at(frame);
 		subFrame++;
@@ -250,10 +250,10 @@ int StitchedTexture::getFrames()
 */
 void StitchedTexture::loadAnimationFrames(BufferedReader *bufferedReader)
 {
-	if(frameOverride != NULL)
+	if(frameOverride != nullptr)
 	{
 		delete frameOverride;
-		frameOverride = NULL;
+		frameOverride = nullptr;
 	}
 	frame = 0;
 	subFrame = 0;
@@ -303,10 +303,10 @@ void StitchedTexture::loadAnimationFrames(BufferedReader *bufferedReader)
 
 void StitchedTexture::loadAnimationFrames(const wstring &string)
 {
-	if(frameOverride != NULL)
+	if(frameOverride != nullptr)
 	{
 		delete frameOverride;
-		frameOverride = NULL;
+		frameOverride = nullptr;
 	}
 	frame = 0;
 	subFrame = 0;

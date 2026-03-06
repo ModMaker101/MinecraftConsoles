@@ -17,8 +17,8 @@ FurnaceTile::FurnaceTile(int id, bool lit) : BaseEntityTile(id, Material::stone)
 	random = new Random();
 	this->lit = lit;
 	
-	iconTop = NULL;
-	iconFront = NULL;
+	iconTop = nullptr;
+	iconFront = nullptr;
 }
 
 int FurnaceTile::getResource(int data, Random *random, int playerBonusLevel)
@@ -117,7 +117,7 @@ bool FurnaceTile::use(Level *level, int x, int y, int z, shared_ptr<Player> play
 		return true;
 	}
 	shared_ptr<FurnaceTileEntity> furnace = dynamic_pointer_cast<FurnaceTileEntity>( level->getTileEntity(x, y, z) );
-	if (furnace != NULL ) player->openFurnace(furnace);
+	if (furnace != nullptr ) player->openFurnace(furnace);
 	return true;
 }
 
@@ -132,7 +132,7 @@ void FurnaceTile::setLit(bool lit, Level *level, int x, int y, int z)
 	noDrop = false;
 
 	level->setData(x, y, z, data, Tile::UPDATE_CLIENTS);
-	if( te != NULL )
+	if( te != nullptr )
 	{
 		te->clearRemoved();
 		level->setTileEntity(x, y, z, te);
@@ -164,12 +164,12 @@ void FurnaceTile::onRemove(Level *level, int x, int y, int z, int id, int data)
 	if (!noDrop)
 	{
 		shared_ptr<Container> container = dynamic_pointer_cast<FurnaceTileEntity>( level->getTileEntity(x, y, z) );
-		if( container != NULL )
+		if( container != nullptr )
 		{
 			for (unsigned int i = 0; i < container->getContainerSize(); i++)
 			{
 				shared_ptr<ItemInstance> item = container->getItem(i);
-				if (item != NULL)
+				if (item != nullptr)
 				{
 					float xo = random->nextFloat() * 0.8f + 0.1f;
 					float yo = random->nextFloat() * 0.8f + 0.1f;

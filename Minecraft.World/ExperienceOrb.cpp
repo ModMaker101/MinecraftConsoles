@@ -99,13 +99,13 @@ void ExperienceOrb::tick()
 	// Usually exp orbs will get created at the same time so smoothen the lagspikes
 	if (followingTime < tickCount - SharedConstants::TICKS_PER_SECOND + (entityId % 100))
 	{
-		if (followingPlayer == NULL || followingPlayer->distanceToSqr(shared_from_this()) > maxDist * maxDist)
+		if (followingPlayer == nullptr || followingPlayer->distanceToSqr(shared_from_this()) > maxDist * maxDist)
 		{
 			followingPlayer = level->getNearestPlayer(shared_from_this(), maxDist);
 		}
 		followingTime = tickCount;
 	}
-	if (followingPlayer != NULL)
+	if (followingPlayer != nullptr)
 	{
 		double xdd = (followingPlayer->x - x) / maxDist;
 		double ydd = (followingPlayer->y + followingPlayer->getHeadHeight() - y) / maxDist;

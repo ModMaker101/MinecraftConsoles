@@ -4,7 +4,7 @@
 
 CustomSet::CustomSet()
 {
-	m_NodePool = NULL;
+	m_NodePool = nullptr;
 	m_NodePoolSize = 0;
 	m_NodePoolIndex = 0;
 
@@ -85,7 +85,7 @@ void CustomSet::insert(const ChunkPos &Key)
 	unsigned int Index = Hash & (m_HashSize-1);
 	Node->Hash = Hash;
 	Node->key = Key;
-	Node->Next = NULL;
+	Node->Next = nullptr;
 
 	// are any nodes in this hash index
 	if( !m_HashTable[Index] )

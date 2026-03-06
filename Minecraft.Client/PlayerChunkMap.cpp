@@ -82,7 +82,7 @@ void PlayerChunkMap::PlayerChunk::add(shared_ptr<ServerPlayer> player, bool send
 
 void PlayerChunkMap::PlayerChunk::remove(shared_ptr<ServerPlayer> player)
 {
-	PlayerChunkMap::PlayerChunk *toDelete = NULL;
+	PlayerChunkMap::PlayerChunk *toDelete = nullptr;
 
 	//app.DebugPrintf("--- PlayerChunkMap::PlayerChunk::remove x=%d\tz=%d\n",x,z);
     auto it = find(players.begin(), players.end(), player);
@@ -121,7 +121,7 @@ void PlayerChunkMap::PlayerChunk::remove(shared_ptr<ServerPlayer> player)
 	// 4J - I don't think there's any point sending these anymore, as we don't need to unload chunks with fixed sized maps
 	// 4J - We do need to send these to unload entities in chunks when players are dead. If we do not and the entity is removed
 	// while they are dead, that entity will remain in the clients world
-    if (player->connection != NULL && player->seenChunks.find(pos) != player->seenChunks.end())
+    if (player->connection != nullptr && player->seenChunks.find(pos) != player->seenChunks.end())
 	{
 		INetworkPlayer *thisNetPlayer = player->connection->getNetworkPlayer();
 		bool noOtherPlayersFound = true;
@@ -133,7 +133,7 @@ void PlayerChunkMap::PlayerChunk::remove(shared_ptr<ServerPlayer> player)
 				if ( currPlayer )
 				{
 					INetworkPlayer *currNetPlayer = currPlayer->connection->getNetworkPlayer();
-					if( currNetPlayer != NULL && currNetPlayer->IsSameSystem( thisNetPlayer ) && currPlayer->seenChunks.find(pos) != currPlayer->seenChunks.end() )
+					if( currNetPlayer != nullptr && currNetPlayer->IsSameSystem( thisNetPlayer ) && currPlayer->seenChunks.find(pos) != currPlayer->seenChunks.end() )
 					{
 						noOtherPlayersFound = false;
 						break;
@@ -148,7 +148,7 @@ void PlayerChunkMap::PlayerChunk::remove(shared_ptr<ServerPlayer> player)
 		}
 		else
 		{
-			//app.DebugPrintf("PlayerChunkMap::PlayerChunk::remove - QNetPlayer is NULL\n");
+			//app.DebugPrintf("PlayerChunkMap::PlayerChunk::remove - QNetPlayer is nullptr\n");
 		}
     }
 
@@ -220,7 +220,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<Packet> packet)
 		if( sentTo.size() )
 		{
 			INetworkPlayer *thisPlayer = player->connection->getNetworkPlayer();
-			if( thisPlayer == NULL )
+			if( thisPlayer == nullptr )
 			{
 				dontSend = true;
 			}
@@ -230,7 +230,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<Packet> packet)
 				{
 					shared_ptr<ServerPlayer> player2 = sentTo[j];
 					INetworkPlayer *otherPlayer = player2->connection->getNetworkPlayer();
-					if( otherPlayer != NULL && thisPlayer->IsSameSystem(otherPlayer) )
+					if( otherPlayer != nullptr && thisPlayer->IsSameSystem(otherPlayer) )
 					{
 						dontSend = true;
 					}
@@ -269,7 +269,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<Packet> packet)
 	{
 		shared_ptr<ServerPlayer> player = parent->level->getServer()->getPlayers()->players[i];
 		// Don't worry about local players, they get all their updates through sharing level with the server anyway
-		if ( player->connection == NULL ) continue;
+		if ( player->connection == nullptr ) continue;
 		if( player->connection->isLocal() ) continue;
 
 		// Don't worry about this player if they haven't had this chunk yet (this flag will be the
@@ -282,7 +282,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<Packet> packet)
 		if( sentTo.size() )
 		{
 			INetworkPlayer *thisPlayer = player->connection->getNetworkPlayer();
-			if( thisPlayer == NULL )
+			if( thisPlayer == nullptr )
 			{
 				dontSend = true;
 			}
@@ -292,7 +292,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<Packet> packet)
 				{
 					shared_ptr<ServerPlayer> player2 = sentTo[j];
 					INetworkPlayer *otherPlayer = player2->connection->getNetworkPlayer();
-					if( otherPlayer != NULL && thisPlayer->IsSameSystem(otherPlayer) )
+					if( otherPlayer != nullptr && thisPlayer->IsSameSystem(otherPlayer) )
 					{
 						dontSend = true;
 					}
@@ -386,10 +386,10 @@ bool PlayerChunkMap::PlayerChunk::broadcastChanges(bool allowRegionUpdate)
 
 void PlayerChunkMap::PlayerChunk::broadcast(shared_ptr<TileEntity> te)
 {
-    if (te != NULL)
+    if (te != nullptr)
 	{
         shared_ptr<Packet> p = te->getUpdatePacket();
-        if (p != NULL)
+        if (p != nullptr)
 		{
             broadcast(p);
         }
@@ -579,7 +579,7 @@ void PlayerChunkMap::broadcastTileUpdate(shared_ptr<Packet> packet, int x, int y
     int xc = x >> 4;
     int zc = z >> 4;
     PlayerChunk *chunk = getChunk(xc, zc, false);
-    if (chunk != NULL)
+    if (chunk != nullptr)
 	{
         chunk->broadcast(packet);
     }
@@ -590,7 +590,7 @@ void PlayerChunkMap::tileChanged(int x, int y, int z)
     int xc = x >> 4;
     int zc = z >> 4;
     PlayerChunk *chunk = getChunk(xc, zc, false);
-    if (chunk != NULL)
+    if (chunk != nullptr)
 	{
         chunk->tileChanged(x & 15, y, z & 15);
     }
@@ -611,7 +611,7 @@ void PlayerChunkMap::prioritiseTileChanges(int x, int y, int z)
     int xc = x >> 4;
     int zc = z >> 4;
     PlayerChunk *chunk = getChunk(xc, zc, false);
-    if (chunk != NULL)
+    if (chunk != nullptr)
 	{
         chunk->prioritiseTileChanges();
     }
@@ -731,7 +731,7 @@ void PlayerChunkMap::remove(shared_ptr<ServerPlayer> player)
         for (int z = zc - radius; z <= zc + radius; z++)
 		{
             PlayerChunk *playerChunk = getChunk(x, z, false);
-            if (playerChunk != NULL) playerChunk->remove(player);
+            if (playerChunk != nullptr) playerChunk->remove(player);
         }
 
     auto it = find(players.begin(), players.end(), player);
@@ -811,7 +811,7 @@ bool PlayerChunkMap::isPlayerIn(shared_ptr<ServerPlayer> player, int xChunk, int
 {
 	PlayerChunk *chunk = getChunk(xChunk, zChunk, false);
 
-	if(chunk == NULL)
+	if(chunk == nullptr)
 	{
 		return false;
 	}
@@ -822,7 +822,7 @@ bool PlayerChunkMap::isPlayerIn(shared_ptr<ServerPlayer> player, int xChunk, int
         return it1 != chunk->players.end() && it2 == player->chunksToSend.end();
 	}
 
-	//return chunk == NULL ? false : chunk->players->contains(player) && !player->chunksToSend->contains(chunk->pos);
+	//return chunk == nullptr ? false : chunk->players->contains(player) && !player->chunksToSend->contains(chunk->pos);
 }
 
 int PlayerChunkMap::convertChunkRangeToBlock(int radius)

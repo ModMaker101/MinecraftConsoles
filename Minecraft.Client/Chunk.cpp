@@ -173,7 +173,7 @@ void Chunk::makeCopyForRebuild(Chunk *source)
 	this->ym = source->ym;
 	this->zm = source->zm;
 	this->bb = source->bb;
-	this->clipChunk = NULL;
+	this->clipChunk = nullptr;
 	this->id = source->id;
 	this->globalRenderableTileEntities = source->globalRenderableTileEntities;
 	this->globalRenderableTileEntities_cs = source->globalRenderableTileEntities_cs;
@@ -680,7 +680,7 @@ void Chunk::rebuild_SPU()
 	// render chunk is 16 x 16 x 16. We wouldn't have to actually get all of it if the data was ordered differently, but currently
 	// it is ordered by x then z then y so just getting a small range of y out of it would involve getting the whole thing into
 	// the cache anyway.
-	ChunkRebuildData* pOutData = NULL;
+	ChunkRebuildData* pOutData = nullptr;
 	g_rebuildDataIn.buildForChunk(&region, level, x0, y0, z0);
 
  	Tesselator::Bounds bounds;
@@ -981,7 +981,7 @@ void Chunk::reset()
 void Chunk::_delete()
 {
 	reset();
-	level = NULL;
+	level = nullptr;
 }
 
 int Chunk::getList(int layer)

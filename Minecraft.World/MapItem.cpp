@@ -32,7 +32,7 @@ shared_ptr<MapItemSavedData> MapItem::getSavedData(short idNum, Level *level)
 		int aux = idNum;
 
 		id = wstring( L"map_" ) + std::to_wstring(aux);
-		mapItemSavedData = shared_ptr<MapItemSavedData>( new MapItemSavedData(id) );
+		mapItemSavedData = std::make_shared<MapItemSavedData>(id);
 
 		level->setSavedData(id, (shared_ptr<SavedData> ) mapItemSavedData);
 	}
@@ -55,7 +55,7 @@ shared_ptr<MapItemSavedData> MapItem::getSavedData(shared_ptr<ItemInstance> item
 		//itemInstance->setAuxValue(level->getFreeAuxValueFor(L"map"));
 
 		id = wstring( L"map_" ) + std::to_wstring(itemInstance->getAuxValue() );
-		mapItemSavedData = shared_ptr<MapItemSavedData>( new MapItemSavedData(id) );
+		mapItemSavedData = std::make_shared<MapItemSavedData>(id);
 
 		newData = true;
 	}
@@ -297,7 +297,7 @@ shared_ptr<Packet> MapItem::getUpdatePacket(shared_ptr<ItemInstance> itemInstanc
 
 	if (data.data == nullptr || data.length == 0) return nullptr;
 
-	shared_ptr<Packet> retval = shared_ptr<Packet>(new ComplexItemDataPacket(static_cast<short>(Item::map->id), static_cast<short>(itemInstance->getAuxValue()), data));
+	shared_ptr<Packet> retval = std::make_shared<ComplexItemDataPacket>(static_cast<short>(Item::map->id), static_cast<short>(itemInstance->getAuxValue()), data);
 	delete data.data;
 	return retval;
 }
@@ -327,7 +327,7 @@ void MapItem::onCraftedBy(shared_ptr<ItemInstance> itemInstance, Level *level, s
 	// when a new one is created
 	if( data == nullptr )
 	{
-		data = shared_ptr<MapItemSavedData>( new MapItemSavedData(id) );
+		data = std::make_shared<MapItemSavedData>(id);
 	}
 	level->setSavedData(id, (shared_ptr<SavedData> ) data);
 

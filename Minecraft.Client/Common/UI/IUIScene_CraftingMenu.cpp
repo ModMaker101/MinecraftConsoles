@@ -6,6 +6,8 @@
 #include "..\..\LocalPlayer.h"
 #include "IUIScene_CraftingMenu.h"
 
+#include "UI.h"
+
 Recipy::_eGroupType IUIScene_CraftingMenu::m_GroupTypeMapping4GridA[IUIScene_CraftingMenu::m_iMaxGroup2x2]=
 {
 	Recipy::eGroupType_Structure,
@@ -293,7 +295,7 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 									if (ingItemInst->getItem()->hasCraftingRemainingItem())
 									{
 										// replace item with remaining result
-										m_pPlayer->inventory->add( shared_ptr<ItemInstance>( new ItemInstance(ingItemInst->getItem()->getCraftingRemainingItem()) ) );
+										m_pPlayer->inventory->add(std::make_shared<ItemInstance>(ingItemInst->getItem()->getCraftingRemainingItem()));
 									}
 
 								}
@@ -1071,7 +1073,7 @@ void IUIScene_CraftingMenu::DisplayIngredients()
 			int iAuxVal=pRecipeIngredientsRequired[iRecipe].iIngAuxValA[i];
 			Item *item = Item::items[id];
 
-			shared_ptr<ItemInstance> itemInst= shared_ptr<ItemInstance>(new ItemInstance(item,pRecipeIngredientsRequired[iRecipe].iIngValA[i],iAuxVal));
+			shared_ptr<ItemInstance> itemInst= std::make_shared<ItemInstance>(item, pRecipeIngredientsRequired[iRecipe].iIngValA[i], iAuxVal);
 
 			// 4J-PB - a very special case - the bed can use any kind of wool, so we can't use the item description
 			// and the same goes for the painting
@@ -1156,7 +1158,7 @@ void IUIScene_CraftingMenu::DisplayIngredients()
 					{
 						iAuxVal = 1;
 					}
-					shared_ptr<ItemInstance> itemInst= shared_ptr<ItemInstance>(new ItemInstance(id,1,iAuxVal));
+					shared_ptr<ItemInstance> itemInst= std::make_shared<ItemInstance>(id, 1, iAuxVal);
 					setIngredientSlotItem(getPad(),index,itemInst);
 					// show the ingredients we don't have if we can't make the recipe
 					if(app.DebugSettingsOn() && app.GetGameSettingsDebugMask(ProfileManager.GetPrimaryPad())&(1L<<eDebugSetting_CraftAnything))

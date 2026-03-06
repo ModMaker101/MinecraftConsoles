@@ -420,7 +420,7 @@ void Villager::addOffers(int addCount)
 		addItemForPurchase(newOffers, Item::arrow_Id, random, getRecipeChance(.5f));
 		if (random->nextFloat() < getRecipeChance(.5f))
 		{
-			newOffers->push_back(new MerchantRecipe(shared_ptr<ItemInstance>( new ItemInstance(Tile::gravel, 10) ), shared_ptr<ItemInstance>( new ItemInstance(Item::emerald) ), shared_ptr<ItemInstance>( new ItemInstance(Item::flint_Id, 4 + random->nextInt(2), 0))));
+			newOffers->push_back(new MerchantRecipe(std::make_shared<ItemInstance>(Tile::gravel, 10), std::make_shared<ItemInstance>(Item::emerald), std::make_shared<ItemInstance>(Item::flint_Id, 4 + random->nextInt(2), 0)));
 		}
 		break;
 	case PROFESSION_BUTCHER:
@@ -480,7 +480,7 @@ void Villager::addOffers(int addCount)
 			shared_ptr<ItemInstance> book = Item::enchantedBook->createForEnchantment(new EnchantmentInstance(enchantment, level));
 			int cost = 2 + random->nextInt(5 + (level * 10)) + 3 * level;
 
-			newOffers->push_back(new MerchantRecipe(shared_ptr<ItemInstance>(new ItemInstance(Item::book)), shared_ptr<ItemInstance>(new ItemInstance(Item::emerald, cost)), book));
+			newOffers->push_back(new MerchantRecipe(std::make_shared<ItemInstance>(Item::book), std::make_shared<ItemInstance>(Item::emerald, cost), book));
 		}
 		break;
 	case PROFESSION_PRIEST:
@@ -498,9 +498,9 @@ void Villager::addOffers(int addCount)
 				int id = enchantItems[i];
 				if (random->nextFloat() < getRecipeChance(.05f))
 				{
-					newOffers->push_back(new MerchantRecipe(shared_ptr<ItemInstance>(new ItemInstance(id, 1, 0)),
-						shared_ptr<ItemInstance>(new ItemInstance(Item::emerald, 2 + random->nextInt(3), 0)),
-						EnchantmentHelper::enchantItem(random, shared_ptr<ItemInstance>(new ItemInstance(id, 1, 0)), 5 + random->nextInt(15))));
+					newOffers->push_back(new MerchantRecipe(std::make_shared<ItemInstance>(id, 1, 0),
+                                                            std::make_shared<ItemInstance>(Item::emerald, 2 + random->nextInt(3), 0),
+                                                            EnchantmentHelper::enchantItem(random, std::make_shared<ItemInstance>(id, 1, 0), 5 + random->nextInt(15))));
 				}
 			}
 		}
@@ -622,7 +622,7 @@ void Villager::addItemForTradeIn(MerchantRecipeList *list, int itemId, Random *r
 
 shared_ptr<ItemInstance> Villager::getItemTradeInValue(int itemId, Random *random)
 {
-	return shared_ptr<ItemInstance>(new ItemInstance(itemId, getTradeInValue(itemId, random), 0));
+	return std::make_shared<ItemInstance>(itemId, getTradeInValue(itemId, random), 0);
 }
 
 int Villager::getTradeInValue(int itemId, Random *random)
@@ -658,13 +658,13 @@ void Villager::addItemForPurchase(MerchantRecipeList *list, int itemId, Random *
 		shared_ptr<ItemInstance> resultItem;
 		if (purchaseCost < 0)
 		{
-			rubyItem = shared_ptr<ItemInstance>( new ItemInstance(Item::emerald_Id, 1, 0) );
-			resultItem = shared_ptr<ItemInstance>( new ItemInstance(itemId, -purchaseCost, 0) );
+			rubyItem = std::make_shared<ItemInstance>(Item::emerald_Id, 1, 0);
+			resultItem = std::make_shared<ItemInstance>(itemId, -purchaseCost, 0);
 		}
 		else
 		{
-			rubyItem = shared_ptr<ItemInstance>( new ItemInstance(Item::emerald_Id, purchaseCost, 0) );
-			resultItem = shared_ptr<ItemInstance>( new ItemInstance(itemId, 1, 0) );
+			rubyItem = std::make_shared<ItemInstance>(Item::emerald_Id, purchaseCost, 0);
+			resultItem = std::make_shared<ItemInstance>(itemId, 1, 0);
 		}
 		list->push_back(new MerchantRecipe(rubyItem, resultItem));
 	}
@@ -735,7 +735,7 @@ shared_ptr<AgableMob> Villager::getBreedOffspring(shared_ptr<AgableMob> target)
 	// 4J - added limit to villagers that can be bred
 	if(level->canCreateMore(GetType(), Level::eSpawnType_Breed) )
 	{
-		shared_ptr<Villager> villager = shared_ptr<Villager>(new Villager(level));
+		shared_ptr<Villager> villager = std::make_shared<Villager>(level);
 		villager->finalizeMobSpawn(nullptr);
 		return villager;
 	}

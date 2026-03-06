@@ -35,7 +35,7 @@ void TextEditScreen::removed()
     Keyboard::enableRepeatEvents(false);
     if (minecraft->level->isClientSide)
 	{
-        minecraft->getConnection(0)->send( shared_ptr<SignUpdatePacket>( new SignUpdatePacket(sign->x, sign->y, sign->z, sign->IsVerified(), sign->IsCensored(), sign->GetMessages()) ) );
+        minecraft->getConnection(0)->send(std::make_shared<SignUpdatePacket>(sign->x, sign->y, sign->z, sign->IsVerified(), sign->IsCensored(), sign->GetMessages()));
     }
 
 }

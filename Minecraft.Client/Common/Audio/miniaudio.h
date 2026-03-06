@@ -3843,11 +3843,6 @@ typedef void* ma_proc;
 typedef ma_uint16 wchar_t;
 #endif
 
-/* Define nullptr for some compilers. */
-#ifndef nullptr
-#define nullptr 0
-#endif
-
 #if defined(SIZE_MAX)
     #define MA_SIZE_MAX    SIZE_MAX
 #else

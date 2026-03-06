@@ -63,7 +63,7 @@ void ChangeStateConstraint::tick(int iPad)
 				shared_ptr<MultiplayerLocalPlayer> player = minecraft->localplayers[iPad];
 				if(player != nullptr && player->connection && player->connection->getNetworkPlayer() != nullptr)
 				{
-					player->connection->send( shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs) ) );
+					player->connection->send(std::make_shared<PlayerInfoPacket>(player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs));
 				}
 			}
 		}
@@ -104,7 +104,7 @@ void ChangeStateConstraint::tick(int iPad)
 					shared_ptr<MultiplayerLocalPlayer> player = minecraft->localplayers[iPad];
 					if(player != nullptr && player->connection && player->connection->getNetworkPlayer() != nullptr)
 					{
-						player->connection->send( shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs) ) );
+						player->connection->send(std::make_shared<PlayerInfoPacket>(player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs));
 					}
 				}
 			}
@@ -128,7 +128,7 @@ void ChangeStateConstraint::tick(int iPad)
 				shared_ptr<MultiplayerLocalPlayer> player = minecraft->localplayers[iPad];
 				if(player != nullptr && player->connection && player->connection->getNetworkPlayer() != nullptr)
 				{
-					player->connection->send( shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs) ) );
+					player->connection->send(std::make_shared<PlayerInfoPacket>(player->connection->getNetworkPlayer()->GetSmallId(), -1, playerPrivs));
 				}
 			}
 		}

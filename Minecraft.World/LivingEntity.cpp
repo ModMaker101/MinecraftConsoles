@@ -295,7 +295,7 @@ void LivingEntity::tickDeath()
 				{
 					int newCount = ExperienceOrb::getExperienceValue(xpCount);
 					xpCount -= newCount;
-					level->addEntity(shared_ptr<ExperienceOrb>( new ExperienceOrb(level, x, y, z, newCount) ) );
+					level->addEntity(std::make_shared<ExperienceOrb>(level, x, y, z, newCount));
 				}
 			}
 		}
@@ -1174,7 +1174,7 @@ void LivingEntity::swing()
 
 		if (dynamic_cast<ServerLevel *>(level) != nullptr)
 		{
-			static_cast<ServerLevel *>(level)->getTracker()->broadcast(shared_from_this(), shared_ptr<AnimatePacket>( new AnimatePacket(shared_from_this(), AnimatePacket::SWING)));
+			static_cast<ServerLevel *>(level)->getTracker()->broadcast(shared_from_this(), std::make_shared<AnimatePacket>(shared_from_this(), AnimatePacket::SWING));
 		}
 	}
 }
@@ -1602,7 +1602,7 @@ void LivingEntity::tick()
 
 			if (!ItemInstance::matches(current, previous))
 			{
-				static_cast<ServerLevel *>(level)->getTracker()->broadcast(shared_from_this(), shared_ptr<SetEquippedItemPacket>( new SetEquippedItemPacket(entityId, i, current)));
+				static_cast<ServerLevel *>(level)->getTracker()->broadcast(shared_from_this(), std::make_shared<SetEquippedItemPacket>(entityId, i, current));
 				if (previous != nullptr) attributes->removeItemModifiers(previous);
 				if (current != nullptr) attributes->addItemModifiers(current);
 				lastEquipment[i] = current == nullptr ? nullptr : current->copy();
@@ -1860,15 +1860,15 @@ void LivingEntity::take(shared_ptr<Entity> e, int orgCount)
 		EntityTracker *entityTracker = static_cast<ServerLevel *>(level)->getTracker();
 		if ( e->instanceof(eTYPE_ITEMENTITY) )
 		{
-			entityTracker->broadcast(e, shared_ptr<TakeItemEntityPacket>( new TakeItemEntityPacket(e->entityId, entityId)));
+			entityTracker->broadcast(e, std::make_shared<TakeItemEntityPacket>(e->entityId, entityId));
 		}
 		else if ( e->instanceof(eTYPE_ARROW) )
 		{
-			entityTracker->broadcast(e, shared_ptr<TakeItemEntityPacket>( new TakeItemEntityPacket(e->entityId, entityId)));
+			entityTracker->broadcast(e, std::make_shared<TakeItemEntityPacket>(e->entityId, entityId));
 		}
 		else if ( e->instanceof(eTYPE_EXPERIENCEORB) )
 		{
-			entityTracker->broadcast(e, shared_ptr<TakeItemEntityPacket>( new TakeItemEntityPacket(e->entityId, entityId)));
+			entityTracker->broadcast(e, std::make_shared<TakeItemEntityPacket>(e->entityId, entityId));
 		}
 	}
 }

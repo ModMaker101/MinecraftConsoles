@@ -66,7 +66,7 @@ void ResultSlot::onTake(shared_ptr<Player> player, shared_ptr<ItemInstance> carr
 
 			if (item->getItem()->hasCraftingRemainingItem())
 			{
-				shared_ptr<ItemInstance> craftResult = shared_ptr<ItemInstance>(new ItemInstance(item->getItem()->getCraftingRemainingItem()));
+				shared_ptr<ItemInstance> craftResult = std::make_shared<ItemInstance>(item->getItem()->getCraftingRemainingItem());
 
 				/*
 				* Try to place this in the player's inventory (See we.java for new method)

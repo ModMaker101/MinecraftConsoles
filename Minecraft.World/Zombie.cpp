@@ -162,7 +162,7 @@ bool Zombie::hurt(DamageSource *source, float dmg)
 			int x = Mth::floor(this->x);
 			int y = Mth::floor(this->y);
 			int z = Mth::floor(this->z);
-			shared_ptr<Zombie> reinforcement = shared_ptr<Zombie>( new Zombie(level) );
+			shared_ptr<Zombie> reinforcement = std::make_shared<Zombie>(level);
 
 			for (int i = 0; i < REINFORCEMENT_ATTEMPTS; i++)
 			{
@@ -281,11 +281,11 @@ void Zombie::populateDefaultEquipmentSlots()
 		int rand = random->nextInt(3);
 		if (rand == 0)
 		{
-			setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::sword_iron)) );
+			setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::sword_iron));
 		}
 		else
 		{
-			setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::shovel_iron)) );
+			setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::shovel_iron));
 		}
 	}
 }
@@ -316,7 +316,7 @@ void Zombie::killed(shared_ptr<LivingEntity> mob)
 	{
 		if (level->difficulty == Difficulty::NORMAL && random->nextBoolean()) return;
 
-		shared_ptr<Zombie> zombie = shared_ptr<Zombie>(new Zombie(level));
+		shared_ptr<Zombie> zombie = std::make_shared<Zombie>(level);
 		zombie->copyPosition(mob);
 		level->removeEntity(mob);
 		zombie->finalizeMobSpawn(nullptr);
@@ -366,7 +366,7 @@ MobGroupData *Zombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*
 		{
 			// Halloween! OooOOo! 25% of all skeletons/zombies can wear
 			// pumpkins on their heads.
-			setEquippedSlot(SLOT_HELM, shared_ptr<ItemInstance>( new ItemInstance(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin) ));
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin));
 			dropChances[SLOT_HELM] = 0;
 		}
 	}
@@ -446,7 +446,7 @@ bool Zombie::isConverting()
 
 void Zombie::finishConversion()
 {
-	shared_ptr<Villager> villager = shared_ptr<Villager>(new Villager(level));
+	shared_ptr<Villager> villager = std::make_shared<Villager>(level);
 	villager->copyPosition(shared_from_this());
 	villager->finalizeMobSpawn(nullptr);
 	villager->setRewardPlayersInVillage();

@@ -64,7 +64,7 @@ void PlayerChunkMap::PlayerChunk::add(shared_ptr<ServerPlayer> player, bool send
     player->seenChunks.insert(pos);
 
 	// 4J Added the sendPacket check. See PlayerChunkMap::add for the usage
-	if( sendPacket ) player->connection->send( shared_ptr<ChunkVisibilityPacket>( new ChunkVisibilityPacket(pos.x, pos.z, true) ) );
+	if( sendPacket ) player->connection->send(std::make_shared<ChunkVisibilityPacket>(pos.x, pos.z, true));
 
 	if (players.empty())
 	{
@@ -143,7 +143,7 @@ void PlayerChunkMap::PlayerChunk::remove(shared_ptr<ServerPlayer> player)
 			if(noOtherPlayersFound)
 			{
 				//wprintf(L"Sending ChunkVisiblity packet false for chunk (%d,%d) to player %ls\n", x, z, player->name.c_str() );
-				player->connection->send( shared_ptr<ChunkVisibilityPacket>( new ChunkVisibilityPacket(pos.x, pos.z, false) ) );
+				player->connection->send(std::make_shared<ChunkVisibilityPacket>(pos.x, pos.z, false));
 			}
 		}
 		else
@@ -322,7 +322,7 @@ bool PlayerChunkMap::PlayerChunk::broadcastChanges(bool allowRegionUpdate)
         int x = pos.x * 16 + xChangeMin;
         int y = yChangeMin;
         int z = pos.z * 16 + zChangeMin;
-        broadcast( shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) ) );
+        broadcast(std::make_shared<TileUpdatePacket>(x, y, z, level));
         if (level->isEntityTile(x, y, z))
 		{
             broadcast(level->getTileEntity(x, y, z));
@@ -352,7 +352,7 @@ bool PlayerChunkMap::PlayerChunk::broadcastChanges(bool allowRegionUpdate)
 		// Block region update packets can only encode ys in a range of 1 - 256
 		if( ys > 256 ) ys = 256;
 
-        broadcast( shared_ptr<BlockRegionUpdatePacket>( new BlockRegionUpdatePacket(xp, yp, zp, xs, ys, zs, level) ) );
+        broadcast(std::make_shared<BlockRegionUpdatePacket>(xp, yp, zp, xs, ys, zs, level));
         vector<shared_ptr<TileEntity> > *tes = level->getTileEntitiesInRegion(xp, yp, zp, xp + xs, yp + ys, zp + zs);
         for (unsigned int i = 0; i < tes->size(); i++)
 		{
@@ -365,7 +365,7 @@ bool PlayerChunkMap::PlayerChunk::broadcastChanges(bool allowRegionUpdate)
 	else
 	{
 		// 4J As we only get here if changes is less than MAX_CHANGES_BEFORE_RESEND (10) we only need to send a byte value in the packet
-        broadcast( shared_ptr<ChunkTilesUpdatePacket>( new ChunkTilesUpdatePacket(pos.x, pos.z, changedTiles, static_cast<byte>(changes), level) ) );
+        broadcast(std::make_shared<ChunkTilesUpdatePacket>(pos.x, pos.z, changedTiles, static_cast<byte>(changes), level));
         for (int i = 0; i < changes; i++)
 		{
             int x = pos.x * 16 + ((changedTiles[i] >> 12) & 15);
@@ -712,7 +712,7 @@ void PlayerChunkMap::add(shared_ptr<ServerPlayer> player)
     }
     // CraftBukkit end
 
-	player->connection->send( shared_ptr<ChunkVisibilityAreaPacket>( new ChunkVisibilityAreaPacket(minX, maxX, minZ, maxZ) ) );
+	player->connection->send(std::make_shared<ChunkVisibilityAreaPacket>(minX, maxX, minZ, maxZ));
 
 #ifdef _LARGE_WORLDS
 	getLevel()->cache->dontDrop(xc,zc);

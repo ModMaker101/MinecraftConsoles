@@ -34,12 +34,12 @@ MerchantRecipe::MerchantRecipe(shared_ptr<ItemInstance> buy, shared_ptr<ItemInst
 
 MerchantRecipe::MerchantRecipe(shared_ptr<ItemInstance> buy, Item *sell)
 {
-	_init(buy, nullptr, shared_ptr<ItemInstance>(new ItemInstance(sell)));
+	_init(buy, nullptr, std::make_shared<ItemInstance>(sell));
 }
 
 MerchantRecipe::MerchantRecipe(shared_ptr<ItemInstance> buy, Tile *sell)
 {
-	_init(buy, nullptr, shared_ptr<ItemInstance>(new ItemInstance(sell)));
+	_init(buy, nullptr, std::make_shared<ItemInstance>(sell));
 }
 
 shared_ptr<ItemInstance> MerchantRecipe::getBuyAItem()

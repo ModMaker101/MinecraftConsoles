@@ -8,6 +8,8 @@
 #include "..\..\ClientConnection.h"
 #include "IUIScene_TradingMenu.h"
 
+#include "UI.h"
+
 IUIScene_TradingMenu::IUIScene_TradingMenu()
 {
 	m_validOffersCount = 0;
@@ -95,7 +97,7 @@ bool IUIScene_TradingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 						}
 
 						// Send a packet to the server
-						player->connection->send( shared_ptr<TradeItemPacket>( new TradeItemPacket(m_menu->containerId, actualShopItem) ) );
+						player->connection->send(std::make_shared<TradeItemPacket>(m_menu->containerId, actualShopItem));
 
 						updateDisplay();
 					}
@@ -152,7 +154,7 @@ bool IUIScene_TradingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat)
 			ByteArrayOutputStream rawOutput;
 			DataOutputStream output(&rawOutput);
 			output.writeInt(actualShopItem);
-			Minecraft::GetInstance()->getConnection(getPad())->send(shared_ptr<CustomPayloadPacket>( new CustomPayloadPacket(CustomPayloadPacket::TRADER_SELECTION_PACKET, rawOutput.toByteArray())));
+			Minecraft::GetInstance()->getConnection(getPad())->send(std::make_shared<CustomPayloadPacket>(CustomPayloadPacket::TRADER_SELECTION_PACKET, rawOutput.toByteArray()));
 		}
 	}
 	return handled;
@@ -205,7 +207,7 @@ void IUIScene_TradingMenu::updateDisplay()
 				ByteArrayOutputStream rawOutput;
 				DataOutputStream output(&rawOutput);
 				output.writeInt(firstValidTrade);
-				Minecraft::GetInstance()->getConnection(getPad())->send(shared_ptr<CustomPayloadPacket>( new CustomPayloadPacket(CustomPayloadPacket::TRADER_SELECTION_PACKET, rawOutput.toByteArray())));
+				Minecraft::GetInstance()->getConnection(getPad())->send(std::make_shared<CustomPayloadPacket>(CustomPayloadPacket::TRADER_SELECTION_PACKET, rawOutput.toByteArray()));
 			}
 		}
 

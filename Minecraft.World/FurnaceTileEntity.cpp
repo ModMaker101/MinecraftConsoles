@@ -215,7 +215,7 @@ void FurnaceTileEntity::tick()
 					if (items[SLOT_FUEL]->count == 0)
 					{
 						Item *remaining = items[SLOT_FUEL]->getItem()->getCraftingRemainingItem();
-						items[SLOT_FUEL] = remaining != nullptr ? shared_ptr<ItemInstance>(new ItemInstance(remaining)) : nullptr;
+						items[SLOT_FUEL] = remaining != nullptr ? std::make_shared<ItemInstance>(remaining) : nullptr;
 					}
 				}
 			}
@@ -396,7 +396,7 @@ bool FurnaceTileEntity::canTakeItemThroughFace(int slot, shared_ptr<ItemInstance
 // 4J Added
 shared_ptr<TileEntity> FurnaceTileEntity::clone()
 {
-	shared_ptr<FurnaceTileEntity> result = shared_ptr<FurnaceTileEntity>( new FurnaceTileEntity() );
+	shared_ptr<FurnaceTileEntity> result = std::make_shared<FurnaceTileEntity>();
 	TileEntity::clone(result);
 
 	result->litTime = litTime;

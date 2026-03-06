@@ -94,7 +94,7 @@ void PlayerConnection::tick()
 		lastKeepAliveTick = tickCount;
 		lastKeepAliveTime = System::nanoTime() / 1000000;
 		lastKeepAliveId = random.nextInt();
-		send( shared_ptr<KeepAlivePacket>( new KeepAlivePacket(lastKeepAliveId) ) );
+		send(std::make_shared<KeepAlivePacket>(lastKeepAliveId));
 	}
 
 	if (chatSpamTickCount > 0)
@@ -121,17 +121,17 @@ void PlayerConnection::disconnect(DisconnectPacket::eDisconnectReason reason)
 
 	// 4J Stu - Need to remove the player from the receiving list before their socket is NULLed so that we can find another player on their system
 	server->getPlayers()->removePlayerFromReceiving( player );
-	send( shared_ptr<DisconnectPacket>( new DisconnectPacket(reason) ));
+	send(std::make_shared<DisconnectPacket>(reason));
 	connection->sendAndQuit();
 	// 4J-PB - removed, since it needs to be localised in the language the client is in
 	//server->players->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(L"�e" + player->name + L" left the game.") ) );
 	if(getWasKicked())
 	{
-		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerKickedFromGame) ) );
+		server->getPlayers()->broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerKickedFromGame));
 	}
 	else
 	{
-		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerLeftGame) ) );
+		server->getPlayers()->broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerLeftGame));
 	}
 
 	server->getPlayers()->remove(player);
@@ -376,7 +376,7 @@ void PlayerConnection::teleport(double x, double y, double z, float yRot, float 
 	player->absMoveTo(x, y, z, yRot, xRot);
 	// 4J - note that 1.62 is added to the height here as the client connection that receives this will presume it represents y + heightOffset at that end
 	// This is different to the way that height is sent back to the server, where it represents the bottom of the player bounding volume
-	if(sendPacket) player->connection->send( shared_ptr<MovePlayerPacket>( new MovePlayerPacket::PosRot(x, y + 1.62f, y, z, yRot, xRot, false, false) ) );
+	if(sendPacket) player->connection->send(std::make_shared<MovePlayerPacket::PosRot>(x, y + 1.62f, y, z, yRot, xRot, false, false));
 }
 
 void PlayerConnection::handlePlayerAction(shared_ptr<PlayerActionPacket> packet)
@@ -429,19 +429,19 @@ void PlayerConnection::handlePlayerAction(shared_ptr<PlayerActionPacket> packet)
 	if (packet->action == PlayerActionPacket::START_DESTROY_BLOCK)
 	{
 		if (true) player->gameMode->startDestroyBlock(x, y, z, packet->face);									// 4J - condition was !server->isUnderSpawnProtection(level, x, y, z, player) (from Java 1.6.4) but putting back to old behaviour
-		else player->connection->send( shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) ) );
+		else player->connection->send(std::make_shared<TileUpdatePacket>(x, y, z, level));
 
 	}
 	else if (packet->action == PlayerActionPacket::STOP_DESTROY_BLOCK)
 	{
 		player->gameMode->stopDestroyBlock(x, y, z);
 		server->getPlayers()->prioritiseTileChanges(x, y, z, level->dimension->id);	// 4J added - make sure that the update packets for this get prioritised over other general world updates
-		if (level->getTile(x, y, z) != 0) player->connection->send( shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) ) );
+		if (level->getTile(x, y, z) != 0) player->connection->send(std::make_shared<TileUpdatePacket>(x, y, z, level));
 	}
 	else if (packet->action == PlayerActionPacket::ABORT_DESTROY_BLOCK)
 	{
 		player->gameMode->abortDestroyBlock(x, y, z);
-		if (level->getTile(x, y, z) != 0) player->connection->send(shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level)));
+		if (level->getTile(x, y, z) != 0) player->connection->send(std::make_shared<TileUpdatePacket>(x, y, z, level));
 	}
 }
 
@@ -484,7 +484,7 @@ void PlayerConnection::handleUseItem(shared_ptr<UseItemPacket> packet)
 	if (informClient)
 	{
 
-		player->connection->send( shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) ) );
+		player->connection->send(std::make_shared<TileUpdatePacket>(x, y, z, level));
 
 		if (face == 0) y--;
 		if (face == 1) y++;
@@ -500,7 +500,7 @@ void PlayerConnection::handleUseItem(shared_ptr<UseItemPacket> packet)
 		// isn't what it is expecting.
 		if( level->getTile(x,y,z) != Tile::pistonMovingPiece_Id )
 		{
-			player->connection->send( shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) ) );
+			player->connection->send(std::make_shared<TileUpdatePacket>(x, y, z, level));
 		}
 
 	}
@@ -528,7 +528,7 @@ void PlayerConnection::handleUseItem(shared_ptr<UseItemPacket> packet)
 
 		if (forceClientUpdate || !ItemInstance::matches(player->inventory->getSelected(), packet->getItem()))
 		{
-			send( shared_ptr<ContainerSetSlotPacket>( new ContainerSetSlotPacket(player->containerMenu->containerId, s->index, player->inventory->getSelected()) ) );
+			send(std::make_shared<ContainerSetSlotPacket>(player->containerMenu->containerId, s->index, player->inventory->getSelected()));
 		}
 	}
 }
@@ -542,11 +542,11 @@ void PlayerConnection::onDisconnect(DisconnectPacket::eDisconnectReason reason, 
 	//server->players->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(L"�e" + player->name + L" left the game.") ) );
 	if(getWasKicked())
 	{
-		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerKickedFromGame) ) );
+		server->getPlayers()->broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerKickedFromGame));
 	}
 	else
 	{
-		server->getPlayers()->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerLeftGame) ) );
+		server->getPlayers()->broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerLeftGame));
 	}
 	server->getPlayers()->remove(player);
 	done = true;
@@ -803,7 +803,7 @@ void PlayerConnection::handleTexture(shared_ptr<TexturePacket> packet)
 
 		if(dwBytes!=0)
 		{
-			send( shared_ptr<TexturePacket>( new TexturePacket(packet->textureName,pbData,dwBytes) ) );
+			send(std::make_shared<TexturePacket>(packet->textureName, pbData, dwBytes));
 		}
 		else
 		{
@@ -843,11 +843,11 @@ void PlayerConnection::handleTextureAndGeometry(shared_ptr<TextureAndGeometryPac
 			{
 				if(pDLCSkinFile->getAdditionalBoxesCount()!=0)
 				{
-					send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwTextureBytes,pDLCSkinFile) ) );
+					send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwTextureBytes, pDLCSkinFile));
 				}
 				else
 				{
-					send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwTextureBytes) ) );
+					send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwTextureBytes));
 				}
 			}
 			else
@@ -856,7 +856,7 @@ void PlayerConnection::handleTextureAndGeometry(shared_ptr<TextureAndGeometryPac
 				vector<SKIN_BOX *> *pvSkinBoxes = app.GetAdditionalSkinBoxes(packet->dwSkinID);
 				unsigned int uiAnimOverrideBitmask= app.GetAnimOverrideBitmask(packet->dwSkinID);
 
-				send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwTextureBytes,pvSkinBoxes,uiAnimOverrideBitmask) ) );
+				send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwTextureBytes, pvSkinBoxes, uiAnimOverrideBitmask));
 			}
 		}
 		else
@@ -901,7 +901,7 @@ void PlayerConnection::handleTextureReceived(const wstring &textureName)
 
 		if(dwBytes!=0)
 		{
-			send( shared_ptr<TexturePacket>( new TexturePacket(textureName,pbData,dwBytes) ) );
+			send(std::make_shared<TexturePacket>(textureName, pbData, dwBytes));
 			m_texturesRequested.erase(it);
 		}
 	}
@@ -922,7 +922,7 @@ void PlayerConnection::handleTextureAndGeometryReceived(const wstring &textureNa
 		{
 			if(pDLCSkinFile && (pDLCSkinFile->getAdditionalBoxesCount()!=0))
 			{
-				send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(textureName,pbData,dwTextureBytes,pDLCSkinFile) ) );
+				send(std::make_shared<TextureAndGeometryPacket>(textureName, pbData, dwTextureBytes, pDLCSkinFile));
 			}
 			else
 			{
@@ -931,7 +931,7 @@ void PlayerConnection::handleTextureAndGeometryReceived(const wstring &textureNa
 				vector<SKIN_BOX *> *pvSkinBoxes = app.GetAdditionalSkinBoxes(dwSkinID);
 				unsigned int uiAnimOverrideBitmask= app.GetAnimOverrideBitmask(dwSkinID);
 
-				send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(textureName,pbData,dwTextureBytes, pvSkinBoxes, uiAnimOverrideBitmask) ) );
+				send(std::make_shared<TextureAndGeometryPacket>(textureName, pbData, dwTextureBytes, pvSkinBoxes, uiAnimOverrideBitmask));
 			}
 			m_texturesRequested.erase(it);
 		}
@@ -958,20 +958,25 @@ void PlayerConnection::handleTextureChange(shared_ptr<TextureChangePacket> packe
 	}
 	if(!packet->path.empty() && packet->path.substr(0,3).compare(L"def") != 0 && !app.IsFileInMemoryTextures(packet->path))
 	{
-		if(	server->connection->addPendingTextureRequest(packet->path))
-		{
+        if (server->connection->addPendingTextureRequest(packet->path))
+        {
 #ifndef _CONTENT_PACKAGE
-			wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n",packet->path.c_str(), player->name.c_str());
+            wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n", packet->path.c_str(), player->name.c_str());
 #endif
-			send(shared_ptr<TexturePacket>( new TexturePacket(packet->path,nullptr,0) ) );
-		}
-	}
+            send(std::make_shared<TexturePacket>(
+                packet->path,
+                nullptr,
+                static_cast<DWORD>(0)
+                ));
+
+        }
+    }
 	else if(!packet->path.empty() && app.IsFileInMemoryTextures(packet->path))
 	{
 		// Update the ref count on the memory texture data
 		app.AddMemoryTextureFile(packet->path,nullptr,0);
 	}
-	server->getPlayers()->broadcastAll( shared_ptr<TextureChangePacket>( new TextureChangePacket(player,packet->action,packet->path) ), player->dimension );
+	server->getPlayers()->broadcastAll(std::make_shared<TextureChangePacket>(player, packet->action, packet->path), player->dimension );
 }
 
 void PlayerConnection::handleTextureAndGeometryChange(shared_ptr<TextureAndGeometryChangePacket> packet)
@@ -990,7 +995,10 @@ void PlayerConnection::handleTextureAndGeometryChange(shared_ptr<TextureAndGeome
 #ifndef _CONTENT_PACKAGE
 			wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n",packet->path.c_str(), player->name.c_str());
 #endif
-			send(shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->path,nullptr,0) ) );
+            send(std::make_shared<TextureAndGeometryPacket>(
+                packet->path,
+                nullptr,
+                static_cast<DWORD>(0)));
 		}
 	}
 	else if(!packet->path.empty() && app.IsFileInMemoryTextures(packet->path))
@@ -1004,7 +1012,7 @@ void PlayerConnection::handleTextureAndGeometryChange(shared_ptr<TextureAndGeome
 		//app.SetAdditionalSkinBoxes(packet->dwSkinID,)
 		//DebugBreak();
 	}
-	server->getPlayers()->broadcastAll( shared_ptr<TextureAndGeometryChangePacket>( new TextureAndGeometryChangePacket(player,packet->path) ), player->dimension );
+	server->getPlayers()->broadcastAll(std::make_shared<TextureAndGeometryChangePacket>(player, packet->path), player->dimension );
 }
 
 void PlayerConnection::handleServerSettingsChanged(shared_ptr<ServerSettingsChangedPacket> packet)
@@ -1026,7 +1034,7 @@ void PlayerConnection::handleServerSettingsChanged(shared_ptr<ServerSettingsChan
 			app.SetGameHostOption(eGameHostOption_DoDaylightCycle, app.GetGameHostOption(packet->data, eGameHostOption_DoDaylightCycle));
 			app.SetGameHostOption(eGameHostOption_NaturalRegeneration, app.GetGameHostOption(packet->data, eGameHostOption_NaturalRegeneration));
 
-			server->getPlayers()->broadcastAll( shared_ptr<ServerSettingsChangedPacket>( new ServerSettingsChangedPacket( ServerSettingsChangedPacket::HOST_IN_GAME_SETTINGS,app.GetGameHostOption(eGameHostOption_All) ) ) );
+			server->getPlayers()->broadcastAll(std::make_shared<ServerSettingsChangedPacket>(ServerSettingsChangedPacket::HOST_IN_GAME_SETTINGS, app.GetGameHostOption(eGameHostOption_All)));
 
 			// Update the QoS data
 			g_NetworkManager.UpdateAndSetGameSessionData();
@@ -1141,7 +1149,7 @@ void PlayerConnection::handleContainerClick(shared_ptr<ContainerClickPacket> pac
 		if (ItemInstance::matches(packet->item, clicked))
 		{
 			// Yep, you sure did click what you claimed to click!
-			player->connection->send( shared_ptr<ContainerAckPacket>( new ContainerAckPacket(packet->containerId, packet->uid, true) ) );
+			player->connection->send(std::make_shared<ContainerAckPacket>(packet->containerId, packet->uid, true));
 			player->ignoreSlotUpdateHack = true;
 			player->containerMenu->broadcastChanges();
 			player->broadcastCarriedItem();
@@ -1151,7 +1159,7 @@ void PlayerConnection::handleContainerClick(shared_ptr<ContainerClickPacket> pac
 		{
 			// No, you clicked the wrong thing!
 			expectedAcks[player->containerMenu->containerId] = packet->uid;
-			player->connection->send( shared_ptr<ContainerAckPacket>( new ContainerAckPacket(packet->containerId, packet->uid, false) ) );
+			player->connection->send(std::make_shared<ContainerAckPacket>(packet->containerId, packet->uid, false));
 			player->containerMenu->setSynched(player, false);
 
 			vector<shared_ptr<ItemInstance> > items;
@@ -1206,7 +1214,7 @@ void PlayerConnection::handleSetCreativeModeSlot(shared_ptr<SetCreativeModeSlotP
 			std::wstring id = wstring(buf);
 			if( data == nullptr )
 			{
-				data = shared_ptr<MapItemSavedData>( new MapItemSavedData(id) );
+				data = std::make_shared<MapItemSavedData>(id);
 			}
 			player->level->setSavedData(id, (shared_ptr<SavedData> ) data);
 
@@ -1357,7 +1365,7 @@ void PlayerConnection::handlePlayerInfo(shared_ptr<PlayerInfoPacket> packet)
 #endif
 					serverPlayer->setPlayerGamePrivilege(Player::ePlayerGamePrivilege_CreativeMode,Player::getPlayerGamePrivilege(packet->m_playerPrivileges,Player::ePlayerGamePrivilege_CreativeMode) );
 					serverPlayer->gameMode->setGameModeForPlayer(gameType);
-					serverPlayer->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::CHANGE_GAME_MODE, gameType->getId()) ));
+					serverPlayer->connection->send(std::make_shared<GameEventPacket>(GameEventPacket::CHANGE_GAME_MODE, gameType->getId()));
 				}
 				else
 				{
@@ -1409,7 +1417,7 @@ void PlayerConnection::handlePlayerInfo(shared_ptr<PlayerInfoPacket> packet)
 				}
 			}
 
-			server->getPlayers()->broadcastAll( shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( serverPlayer ) ) );
+			server->getPlayers()->broadcastAll(std::make_shared<PlayerInfoPacket>(serverPlayer));
 		}
 	}
 }
@@ -1656,7 +1664,7 @@ void PlayerConnection::handleCraftItem(shared_ptr<CraftItemPacket> packet)
 					if (ingItemInst->getItem()->hasCraftingRemainingItem())
 					{
 						// replace item with remaining result
-						player->inventory->add( shared_ptr<ItemInstance>( new ItemInstance(ingItemInst->getItem()->getCraftingRemainingItem()) ) );
+						player->inventory->add(std::make_shared<ItemInstance>(ingItemInst->getItem()->getCraftingRemainingItem()));
 					}
 
 				}

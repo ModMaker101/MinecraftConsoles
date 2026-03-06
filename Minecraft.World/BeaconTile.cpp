@@ -11,7 +11,7 @@ BeaconTile::BeaconTile(int id) : BaseEntityTile(id, Material::glass, isSolidRend
 
 shared_ptr<TileEntity> BeaconTile::newTileEntity(Level *level)
 {
-	return shared_ptr<BeaconTileEntity>( new BeaconTileEntity() );
+	return std::make_shared<BeaconTileEntity>();
 }
 
 bool BeaconTile::use(Level *level, int x, int y, int z, shared_ptr<Player> player, int clickedFace, float clickX, float clickY, float clickZ, bool soundOnly)

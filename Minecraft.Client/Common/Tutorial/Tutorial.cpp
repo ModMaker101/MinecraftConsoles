@@ -17,6 +17,7 @@
 #include "TutorialTasks.h"
 #include "TutorialConstraints.h"
 #include "TutorialHints.h"
+#include "Common/UI/UI.h"
 
 vector<int> Tutorial::s_completableTasks;
 

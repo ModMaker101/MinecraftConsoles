@@ -420,7 +420,7 @@ int FishingHook::retrieve()
 	}
 	else if (nibble > 0)
 	{
-		shared_ptr<ItemEntity> ie = shared_ptr<ItemEntity>( new ItemEntity(this->Entity::level, x, y, z, shared_ptr<ItemInstance>( new ItemInstance(Item::fish_raw) ) ) );
+		shared_ptr<ItemEntity> ie = std::make_shared<ItemEntity>(this->Entity::level, x, y, z, shared_ptr<ItemInstance>(new ItemInstance(Item::fish_raw)));
 		double xa = owner->x - x;
 		double ya = owner->y - y;
 		double za = owner->z - z;
@@ -431,7 +431,7 @@ int FishingHook::retrieve()
 		ie->Entity::yd = ya * speed + sqrt(dist) * 0.08;
 		ie->Entity::zd = za * speed;
 		level->addEntity(ie);
-		owner->level->addEntity( shared_ptr<ExperienceOrb>( new ExperienceOrb(owner->level, owner->x, owner->y + 0.5f, owner->z + 0.5f, random->nextInt(6) + 1) ) ); // 4J Stu brought forward from 1.4
+		owner->level->addEntity(std::make_shared<ExperienceOrb>(owner->level, owner->x, owner->y + 0.5f, owner->z + 0.5f, random->nextInt(6) + 1)); // 4J Stu brought forward from 1.4
 		dmg = 1;
 	}
 	if (inGround) dmg = 2;

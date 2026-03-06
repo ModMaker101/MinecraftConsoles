@@ -69,17 +69,17 @@ shared_ptr<Minecart> Minecart::createMinecart(Level *level, double x, double y, 
 	switch (type)
 	{
 	case TYPE_CHEST:
-		return shared_ptr<MinecartChest>( new MinecartChest(level, x, y, z) );
+		return std::make_shared<MinecartChest>(level, x, y, z);
 	case TYPE_FURNACE:
-		return shared_ptr<MinecartFurnace>( new MinecartFurnace(level, x, y, z) );
+		return std::make_shared<MinecartFurnace>(level, x, y, z);
 	case TYPE_TNT:
-		return shared_ptr<MinecartTNT>( new MinecartTNT(level, x, y, z) );
+		return std::make_shared<MinecartTNT>(level, x, y, z);
 	case TYPE_SPAWNER:
-		return shared_ptr<MinecartSpawner>( new MinecartSpawner(level, x, y, z) );
+		return std::make_shared<MinecartSpawner>(level, x, y, z);
 	case TYPE_HOPPER:
-		return shared_ptr<MinecartHopper>( new MinecartHopper(level, x, y, z) );
+		return std::make_shared<MinecartHopper>(level, x, y, z);
 	default:
-		return shared_ptr<MinecartRideable>( new MinecartRideable(level, x, y, z) );
+		return std::make_shared<MinecartRideable>(level, x, y, z);
 	}
 }
 
@@ -187,7 +187,7 @@ bool Minecart::hurt(DamageSource *source, float hurtDamage)
 void Minecart::destroy(DamageSource *source)
 {
 	remove();
-	shared_ptr<ItemInstance> item = shared_ptr<ItemInstance>( new ItemInstance(Item::minecart, 1) );
+	shared_ptr<ItemInstance> item = std::make_shared<ItemInstance>(Item::minecart, 1);
 	if (!name.empty()) item->setHoverName(name);
 	spawnAtLocation(item, 0);
 }

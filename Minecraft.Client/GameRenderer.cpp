@@ -327,13 +327,14 @@ void GameRenderer::pick(float a)
 		else if (p != nullptr)
 		{
 			double dd = from->distanceTo(p->pos);
-			if (e == mc->cameraTargetPlayer->riding != nullptr)
-			{
-				if (nearest == 0)
-				{
-					hovered = e;
-				}
-			}
+            auto const riding = mc->cameraTargetPlayer->riding;
+            if (riding != nullptr && e == riding)
+            {
+                if (nearest == 0)
+                {
+                    hovered = e;
+                }
+            }
 			else
 			{
 				hovered = e;
@@ -1672,7 +1673,7 @@ void GameRenderer::tickRain()
 			{
 				if (Tile::tiles[t]->material == Material::lava)
 				{
-					mc->particleEngine->add( shared_ptr<SmokeParticle>( new SmokeParticle(level, x + xa, y + 0.1f - Tile::tiles[t]->getShapeY0(), z + za, 0, 0, 0) ) );
+					mc->particleEngine->add(std::make_shared<SmokeParticle>(level, x + xa, y + 0.1f - Tile::tiles[t]->getShapeY0(), z + za, 0, 0, 0));
 				}
 				else
 				{
@@ -1682,7 +1683,7 @@ void GameRenderer::tickRain()
 						rainPosY = y + 0.1f - Tile::tiles[t]->getShapeY0();
 						rainPosZ = z + za;
 					}
-					mc->particleEngine->add( shared_ptr<WaterDropParticle>( new WaterDropParticle(level, x + xa, y + 0.1f - Tile::tiles[t]->getShapeY0(), z + za) ) );
+					mc->particleEngine->add(std::make_shared<WaterDropParticle>(level, x + xa, y + 0.1f - Tile::tiles[t]->getShapeY0(), z + za));
 				}
 			}
 		}

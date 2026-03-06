@@ -497,7 +497,7 @@ void ServerLevel::tickTiles()
 
 			if (isRainingAt(x, y, z))
 			{
-				addGlobalEntity( shared_ptr<LightningBolt>( new LightningBolt(this, x, y, z) ) );
+				addGlobalEntity(std::make_shared<LightningBolt>(this, x, y, z));
 			}
 		}
 
@@ -1085,7 +1085,7 @@ bool ServerLevel::addGlobalEntity(shared_ptr<Entity> e)
 {
 	if (Level::addGlobalEntity(e))
 	{
-		server->getPlayers()->broadcast(e->x, e->y, e->z, 512, dimension->id, shared_ptr<AddGlobalEntityPacket>( new AddGlobalEntityPacket(e) ) );
+		server->getPlayers()->broadcast(e->x, e->y, e->z, 512, dimension->id, std::make_shared<AddGlobalEntityPacket>(e));
 		return true;
 	}
 	return false;
@@ -1093,7 +1093,7 @@ bool ServerLevel::addGlobalEntity(shared_ptr<Entity> e)
 
 void ServerLevel::broadcastEntityEvent(shared_ptr<Entity> e, byte event)
 {
-	shared_ptr<Packet> p = shared_ptr<EntityEventPacket>( new EntityEventPacket(e->entityId, event) );
+	shared_ptr<Packet> p = std::make_shared<EntityEventPacket>(e->entityId, event);
 	server->getLevel(dimension->id)->getTracker()->broadcastAndSend(e, p);
 }
 
@@ -1101,7 +1101,7 @@ shared_ptr<Explosion> ServerLevel::explode(shared_ptr<Entity> source, double x, 
 {
 	// instead of calling super, we run the same explosion code here except
 	// we don't generate any particles
-	shared_ptr<Explosion> explosion = shared_ptr<Explosion>( new Explosion(this, source, x, y, z, r) );
+	shared_ptr<Explosion> explosion = std::make_shared<Explosion>(this, source, x, y, z, r);
 	explosion->fire = fire;
 	explosion->destroyBlocks = destroyBlocks;
 	explosion->explode();
@@ -1144,7 +1144,7 @@ shared_ptr<Explosion> ServerLevel::explode(shared_ptr<Entity> source, double x, 
 			Vec3 *knockbackVec = explosion->getHitPlayerKnockback(player);
 			//app.DebugPrintf("Sending %s with knockback (%f,%f,%f)\n", knockbackOnly?"knockbackOnly":"allExplosion",knockbackVec->x,knockbackVec->y,knockbackVec->z);
 			// If the player is not the primary on the system, then we only want to send info for the knockback
-			player->connection->send( shared_ptr<ExplodePacket>( new ExplodePacket(x, y, z, r, &explosion->toBlow, knockbackVec, knockbackOnly)));
+			player->connection->send(std::make_shared<ExplodePacket>(x, y, z, r, &explosion->toBlow, knockbackVec, knockbackOnly));
 			sentTo.push_back( player );
 		}
 	}
@@ -1182,7 +1182,7 @@ void ServerLevel::runTileEvents()
 			if (doTileEvent(&it))
 			{
 				TileEventData te = it;
-				server->getPlayers()->broadcast(te.getX(), te.getY(), te.getZ(), 64, dimension->id, shared_ptr<TileEventPacket>( new TileEventPacket(te.getX(), te.getY(), te.getZ(), te.getTile(), te.getParamA(), te.getParamB())));
+				server->getPlayers()->broadcast(te.getX(), te.getY(), te.getZ(), 64, dimension->id, std::make_shared<TileEventPacket>(te.getX(), te.getY(), te.getZ(), te.getTile(), te.getParamA(), te.getParamB()));
 			}
 		}
 		tileEvents[runList].clear();
@@ -1212,11 +1212,11 @@ void ServerLevel::tickWeather()
 	{
 		if (wasRaining)
 		{
-			server->getPlayers()->broadcastAll( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::STOP_RAINING, 0) ) );
+			server->getPlayers()->broadcastAll(std::make_shared<GameEventPacket>(GameEventPacket::STOP_RAINING, 0));
 		}
 		else
 		{
-			server->getPlayers()->broadcastAll( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::START_RAINING, 0) ) );
+			server->getPlayers()->broadcastAll(std::make_shared<GameEventPacket>(GameEventPacket::START_RAINING, 0));
 		}
 	}
 

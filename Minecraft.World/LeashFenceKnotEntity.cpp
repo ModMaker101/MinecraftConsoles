@@ -131,7 +131,7 @@ bool LeashFenceKnotEntity::survives()
 
 shared_ptr<LeashFenceKnotEntity> LeashFenceKnotEntity::createAndAddKnot(Level *level, int x, int y, int z)
 {
-	shared_ptr<LeashFenceKnotEntity> knot = shared_ptr<LeashFenceKnotEntity>( new LeashFenceKnotEntity(level, x, y, z) );
+	shared_ptr<LeashFenceKnotEntity> knot = std::make_shared<LeashFenceKnotEntity>(level, x, y, z);
 	knot->forcedLoading = true;
 	level->addEntity(knot);
 	return knot;

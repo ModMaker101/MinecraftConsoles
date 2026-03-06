@@ -218,7 +218,7 @@ void ParticleEngine::destroy(int x, int y, int z, int tid, int data)
                 double yp = y + (yy + 0.5) / SD;
                 double zp = z + (zz + 0.5) / SD;
 				int face = random->nextInt(6);
-                add(( shared_ptr<TerrainParticle>(new TerrainParticle(level, xp, yp, zp, xp - x - 0.5f, yp - y - 0.5f, zp - z - 0.5f, tile, face, data, textures) ) )->init(x, y, z, data));
+                add((std::make_shared<TerrainParticle>(level, xp, yp, zp, xp - x - 0.5f, yp - y - 0.5f, zp - z - 0.5f, tile, face, data, textures))->init(x, y, z, data));
             }
 }
 
@@ -237,7 +237,7 @@ void ParticleEngine::crack(int x, int y, int z, int face)
     if (face == 3) zp = z + tile->getShapeZ1() + r;
     if (face == 4) xp = x + tile->getShapeX0() - r;
     if (face == 5) xp = x + tile->getShapeX1() + r;
-    add(( shared_ptr<TerrainParticle>(new TerrainParticle(level, xp, yp, zp, 0, 0, 0, tile, face, level->getData(x, y, z), textures) ) )->init(x, y, z, level->getData(x, y, z))->setPower(0.2f)->scale(0.6f));
+    add((std::make_shared<TerrainParticle>(level, xp, yp, zp, 0, 0, 0, tile, face, level->getData(x, y, z), textures))->init(x, y, z, level->getData(x, y, z))->setPower(0.2f)->scale(0.6f));
 
 }
 

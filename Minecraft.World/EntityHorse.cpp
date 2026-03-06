@@ -456,7 +456,7 @@ int EntityHorse::getInventorySize()
 void EntityHorse::createInventory()
 {
 	shared_ptr<AnimalChest> old = inventory;
-	inventory = shared_ptr<AnimalChest>( new AnimalChest(L"HorseChest", getInventorySize()) );
+	inventory = std::make_shared<AnimalChest>(L"HorseChest", getInventorySize());
 	inventory->setCustomName(getAName());
 	if (old != nullptr)
 	{
@@ -1539,7 +1539,7 @@ void EntityHorse::readAdditionalSaveData(CompoundTag *tag)
 	}
 	else if (tag->getBoolean(L"Saddle"))
 	{
-		inventory->setItem(INV_SLOT_SADDLE, shared_ptr<ItemInstance>( new ItemInstance(Item::saddle)));
+		inventory->setItem(INV_SLOT_SADDLE, std::make_shared<ItemInstance>(Item::saddle));
 	}
 	updateEquipment();
 }
@@ -1566,7 +1566,7 @@ bool EntityHorse::canMate(shared_ptr<Animal> partner)
 shared_ptr<AgableMob> EntityHorse::getBreedOffspring(shared_ptr<AgableMob> partner)
 {
 	shared_ptr<EntityHorse> horsePartner = dynamic_pointer_cast<EntityHorse>(partner);
-	shared_ptr<EntityHorse> baby = shared_ptr<EntityHorse>( new EntityHorse(level) );
+	shared_ptr<EntityHorse> baby = std::make_shared<EntityHorse>(level);
 
 	int type = getType();
 	int partnerType = horsePartner->getType();

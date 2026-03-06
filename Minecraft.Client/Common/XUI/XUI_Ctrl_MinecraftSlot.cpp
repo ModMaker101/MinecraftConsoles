@@ -188,7 +188,7 @@ HRESULT CXuiCtrlMinecraftSlot::OnRender(XUIMessageRender *pRenderData, BOOL &bHa
 	{
 		HXUIDC hDC = pRenderData->hDC;
 		CXuiControl xuiControl(m_hObj);
-		if(m_item == nullptr) m_item = shared_ptr<ItemInstance>( new ItemInstance(m_iID, m_iCount, m_iAuxVal) );
+		if(m_item == nullptr) m_item = std::make_shared<ItemInstance>(m_iID, m_iCount, m_iAuxVal);
 
 		// build and render with the game call
 

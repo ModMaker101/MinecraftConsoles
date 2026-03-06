@@ -112,11 +112,11 @@ bool Cow::mobInteract(shared_ptr<Player> player)
 
 		if (item->count-- == 0) 
 		{
-			player->inventory->setItem(player->inventory->selected, shared_ptr<ItemInstance>( new ItemInstance(Item::bucket_milk) ) );
+			player->inventory->setItem(player->inventory->selected, std::make_shared<ItemInstance>(Item::bucket_milk));
 		} 
-		else if (!player->inventory->add(shared_ptr<ItemInstance>( new ItemInstance(Item::bucket_milk) ))) 
+		else if (!player->inventory->add(std::make_shared<ItemInstance>(Item::bucket_milk))) 
 		{
-			player->drop(shared_ptr<ItemInstance>( new ItemInstance(Item::bucket_milk) ));
+			player->drop(std::make_shared<ItemInstance>(Item::bucket_milk));
 		}
 		
 		return true;
@@ -129,7 +129,7 @@ shared_ptr<AgableMob> Cow::getBreedOffspring(shared_ptr<AgableMob> target)
 	// 4J - added limit to number of animals that can be bred
 	if( level->canCreateMore( GetType(), Level::eSpawnType_Breed) )
 	{
-		return shared_ptr<Cow>( new Cow(level) );
+		return std::make_shared<Cow>(level);
 	}
 	else
 	{

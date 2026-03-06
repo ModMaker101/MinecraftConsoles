@@ -448,7 +448,7 @@ int UIScene_InGameInfoMenu::KickPlayerReturned(void *pParam,int iPad,C4JStorage:
 		shared_ptr<MultiplayerLocalPlayer> localPlayer = pMinecraft->localplayers[iPad];
 		if(localPlayer->connection)
 		{
-			localPlayer->connection->send( shared_ptr<KickPlayerPacket>( new KickPlayerPacket(smallId) ) );
+			localPlayer->connection->send(std::make_shared<KickPlayerPacket>(smallId));
 		}
 	}
 

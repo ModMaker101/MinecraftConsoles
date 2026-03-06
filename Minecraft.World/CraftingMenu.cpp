@@ -19,8 +19,8 @@ const int CraftingMenu::USE_ROW_SLOT_END = CraftingMenu::USE_ROW_SLOT_START + 9;
 
 CraftingMenu::CraftingMenu(shared_ptr<Inventory> inventory, Level *level, int xt, int yt, int zt) : AbstractContainerMenu()
 {
-	craftSlots = shared_ptr<CraftingContainer>( new CraftingContainer(this, 3, 3) );
-	resultSlots = shared_ptr<ResultContainer>( new ResultContainer() );
+	craftSlots = std::make_shared<CraftingContainer>(this, 3, 3);
+	resultSlots = std::make_shared<ResultContainer>();
 
 	this->level = level;
 	x = xt;

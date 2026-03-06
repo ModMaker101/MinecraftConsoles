@@ -287,7 +287,7 @@ shared_ptr<ItemInstance> ItemEntity::getItem()
 			app.DebugPrintf("Item entity %d has no item?!\n", entityId);
 			//level.getLogger().severe("Item entity " + entityId + " has no item?!");
 		}
-		return shared_ptr<ItemInstance>(new ItemInstance(Tile::stone));
+		return std::make_shared<ItemInstance>(Tile::stone);
 	}
 
 	return result;

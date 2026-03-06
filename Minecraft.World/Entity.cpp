@@ -312,7 +312,7 @@ void Entity::_init(bool useSmallId, Level *level)
 	// values that need to be sent to clients in SMP
 	if( useSmallId )
 	{
-		entityData = shared_ptr<SynchedEntityData>(new SynchedEntityData());
+		entityData = std::make_shared<SynchedEntityData>();
 	}
 	else
 	{
@@ -1511,7 +1511,7 @@ shared_ptr<ItemEntity> Entity::spawnAtLocation(int resource, int count)
 
 shared_ptr<ItemEntity> Entity::spawnAtLocation(int resource, int count, float yOffs)
 {
-	return spawnAtLocation(shared_ptr<ItemInstance>( new ItemInstance(resource, count, 0) ), yOffs);
+	return spawnAtLocation(std::make_shared<ItemInstance>(resource, count, 0), yOffs);
 }
 
 shared_ptr<ItemEntity> Entity::spawnAtLocation(shared_ptr<ItemInstance> itemInstance, float yOffs)
@@ -1520,7 +1520,7 @@ shared_ptr<ItemEntity> Entity::spawnAtLocation(shared_ptr<ItemInstance> itemInst
 	{
 		return nullptr;
 	}
-	shared_ptr<ItemEntity> ie = shared_ptr<ItemEntity>( new ItemEntity(level, x, y + yOffs, z, itemInstance) );
+	shared_ptr<ItemEntity> ie = std::make_shared<ItemEntity>(level, x, y + yOffs, z, itemInstance);
 	ie->throwTime = 10;
 	level->addEntity(ie);
 	return ie;

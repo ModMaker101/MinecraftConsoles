@@ -60,7 +60,7 @@ HRESULT CScene_DebugItemEditor::OnKeyDown(XUIMessageInput* pInputData, BOOL& rfH
 
 			Minecraft *pMinecraft = Minecraft::GetInstance();
 			shared_ptr<MultiplayerLocalPlayer> player = pMinecraft->localplayers[m_iPad];
-			if(player != nullptr && player->connection) player->connection->send( shared_ptr<ContainerSetSlotPacket>( new ContainerSetSlotPacket(m_menu->containerId, m_slot->index, m_item) ) );
+			if(player != nullptr && player->connection) player->connection->send(std::make_shared<ContainerSetSlotPacket>(m_menu->containerId, m_slot->index, m_item));
 		}
 		// kill the crafting xui
 		app.NavigateBack(m_iPad);
@@ -76,7 +76,7 @@ HRESULT CScene_DebugItemEditor::OnKeyDown(XUIMessageInput* pInputData, BOOL& rfH
 
 HRESULT CScene_DebugItemEditor::OnNotifyValueChanged( HXUIOBJ hObjSource, XUINotifyValueChanged *pNotifyValueChangedData, BOOL &bHandled)
 {
-	if(m_item == nullptr) m_item = shared_ptr<ItemInstance>( new ItemInstance(0,1,0) );
+	if(m_item == nullptr) m_item = std::make_shared<ItemInstance>(0, 1, 0);
 	if(hObjSource == m_itemId)
 	{
 		int id = 0;

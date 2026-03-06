@@ -632,7 +632,7 @@ Level::Level(shared_ptr<LevelStorage> levelStorage, const wstring& name, Dimensi
 	shared_ptr<Villages> savedVillages = dynamic_pointer_cast<Villages>(savedDataStorage->get(typeid(Villages), Villages::VILLAGE_FILE_ID));
 	if (savedVillages == nullptr)
 	{
-		villages = shared_ptr<Villages>(new Villages(this));
+		villages = std::make_shared<Villages>(this);
 		savedDataStorage->set(Villages::VILLAGE_FILE_ID, villages);
 	}
 	else
@@ -670,7 +670,7 @@ void Level::_init(shared_ptr<LevelStorage>levelStorage, const wstring& levelName
 	shared_ptr<Villages> savedVillages = dynamic_pointer_cast<Villages>(savedDataStorage->get(typeid(Villages), Villages::VILLAGE_FILE_ID));
 	if (savedVillages == nullptr)
 	{
-		villages = shared_ptr<Villages>(new Villages(this));
+		villages = std::make_shared<Villages>(this);
 		savedDataStorage->set(Villages::VILLAGE_FILE_ID, villages);
 	}
 	else
@@ -2810,7 +2810,7 @@ shared_ptr<Explosion> Level::explode(shared_ptr<Entity> source, double x, double
 
 shared_ptr<Explosion> Level::explode(shared_ptr<Entity> source, double x, double y, double z, float r, bool fire, bool destroyBlocks)
 {
-	shared_ptr<Explosion> explosion = shared_ptr<Explosion>( new Explosion(this, source, x, y, z, r) );
+	shared_ptr<Explosion> explosion = std::make_shared<Explosion>(this, source, x, y, z, r);
 	explosion->fire = fire;
 	explosion->destroyBlocks = destroyBlocks;
 	explosion->explode();

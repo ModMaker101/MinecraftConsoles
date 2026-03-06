@@ -489,7 +489,7 @@ bool HopperTileEntity::isOnCooldown()
 // 4J Added
 shared_ptr<TileEntity> HopperTileEntity::clone()
 {
-	shared_ptr<HopperTileEntity> result = shared_ptr<HopperTileEntity>( new HopperTileEntity() );
+	shared_ptr<HopperTileEntity> result = std::make_shared<HopperTileEntity>();
 	TileEntity::clone(result);
 
 	result->name = name;

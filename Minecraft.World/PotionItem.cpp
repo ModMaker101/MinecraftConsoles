@@ -94,11 +94,11 @@ shared_ptr<ItemInstance> PotionItem::useTimeDepleted(shared_ptr<ItemInstance> in
 	{
 		if (instance->count <= 0)
 		{
-			return shared_ptr<ItemInstance>( new ItemInstance(Item::glassBottle) );
+			return std::make_shared<ItemInstance>(Item::glassBottle);
 		}
 		else
 		{
-			player->inventory->add( shared_ptr<ItemInstance>( new ItemInstance(Item::glassBottle) ) );
+			player->inventory->add(std::make_shared<ItemInstance>(Item::glassBottle));
 		}
 	}
 
@@ -126,7 +126,7 @@ shared_ptr<ItemInstance> PotionItem::use(shared_ptr<ItemInstance> instance, Leve
 	{
 		if (!player->abilities.instabuild) instance->count--;
 		level->playEntitySound(player, eSoundType_RANDOM_BOW, 0.5f, 0.4f / (random->nextFloat() * 0.4f + 0.8f));
-		if (!level->isClientSide) level->addEntity(shared_ptr<ThrownPotion>( new ThrownPotion(level, player, instance->getAuxValue()) ));
+		if (!level->isClientSide) level->addEntity(std::make_shared<ThrownPotion>(level, player, instance->getAuxValue()));
 		return instance;
 	}
 	player->startUsingItem(instance, getUseDuration(instance));

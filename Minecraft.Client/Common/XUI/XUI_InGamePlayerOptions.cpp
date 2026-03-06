@@ -280,7 +280,7 @@ HRESULT CScene_InGamePlayerOptions::OnKeyDown(XUIMessageInput* pInputData, BOOL&
 				shared_ptr<MultiplayerLocalPlayer> player = pMinecraft->localplayers[m_iPad];
 				if(player != nullptr && player->connection)
 				{
-					player->connection->send( shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( m_networkSmallId, -1, m_playerPrivileges) ) );
+					player->connection->send(std::make_shared<PlayerInfoPacket>(m_networkSmallId, -1, m_playerPrivileges));
 				}
 			}
 
@@ -339,7 +339,7 @@ int CScene_InGamePlayerOptions::KickPlayerReturned(void *pParam,int iPad,C4JStor
 		shared_ptr<MultiplayerLocalPlayer> localPlayer = pMinecraft->localplayers[iPad];
 		if(localPlayer != nullptr && localPlayer->connection)
 		{
-			localPlayer->connection->send( shared_ptr<KickPlayerPacket>( new KickPlayerPacket(smallId) ) );
+			localPlayer->connection->send(std::make_shared<KickPlayerPacket>(smallId));
 		}
 
 		// Fix for #61494 - [CRASH]: TU7: Code: Multiplayer: Title may crash while kicking a player from an online game.

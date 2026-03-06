@@ -3,6 +3,7 @@
 #include "AbstractTexturePack.h"
 #include "..\Minecraft.World\InputOutputStream.h"
 #include "..\Minecraft.World\StringHelpers.h"
+#include "Common/UI/UI.h"
 
 AbstractTexturePack::AbstractTexturePack(DWORD id, File *file, const wstring &name, TexturePack *fallback) : id(id), name(name)
 {

@@ -222,7 +222,7 @@ void IUIScene_BeaconMenu::handleOtherClicked(int iPad, ESceneSection eSection, i
 			dos.writeInt(m_beacon->getPrimaryPower());
 			dos.writeInt(m_beacon->getSecondaryPower());
 
-			Minecraft::GetInstance()->localplayers[getPad()]->connection->send(shared_ptr<CustomPayloadPacket>(new CustomPayloadPacket(CustomPayloadPacket::SET_BEACON_PACKET, baos.toByteArray())));
+			Minecraft::GetInstance()->localplayers[getPad()]->connection->send(std::make_shared<CustomPayloadPacket>(CustomPayloadPacket::SET_BEACON_PACKET, baos.toByteArray()));
 
 			if (m_beacon->getPrimaryPower() > 0)
 			{

@@ -45,7 +45,7 @@ void MinecartContainer::destroy(DamageSource *source)
 				if (count > item->count) count = item->count;
 				item->count -= count;
 
-				shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>( new ItemEntity(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>( new ItemInstance(item->id, count, item->getAuxValue()))) );
+				shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>(new ItemInstance(item->id, count, item->getAuxValue())));
 				float pow = 0.05f;
 				itemEntity->xd = static_cast<float>(random->nextGaussian()) * pow;
 				itemEntity->yd = static_cast<float>(random->nextGaussian()) * pow + 0.2f;
@@ -157,7 +157,7 @@ void MinecartContainer::remove()
 					if (count > item->count) count = item->count;
 					item->count -= count;
 
-					shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>( new ItemEntity(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>( new ItemInstance(item->id, count, item->getAuxValue()))));
+					shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>(new ItemInstance(item->id, count, item->getAuxValue())));
 
 					if (item->hasTag())
 					{

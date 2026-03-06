@@ -124,7 +124,7 @@ bool FireworksRecipe::matches(shared_ptr<CraftingContainer> craftSlots, Level *l
 	// create fireworks
 	if (sulphurCount >= 1 && paperCount == 1 && chargeComponents == 0)
 	{
-		resultItem = shared_ptr<ItemInstance>( new ItemInstance(Item::fireworks) );
+		resultItem = std::make_shared<ItemInstance>(Item::fireworks);
 		if (chargeCount > 0)
 		{
 			CompoundTag *itemTag = new CompoundTag();
@@ -155,7 +155,7 @@ bool FireworksRecipe::matches(shared_ptr<CraftingContainer> craftSlots, Level *l
 	if (sulphurCount == 1 && paperCount == 0 && chargeCount == 0 && colorCount > 0 && typeComponents <= 1)
 	{
 
-		resultItem = shared_ptr<ItemInstance>( new ItemInstance(Item::fireworksCharge) );
+		resultItem = std::make_shared<ItemInstance>(Item::fireworksCharge);
 		CompoundTag *itemTag = new CompoundTag();
 		CompoundTag *expTag = new CompoundTag(FireworksItem::TAG_EXPLOSION);
 

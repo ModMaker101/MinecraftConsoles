@@ -41,11 +41,11 @@ shared_ptr<ChatPacket> EntityDamageSource::getDeathMessagePacket(shared_ptr<Livi
 
 	if ( (held != nullptr) && held->hasCustomHoverName())
 	{
-		return shared_ptr<ChatPacket>( new ChatPacket(player->getNetworkName(), m_msgWithItemId, entity->GetType(), additional, held->getHoverName() ) );
+		return std::make_shared<ChatPacket>(player->getNetworkName(), m_msgWithItemId, entity->GetType(), additional, held->getHoverName());
 	}
 	else
 	{
-		return shared_ptr<ChatPacket>( new ChatPacket(player->getNetworkName(), m_msgId, entity->GetType(), additional ) );
+		return std::make_shared<ChatPacket>(player->getNetworkName(), m_msgId, entity->GetType(), additional);
 	}
 }
 

@@ -86,5 +86,5 @@ shared_ptr<GameCommandPacket> TeleportCommand::preparePacket(PlayerUID subject, 
 	dos.writePlayerUID(subject);
 	dos.writePlayerUID(destination);
 
-	return shared_ptr<GameCommandPacket>( new GameCommandPacket(eGameCommand_Teleport, baos.toByteArray() ));
+	return std::make_shared<GameCommandPacket>(eGameCommand_Teleport, baos.toByteArray());
 }

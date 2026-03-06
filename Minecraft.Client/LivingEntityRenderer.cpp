@@ -306,7 +306,7 @@ void LivingEntityRenderer::renderArrows(shared_ptr<LivingEntity> mob, float a)
 	int arrowCount = mob->getArrowCount();
 	if (arrowCount > 0)
 	{
-		shared_ptr<Entity> arrow = shared_ptr<Entity>(new Arrow(mob->level, mob->x, mob->y, mob->z));
+		shared_ptr<Entity> arrow = std::make_shared<Arrow>(mob->level, mob->x, mob->y, mob->z);
 		Random random = Random(mob->entityId);
 		Lighting::turnOff();
 		for (int i = 0; i < arrowCount; i++)

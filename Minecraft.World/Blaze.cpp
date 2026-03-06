@@ -152,7 +152,7 @@ void Blaze::checkHurtTarget(shared_ptr<Entity> target, float d)
 				level->levelEvent(nullptr, LevelEvent::SOUND_BLAZE_FIREBALL, static_cast<int>(x), static_cast<int>(y), static_cast<int>(z), 0);
 				//                    level.playSound(this, "mob.ghast.fireball", getSoundVolume(), (random.nextFloat() - random.nextFloat()) * 0.2f + 1.0f);
 				for (int i = 0; i < 1; i++) {
-					shared_ptr<SmallFireball> ie = shared_ptr<SmallFireball>( new SmallFireball(level, dynamic_pointer_cast<Mob>( shared_from_this() ), xd + random->nextGaussian() * sqd, yd, zd + random->nextGaussian() * sqd) );
+					shared_ptr<SmallFireball> ie = std::make_shared<SmallFireball>(level, dynamic_pointer_cast<Mob>(shared_from_this()), xd + random->nextGaussian() * sqd, yd, zd + random->nextGaussian() * sqd);
 					//                        Vec3 v = getViewVector(1);
 					//                        ie.x = x + v.x * 1.5;
 					ie->y = y + bbHeight / 2 + 0.5f;

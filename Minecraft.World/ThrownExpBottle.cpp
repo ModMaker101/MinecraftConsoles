@@ -47,7 +47,7 @@ void ThrownExpBottle::onHit(HitResult *res)
 		{
 			int newCount = ExperienceOrb::getExperienceValue(xpCount);
 			xpCount -= newCount;
-			level->addEntity(shared_ptr<ExperienceOrb>( new ExperienceOrb(level, x, y, z, newCount) ) );
+			level->addEntity(std::make_shared<ExperienceOrb>(level, x, y, z, newCount));
 		}
 
 		remove();

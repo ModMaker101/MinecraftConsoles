@@ -65,7 +65,7 @@ void PendingConnection::disconnect(DisconnectPacket::eDisconnectReason reason)
 	//   try {	// 4J - removed try/catch
 	//        logger.info("Disconnecting " + getName() + ": " + reason);
 	app.DebugPrintf("Pending connection disconnect: %d\n", reason );
-	connection->send( shared_ptr<DisconnectPacket>( new DisconnectPacket(reason) ) );
+	connection->send(std::make_shared<DisconnectPacket>(reason));
 	connection->sendAndQuit();
 	done = true;
 	//    } catch (Exception e) {
@@ -136,7 +136,7 @@ void PendingConnection::sendPreLoginResponse()
 	else
 #endif
 	{
-		connection->send( shared_ptr<PreLoginPacket>( new PreLoginPacket(L"-", ugcXuids, ugcXuidCount, ugcFriendsOnlyBits, server->m_ugcPlayersVersion,szUniqueMapName,app.GetGameHostOption(eGameHostOption_All),hostIndex, server->m_texturePackId) ) );
+		connection->send(std::make_shared<PreLoginPacket>(L"-", ugcXuids, ugcXuidCount, ugcFriendsOnlyBits, server->m_ugcPlayersVersion, szUniqueMapName, app.GetGameHostOption(eGameHostOption_All), hostIndex, server->m_texturePackId));
 	}
 }
 
@@ -282,7 +282,7 @@ void PendingConnection::handleGetInfo(shared_ptr<GetInfoPacket> packet)
 	//try {
 	//String message = server->motd + "�" + server->players->getPlayerCount() + "�" + server->players->getMaxPlayers();
 	//connection->send(new DisconnectPacket(message));
-	connection->send(shared_ptr<DisconnectPacket>(new DisconnectPacket(DisconnectPacket::eDisconnect_ServerFull) ) );
+	connection->send(std::make_shared<DisconnectPacket>(DisconnectPacket::eDisconnect_ServerFull));
 	connection->sendAndQuit();
 	server->connection->removeSpamProtection(connection->getSocket());
 	done = true;

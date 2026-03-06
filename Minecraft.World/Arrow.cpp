@@ -338,7 +338,7 @@ void Arrow::tick()
 
 					if (owner != nullptr && res->entity != owner && owner->GetType() == eTYPE_SERVERPLAYER)
 					{
-						dynamic_pointer_cast<ServerPlayer>(owner)->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::SUCCESSFUL_BOW_HIT, 0)) );
+						dynamic_pointer_cast<ServerPlayer>(owner)->connection->send(std::make_shared<GameEventPacket>(GameEventPacket::SUCCESSFUL_BOW_HIT, 0));
 					}
 				}
 
@@ -499,7 +499,7 @@ void Arrow::playerTouch(shared_ptr<Player> player)
 
 	if (pickup == PICKUP_ALLOWED)
 	{
-		if (!player->inventory->add( shared_ptr<ItemInstance>( new ItemInstance(Item::arrow, 1) ) ))
+		if (!player->inventory->add(std::make_shared<ItemInstance>(Item::arrow, 1)))
 		{
 			bRemove = false;
 		}

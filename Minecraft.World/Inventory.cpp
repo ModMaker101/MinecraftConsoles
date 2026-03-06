@@ -205,11 +205,11 @@ void Inventory::replaceSlot(Item *item, int data)
 		{
 			int oldSlotCount = items[oldSlot]->count;
 			items[oldSlot] = items[selected];
-			items[selected] = shared_ptr<ItemInstance>( new ItemInstance(Item::items[item->id], oldSlotCount, data) );
+			items[selected] = std::make_shared<ItemInstance>(Item::items[item->id], oldSlotCount, data);
 		}
 		else
 		{
-			items[selected] = shared_ptr<ItemInstance>(new ItemInstance(Item::items[item->id], 1, data));
+			items[selected] = std::make_shared<ItemInstance>(Item::items[item->id], 1, data);
 		}
 	}
 }
@@ -239,7 +239,7 @@ int Inventory::addResource(shared_ptr<ItemInstance> itemInstance)
 	if (slot < 0) return count;
 	if (items[slot] == nullptr)
 	{
-		items[slot] = shared_ptr<ItemInstance>( new ItemInstance(type, 0, itemInstance->getAuxValue()) );
+		items[slot] = std::make_shared<ItemInstance>(type, 0, itemInstance->getAuxValue());
 		// 4J Stu - Brought forward from 1.2
 		if (itemInstance->hasTag())
 		{
@@ -708,7 +708,7 @@ bool Inventory::isSame(shared_ptr<ItemInstance> a, shared_ptr<ItemInstance> b)
 
 shared_ptr<Inventory> Inventory::copy()
 {
-	shared_ptr<Inventory> copy = shared_ptr<Inventory>( new Inventory(nullptr) );
+	shared_ptr<Inventory> copy = std::make_shared<Inventory>(nullptr);
 	for (unsigned int i = 0; i < items.length; i++)
 	{
 		copy->items[i] = items[i] != nullptr ? items[i]->copy() : nullptr;

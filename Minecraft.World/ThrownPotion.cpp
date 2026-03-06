@@ -31,7 +31,7 @@ ThrownPotion::ThrownPotion(Level *level, shared_ptr<LivingEntity> mob, int potio
 {
 	_init();
 
-	potionItem = shared_ptr<ItemInstance>( new ItemInstance(Item::potion, 1, potionValue));
+	potionItem = std::make_shared<ItemInstance>(Item::potion, 1, potionValue);
 }
 
 ThrownPotion::ThrownPotion(Level *level, shared_ptr<LivingEntity> mob, shared_ptr<ItemInstance> potion) : Throwable(level, mob)
@@ -45,7 +45,7 @@ ThrownPotion::ThrownPotion(Level *level, double x, double y, double z, int potio
 {
 	_init();
 
-	potionItem = shared_ptr<ItemInstance>( new ItemInstance(Item::potion, 1, potionValue));
+	potionItem = std::make_shared<ItemInstance>(Item::potion, 1, potionValue);
 }
 
 ThrownPotion::ThrownPotion(Level *level, double x, double y, double z, shared_ptr<ItemInstance> potion) : Throwable(level, x, y, z)
@@ -72,13 +72,13 @@ float ThrownPotion::getThrowUpAngleOffset()
 
 void ThrownPotion::setPotionValue(int potionValue)
 {
-	if (potionItem == nullptr) potionItem = shared_ptr<ItemInstance>( new ItemInstance(Item::potion, 1, 0) );
+	if (potionItem == nullptr) potionItem = std::make_shared<ItemInstance>(Item::potion, 1, 0);
 	potionItem->setAuxValue(potionValue);
 }
 
 int ThrownPotion::getPotionValue()
 {
-	if (potionItem == nullptr) potionItem = shared_ptr<ItemInstance>( new ItemInstance(Item::potion, 1, 0) );
+	if (potionItem == nullptr) potionItem = std::make_shared<ItemInstance>(Item::potion, 1, 0);
 	return potionItem->getAuxValue();
 }
 

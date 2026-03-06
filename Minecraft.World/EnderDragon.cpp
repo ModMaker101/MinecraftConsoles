@@ -100,14 +100,14 @@ EnderDragon::EnderDragon(Level *level) : Mob(level)
 // 4J - split off from ctor so we can use shared_from_this()
 void EnderDragon::AddParts()
 {
-	head = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"head", 6, 6) );
-	neck = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"neck", 6, 6) ); // 4J Added
-	body = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"body", 8, 8) );
-	tail1 = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4) );
-	tail2 = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4) );
-	tail3 = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4) );
-	wing1 = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4, 4) );
-	wing2 = shared_ptr<MultiEntityMobPart>( new MultiEntityMobPart(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4, 4) );
+	head = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"head", 6, 6);
+	neck = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"neck", 6, 6); // 4J Added
+	body = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"body", 8, 8);
+	tail1 = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4);
+	tail2 = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4);
+	tail3 = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"tail", 4, 4);
+	wing1 = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4, 4);
+	wing2 = std::make_shared<MultiEntityMobPart>(dynamic_pointer_cast<MultiEntityMob>(shared_from_this()), L"wing", 4, 4);
 
 	subEntities.push_back(head);
 	subEntities.push_back(neck); // 4J Added
@@ -739,7 +739,7 @@ void EnderDragon::aiStep()
 					double zdd = attackTarget->z - startingZ;
 
 					level->levelEvent(nullptr, LevelEvent::SOUND_GHAST_FIREBALL, static_cast<int>(x), static_cast<int>(y), static_cast<int>(z), 0);
-					shared_ptr<DragonFireball> ie = shared_ptr<DragonFireball>( new DragonFireball(level, dynamic_pointer_cast<Mob>( shared_from_this() ), xdd, ydd, zdd) );
+					shared_ptr<DragonFireball> ie = std::make_shared<DragonFireball>(level, dynamic_pointer_cast<Mob>(shared_from_this()), xdd, ydd, zdd);
 					ie->x = startingX;
 					ie->y = startingY;
 					ie->z = startingZ;
@@ -1214,7 +1214,7 @@ void EnderDragon::tickDeath()
 			{
 				int newCount = ExperienceOrb::getExperienceValue(xpCount);
 				xpCount -= newCount;
-				level->addEntity(shared_ptr<ExperienceOrb>( new ExperienceOrb(level, x, y, z, newCount) ));
+				level->addEntity(std::make_shared<ExperienceOrb>(level, x, y, z, newCount));
 			}
 		}
 		if (dragonDeathTime == 1) 
@@ -1234,7 +1234,7 @@ void EnderDragon::tickDeath()
 		{
 			int newCount = ExperienceOrb::getExperienceValue(xpCount);
 			xpCount -= newCount;
-			level->addEntity(shared_ptr<ExperienceOrb>( new ExperienceOrb(level, x, y, z, newCount)));
+			level->addEntity(std::make_shared<ExperienceOrb>(level, x, y, z, newCount));
 		}
 		int xo = 5 + random->nextInt(2) * 2 - 1;
 		int zo = 5 + random->nextInt(2) * 2 - 1;

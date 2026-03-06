@@ -6,7 +6,7 @@
 
 WeighedTreasure::WeighedTreasure(int itemId, int auxValue, int minCount, int maxCount, int weight) : WeighedRandomItem(weight)
 {
-	this->item = shared_ptr<ItemInstance>( new ItemInstance(itemId, 1, auxValue) );
+	this->item = std::make_shared<ItemInstance>(itemId, 1, auxValue);
 	this->minCount = minCount;
 	this->maxCount = maxCount;
 }

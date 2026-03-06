@@ -90,13 +90,21 @@ bool CollectItemRuleDefinition::onCollectItem(GameRule *rule, shared_ptr<ItemIns
 			if(quantityCollected >= m_quantity)
 			{
 				setComplete(rule, true);
-				app.DebugPrintf("Completed CollectItemRule with info - itemId:%d, auxValue:%d, quantity:%d, dataTag:%d\n", m_itemId,m_auxValue,m_quantity,m_4JDataValue);
+                app.DebugPrintf("Completed CollectItemRule with info - itemId:%d, auxValue:%d, quantity:%d, dataTag:%d\n", m_itemId, m_auxValue, m_quantity, m_4JDataValue);
 
-				if(rule->getConnection() != nullptr)
-				{
-					rule->getConnection()->send( shared_ptr<UpdateGameRuleProgressPacket>( new UpdateGameRuleProgressPacket(getActionType(), this->m_descriptionId, m_itemId, m_auxValue, this->m_4JDataValue,nullptr,0)));
-				}
-			}
+                if (rule->getConnection() != nullptr)
+                {
+                    rule->getConnection()->send(std::make_shared<UpdateGameRuleProgressPacket>(
+                        getActionType(),
+                        this->m_descriptionId,
+                        m_itemId,
+                        m_auxValue,
+                        this->m_4JDataValue,
+                        nullptr,
+                        static_cast<DWORD>(0)
+                        ));
+                }
+            }
 		}
 	}
 	return statusChanged;

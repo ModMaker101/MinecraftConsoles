@@ -135,7 +135,7 @@ void Witch::aiStep()
 
 			if (potion > -1)
 			{
-				setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::potion, 1, potion)) );
+				setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::potion, 1, potion));
 				usingTime = getCarriedItem()->getUseDuration();
 				setUsingItem(true);
 				AttributeInstance *speed = getAttribute(SharedMonsterAttributes::MOVEMENT_SPEED);
@@ -198,7 +198,7 @@ void Witch::performRangedAttack(shared_ptr<LivingEntity> target, float power)
 {
 	if (isUsingItem()) return;
 
-	shared_ptr<ThrownPotion> potion = shared_ptr<ThrownPotion>( new ThrownPotion(level, dynamic_pointer_cast<LivingEntity>(shared_from_this()), PotionBrewing::POTION_ID_SPLASH_DAMAGE) );
+	shared_ptr<ThrownPotion> potion = std::make_shared<ThrownPotion>(level, dynamic_pointer_cast<LivingEntity>(shared_from_this()), PotionBrewing::POTION_ID_SPLASH_DAMAGE);
 	potion->xRot -= -20;
 	double xd = (target->x + target->xd) - x;
 	double yd = (target->y + target->getHeadHeight() - 1.1f) - y;

@@ -394,7 +394,7 @@ bool	CGameNetworkManager::StartNetworkGame(Minecraft *minecraft, LPVOID lpParame
 		return false;
 	}
 
-	connection->send( shared_ptr<PreLoginPacket>( new PreLoginPacket(minecraft->user->name) ) );
+	connection->send(std::make_shared<PreLoginPacket>(minecraft->user->name));
 
 	// Tick connection until we're ready to go. The stages involved in this are:
 	// (1) Creating the ClientConnection sends a prelogin packet to the server
@@ -481,7 +481,7 @@ bool	CGameNetworkManager::StartNetworkGame(Minecraft *minecraft, LPVOID lpParame
 			// Open the socket on the server end to accept incoming data
 			Socket::addIncomingSocket(socket);
 
-			connection->send( shared_ptr<PreLoginPacket>( new PreLoginPacket(convStringToWstring( ProfileManager.GetGamertag(idx) )) ) );
+			connection->send(std::make_shared<PreLoginPacket>(convStringToWstring(ProfileManager.GetGamertag(idx))));
 
 			createdConnections.push_back( connection );
 
@@ -1523,7 +1523,7 @@ void CGameNetworkManager::CreateSocket( INetworkPlayer *pNetworkPlayer, bool loc
 
 			if( connection->createdOk )
 			{
-				connection->send( shared_ptr<PreLoginPacket>( new PreLoginPacket( pNetworkPlayer->GetOnlineName() ) ) );
+				connection->send(std::make_shared<PreLoginPacket>(pNetworkPlayer->GetOnlineName()));
 				pMinecraft->addPendingLocalConnection(idx, connection);
 			}
 			else

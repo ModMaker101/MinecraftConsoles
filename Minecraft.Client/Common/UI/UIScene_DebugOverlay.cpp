@@ -147,7 +147,7 @@ void UIScene_DebugOverlay::customDraw(IggyCustomDrawCallbackRegion *region)
 	}
 	else
 	{
-		shared_ptr<ItemInstance> item = shared_ptr<ItemInstance>( new ItemInstance(itemId,1,0) );
+		shared_ptr<ItemInstance> item = std::make_shared<ItemInstance>(itemId, 1, 0);
 		if(item != nullptr) customDrawSlotControl(region,m_iPad,item,1.0f,false,false);
 	}
 }

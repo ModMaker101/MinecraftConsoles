@@ -729,7 +729,7 @@ void Mob::populateDefaultEquipmentSlots()
 			if (item == nullptr)
 			{
 				Item *equip = getEquipmentForSlot(i + 1, armorType);
-				if (equip != nullptr) setEquippedSlot(i + 1, shared_ptr<ItemInstance>(new ItemInstance(equip)));
+				if (equip != nullptr) setEquippedSlot(i + 1, std::make_shared<ItemInstance>(equip));
 			}
 		}
 	}
@@ -983,7 +983,7 @@ void Mob::dropLeash(bool synch, bool createItemDrop)
 		ServerLevel *serverLevel = dynamic_cast<ServerLevel *>(level);
 		if (!level->isClientSide && synch && serverLevel != nullptr)
 		{
-			serverLevel->getTracker()->broadcast(shared_from_this(), shared_ptr<SetEntityLinkPacket>(new SetEntityLinkPacket(SetEntityLinkPacket::LEASH, shared_from_this(), nullptr)));
+			serverLevel->getTracker()->broadcast(shared_from_this(), std::make_shared<SetEntityLinkPacket>(SetEntityLinkPacket::LEASH, shared_from_this(), nullptr));
 		}
 	}
 }
@@ -1011,7 +1011,7 @@ void Mob::setLeashedTo(shared_ptr<Entity> holder, bool synch)
 	ServerLevel *serverLevel = dynamic_cast<ServerLevel *>(level);
 	if (!level->isClientSide && synch && serverLevel)
 	{
-		serverLevel->getTracker()->broadcast(shared_from_this(), shared_ptr<SetEntityLinkPacket>( new SetEntityLinkPacket(SetEntityLinkPacket::LEASH, shared_from_this(), leashHolder)));
+		serverLevel->getTracker()->broadcast(shared_from_this(), std::make_shared<SetEntityLinkPacket>(SetEntityLinkPacket::LEASH, shared_from_this(), leashHolder));
 	}
 }
 

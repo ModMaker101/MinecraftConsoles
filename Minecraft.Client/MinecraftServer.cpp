@@ -226,7 +226,7 @@ static bool ExecuteConsoleCommand(MinecraftServer *server, const wstring &rawCom
 		wstring message = L"[Server] " + JoinConsoleCommandTokens(tokens, 1);
 		if (playerList != nullptr)
 		{
-			playerList->broadcastAll(shared_ptr<ChatPacket>(new ChatPacket(message)));
+			playerList->broadcastAll(std::make_shared<ChatPacket>(message));
 		}
 		server->info(message);
 		return true;
@@ -904,7 +904,7 @@ bool MinecraftServer::loadLevel(LevelStorageSource *storageSource, const wstring
 			levelChunksNeedConverted = true;
 		pSave->ConvertToLocalPlatform(); // check if we need to convert this file from PS3->PS4
 
-		storage = shared_ptr<McRegionLevelStorage>(new McRegionLevelStorage(pSave, File(L"."), name, true));
+		storage = std::make_shared<McRegionLevelStorage>(pSave, File(L"."), name, true);
 	}
 	else
 	{
@@ -931,7 +931,7 @@ bool MinecraftServer::loadLevel(LevelStorageSource *storageSource, const wstring
 
 		storage = shared_ptr<McRegionLevelStorage>(new McRegionLevelStorage(newFormatSave, File(L"."), name, true));
 #else
-		storage = shared_ptr<McRegionLevelStorage>(new McRegionLevelStorage(new ConsoleSaveFileOriginal( L"" ), File(L"."), name, true));
+		storage = std::make_shared<McRegionLevelStorage>(new ConsoleSaveFileOriginal(L""), File(L"."), name, true);
 #endif
 	}
 
@@ -1885,7 +1885,7 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 						players->saveAll(Minecraft::GetInstance()->progressRenderer);
 					}
 
-					players->broadcastAll( shared_ptr<UpdateProgressPacket>( new UpdateProgressPacket(20) ) );
+					players->broadcastAll(std::make_shared<UpdateProgressPacket>(20));
 
 					for (unsigned int j = 0; j < levels.length; j++)
 					{
@@ -1896,7 +1896,7 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 						ServerLevel *level = levels[levels.length - 1 - j];
 						level->save(true, Minecraft::GetInstance()->progressRenderer, (eAction==eXuiServerAction_AutoSaveGame));
 
-						players->broadcastAll( shared_ptr<UpdateProgressPacket>( new UpdateProgressPacket(33 + (j*33) ) ) );
+						players->broadcastAll(std::make_shared<UpdateProgressPacket>(33 + (j * 33)));
 					}
 					if( !s_bServerHalted )
 					{
@@ -1911,7 +1911,7 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 					{
 						shared_ptr<ServerPlayer> player = players->players.at(0);
 						size_t id = (size_t) param;
-						player->drop( shared_ptr<ItemInstance>( new ItemInstance(id, 1, 0 ) ) );
+						player->drop(std::make_shared<ItemInstance>(id, 1, 0));
 					}
 					break;
 				case eXuiServerAction_SpawnMob:
@@ -1946,14 +1946,14 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 					}
 					break;
 				case eXuiServerAction_ServerSettingChanged_Gamertags:
-					players->broadcastAll( shared_ptr<ServerSettingsChangedPacket>( new ServerSettingsChangedPacket( ServerSettingsChangedPacket::HOST_OPTIONS, app.GetGameHostOption(eGameHostOption_Gamertags)) ) );
+					players->broadcastAll(std::make_shared<ServerSettingsChangedPacket>(ServerSettingsChangedPacket::HOST_OPTIONS, app.GetGameHostOption(eGameHostOption_Gamertags)));
 					break;
 				case eXuiServerAction_ServerSettingChanged_BedrockFog:
-					players->broadcastAll( shared_ptr<ServerSettingsChangedPacket>( new ServerSettingsChangedPacket( ServerSettingsChangedPacket::HOST_IN_GAME_SETTINGS, app.GetGameHostOption(eGameHostOption_All)) ) );
+					players->broadcastAll(std::make_shared<ServerSettingsChangedPacket>(ServerSettingsChangedPacket::HOST_IN_GAME_SETTINGS, app.GetGameHostOption(eGameHostOption_All)));
 					break;
 
 				case eXuiServerAction_ServerSettingChanged_Difficulty:
-					players->broadcastAll( shared_ptr<ServerSettingsChangedPacket>( new ServerSettingsChangedPacket( ServerSettingsChangedPacket::HOST_DIFFICULTY, Minecraft::GetInstance()->options->difficulty) ) );
+					players->broadcastAll(std::make_shared<ServerSettingsChangedPacket>(ServerSettingsChangedPacket::HOST_DIFFICULTY, Minecraft::GetInstance()->options->difficulty));
 					break;
 				case eXuiServerAction_ExportSchematic:
 #ifndef _CONTENT_PACKAGE
@@ -2054,14 +2054,14 @@ void MinecraftServer::run(__int64 seed, void *lpParameter)
 
 void MinecraftServer::broadcastStartSavingPacket()
 {
-	players->broadcastAll( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::START_SAVING, 0) ) );;
+	players->broadcastAll(std::make_shared<GameEventPacket>(GameEventPacket::START_SAVING, 0));;
 }
 
 void MinecraftServer::broadcastStopSavingPacket()
 {
 	if( !s_bServerHalted )
 	{
-		players->broadcastAll( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::STOP_SAVING, 0) ) );;
+		players->broadcastAll(std::make_shared<GameEventPacket>(GameEventPacket::STOP_SAVING, 0));;
 	}
 }
 
@@ -2116,7 +2116,7 @@ void MinecraftServer::tick()
 
 			if (tickCount % 20 == 0)
 			{
-				players->broadcastAll( shared_ptr<SetTimePacket>( new SetTimePacket(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT) ) ), level->dimension->id);
+				players->broadcastAll(std::make_shared<SetTimePacket>(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT)), level->dimension->id);
 			}
 			// #ifndef __PS3__
 			static __int64 stc = 0;

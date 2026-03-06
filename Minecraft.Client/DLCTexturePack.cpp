@@ -9,6 +9,7 @@
 #include "Common\DLC\DLCLocalisationFile.h"
 #include "..\Minecraft.World\StringHelpers.h"
 #include "StringTable.h"
+#include "Common/UI/UI.h"
 #include "Common\DLC\DLCAudioFile.h"
 
 #if defined _XBOX || defined _WINDOWS64

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "IUIScene_CreativeMenu.h"
 
+#include "UI.h"
 #include "..\..\Minecraft.h"
 #include "..\..\MultiplayerLocalPlayer.h"
 #include "..\..\..\Minecraft.World\net.minecraft.world.inventory.h"
@@ -20,7 +21,6 @@ vector< shared_ptr<ItemInstance> > IUIScene_CreativeMenu::categoryGroups[eCreati
 #define ITEM(id) list->push_back( shared_ptr<ItemInstance>(new ItemInstance(id, 1, 0)) );
 #define ITEM_AUX(id, aux) list->push_back( shared_ptr<ItemInstance>(new ItemInstance(id, 1, aux)) );
 #define DEF(index) list = &categoryGroups[index];
-
 
 void IUIScene_CreativeMenu::staticCtor()
 {
@@ -495,7 +495,7 @@ void IUIScene_CreativeMenu::staticCtor()
 #ifndef _CONTENT_PACKAGE
 		if(app.DebugSettingsOn())
 		{
-			shared_ptr<ItemInstance> debugSword = shared_ptr<ItemInstance>(new ItemInstance(Item::sword_diamond_Id, 1, 0));
+			shared_ptr<ItemInstance> debugSword = std::make_shared<ItemInstance>(Item::sword_diamond_Id, 1, 0);
 			debugSword->enchant( Enchantment::damageBonus, 50 );
 			debugSword->setHoverName(L"Sword of Debug");
 			list->push_back(debugSword);
@@ -1362,7 +1362,7 @@ void IUIScene_CreativeMenu::BuildFirework(vector<shared_ptr<ItemInstance> > *lis
 	shared_ptr<ItemInstance> firework;
 
 	{
-		firework = shared_ptr<ItemInstance>( new ItemInstance(Item::fireworks) );
+		firework = std::make_shared<ItemInstance>(Item::fireworks);
 		CompoundTag *itemTag = new CompoundTag();
 		CompoundTag *fireTag = new CompoundTag(FireworksItem::TAG_FIREWORKS);
 		ListTag<CompoundTag> *expTags = new ListTag<CompoundTag>(FireworksItem::TAG_EXPLOSIONS);

@@ -473,7 +473,7 @@ void Connection::tick()
 	tickCount++;
     if (tickCount % 20 == 0)
 	{
-        send( shared_ptr<KeepAlivePacket>( new KeepAlivePacket() ) );
+        send(std::make_shared<KeepAlivePacket>());
     }
 
 	// 4J Stu - 1.8.2 changed from 100 to 1000

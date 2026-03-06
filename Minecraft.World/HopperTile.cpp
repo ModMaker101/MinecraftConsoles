@@ -47,7 +47,7 @@ int HopperTile::getPlacedOnFaceDataValue(Level *level, int x, int y, int z, int 
 
 shared_ptr<TileEntity> HopperTile::newTileEntity(Level *level)
 {
-	return shared_ptr<HopperTileEntity>( new HopperTileEntity() );
+	return std::make_shared<HopperTileEntity>();
 }
 
 void HopperTile::setPlacedBy(Level *level, int x, int y, int z, shared_ptr<LivingEntity> by, shared_ptr<ItemInstance> itemInstance)
@@ -116,7 +116,7 @@ void HopperTile::onRemove(Level *level, int x, int y, int z, int id, int data)
 					if (count > item->count) count = item->count;
 					item->count -= count;
 
-					shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>( new ItemEntity(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>( new ItemInstance(item->id, count, item->getAuxValue()))));
+					shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, shared_ptr<ItemInstance>(new ItemInstance(item->id, count, item->getAuxValue())));
 
 					if (item->hasTag())
 					{

@@ -512,7 +512,7 @@ shared_ptr<ItemInstance> Packet::readItem(DataInputStream *dis)
 		int count = dis->readByte();
 		int damage = dis->readShort();
 
-		item = shared_ptr<ItemInstance>( new ItemInstance(id, count, damage) );
+		item = std::make_shared<ItemInstance>(id, count, damage);
 		// 4J Stu - Always read/write the tag
 		//if (Item.items[id].canBeDepleted() || Item.items[id].shouldOverrideMultiplayerNBT())
 		{

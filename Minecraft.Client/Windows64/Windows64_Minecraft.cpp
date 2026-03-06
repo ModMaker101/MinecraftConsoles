@@ -43,6 +43,7 @@
 #include "Common/PostProcesser.h"
 #include "Network\WinsockNetLayer.h"
 #include "Windows64_Xuid.h"
+#include "Common/UI/UI.h"
 
 #include "Xbox/resource.h"
 
@@ -78,7 +79,6 @@ DWORD dwProfileSettingsA[NUM_PROFILE_VALUES]=
 	0,0,0,0,0
 #endif
 };
-
 //-------------------------------------------------------------------------------------
 // Time             Since fAppTime is a float, we need to keep the quadword app time
 //                  as a LARGE_INTEGER so that we don't lose precision after running

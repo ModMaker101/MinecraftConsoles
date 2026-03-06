@@ -353,7 +353,7 @@ void PlayerRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a)
 
         if (mob->fishing != nullptr)
 		{
-            item = shared_ptr<ItemInstance>( new ItemInstance(Item::stick) );
+            item = std::make_shared<ItemInstance>(Item::stick);
         }
 
 		UseAnim anim = UseAnim_none;//null;

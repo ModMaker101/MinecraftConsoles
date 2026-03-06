@@ -22,7 +22,7 @@ void SnowManRenderer::additionalRendering(shared_ptr<LivingEntity> _mob, float a
 	shared_ptr<SnowMan> mob = dynamic_pointer_cast<SnowMan>(_mob);
 
 	MobRenderer::additionalRendering(mob, a);
-	shared_ptr<ItemInstance> headGear = shared_ptr<ItemInstance>( new ItemInstance(Tile::pumpkin, 1) );
+	shared_ptr<ItemInstance> headGear = std::make_shared<ItemInstance>(Tile::pumpkin, 1);
 	if (headGear != nullptr && headGear->getItem()->id < 256)
 	{
 		glPushMatrix();

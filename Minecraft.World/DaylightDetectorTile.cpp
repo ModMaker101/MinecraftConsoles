@@ -95,7 +95,7 @@ bool DaylightDetectorTile::isSignalSource()
 
 shared_ptr<TileEntity> DaylightDetectorTile::newTileEntity(Level *level)
 {
-	return shared_ptr<DaylightDetectorTileEntity>( new DaylightDetectorTileEntity() );
+	return std::make_shared<DaylightDetectorTileEntity>();
 }
 
 Icon *DaylightDetectorTile::getTexture(int face, int data)

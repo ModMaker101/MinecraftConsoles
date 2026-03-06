@@ -164,7 +164,7 @@ void Pig::setSaddle(bool value)
 void Pig::thunderHit(const LightningBolt *lightningBolt)
 {
 	if (level->isClientSide) return;
-	shared_ptr<PigZombie> pz = shared_ptr<PigZombie>( new PigZombie(level) );
+	shared_ptr<PigZombie> pz = std::make_shared<PigZombie>(level);
 	pz->moveTo(x, y, z, yRot, xRot);
 	level->addEntity(pz);
 	remove();
@@ -184,7 +184,7 @@ shared_ptr<AgableMob> Pig::getBreedOffspring(shared_ptr<AgableMob> target)
 	// 4J - added limit to number of animals that can be bred
 	if( level->canCreateMore( GetType(), Level::eSpawnType_Breed) )
 	{
-		return shared_ptr<Pig>( new Pig(level) );
+		return std::make_shared<Pig>(level);
 	}
 	else
 	{

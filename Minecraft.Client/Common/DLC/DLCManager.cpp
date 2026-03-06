@@ -6,6 +6,7 @@
 #include "..\..\..\Minecraft.World\StringHelpers.h"
 #include "..\..\Minecraft.h"
 #include "..\..\TexturePackRepository.h"
+#include "Common/UI/UI.h"
 
 WCHAR *DLCManager::wchTypeNamesA[]=
 {

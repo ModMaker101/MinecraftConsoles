@@ -174,7 +174,7 @@ int PigZombie::getDeathLoot()
 
 void PigZombie::populateDefaultEquipmentSlots()
 {
-	setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::sword_gold)) );
+	setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::sword_gold));
 }
 
 MobGroupData *PigZombie::finalizeMobSpawn(MobGroupData *groupData, int extraData /*= 0*/) // 4J Added extraData param

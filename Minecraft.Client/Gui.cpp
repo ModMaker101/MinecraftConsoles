@@ -28,6 +28,7 @@
 #include "..\Minecraft.World\net.minecraft.world.h"
 #include "..\Minecraft.World\LevelChunk.h"
 #include "..\Minecraft.World\Biome.h"
+#include "Common/UI/UI.h"
 
 ResourceLocation Gui::PUMPKIN_BLUR_LOCATION = ResourceLocation(TN__BLUR__MISC_PUMPKINBLUR);
 

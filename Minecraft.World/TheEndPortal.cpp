@@ -28,7 +28,7 @@ TheEndPortal::TheEndPortal(int id, Material *material) : BaseEntityTile(id, mate
 
 shared_ptr<TileEntity> TheEndPortal::newTileEntity(Level *level)
 {
-	return shared_ptr<TileEntity>(new TheEndPortalTileEntity());
+	return std::make_shared<TheEndPortalTileEntity>();
 }
 
 void TheEndPortal::updateShape(LevelSource *level, int x, int y, int z, int forceData, shared_ptr<TileEntity> forceEntity) // 4J added forceData, forceEntity param

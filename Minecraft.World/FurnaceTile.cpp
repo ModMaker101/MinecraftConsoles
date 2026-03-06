@@ -141,7 +141,7 @@ void FurnaceTile::setLit(bool lit, Level *level, int x, int y, int z)
 
 shared_ptr<TileEntity> FurnaceTile::newTileEntity(Level *level)
 {
-	return shared_ptr<FurnaceTileEntity>( new FurnaceTileEntity() );
+	return std::make_shared<FurnaceTileEntity>();
 }
 
 void FurnaceTile::setPlacedBy(Level *level, int x, int y, int z, shared_ptr<LivingEntity> by, shared_ptr<ItemInstance> itemInstance)
@@ -192,9 +192,9 @@ void FurnaceTile::onRemove(Level *level, int x, int y, int z, int id, int data)
 						}
 #endif
 						
-						shared_ptr<ItemInstance> newItem = shared_ptr<ItemInstance>( new ItemInstance(item->id, count, item->getAuxValue()) );
+						shared_ptr<ItemInstance> newItem = std::make_shared<ItemInstance>(item->id, count, item->getAuxValue());
 						newItem->set4JData( item->get4JData() );
-						shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>( new ItemEntity(level, x + xo, y + yo, z + zo, newItem) );
+						shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, newItem);
 						float pow = 0.05f;
 						itemEntity->xd = static_cast<float>(random->nextGaussian()) * pow;
 						itemEntity->yd = static_cast<float>(random->nextGaussian()) * pow + 0.2f;

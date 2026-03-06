@@ -179,7 +179,7 @@ int Slime::getJumpDelay()
 
 shared_ptr<Slime> Slime::createChild()
 {
-	return shared_ptr<Slime>( new Slime(level) );
+	return std::make_shared<Slime>(level);
 }
 
 void Slime::remove()

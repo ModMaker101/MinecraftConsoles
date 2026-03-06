@@ -81,5 +81,5 @@ shared_ptr<GameCommandPacket> EnchantItemCommand::preparePacket(shared_ptr<Playe
 	dos.writeInt(enchantmentId);
 	dos.writeInt(enchantmentLevel);
 
-	return shared_ptr<GameCommandPacket>( new GameCommandPacket(eGameCommand_EnchantItem, baos.toByteArray() ));
+	return std::make_shared<GameCommandPacket>(eGameCommand_EnchantItem, baos.toByteArray());
 }

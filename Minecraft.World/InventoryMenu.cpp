@@ -28,8 +28,8 @@ InventoryMenu::InventoryMenu(shared_ptr<Inventory> inventory, bool active, Playe
 
 void InventoryMenu::_init(shared_ptr<Inventory> inventory, bool active)
 {
-	craftSlots = shared_ptr<CraftingContainer>( new CraftingContainer(this, 2, 2) );
-	resultSlots = shared_ptr<ResultContainer>( new ResultContainer() );
+	craftSlots = std::make_shared<CraftingContainer>(this, 2, 2);
+	resultSlots = std::make_shared<ResultContainer>();
 
 	this->active = active;
 	addSlot(new ResultSlot( inventory->player, craftSlots, resultSlots, 0, 144, 36));

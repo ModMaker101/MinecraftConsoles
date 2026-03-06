@@ -217,7 +217,7 @@ void Skeleton::dropRareDeathLoot(int rareLootLevel)
 {
 	if (getSkeletonType() == TYPE_WITHER)
 	{
-		spawnAtLocation( shared_ptr<ItemInstance>( new ItemInstance(Item::skull_Id, 1, SkullTileEntity::TYPE_WITHER) ), 0);
+		spawnAtLocation(std::make_shared<ItemInstance>(Item::skull_Id, 1, SkullTileEntity::TYPE_WITHER), 0);
 	}
 }
 
@@ -225,7 +225,7 @@ void Skeleton::populateDefaultEquipmentSlots()
 {
 	Monster::populateDefaultEquipmentSlots();
 
-	setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::bow)));
+	setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::bow));
 }
 
 MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData /*= 0*/) // 4J Added extraData param
@@ -237,7 +237,7 @@ MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData 
 		goalSelector.addGoal(4, meleeGoal, false);
 
 		setSkeletonType(TYPE_WITHER);
-		setEquippedSlot(SLOT_WEAPON, shared_ptr<ItemInstance>( new ItemInstance(Item::sword_stone)));
+		setEquippedSlot(SLOT_WEAPON, std::make_shared<ItemInstance>(Item::sword_stone));
 		getAttribute(SharedMonsterAttributes::ATTACK_DAMAGE)->setBaseValue(4);
 	}
 	else
@@ -255,7 +255,7 @@ MobGroupData *Skeleton::finalizeMobSpawn(MobGroupData *groupData, int extraData 
 		if (Calendar::GetMonth() + 1 == 10 && Calendar::GetDayOfMonth() == 31 && random->nextFloat() < 0.25f)
 		{
 			// Halloween! OooOOo! 25% of all skeletons/zombies can wear pumpkins on their heads.
-			setEquippedSlot(SLOT_HELM, shared_ptr<ItemInstance>( new ItemInstance(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin)));
+			setEquippedSlot(SLOT_HELM, std::make_shared<ItemInstance>(random->nextFloat() < 0.1f ? Tile::litPumpkin : Tile::pumpkin));
 			dropChances[SLOT_HELM] = 0;
 		}
 	}
@@ -281,7 +281,7 @@ void Skeleton::reassessWeaponGoal()
 
 void Skeleton::performRangedAttack(shared_ptr<LivingEntity> target, float power)
 {
-	shared_ptr<Arrow> arrow = shared_ptr<Arrow>( new Arrow(level, dynamic_pointer_cast<LivingEntity>(shared_from_this()), target, 1.60f, 14 - (level->difficulty * 4)) );
+	shared_ptr<Arrow> arrow = std::make_shared<Arrow>(level, dynamic_pointer_cast<LivingEntity>(shared_from_this()), target, 1.60f, 14 - (level->difficulty * 4));
 	int damageBonus = EnchantmentHelper::getEnchantmentLevel(Enchantment::arrowBonus->id, getCarriedItem());
 	int knockbackBonus = EnchantmentHelper::getEnchantmentLevel(Enchantment::arrowKnockback->id, getCarriedItem());
 

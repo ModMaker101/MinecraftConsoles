@@ -405,7 +405,7 @@ int ChestTileEntity::getType()
 // 4J Added
 shared_ptr<TileEntity> ChestTileEntity::clone()
 {
-	shared_ptr<ChestTileEntity> result = shared_ptr<ChestTileEntity>( new ChestTileEntity() );
+	shared_ptr<ChestTileEntity> result = std::make_shared<ChestTileEntity>();
 	TileEntity::clone(result);
 
 	for (unsigned int i = 0; i < items->length; i++)

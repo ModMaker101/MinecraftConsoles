@@ -389,21 +389,22 @@ void UIScene::loadMovie()
 
 void UIScene::getDebugMemoryUseRecursive(const wstring &moviePath, IggyMemoryUseInfo &memoryInfo)
 {
-	rrbool res;
-	IggyMemoryUseInfo internalMemoryInfo;
-	int internalIteration = 0;
-	while(res = IggyDebugGetMemoryUseInfo ( swf ,
-		nullptr ,
-		memoryInfo.subcategory ,
-		memoryInfo.subcategory_stringlen ,
-		internalIteration ,
-		&internalMemoryInfo ))
-	{
-		app.DebugPrintf(app.USER_SR, "%ls - %.*s static: %d ( %d ) dynamic: %d ( %d )\n", moviePath.c_str(), internalMemoryInfo.subcategory_stringlen, internalMemoryInfo.subcategory,
-			internalMemoryInfo.static_allocation_bytes, internalMemoryInfo.static_allocation_count, internalMemoryInfo.dynamic_allocation_bytes, internalMemoryInfo.dynamic_allocation_count);
-		++internalIteration;
-		if(internalMemoryInfo.subcategory_stringlen > memoryInfo.subcategory_stringlen) getDebugMemoryUseRecursive(moviePath, internalMemoryInfo);
-	}
+    rrbool res;
+    IggyMemoryUseInfo internalMemoryInfo;
+    int internalIteration = 0;
+    while (res = IggyDebugGetMemoryUseInfo(swf,
+                                           0,
+                                           memoryInfo.subcategory,
+                                           memoryInfo.subcategory_stringlen,
+                                           internalIteration,
+                                           &internalMemoryInfo))
+    {
+        app.DebugPrintf(app.USER_SR, "%ls - %.*s static: %d ( %d ) dynamic: %d ( %d )\n", moviePath.c_str(), internalMemoryInfo.subcategory_stringlen, internalMemoryInfo.subcategory,
+                        internalMemoryInfo.static_allocation_bytes, internalMemoryInfo.static_allocation_count, internalMemoryInfo.dynamic_allocation_bytes, internalMemoryInfo.dynamic_allocation_count);
+        ++internalIteration;
+        if (internalMemoryInfo.subcategory_stringlen > memoryInfo.subcategory_stringlen)
+            getDebugMemoryUseRecursive(moviePath, internalMemoryInfo);
+    }
 }
 
 void UIScene::PrintTotalMemoryUsage(__int64 &totalStatic, __int64 &totalDynamic)
@@ -416,7 +417,7 @@ void UIScene::PrintTotalMemoryUsage(__int64 &totalStatic, __int64 &totalDynamic)
 	__int64 sceneStatic = 0;
 	__int64 sceneDynamic = 0;
 	while(res = IggyDebugGetMemoryUseInfo ( swf ,
-		nullptr ,
+		0 ,
 		"" ,
 		0 ,
 		iteration ,

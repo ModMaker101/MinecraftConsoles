@@ -89,7 +89,7 @@ void TallGrass::playerDestroy(Level *level, shared_ptr<Player> player, int x, in
 			);
 
         // drop leaf block instead of sapling
-        popResource(level, x, y, z, shared_ptr<ItemInstance>(new ItemInstance(Tile::tallgrass, 1, data)));
+        popResource(level, x, y, z, std::make_shared<ItemInstance>(Tile::tallgrass, 1, data));
     }
 	else
 	{

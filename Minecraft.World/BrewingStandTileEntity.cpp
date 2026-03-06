@@ -254,14 +254,14 @@ void BrewingStandTileEntity::doBrew()
 			}
 			else if (isWater && items[dest] != nullptr && items[dest]->id == Item::glassBottle_Id)
 			{
-				items[dest] = shared_ptr<ItemInstance>(new ItemInstance(Item::potion));
+				items[dest] = std::make_shared<ItemInstance>(Item::potion);
 			}
 		}
 	}
 
 	if (Item::items[ingredient->id]->hasCraftingRemainingItem())
 	{
-		items[INGREDIENT_SLOT] = shared_ptr<ItemInstance>(new ItemInstance(Item::items[ingredient->id]->getCraftingRemainingItem()));
+		items[INGREDIENT_SLOT] = std::make_shared<ItemInstance>(Item::items[ingredient->id]->getCraftingRemainingItem());
 	}
 	else
 	{
@@ -476,7 +476,7 @@ bool BrewingStandTileEntity::canTakeItemThroughFace(int slot, shared_ptr<ItemIns
 // 4J Added
 shared_ptr<TileEntity> BrewingStandTileEntity::clone()
 {
-	shared_ptr<BrewingStandTileEntity> result = shared_ptr<BrewingStandTileEntity>( new BrewingStandTileEntity() );
+	shared_ptr<BrewingStandTileEntity> result = std::make_shared<BrewingStandTileEntity>();
 	TileEntity::clone(result);
 
 	result->brewTime = brewTime;

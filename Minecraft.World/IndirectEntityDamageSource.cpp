@@ -47,11 +47,11 @@ shared_ptr<ChatPacket> IndirectEntityDamageSource::getDeathMessagePacket(shared_
 	}
 	if(held != nullptr && held->hasCustomHoverName() )
 	{
-		return shared_ptr<ChatPacket>( new ChatPacket(player->getNetworkName(), m_msgWithItemId, type, additional, held->getHoverName() ) );
+		return std::make_shared<ChatPacket>(player->getNetworkName(), m_msgWithItemId, type, additional, held->getHoverName());
 	}
 	else
 	{
-		return shared_ptr<ChatPacket>( new ChatPacket(player->getNetworkName(), m_msgId, type, additional ) );
+		return std::make_shared<ChatPacket>(player->getNetworkName(), m_msgId, type, additional);
 	}
 }
 

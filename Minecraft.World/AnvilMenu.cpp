@@ -8,8 +8,8 @@
 
 AnvilMenu::AnvilMenu(shared_ptr<Inventory> inventory, Level *level, int xt, int yt, int zt, shared_ptr<Player> player)
 {
-	resultSlots = shared_ptr<ResultContainer>( new ResultContainer() );
-	repairSlots = shared_ptr<RepairContainer>( new RepairContainer(this,IDS_REPAIR_AND_NAME, true, 2) );
+	resultSlots = std::make_shared<ResultContainer>();
+	repairSlots = std::make_shared<RepairContainer>(this,IDS_REPAIR_AND_NAME, true, 2);
 	cost = 0;
 	repairItemCountCost = 0;
 

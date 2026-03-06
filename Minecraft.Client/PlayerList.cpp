@@ -151,7 +151,7 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 	player->setCustomCape( packet->m_playerCapeId );
 
 	// 4J-JEV: Moved this here so we can send player-model texture and geometry data.
-	shared_ptr<PlayerConnection> playerConnection = shared_ptr<PlayerConnection>(new PlayerConnection(server, connection, player));
+	shared_ptr<PlayerConnection> playerConnection = std::make_shared<PlayerConnection>(server, connection, player);
 	//player->connection = playerConnection;	// Used to be assigned in PlayerConnection ctor but moved out so we can use shared_ptr
 
 	if(newPlayer)
@@ -167,7 +167,7 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 		int centreZC = 0;
 #endif
 		// 4J Added - Give every player a map the first time they join a server
-		player->inventory->setItem( 9, shared_ptr<ItemInstance>( new ItemInstance(Item::map_Id, 1, level->getAuxValueForMap(player->getXuid(),0,centreXC, centreZC, mapScale ) ) ) );
+		player->inventory->setItem( 9, std::make_shared<ItemInstance>(Item::map_Id, 1, level->getAuxValueForMap(player->getXuid(), 0, centreXC, centreZC, mapScale)));
 		if(app.getGameRuleDefinitions() != nullptr)
 		{
 			app.getGameRuleDefinitions()->postProcessPlayer(player);
@@ -175,13 +175,17 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 	}
 
 	if(!player->customTextureUrl.empty() && player->customTextureUrl.substr(0,3).compare(L"def") != 0 && !app.IsFileInMemoryTextures(player->customTextureUrl))
-	{
-		if(	server->getConnection()->addPendingTextureRequest(player->customTextureUrl))
-		{
+    {
+        if (server->getConnection()->addPendingTextureRequest(player->customTextureUrl))
+        {
 #ifndef _CONTENT_PACKAGE
-			wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n",player->customTextureUrl.c_str(), player->name.c_str());
+            wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n", player->customTextureUrl.c_str(), player->name.c_str());
 #endif
-			playerConnection->send(shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(player->customTextureUrl,nullptr,0) ) );
+            playerConnection->send(std::make_shared<TextureAndGeometryPacket>(
+                player->customTextureUrl,
+				nullptr,
+                static_cast<DWORD>(0)));
+
 		}
 	}
 	else if(!player->customTextureUrl.empty() && app.IsFileInMemoryTextures(player->customTextureUrl))
@@ -197,7 +201,11 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 #ifndef _CONTENT_PACKAGE
 			wprintf(L"Sending texture packet to get custom skin %ls from player %ls\n",player->customTextureUrl2.c_str(), player->name.c_str());
 #endif
-			playerConnection->send(shared_ptr<TexturePacket>( new TexturePacket(player->customTextureUrl2,nullptr,0) ) );
+            playerConnection->send(std::make_shared<TexturePacket>(
+                player->customTextureUrl,
+                nullptr,
+                static_cast<DWORD>(0)
+                ));
 		}
 	}
 	else if(!player->customTextureUrl2.empty() && app.IsFileInMemoryTextures(player->customTextureUrl2))
@@ -233,13 +241,13 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 
 	addPlayerToReceiving( player );
 
-	playerConnection->send( shared_ptr<LoginPacket>( new LoginPacket(L"", player->entityId, level->getLevelData()->getGenerator(), level->getSeed(), player->gameMode->getGameModeForPlayer()->getId(),
-		static_cast<byte>(level->dimension->id), static_cast<byte>(level->getMaxBuildHeight()), static_cast<byte>(getMaxPlayers()),
-		level->difficulty, TelemetryManager->GetMultiplayerInstanceID(), static_cast<BYTE>(playerIndex), level->useNewSeaLevel(), player->getAllPlayerGamePrivileges(),
-		level->getLevelData()->getXZSize(), level->getLevelData()->getHellScale() ) ) );
-	playerConnection->send( shared_ptr<SetSpawnPositionPacket>( new SetSpawnPositionPacket(spawnPos->x, spawnPos->y, spawnPos->z) ) );
-	playerConnection->send( shared_ptr<PlayerAbilitiesPacket>( new PlayerAbilitiesPacket(&player->abilities)) );
-	playerConnection->send( shared_ptr<SetCarriedItemPacket>( new SetCarriedItemPacket(player->inventory->selected)));
+	playerConnection->send(std::make_shared<LoginPacket>(L"", player->entityId, level->getLevelData()->getGenerator(), level->getSeed(), player->gameMode->getGameModeForPlayer()->getId(),
+                                                         static_cast<byte>(level->dimension->id), static_cast<byte>(level->getMaxBuildHeight()), static_cast<byte>(getMaxPlayers()),
+                                                         level->difficulty, TelemetryManager->GetMultiplayerInstanceID(), static_cast<BYTE>(playerIndex), level->useNewSeaLevel(), player->getAllPlayerGamePrivileges(),
+                                                         level->getLevelData()->getXZSize(), level->getLevelData()->getHellScale()));
+	playerConnection->send(std::make_shared<SetSpawnPositionPacket>(spawnPos->x, spawnPos->y, spawnPos->z));
+	playerConnection->send(std::make_shared<PlayerAbilitiesPacket>(&player->abilities));
+	playerConnection->send(std::make_shared<SetCarriedItemPacket>(player->inventory->selected));
 	delete spawnPos;
 
 	updateEntireScoreboard((ServerScoreboard *) level->getScoreboard(), player);
@@ -248,7 +256,7 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 
 	// 4J-PB - removed, since it needs to be localised in the language the client is in
 	//server->players->broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(L"�e" + playerEntity->name + L" joined the game.") ) );
-	broadcastAll( shared_ptr<ChatPacket>( new ChatPacket(player->name, ChatPacket::e_ChatPlayerJoinedGame) ) );
+	broadcastAll(std::make_shared<ChatPacket>(player->name, ChatPacket::e_ChatPlayerJoinedGame));
 
 	MemSect(14);
 	add(player);
@@ -258,12 +266,12 @@ void PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 	playerConnection->teleport(player->x, player->y, player->z, player->yRot, player->xRot);
 
 	server->getConnection()->addPlayerConnection(playerConnection);
-	playerConnection->send( shared_ptr<SetTimePacket>( new SetTimePacket(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT)) ) );
+	playerConnection->send(std::make_shared<SetTimePacket>(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT)));
 
     auto activeEffects = player->getActiveEffects();
     for(MobEffectInstance *effect : *player->getActiveEffects())
 	{
-		playerConnection->send(shared_ptr<UpdateMobEffectPacket>( new UpdateMobEffectPacket(player->entityId, effect) ) );
+		playerConnection->send(std::make_shared<UpdateMobEffectPacket>(player->entityId, effect));
 	}
 
 	player->initMenu();
@@ -430,7 +438,7 @@ void PlayerList::add(shared_ptr<ServerPlayer> player)
 	//broadcastAll(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket(player->name, true, 1000) ) );
 	if( player->connection->getNetworkPlayer() )
 	{
-		broadcastAll(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( player ) ) );
+		broadcastAll(std::make_shared<PlayerInfoPacket>(player));
 	}
 
 	players.push_back(player);
@@ -456,7 +464,7 @@ void PlayerList::add(shared_ptr<ServerPlayer> player)
 		//player->connection->send(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket(op->name, true, op->latency) ) );
 		if( op->connection->getNetworkPlayer() )
 		{
-			player->connection->send(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( op ) ) );
+			player->connection->send(std::make_shared<PlayerInfoPacket>(op));
 		}
 	}
 
@@ -469,10 +477,10 @@ void PlayerList::add(shared_ptr<ServerPlayer> player)
 			if(thisPlayer->isSleeping())
 			{
 				if(firstSleepingPlayer == nullptr) firstSleepingPlayer = thisPlayer;
-				thisPlayer->connection->send(shared_ptr<ChatPacket>( new ChatPacket(thisPlayer->name, ChatPacket::e_ChatBedMeSleep)));
+				thisPlayer->connection->send(std::make_shared<ChatPacket>(thisPlayer->name, ChatPacket::e_ChatBedMeSleep));
 			}
 		}
-		player->connection->send(shared_ptr<ChatPacket>( new ChatPacket(firstSleepingPlayer->name, ChatPacket::e_ChatBedPlayerSleep)));
+		player->connection->send(std::make_shared<ChatPacket>(firstSleepingPlayer->name, ChatPacket::e_ChatBedPlayerSleep));
 	}
 }
 
@@ -522,7 +530,7 @@ shared_ptr<ServerPlayer> PlayerList::getPlayerForLogin(PendingConnection *pendin
 		pendingConnection->disconnect(DisconnectPacket::eDisconnect_ServerFull);
 		return shared_ptr<ServerPlayer>();
 	}
-	shared_ptr<ServerPlayer> player = shared_ptr<ServerPlayer>(new ServerPlayer(server, server->getLevel(0), userName, new ServerPlayerGameMode(server->getLevel(0)) ));
+	shared_ptr<ServerPlayer> player = std::make_shared<ServerPlayer>(server, server->getLevel(0), userName, new ServerPlayerGameMode(server->getLevel(0)));
 	player->gameMode->player = player; // 4J added as had to remove this assignment from ServerPlayer ctor
 	player->setXuid( xuid ); // 4J Added
 	player->setOnlineXuid( onlineXuid ); // 4J Added
@@ -634,7 +642,7 @@ shared_ptr<ServerPlayer> PlayerList::respawn(shared_ptr<ServerPlayer> serverPlay
 	PlayerUID playerXuid = serverPlayer->getXuid();
 	PlayerUID playerOnlineXuid = serverPlayer->getOnlineXuid();
 
-	shared_ptr<ServerPlayer> player = shared_ptr<ServerPlayer>(new ServerPlayer(server, server->getLevel(serverPlayer->dimension), serverPlayer->getName(), new ServerPlayerGameMode(server->getLevel(serverPlayer->dimension))));
+	shared_ptr<ServerPlayer> player = std::make_shared<ServerPlayer>(server, server->getLevel(serverPlayer->dimension), serverPlayer->getName(), new ServerPlayerGameMode(server->getLevel(serverPlayer->dimension)));
 	player->connection = serverPlayer->connection;
 	player->restoreFrom(serverPlayer, keepAllPlayerData);
 	if (keepAllPlayerData)
@@ -692,7 +700,7 @@ shared_ptr<ServerPlayer> PlayerList::respawn(shared_ptr<ServerPlayer> serverPlay
 		}
 		else
 		{
-			player->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::NO_RESPAWN_BED_AVAILABLE, 0) ) );
+			player->connection->send(std::make_shared<GameEventPacket>(GameEventPacket::NO_RESPAWN_BED_AVAILABLE, 0));
 		}
 		delete bedPosition;
 	}
@@ -822,9 +830,9 @@ void PlayerList::toggleDimension(shared_ptr<ServerPlayer> player, int targetDime
 	// 4J Stu Added so that we remove entities from the correct level, after the respawn packet we will be in the wrong level
 	player->flushEntitiesToRemove();
 
-	player->connection->send( shared_ptr<RespawnPacket>( new RespawnPacket(static_cast<char>(player->dimension), newLevel->getSeed(), newLevel->getMaxBuildHeight(),
-		player->gameMode->getGameModeForPlayer(), newLevel->difficulty, newLevel->getLevelData()->getGenerator(),
-		newLevel->useNewSeaLevel(), player->entityId, newLevel->getLevelData()->getXZSize(), newLevel->getLevelData()->getHellScale()) ) );
+	player->connection->send(std::make_shared<RespawnPacket>(static_cast<char>(player->dimension), newLevel->getSeed(), newLevel->getMaxBuildHeight(),
+                                                             player->gameMode->getGameModeForPlayer(), newLevel->difficulty, newLevel->getLevelData()->getGenerator(),
+                                                             newLevel->useNewSeaLevel(), player->entityId, newLevel->getLevelData()->getXZSize(), newLevel->getLevelData()->getHellScale()));
 
 	oldLevel->removeEntityImmediately(player);
 	player->removed = false;
@@ -951,7 +959,7 @@ void PlayerList::tick()
 		//broadcastAll(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket(op->name, true, op->latency) ) );
 		if( op->connection->getNetworkPlayer() )
 		{
-			broadcastAll(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket( op ) ) );
+			broadcastAll(std::make_shared<PlayerInfoPacket>(op));
 		}
 	}
 
@@ -1013,7 +1021,7 @@ void PlayerList::tick()
 					// 4J Stu - If we have kicked a player, make sure that they have no privileges if they later try to join the world when trust players is off
 					player->enableAllPlayerPrivileges( false );
 					player->connection->setWasKicked();
-					player->connection->send( shared_ptr<DisconnectPacket>( new DisconnectPacket(DisconnectPacket::eDisconnect_Kicked) ));
+					player->connection->send(std::make_shared<DisconnectPacket>(DisconnectPacket::eDisconnect_Kicked));
 				}
 				//#endif
 			}
@@ -1240,7 +1248,7 @@ void PlayerList::sendMessage(const wstring& name, const wstring& message)
 	shared_ptr<ServerPlayer> player = getPlayer(name);
 	if (player != nullptr)
 	{
-		player->connection->send( shared_ptr<ChatPacket>( new ChatPacket(message) ) );
+		player->connection->send(std::make_shared<ChatPacket>(message));
 	}
 }
 
@@ -1351,22 +1359,22 @@ void PlayerList::reloadWhitelist()
 
 void PlayerList::sendLevelInfo(shared_ptr<ServerPlayer> player, ServerLevel *level)
 {
-	player->connection->send( shared_ptr<SetTimePacket>( new SetTimePacket(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT)) ) );
+	player->connection->send(std::make_shared<SetTimePacket>(level->getGameTime(), level->getDayTime(), level->getGameRules()->getBoolean(GameRules::RULE_DAYLIGHT)));
 	if (level->isRaining())
 	{
-		player->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::START_RAINING, 0) ) );
+		player->connection->send(std::make_shared<GameEventPacket>(GameEventPacket::START_RAINING, 0));
 	}
 	else
 	{
 		// 4J Stu - Fix for #44836 - Customer Encountered: Out of Sync Weather [A-10]
 		// If it was raining when the player left the level, and is now not raining we need to make sure that state is updated
-		player->connection->send( shared_ptr<GameEventPacket>( new GameEventPacket(GameEventPacket::STOP_RAINING, 0) ) );
+		player->connection->send(std::make_shared<GameEventPacket>(GameEventPacket::STOP_RAINING, 0));
 	}
 
 	// send the stronghold position if there is one
 	if((level->dimension->id==0) && level->getLevelData()->getHasStronghold())
 	{
-		player->connection->send( shared_ptr<XZPacket>( new XZPacket(XZPacket::STRONGHOLD,level->getLevelData()->getXStronghold(),level->getLevelData()->getZStronghold()) ) );
+		player->connection->send(std::make_shared<XZPacket>(XZPacket::STRONGHOLD, level->getLevelData()->getXStronghold(), level->getLevelData()->getZStronghold()));
 	}
 }
 
@@ -1374,7 +1382,7 @@ void PlayerList::sendAllPlayerInfo(shared_ptr<ServerPlayer> player)
 {
 	player->refreshContainer(player->inventoryMenu);
 	player->resetSentInfo();
-	player->connection->send( shared_ptr<SetCarriedItemPacket>( new SetCarriedItemPacket(player->inventory->selected)) );
+	player->connection->send(std::make_shared<SetCarriedItemPacket>(player->inventory->selected));
 }
 
 int PlayerList::getPlayerCount()

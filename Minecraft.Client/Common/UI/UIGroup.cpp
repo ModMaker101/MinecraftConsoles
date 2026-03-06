@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "UIGroup.h"
 
+#include "UI.h"
+
 UIGroup::UIGroup(EUIGroup group, int iPad)
 {
 	m_group = group;

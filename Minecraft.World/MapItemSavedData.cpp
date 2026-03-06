@@ -236,7 +236,7 @@ void MapItemSavedData::tickCarriedBy(shared_ptr<Player> player, shared_ptr<ItemI
 {
 	if (carriedByPlayers.find(player) == carriedByPlayers.end())
 	{
-		shared_ptr<HoldingPlayer> hp = shared_ptr<HoldingPlayer>( new HoldingPlayer(player, this ) );
+		shared_ptr<HoldingPlayer> hp = std::make_shared<HoldingPlayer>(player, this);
 		carriedByPlayers.insert( playerHoldingPlayerMapType::value_type(player, hp) );
 		carriedBy.push_back(hp);
 	}
@@ -545,7 +545,7 @@ shared_ptr<MapItemSavedData::HoldingPlayer> MapItemSavedData::getHoldingPlayer(s
 
     if (it == carriedByPlayers.end())
 	{
-		hp = shared_ptr<HoldingPlayer>( new HoldingPlayer(player, this) );
+		hp = std::make_shared<HoldingPlayer>(player, this);
 		carriedByPlayers[player] = hp;
 		carriedBy.push_back(hp);
 	}

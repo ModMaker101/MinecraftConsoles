@@ -161,13 +161,13 @@ void FallingTile::tick()
 				}
 				else
 				{
-					if(dropItem && !cancelDrop) spawnAtLocation( shared_ptr<ItemInstance>(new ItemInstance(tile, 1, Tile::tiles[tile]->getSpawnResourcesAuxValue(data))), 0);
+					if(dropItem && !cancelDrop) spawnAtLocation(std::make_shared<ItemInstance>(tile, 1, Tile::tiles[tile]->getSpawnResourcesAuxValue(data)), 0);
 				}
 			}
 		}
 		else if ( (time > 20 * 5 && !level->isClientSide && (yt < 1 || yt > Level::maxBuildHeight)) || (time > 20 * 30))
 		{
-			if(dropItem) spawnAtLocation( shared_ptr<ItemInstance>( new ItemInstance(tile, 1, Tile::tiles[tile]->getSpawnResourcesAuxValue(data) )), 0);
+			if(dropItem) spawnAtLocation(std::make_shared<ItemInstance>(tile, 1, Tile::tiles[tile]->getSpawnResourcesAuxValue(data)), 0);
 			remove();
 		}
 	}

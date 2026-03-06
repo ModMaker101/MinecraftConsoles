@@ -276,7 +276,7 @@ shared_ptr<ItemInstance> AbstractContainerMenu::clicked(int slotIndex, int butto
 							if(looped)
 							{
 								// Return a non-null value to indicate that we want to loop more
-								clickedEntity = shared_ptr<ItemInstance>(new ItemInstance(0,1,0));
+								clickedEntity = std::make_shared<ItemInstance>(0, 1, 0);
 							}
 							else
 							{
@@ -467,20 +467,20 @@ shared_ptr<ItemInstance> AbstractContainerMenu::clicked(int slotIndex, int butto
 			player->drop(item);
 		}
 	}
-	else if (clickType == CLICK_PICKUP_ALL && slotIndex >= 0)
+		else if (clickType == CLICK_PICKUP_ALL && slotIndex >= 0)
 	{
 		Slot *slot = slots.at(slotIndex);
 		shared_ptr<ItemInstance> carried = inventory->getCarried();
 
 		if (carried != nullptr && (slot == nullptr || !slot->hasItem() || !slot->mayPickup(player)))
 		{
-			int start = buttonNum == 0 ? 0 : slots.size() - 1;
+			int start = buttonNum == 0 ? 0 : static_cast<int>(slots.size()) - 1;
 			int step = buttonNum == 0 ? 1 : -1;
 
 			for (int pass = 0; pass < 2; pass++ )
 			{
 				// In the first pass, we only get partial stacks.
-				for (int i = start; i >= 0 && i < slots.size() && carried->count < carried->getMaxStackSize(); i += step)
+				for (int i = start; i >= 0 && i < static_cast<int>(slots.size()) && carried->count < carried->getMaxStackSize(); i += step)
 				{
 					Slot *target = slots.at(i);
 

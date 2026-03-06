@@ -1272,7 +1272,7 @@ shared_ptr<ItemInstance> Recipes::getItemFor(shared_ptr<CraftingContainer> craft
 		int remaining = (remaining1 + remaining2) + item->getMaxDamage() * 5 / 100;
 		int resultDamage = item->getMaxDamage() - remaining;
 		if (resultDamage < 0) resultDamage = 0;
-		return shared_ptr<ItemInstance>( new ItemInstance(first->id, 1, resultDamage) );
+		return std::make_shared<ItemInstance>(first->id, 1, resultDamage);
 	}
 
 	if(recipesClass != nullptr)

@@ -58,7 +58,7 @@ void CombatTracker::recordDamage(DamageSource *source, float health, float damag
 
 shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket()
 {
-	if (entries.size() == 0) return shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName()));
+	if (entries.size() == 0) return std::make_shared<ChatPacket>(mob->getNetworkName());
 
 	CombatEntry *knockOffEntry = getMostSignificantFall();
 	CombatEntry *killingBlow = entries[entries.size() - 1];
@@ -91,7 +91,7 @@ shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket()
 				break;
 			}
 
-			result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), message));
+			result = std::make_shared<ChatPacket>(mob->getNetworkName(), message);
 		}
 		else if (attackerEntity != nullptr && (killingEntity == nullptr || attackerEntity != killingEntity))
 		{
@@ -99,11 +99,11 @@ shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket()
 
 			if (attackerItem != nullptr && attackerItem->hasCustomHoverName())
 			{
-				result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), ChatPacket::e_ChatDeathFellAssistItem, attackerEntity->GetType(), attackerEntity->getNetworkName(), attackerItem->getHoverName()));
+				result = std::make_shared<ChatPacket>(mob->getNetworkName(), ChatPacket::e_ChatDeathFellAssistItem, attackerEntity->GetType(), attackerEntity->getNetworkName(), attackerItem->getHoverName());
 			}
 			else
 			{
-				result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), ChatPacket::e_ChatDeathFellAssist, attackerEntity->GetType(), attackerEntity->getNetworkName()));
+				result = std::make_shared<ChatPacket>(mob->getNetworkName(), ChatPacket::e_ChatDeathFellAssist, attackerEntity->GetType(), attackerEntity->getNetworkName());
 			}
 		}
 		else if (killingEntity != nullptr)
@@ -111,16 +111,16 @@ shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket()
 			shared_ptr<ItemInstance> killerItem = killingEntity->instanceof(eTYPE_LIVINGENTITY) ? dynamic_pointer_cast<LivingEntity>(killingEntity)->getCarriedItem() : nullptr;
 			if (killerItem != nullptr && killerItem->hasCustomHoverName())
 			{
-				result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), ChatPacket::e_ChatDeathFellFinishItem, killingEntity->GetType(), killingEntity->getNetworkName(), killerItem->getHoverName()));
+				result = std::make_shared<ChatPacket>(mob->getNetworkName(), ChatPacket::e_ChatDeathFellFinishItem, killingEntity->GetType(), killingEntity->getNetworkName(), killerItem->getHoverName());
 			}
 			else
 			{
-				result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), ChatPacket::e_ChatDeathFellFinish, killingEntity->GetType(), killingEntity->getNetworkName()));
+				result = std::make_shared<ChatPacket>(mob->getNetworkName(), ChatPacket::e_ChatDeathFellFinish, killingEntity->GetType(), killingEntity->getNetworkName());
 			}
 		}
 		else
 		{
-			result = shared_ptr<ChatPacket>(new ChatPacket(mob->getNetworkName(), ChatPacket::e_ChatDeathFellKiller));
+			result = std::make_shared<ChatPacket>(mob->getNetworkName(), ChatPacket::e_ChatDeathFellKiller);
 		}
 	}
 	else

@@ -51,7 +51,7 @@ void CompleteAllRuleDefinition::updateStatus(GameRule *rule)
 			auxValue = m_lastRuleStatusChanged->getAuxValue();
 			m_lastRuleStatusChanged = nullptr;
 		}
-		rule->getConnection()->send( shared_ptr<UpdateGameRuleProgressPacket>( new UpdateGameRuleProgressPacket(getActionType(), this->m_descriptionId,icon, auxValue, 0,&data,sizeof(PacketData))));
+		rule->getConnection()->send(std::make_shared<UpdateGameRuleProgressPacket>(getActionType(), this->m_descriptionId, icon, auxValue, 0, &data, sizeof(PacketData)));
 	}
 	app.DebugPrintf("Updated CompleteAllRule - Completed %d of %d\n", progress, goal);
 }

@@ -7,6 +7,8 @@
 #include "..\..\..\Minecraft.World\net.minecraft.world.entity.monster.h"
 #include "IUIScene_HUD.h"
 
+#include "UI.h"
+
 IUIScene_HUD::IUIScene_HUD()
 {
 	m_lastActiveSlot = -1;

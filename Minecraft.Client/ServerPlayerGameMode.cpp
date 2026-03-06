@@ -286,7 +286,7 @@ bool ServerPlayerGameMode::destroyBlock(int x, int y, int z)
 
 	if (isCreative())
 	{
-		shared_ptr<TileUpdatePacket> tup = shared_ptr<TileUpdatePacket>( new TileUpdatePacket(x, y, z, level) );
+		shared_ptr<TileUpdatePacket> tup = std::make_shared<TileUpdatePacket>(x, y, z, level);
 		// 4J - a bit of a hack here, but if we want to tell the client that it needs to inform the renderer of a block being destroyed, then send a block 255 instead of a 0. This is handled in ClientConnection::handleTileUpdate
 		if( tup->block == 0 )
 		{

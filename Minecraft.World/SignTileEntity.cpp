@@ -93,7 +93,7 @@ shared_ptr<Packet> SignTileEntity::getUpdatePacket()
 	{
 		copy[i] = m_wsmessages[i];
 	}
-	return shared_ptr<SignUpdatePacket>( new SignUpdatePacket(x, y, z, m_bVerified, m_bCensored, copy) );
+	return std::make_shared<SignUpdatePacket>(x, y, z, m_bVerified, m_bCensored, copy);
 }
 
 bool SignTileEntity::isEditable() 
@@ -207,7 +207,7 @@ int SignTileEntity::StringVerifyCallback(LPVOID lpParam,STRING_VERIFY_RESPONSE *
 // 4J Added
 shared_ptr<TileEntity> SignTileEntity::clone()
 {
-	shared_ptr<SignTileEntity> result = shared_ptr<SignTileEntity>( new SignTileEntity() );
+	shared_ptr<SignTileEntity> result = std::make_shared<SignTileEntity>();
 	TileEntity::clone(result);
 
 	result->m_wsmessages[0] = m_wsmessages[0];

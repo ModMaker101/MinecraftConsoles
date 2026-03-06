@@ -148,7 +148,7 @@ shared_ptr<ItemInstance> Slot::combine(shared_ptr<ItemInstance> item)
 	shared_ptr<ItemInstance> result = nullptr;
 	shared_ptr<ItemInstance> first = getItem();
 
-	shared_ptr<CraftingContainer> craftSlots = shared_ptr<CraftingContainer>( new CraftingContainer(nullptr, 2, 2) );
+	shared_ptr<CraftingContainer> craftSlots = std::make_shared<CraftingContainer>(nullptr, 2, 2);
 	craftSlots->setItem(0, item);
 	craftSlots->setItem(1, first);
 

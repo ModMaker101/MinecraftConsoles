@@ -100,7 +100,7 @@ bool AddItemRuleDefinition::addItemToContainer(shared_ptr<Container> container, 
 	if(Item::items[m_itemId] != nullptr)
 	{
 		int quantity = std::min<int>(m_quantity, Item::items[m_itemId]->getMaxStackSize());
-		shared_ptr<ItemInstance> newItem = shared_ptr<ItemInstance>(new ItemInstance(m_itemId,quantity,m_auxValue) );
+		shared_ptr<ItemInstance> newItem = std::make_shared<ItemInstance>(m_itemId, quantity, m_auxValue);
 		newItem->set4JData(m_dataTag);
 
 		for( auto& it : m_enchantments )

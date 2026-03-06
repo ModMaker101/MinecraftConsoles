@@ -5,13 +5,9 @@
 
 
 
-UpdateGameRuleProgressPacket::UpdateGameRuleProgressPacket()
+// UpdateGameRuleProgressPacket() default constructor
+UpdateGameRuleProgressPacket::UpdateGameRuleProgressPacket() : m_icon(0), m_auxValue(0), m_dataTag(0)
 {
-	m_messageId = L"";
-	m_icon = -1;
-	m_auxValue = 0;
-	m_definitionType = ConsoleGameRules::eGameRuleType_LevelRules;
-	m_dataTag = 0;
 }
 
 UpdateGameRuleProgressPacket::UpdateGameRuleProgressPacket(ConsoleGameRules::EGameRuleType definitionType, const wstring &messageId, int icon, int auxValue, int dataTag, void *data, int dataLength)

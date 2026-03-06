@@ -231,9 +231,9 @@ void ChestTile::onRemove(Level *level, int x, int y, int z, int id, int data)
 					if (count > item->count) count = item->count;
 					item->count -= count;
 
-					shared_ptr<ItemInstance> newItem = shared_ptr<ItemInstance>( new ItemInstance(item->id, count, item->getAuxValue()) );
+					shared_ptr<ItemInstance> newItem = std::make_shared<ItemInstance>(item->id, count, item->getAuxValue());
 					newItem->set4JData( item->get4JData() );
-					shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>(new ItemEntity(level, x + xo, y + yo, z + zo, newItem ) );
+					shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, newItem);
 					float pow = 0.05f;
 					itemEntity->xd = static_cast<float>(random->nextGaussian()) * pow;
 					itemEntity->yd = static_cast<float>(random->nextGaussian()) * pow + 0.2f;
@@ -293,10 +293,10 @@ shared_ptr<Container> ChestTile::getContainer(Level *level, int x, int y, int z)
 	if (level->getTile(x, y, z - 1) == id && (level->isSolidBlockingTile(x, y + 1, z - 1) || isCatSittingOnChest(level, x, y, z - 1))) return nullptr;
 	if (level->getTile(x, y, z + 1) == id && (level->isSolidBlockingTile(x, y + 1, z + 1) || isCatSittingOnChest(level, x, y, z + 1))) return nullptr;
 
-	if (level->getTile(x - 1, y, z) == id) container = shared_ptr<Container>( new CompoundContainer(IDS_CHEST_LARGE, dynamic_pointer_cast<ChestTileEntity>( level->getTileEntity(x - 1, y, z) ), container) );
-	if (level->getTile(x + 1, y, z) == id) container = shared_ptr<Container>( new CompoundContainer(IDS_CHEST_LARGE, container, dynamic_pointer_cast<ChestTileEntity>( level->getTileEntity(x + 1, y, z) )) );
-	if (level->getTile(x, y, z - 1) == id) container = shared_ptr<Container>( new CompoundContainer(IDS_CHEST_LARGE, dynamic_pointer_cast<ChestTileEntity>( level->getTileEntity(x, y, z - 1) ), container) );
-	if (level->getTile(x, y, z + 1) == id) container = shared_ptr<Container>( new CompoundContainer(IDS_CHEST_LARGE, container, dynamic_pointer_cast<ChestTileEntity>( level->getTileEntity(x, y, z + 1) )) );
+	if (level->getTile(x - 1, y, z) == id) container = std::make_shared<CompoundContainer>(IDS_CHEST_LARGE, dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x - 1, y, z)), container);
+	if (level->getTile(x + 1, y, z) == id) container = std::make_shared<CompoundContainer>(IDS_CHEST_LARGE, container, dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x + 1, y, z)));
+	if (level->getTile(x, y, z - 1) == id) container = std::make_shared<CompoundContainer>(IDS_CHEST_LARGE, dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x, y, z - 1)), container);
+	if (level->getTile(x, y, z + 1) == id) container = std::make_shared<CompoundContainer>(IDS_CHEST_LARGE, container, dynamic_pointer_cast<ChestTileEntity>(level->getTileEntity(x, y, z + 1)));
 
 	return container;
 }
@@ -304,7 +304,7 @@ shared_ptr<Container> ChestTile::getContainer(Level *level, int x, int y, int z)
 shared_ptr<TileEntity> ChestTile::newTileEntity(Level *level)
 {
 	MemSect(50);
-	shared_ptr<TileEntity> retval = shared_ptr<TileEntity>( new ChestTileEntity() );
+	shared_ptr<TileEntity> retval = std::make_shared<ChestTileEntity>();
 	MemSect(0);
 	return retval;
 }

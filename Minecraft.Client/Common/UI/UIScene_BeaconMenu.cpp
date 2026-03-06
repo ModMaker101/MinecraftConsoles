@@ -336,16 +336,16 @@ void UIScene_BeaconMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 		switch(icon)
 		{
 		case 0:
-			item = shared_ptr<ItemInstance>(new ItemInstance(Item::emerald) );
+			item = std::make_shared<ItemInstance>(Item::emerald);
 			break;
 		case 1:
-			item = shared_ptr<ItemInstance>(new ItemInstance(Item::diamond) );
+			item = std::make_shared<ItemInstance>(Item::diamond);
 			break;
 		case 2:
-			item = shared_ptr<ItemInstance>(new ItemInstance(Item::goldIngot) );
+			item = std::make_shared<ItemInstance>(Item::goldIngot);
 			break;
 		case 3:
-			item = shared_ptr<ItemInstance>(new ItemInstance(Item::ironIngot) );
+			item = std::make_shared<ItemInstance>(Item::ironIngot);
 			break;
 		default:
 			assert(false);

@@ -289,7 +289,7 @@ wstring CScene_TutorialPopup::_SetIcon(int icon, int iAuxVal, bool isFoil, LPCWS
 	if( icon != TUTORIAL_NO_ICON )
 	{
 		bool itemIsFoil = false;
-		itemIsFoil = (shared_ptr<ItemInstance>(new ItemInstance(icon,1,iAuxVal)))->isFoil();
+		itemIsFoil = (std::make_shared<ItemInstance>(icon, 1, iAuxVal))->isFoil();
 		if(!itemIsFoil) itemIsFoil = isFoil;
 
 		m_pCraftingPic->SetIcon(m_iPad, icon,iAuxVal,1,10,31,false,itemIsFoil);
@@ -322,7 +322,7 @@ wstring CScene_TutorialPopup::_SetIcon(int icon, int iAuxVal, bool isFoil, LPCWS
 				}
 
 				bool itemIsFoil = false;
-				itemIsFoil = (shared_ptr<ItemInstance>(new ItemInstance(iconId,1,iAuxVal)))->isFoil();
+				itemIsFoil = (std::make_shared<ItemInstance>(iconId, 1, iAuxVal))->isFoil();
 				if(!itemIsFoil) itemIsFoil = isFoil;
 
 				m_pCraftingPic->SetIcon(m_iPad, iconId,iAuxVal,1,10,31,false,itemIsFoil);

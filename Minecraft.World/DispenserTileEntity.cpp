@@ -231,7 +231,7 @@ bool DispenserTileEntity::canPlaceItem(int slot, shared_ptr<ItemInstance> item)
 // 4J Added
 shared_ptr<TileEntity> DispenserTileEntity::clone()
 {
-	shared_ptr<DispenserTileEntity> result = shared_ptr<DispenserTileEntity>( new DispenserTileEntity() );
+	shared_ptr<DispenserTileEntity> result = std::make_shared<DispenserTileEntity>();
 	TileEntity::clone(result);
 
 	for (unsigned int i = 0; i < items.length; i++)

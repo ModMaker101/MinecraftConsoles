@@ -2736,32 +2736,32 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 	switch(eParticleType)
 	{
 	case eParticleType_hugeexplosion:
-		particle = shared_ptr<Particle>(new HugeExplosionSeedParticle(lev, x, y, z, xa, ya, za));
+		particle = std::make_shared<HugeExplosionSeedParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_largeexplode:
-		particle = shared_ptr<Particle>(new HugeExplosionParticle(textures, lev, x, y, z, xa, ya, za));
+		particle = std::make_shared<HugeExplosionParticle>(textures, lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_fireworksspark:
-		particle = shared_ptr<Particle>(new FireworksParticles::FireworksSparkParticle(lev, x, y, z, xa, ya, za, mc->particleEngine));
+		particle = std::make_shared<FireworksParticles::FireworksSparkParticle>(lev, x, y, z, xa, ya, za, mc->particleEngine);
 		particle->setAlpha(0.99f);
 		break;
 
 	case eParticleType_bubble:
-		particle = shared_ptr<Particle>( new BubbleParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<BubbleParticle>(lev, x, y, z, xa, ya, za);
 		break;
 
 	case eParticleType_suspended:
-		particle = shared_ptr<Particle>( new SuspendedParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SuspendedParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_depthsuspend:
-		particle = shared_ptr<Particle>( new SuspendedTownParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SuspendedTownParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_townaura:
-		particle = shared_ptr<Particle>( new SuspendedTownParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SuspendedTownParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_crit:
 		{
-			shared_ptr<CritParticle2> critParticle2 = shared_ptr<CritParticle2>(new CritParticle2(lev, x, y, z, xa, ya, za));
+			shared_ptr<CritParticle2> critParticle2 = std::make_shared<CritParticle2>(lev, x, y, z, xa, ya, za);
 			critParticle2->CritParticle2PostConstructor();
 			particle = shared_ptr<Particle>( critParticle2 );
 			// request from 343 to set pink for the needler in the Halo Texture Pack
@@ -2787,7 +2787,7 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 		break;
 	case eParticleType_magicCrit:
 		{
-			shared_ptr<CritParticle2> critParticle2 = shared_ptr<CritParticle2>(new CritParticle2(lev, x, y, z, xa, ya, za));
+			shared_ptr<CritParticle2> critParticle2 = std::make_shared<CritParticle2>(lev, x, y, z, xa, ya, za);
 			critParticle2->CritParticle2PostConstructor();
 			particle = shared_ptr<Particle>(critParticle2);
 			particle->setColor(particle->getRedCol() * 0.3f, particle->getGreenCol() * 0.8f, particle->getBlueCol());
@@ -2795,7 +2795,7 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 		}
 		break;
 	case eParticleType_smoke:
-		particle = shared_ptr<Particle>( new SmokeParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_endportal: // 4J - Added.
 		{
@@ -2809,103 +2809,103 @@ shared_ptr<Particle> LevelRenderer::addParticleInternal(ePARTICLE_TYPE eParticle
 		}
 		break;
 	case eParticleType_mobSpell:
-		particle = shared_ptr<Particle>(new SpellParticle(lev, x, y, z, 0, 0, 0));
+		particle = std::make_shared<SpellParticle>(lev, x, y, z, 0, 0, 0);
 		particle->setColor(static_cast<float>(xa), static_cast<float>(ya), static_cast<float>(za));
 		break;
 	case eParticleType_mobSpellAmbient:
-		particle = shared_ptr<SpellParticle>(new SpellParticle(lev, x, y, z, 0, 0, 0));
+		particle = std::make_shared<SpellParticle>(lev, x, y, z, 0, 0, 0);
 		particle->setAlpha(0.15f);
 		particle->setColor(static_cast<float>(xa), static_cast<float>(ya), static_cast<float>(za));
 		break;
 	case eParticleType_spell:
-		particle = shared_ptr<Particle>( new SpellParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SpellParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_witchMagic:
 		{
-			particle = shared_ptr<SpellParticle>(new SpellParticle(lev, x, y, z, xa, ya, za));
+			particle = std::make_shared<SpellParticle>(lev, x, y, z, xa, ya, za);
 			dynamic_pointer_cast<SpellParticle>(particle)->setBaseTex(9 * 16);
 			float randBrightness = lev->random->nextFloat() * 0.5f + 0.35f;
 			particle->setColor(1 * randBrightness, 0 * randBrightness, 1 * randBrightness);
 		}
 		break;
 	case eParticleType_instantSpell:
-		particle = shared_ptr<Particle>(new SpellParticle(lev, x, y, z, xa, ya, za));
+		particle = std::make_shared<SpellParticle>(lev, x, y, z, xa, ya, za);
 		dynamic_pointer_cast<SpellParticle>(particle)->setBaseTex(9 * 16);
 		break;
 	case eParticleType_note:
-		particle = shared_ptr<Particle>( new NoteParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<NoteParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_netherportal:
-		particle = shared_ptr<Particle>( new NetherPortalParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<NetherPortalParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_ender:
-		particle = shared_ptr<Particle>( new EnderParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<EnderParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_enchantmenttable:
-		particle = shared_ptr<Particle>(new EchantmentTableParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<EchantmentTableParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_explode:
-		particle = shared_ptr<Particle>( new ExplodeParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<ExplodeParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_flame:
-		particle = shared_ptr<Particle>( new FlameParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<FlameParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_lava:
-		particle = shared_ptr<Particle>( new LavaParticle(lev, x, y, z) );
+		particle = std::make_shared<LavaParticle>(lev, x, y, z);
 		break;
 	case eParticleType_footstep:
-		particle = shared_ptr<Particle>( new FootstepParticle(textures, lev, x, y, z) );
+		particle = std::make_shared<FootstepParticle>(textures, lev, x, y, z);
 		break;
 	case eParticleType_splash:
-		particle = shared_ptr<Particle>( new SplashParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SplashParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_largesmoke:
-		particle = shared_ptr<Particle>( new SmokeParticle(lev, x, y, z, xa, ya, za, 2.5f) );
+		particle = std::make_shared<SmokeParticle>(lev, x, y, z, xa, ya, za, 2.5f);
 		break;
 	case eParticleType_reddust:
-		particle = shared_ptr<Particle>( new RedDustParticle(lev, x, y, z, static_cast<float>(xa), static_cast<float>(ya), static_cast<float>(za)) );
+		particle = std::make_shared<RedDustParticle>(lev, x, y, z, static_cast<float>(xa), static_cast<float>(ya), static_cast<float>(za));
 		break;
 	case eParticleType_snowballpoof:
-		particle = shared_ptr<Particle>( new BreakingItemParticle(lev, x, y, z, Item::snowBall, textures) );
+		particle = std::make_shared<BreakingItemParticle>(lev, x, y, z, Item::snowBall, textures);
 		break;
 	case eParticleType_dripWater:
-		particle = shared_ptr<Particle>( new DripParticle(lev, x, y, z, Material::water) );
+		particle = std::make_shared<DripParticle>(lev, x, y, z, Material::water);
 		break;
 	case eParticleType_dripLava:
-		particle = shared_ptr<Particle>( new DripParticle(lev, x, y, z, Material::lava) );
+		particle = std::make_shared<DripParticle>(lev, x, y, z, Material::lava);
 		break;
 	case eParticleType_snowshovel:
-		particle = shared_ptr<Particle>( new SnowShovelParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SnowShovelParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_slime:
-		particle = shared_ptr<Particle>( new BreakingItemParticle(lev, x, y, z, Item::slimeBall, textures));
+		particle = std::make_shared<BreakingItemParticle>(lev, x, y, z, Item::slimeBall, textures);
 		break;
 	case eParticleType_heart:
-		particle = shared_ptr<Particle>( new HeartParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<HeartParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	case eParticleType_angryVillager:
-		particle = shared_ptr<Particle>( new HeartParticle(lev, x, y + 0.5f, z, xa, ya, za) );
+		particle = std::make_shared<HeartParticle>(lev, x, y + 0.5f, z, xa, ya, za);
 		particle->setMiscTex(1 + 16 * 5);
 		particle->setColor(1, 1, 1);
 		break;
 	case eParticleType_happyVillager:
-		particle = shared_ptr<Particle>( new SuspendedTownParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<SuspendedTownParticle>(lev, x, y, z, xa, ya, za);
 		particle->setMiscTex(2 + 16 * 5);
 		particle->setColor(1, 1, 1);
 		break;
 	case eParticleType_dragonbreath:
-		particle = shared_ptr<Particle>( new DragonBreathParticle(lev, x, y, z, xa, ya, za) );
+		particle = std::make_shared<DragonBreathParticle>(lev, x, y, z, xa, ya, za);
 		break;
 	default:
 		if( ( eParticleType >= eParticleType_iconcrack_base ) &&  ( eParticleType <= eParticleType_iconcrack_last )  )
 		{
 			int id = PARTICLE_CRACK_ID(eParticleType), data = PARTICLE_CRACK_DATA(eParticleType);
-			particle = shared_ptr<Particle>(new BreakingItemParticle(lev, x, y, z, xa, ya, za, Item::items[id], textures, data));
+			particle = std::make_shared<BreakingItemParticle>(lev, x, y, z, xa, ya, za, Item::items[id], textures, data);
 		}
 		else if( ( eParticleType >= eParticleType_tilecrack_base ) &&  ( eParticleType <= eParticleType_tilecrack_last )  )
 		{
 			int id = PARTICLE_CRACK_ID(eParticleType), data = PARTICLE_CRACK_DATA(eParticleType);
-			particle = dynamic_pointer_cast<Particle>( shared_ptr<TerrainParticle>(new TerrainParticle(lev, x, y, z, xa, ya, za, Tile::tiles[id], 0, data, textures))->init(data) );
+			particle = dynamic_pointer_cast<Particle>(std::make_shared<TerrainParticle>(lev, x, y, z, xa, ya, za, Tile::tiles[id], 0, data, textures)->init(data) );
 		}
 	}
 

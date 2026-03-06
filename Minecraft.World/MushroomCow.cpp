@@ -28,11 +28,11 @@ bool MushroomCow::mobInteract(shared_ptr<Player> player)
 	{
 		if (item->count == 1) 
 		{
-			player->inventory->setItem(player->inventory->selected, shared_ptr<ItemInstance>( new ItemInstance(Item::mushroomStew) ) );
+			player->inventory->setItem(player->inventory->selected, std::make_shared<ItemInstance>(Item::mushroomStew));
 			return true;
 		}
 
-		if (player->inventory->add(shared_ptr<ItemInstance>(new ItemInstance(Item::mushroomStew))) && !player->abilities.instabuild) 
+		if (player->inventory->add(std::make_shared<ItemInstance>(Item::mushroomStew)) && !player->abilities.instabuild) 
 		{
 			player->inventory->removeItem(player->inventory->selected, 1);
 			return true;
@@ -46,14 +46,14 @@ bool MushroomCow::mobInteract(shared_ptr<Player> player)
 		if(!level->isClientSide)
 		{
 			remove();
-			shared_ptr<Cow> cow = shared_ptr<Cow>( new Cow(level) );
+			shared_ptr<Cow> cow = std::make_shared<Cow>(level);
 			cow->moveTo(x, y, z, yRot, xRot);
 			cow->setHealth(getHealth());
 			cow->yBodyRot = yBodyRot;
 			level->addEntity(cow);
 			for (int i = 0; i < 5; i++)
 			{
-				level->addEntity( shared_ptr<ItemEntity>( new ItemEntity(level, x, y + bbHeight, z, shared_ptr<ItemInstance>( new ItemInstance(Tile::mushroom_red))) ));
+				level->addEntity(std::make_shared<ItemEntity>(level, x, y + bbHeight, z, shared_ptr<ItemInstance>(new ItemInstance(Tile::mushroom_red))));
 			}
 			return true;
 		}
@@ -76,7 +76,7 @@ shared_ptr<AgableMob> MushroomCow::getBreedOffspring(shared_ptr<AgableMob> targe
 	// 4J - added limit to number of animals that can be bred
 	if( level->canCreateMore( GetType(), Level::eSpawnType_Breed) )
 	{
-		return shared_ptr<MushroomCow>( new MushroomCow(level) );
+		return std::make_shared<MushroomCow>(level);
 	}
 	else
 	{

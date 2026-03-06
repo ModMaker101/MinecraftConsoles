@@ -85,7 +85,7 @@ void EntityTracker::addEntity(shared_ptr<Entity> e, int range, int updateInterva
 	{
 		__debugbreak();
 	}
-    shared_ptr<TrackedEntity> te = shared_ptr<TrackedEntity>( new TrackedEntity(e, range, updateInterval, trackDeltas) );
+    shared_ptr<TrackedEntity> te = std::make_shared<TrackedEntity>(e, range, updateInterval, trackDeltas);
 	entities.insert(te);
     entityMap[e->entityId] = te;
     te->updatePlayers(this, &level->players);

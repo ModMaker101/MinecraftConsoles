@@ -50,7 +50,7 @@ void Player::_init()
 	registerAttributes();
 	setHealth(getMaxHealth());
 
-	inventory = shared_ptr<Inventory>( new Inventory( this ) );
+	inventory = std::make_shared<Inventory>(this);
 
 	userType = 0;
 	oBob = bob = 0.0f;
@@ -105,7 +105,7 @@ void Player::_init()
 	m_ePlayerNameValidState=ePlayerNameValid_NotSet;
 #endif
 
-	enderChestInventory = shared_ptr<PlayerEnderChestContainer>(new PlayerEnderChestContainer());
+	enderChestInventory = std::make_shared<PlayerEnderChestContainer>();
 
 	m_bAwardedOnARail=false;
 }
@@ -1097,7 +1097,7 @@ void Player::die(DamageSource *source)
 	// 4J - TODO need to use a xuid
 	if ( app.isXuidNotch( m_xuid ) )
 	{
-		drop(shared_ptr<ItemInstance>( new ItemInstance(Item::apple, 1) ), true);
+		drop(std::make_shared<ItemInstance>(Item::apple, 1), true);
 	}
 	if (!level->getGameRules()->getBoolean(GameRules::RULE_KEEPINVENTORY))
 	{
@@ -1170,7 +1170,7 @@ shared_ptr<ItemEntity> Player::drop(shared_ptr<ItemInstance> item, bool randomly
 	if (item == nullptr) return nullptr;
 	if (item->count == 0) return nullptr;
 
-	shared_ptr<ItemEntity> thrownItem = shared_ptr<ItemEntity>( new ItemEntity(level, x, y - 0.3f + getHeadHeight(), z, item) );
+	shared_ptr<ItemEntity> thrownItem = std::make_shared<ItemEntity>(level, x, y - 0.3f + getHeadHeight(), z, item);
 	thrownItem->throwTime = 20 * 2;
 
 	thrownItem->setThrower(getName());

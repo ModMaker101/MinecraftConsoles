@@ -452,7 +452,7 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 			if (owner != nullptr && owner->instanceof(eTYPE_PLAYER))
 			{
 				shared_ptr<Player> player = dynamic_pointer_cast<Player>(owner);
-				shared_ptr<FishingHook> hook = shared_ptr<FishingHook>( new FishingHook(level, x, y, z, player) );
+				shared_ptr<FishingHook> hook = std::make_shared<FishingHook>(level, x, y, z, player);
 				e = hook;
 				// 4J Stu - Move the player->fishing out of the ctor as we cannot reference 'this'
 				player->fishing = hook;
@@ -461,10 +461,10 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 		}
 		break;
 	case AddEntityPacket::ARROW:
-		e = shared_ptr<Entity>( new Arrow(level, x, y, z) );
+		e = std::make_shared<Arrow>(level, x, y, z);
 		break;
 	case AddEntityPacket::SNOWBALL:
-		e = shared_ptr<Entity>( new Snowball(level, x, y, z) );
+		e = std::make_shared<Snowball>(level, x, y, z);
 		break;
 	case AddEntityPacket::ITEM_FRAME:
 		{
@@ -473,64 +473,64 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 			int iz = (int) z;
 		app.DebugPrintf("ClientConnection ITEM_FRAME xyz %d,%d,%d\n",ix,iy,iz);
 		}
-		e = shared_ptr<Entity>(new ItemFrame(level, (int) x, (int) y, (int) z, packet->data));
+		e = std::make_shared<ItemFrame>(level, (int)x, (int)y, (int)z, packet->data);
 		packet->data = 0;
 		setRot = false;
 		break;
 	case AddEntityPacket::THROWN_ENDERPEARL:
-		e = shared_ptr<Entity>( new ThrownEnderpearl(level, x, y, z) );
+		e = std::make_shared<ThrownEnderpearl>(level, x, y, z);
 		break;
 	case AddEntityPacket::EYEOFENDERSIGNAL:
-		e = shared_ptr<Entity>( new EyeOfEnderSignal(level, x, y, z) );
+		e = std::make_shared<EyeOfEnderSignal>(level, x, y, z);
 		break;
 	case AddEntityPacket::FIREBALL:
-		e = shared_ptr<Entity>( new LargeFireball(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0) );
+		e = std::make_shared<LargeFireball>(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::SMALL_FIREBALL:
-		e = shared_ptr<Entity>( new SmallFireball(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0) );
+		e = std::make_shared<SmallFireball>(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::DRAGON_FIRE_BALL:
-		e = shared_ptr<Entity>( new DragonFireball(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0) );
+		e = std::make_shared<DragonFireball>(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::EGG:
-		e = shared_ptr<Entity>( new ThrownEgg(level, x, y, z) );
+		e = std::make_shared<ThrownEgg>(level, x, y, z);
 		break;
 	case AddEntityPacket::THROWN_POTION:
-		e = shared_ptr<Entity>( new ThrownPotion(level, x, y, z, packet->data) );
+		e = std::make_shared<ThrownPotion>(level, x, y, z, packet->data);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::THROWN_EXPBOTTLE:
-		e = shared_ptr<Entity>( new ThrownExpBottle(level, x, y, z) );
+		e = std::make_shared<ThrownExpBottle>(level, x, y, z);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::BOAT:
-		e = shared_ptr<Entity>( new Boat(level, x, y, z) );
+		e = std::make_shared<Boat>(level, x, y, z);
 		break;
 	case AddEntityPacket::PRIMED_TNT:
-		e = shared_ptr<Entity>( new PrimedTnt(level, x, y, z, nullptr) );
+        e = std::make_shared<PrimedTnt>(level, x, y, z, std::shared_ptr<LivingEntity>());
 		break;
 	case AddEntityPacket::ENDER_CRYSTAL:
-		e = shared_ptr<Entity>( new EnderCrystal(level, x, y, z) );
+		e = std::make_shared<EnderCrystal>(level, x, y, z);
 		break;
 	case AddEntityPacket::ITEM:
-		e = shared_ptr<Entity>( new ItemEntity(level, x, y, z) );
+		e = std::make_shared<ItemEntity>(level, x, y, z);
 		break;
 	case AddEntityPacket::FALLING:
-		e = shared_ptr<Entity>( new FallingTile(level, x, y, z, packet->data & 0xFFFF, packet->data >> 16) );
+		e = std::make_shared<FallingTile>(level, x, y, z, packet->data & 0xFFFF, packet->data >> 16);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::WITHER_SKULL:
-		e = shared_ptr<Entity>(new WitherSkull(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0));
+		e = std::make_shared<WitherSkull>(level, x, y, z, packet->xa / 8000.0, packet->ya / 8000.0, packet->za / 8000.0);
 		packet->data = 0;
 		break;
 	case AddEntityPacket::FIREWORKS:
-		e = shared_ptr<Entity>(new FireworksRocketEntity(level, x, y, z, nullptr));
+        e = std::make_shared<FireworksRocketEntity>(level, x, y, z, std::shared_ptr<ItemInstance>());
 		break;
 	case AddEntityPacket::LEASH_KNOT:
-		e = shared_ptr<Entity>(new LeashFenceKnotEntity(level, (int) x, (int) y, (int) z));
+		e = std::make_shared<LeashFenceKnotEntity>(level, (int)x, (int)y, (int)z);
 		packet->data = 0;
 		break;
 #ifndef _FINAL_BUILD
@@ -692,7 +692,7 @@ void ClientConnection::handleAddEntity(shared_ptr<AddEntityPacket> packet)
 
 void ClientConnection::handleAddExperienceOrb(shared_ptr<AddExperienceOrbPacket> packet)
 {
-	shared_ptr<Entity> e = shared_ptr<ExperienceOrb>( new ExperienceOrb(level, packet->x / 32.0, packet->y / 32.0, packet->z / 32.0, packet->value) );
+	shared_ptr<Entity> e = std::make_shared<ExperienceOrb>(level, packet->x / 32.0, packet->y / 32.0, packet->z / 32.0, packet->value);
 	e->xp = packet->x;
 	e->yp = packet->y;
 	e->zp = packet->z;
@@ -708,7 +708,7 @@ void ClientConnection::handleAddGlobalEntity(shared_ptr<AddGlobalEntityPacket> p
 	double y = packet->y / 32.0;
 	double z = packet->z / 32.0;
 	shared_ptr<Entity> e;// = nullptr;
-	if (packet->type == AddGlobalEntityPacket::LIGHTNING) e = shared_ptr<LightningBolt>( new LightningBolt(level, x, y, z) );
+	if (packet->type == AddGlobalEntityPacket::LIGHTNING) e = std::make_shared<LightningBolt>(level, x, y, z);
 	if (e != nullptr)
 	{
 		e->xp = packet->x;
@@ -723,7 +723,7 @@ void ClientConnection::handleAddGlobalEntity(shared_ptr<AddGlobalEntityPacket> p
 
 void ClientConnection::handleAddPainting(shared_ptr<AddPaintingPacket> packet)
 {
-	shared_ptr<Painting> painting = shared_ptr<Painting>( new Painting(level, packet->x, packet->y, packet->z, packet->dir, packet->motive) );
+	shared_ptr<Painting> painting = std::make_shared<Painting>(level, packet->x, packet->y, packet->z, packet->dir, packet->motive);
 	level->putEntity(packet->id, painting);
 }
 
@@ -792,7 +792,7 @@ void ClientConnection::handleAddPlayer(shared_ptr<AddPlayerPacket> packet)
 	double z = packet->z / 32.0;
 	float yRot = packet->yRot * 360 / 256.0f;
 	float xRot = packet->xRot * 360 / 256.0f;
-	shared_ptr<RemotePlayer> player = shared_ptr<RemotePlayer>( new RemotePlayer(minecraft->level, packet->name) );
+	shared_ptr<RemotePlayer> player = std::make_shared<RemotePlayer>(minecraft->level, packet->name);
 	player->xo = player->xOld = player->xp = packet->x;
 	player->yo = player->yOld = player->yp = packet->y;
 	player->zo = player->zOld = player->zp = packet->z;
@@ -868,7 +868,7 @@ void ClientConnection::handleAddPlayer(shared_ptr<AddPlayerPacket> packet)
 	}
 	else
 	{
-		player->inventory->items[player->inventory->selected] = shared_ptr<ItemInstance>( new ItemInstance(item, 1, 0) );
+		player->inventory->items[player->inventory->selected] = std::make_shared<ItemInstance>(item, 1, 0);
 	}
 	player->absMoveTo(x, y, z, yRot, xRot);
 
@@ -877,15 +877,18 @@ void ClientConnection::handleAddPlayer(shared_ptr<AddPlayerPacket> packet)
 	player->setCustomCape( packet->m_capeId );
 	player->setPlayerGamePrivilege(Player::ePlayerGamePrivilege_All, packet->m_uiGamePrivileges);
 
-	if(!player->customTextureUrl.empty() && player->customTextureUrl.substr(0,3).compare(L"def") != 0 && !app.IsFileInMemoryTextures(player->customTextureUrl))
-	{
-		if( minecraft->addPendingClientTextureRequest(player->customTextureUrl) )
-		{
-			app.DebugPrintf("Client sending TextureAndGeometryPacket to get custom skin %ls for player %ls\n",player->customTextureUrl.c_str(), player->name.c_str());
+    if (!player->customTextureUrl.empty() && player->customTextureUrl.substr(0, 3).compare(L"def") != 0 && !app.IsFileInMemoryTextures(player->customTextureUrl))
+    {
+        if (minecraft->addPendingClientTextureRequest(player->customTextureUrl))
+        {
+            app.DebugPrintf("Client sending TextureAndGeometryPacket to get custom skin %ls for player %ls\n", player->customTextureUrl.c_str(), player->name.c_str());
 
-			send(shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(player->customTextureUrl,nullptr,0) ) );
-		}
-	}
+            send(std::make_shared<TextureAndGeometryPacket>(
+                player->customTextureUrl,
+                nullptr,
+                static_cast<DWORD>(0)));
+        }
+    }
 	else if(!player->customTextureUrl.empty() && app.IsFileInMemoryTextures(player->customTextureUrl))
 	{
 		// Update the ref count on the memory texture data
@@ -899,7 +902,11 @@ void ClientConnection::handleAddPlayer(shared_ptr<AddPlayerPacket> packet)
 		if( minecraft->addPendingClientTextureRequest(player->customTextureUrl2) )
 		{
 			app.DebugPrintf("Client sending texture packet to get custom cape %ls for player %ls\n",player->customTextureUrl2.c_str(), player->name.c_str());
-			send(shared_ptr<TexturePacket>( new TexturePacket(player->customTextureUrl2,nullptr,0) ) );
+            send(std::make_shared<TexturePacket>(
+                player->customTextureUrl2,
+                nullptr, 
+                static_cast<DWORD>(0) 
+                ));
 		}
 	}
 	else if(!player->customTextureUrl2.empty() && app.IsFileInMemoryTextures(player->customTextureUrl2))
@@ -1402,7 +1409,7 @@ void ClientConnection::handleTakeItemEntity(shared_ptr<TakeItemEntityPacket> pac
 					level->playSound(from, eSoundType_RANDOM_POP, 0.2f, ((random->nextFloat() - random->nextFloat()) * 0.7f + 1.0f) * 2.0f);
 				}
 
-				minecraft->particleEngine->add( shared_ptr<TakeAnimationParticle>( new TakeAnimationParticle(minecraft->level, from, to, -0.5f) ) );
+				minecraft->particleEngine->add(std::make_shared<TakeAnimationParticle>(minecraft->level, from, to, -0.5f));
 				level->removeEntity(packet->itemId);
 			}
 			else
@@ -1415,7 +1422,7 @@ void ClientConnection::handleTakeItemEntity(shared_ptr<TakeItemEntityPacket> pac
 		else
 		{
 			level->playSound(from, eSoundType_RANDOM_POP, 0.2f, ((random->nextFloat() - random->nextFloat()) * 0.7f + 1.0f) * 2.0f);
-			minecraft->particleEngine->add( shared_ptr<TakeAnimationParticle>( new TakeAnimationParticle(minecraft->level, from, to, -0.5f) ) );
+			minecraft->particleEngine->add(std::make_shared<TakeAnimationParticle>(minecraft->level, from, to, -0.5f));
 			level->removeEntity(packet->itemId);
 		}
 	}
@@ -1848,13 +1855,13 @@ void ClientConnection::handleAnimate(shared_ptr<AnimatePacket> packet)
 	}
 	else if (packet->action == AnimatePacket::CRITICAL_HIT)
 	{
-		shared_ptr<CritParticle> critParticle = shared_ptr<CritParticle>( new CritParticle(minecraft->level, e) );
+		shared_ptr<CritParticle> critParticle = std::make_shared<CritParticle>(minecraft->level, e);
 		critParticle->CritParticlePostConstructor();
 		minecraft->particleEngine->add( critParticle );
 	}
 	else if (packet->action == AnimatePacket::MAGIC_CRITICAL_HIT)
 	{
-		shared_ptr<CritParticle> critParticle = shared_ptr<CritParticle>( new CritParticle(minecraft->level, e, eParticleType_magicCrit) );
+		shared_ptr<CritParticle> critParticle = std::make_shared<CritParticle>(minecraft->level, e, eParticleType_magicCrit);
 		critParticle->CritParticlePostConstructor();
 		minecraft->particleEngine->add(critParticle);
 	}
@@ -2326,8 +2333,8 @@ void ClientConnection::handlePreLogin(shared_ptr<PreLoginPacket> packet)
 		}
 		BOOL allAllowed, friendsAllowed;
 		ProfileManager.AllowedPlayerCreatedContent(m_userIndex,true,&allAllowed,&friendsAllowed);
-		send( shared_ptr<LoginPacket>( new LoginPacket(minecraft->user->name, SharedConstants::NETWORK_PROTOCOL_VERSION, offlineXUID, onlineXUID, (allAllowed!=TRUE && friendsAllowed==TRUE),
-			packet->m_ugcPlayersVersion, app.GetPlayerSkinId(m_userIndex), app.GetPlayerCapeId(m_userIndex), ProfileManager.IsGuest( m_userIndex ))));
+		send(std::make_shared<LoginPacket>(minecraft->user->name, SharedConstants::NETWORK_PROTOCOL_VERSION, offlineXUID, onlineXUID, (allAllowed != TRUE && friendsAllowed == TRUE),
+                                           packet->m_ugcPlayersVersion, app.GetPlayerSkinId(m_userIndex), app.GetPlayerCapeId(m_userIndex), ProfileManager.IsGuest(m_userIndex)));
 
 		if(!g_NetworkManager.IsHost() )
 		{
@@ -2550,7 +2557,7 @@ void ClientConnection::handleTexture(shared_ptr<TexturePacket> packet)
 
 		if(dwBytes!=0)
 		{
-			send( shared_ptr<TexturePacket>( new TexturePacket(packet->textureName,pbData,dwBytes) ) );
+			send(std::make_shared<TexturePacket>(packet->textureName, pbData, dwBytes));
 		}
 	}
 	else
@@ -2587,18 +2594,18 @@ void ClientConnection::handleTextureAndGeometry(shared_ptr<TextureAndGeometryPac
 			{
 				if(pDLCSkinFile->getAdditionalBoxesCount()!=0)
 				{
-					send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwBytes,pDLCSkinFile) ) );
+					send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwBytes, pDLCSkinFile));
 				}
 				else
 				{
-					send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwBytes) ) );
+					send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwBytes));
 				}
 			}
 			else
 			{
 				unsigned int uiAnimOverrideBitmask= app.GetAnimOverrideBitmask(packet->dwSkinID);
 
-				send( shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->textureName,pbData,dwBytes,app.GetAdditionalSkinBoxes(packet->dwSkinID),uiAnimOverrideBitmask) ) );
+				send(std::make_shared<TextureAndGeometryPacket>(packet->textureName, pbData, dwBytes, app.GetAdditionalSkinBoxes(packet->dwSkinID), uiAnimOverrideBitmask));
 			}
 		}
 	}
@@ -2667,7 +2674,10 @@ void ClientConnection::handleTextureChange(shared_ptr<TextureChangePacket> packe
 #ifndef _CONTENT_PACKAGE
 			wprintf(L"handleTextureChange - Client sending texture packet to get custom skin %ls for player %ls\n",packet->path.c_str(), player->name.c_str());
 #endif
-			send(shared_ptr<TexturePacket>( new TexturePacket(packet->path,nullptr,0) ) );
+            send(std::make_shared<TexturePacket>(
+                player->customTextureUrl,
+                nullptr,
+                static_cast<DWORD>(0)));
 		}
 	}
 	else if(!packet->path.empty() && app.IsFileInMemoryTextures(packet->path))
@@ -2712,7 +2722,10 @@ void ClientConnection::handleTextureAndGeometryChange(shared_ptr<TextureAndGeome
 #ifndef _CONTENT_PACKAGE
 			wprintf(L"handleTextureAndGeometryChange - Client sending TextureAndGeometryPacket to get custom skin %ls for player %ls\n",packet->path.c_str(), player->name.c_str());
 #endif
-			send(shared_ptr<TextureAndGeometryPacket>( new TextureAndGeometryPacket(packet->path,nullptr,0) ) );
+            send(std::make_shared<TextureAndGeometryPacket>(
+                packet->path,
+				nullptr,
+                static_cast<DWORD>(0)));
 		}
 	}
 	else if(!packet->path.empty() && app.IsFileInMemoryTextures(packet->path))
@@ -2895,7 +2908,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 			default: assert(false);						chestString = -1;					break;
 			}
 
-			if( player->openContainer(shared_ptr<SimpleContainer>( new SimpleContainer(chestString, packet->title, packet->customName, packet->size) )))
+			if( player->openContainer(std::make_shared<SimpleContainer>(chestString, packet->title, packet->customName, packet->size)))
 			{
 				player->containerMenu->containerId = packet->containerId;
 			}
@@ -2907,7 +2920,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::HOPPER:
 		{
-			shared_ptr<HopperTileEntity> hopper = shared_ptr<HopperTileEntity>(new HopperTileEntity());
+			shared_ptr<HopperTileEntity> hopper = std::make_shared<HopperTileEntity>();
 			if (packet->customName) hopper->setCustomName(packet->title);
 			if(player->openHopper(hopper))
 			{
@@ -2921,7 +2934,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::FURNACE:
 		{
-			shared_ptr<FurnaceTileEntity> furnace = shared_ptr<FurnaceTileEntity>(new FurnaceTileEntity());
+			shared_ptr<FurnaceTileEntity> furnace = std::make_shared<FurnaceTileEntity>();
 			if (packet->customName) furnace->setCustomName(packet->title);
 			if(player->openFurnace(furnace))
 			{
@@ -2935,7 +2948,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::BREWING_STAND:
 		{
-			shared_ptr<BrewingStandTileEntity> brewingStand = shared_ptr<BrewingStandTileEntity>(new BrewingStandTileEntity());
+			shared_ptr<BrewingStandTileEntity> brewingStand = std::make_shared<BrewingStandTileEntity>();
 			if (packet->customName) brewingStand->setCustomName(packet->title);
 
 			if( player->openBrewingStand(brewingStand))
@@ -2950,7 +2963,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::DROPPER:
 		{
-			shared_ptr<DropperTileEntity> dropper = shared_ptr<DropperTileEntity>(new DropperTileEntity());
+			shared_ptr<DropperTileEntity> dropper = std::make_shared<DropperTileEntity>();
 			if (packet->customName) dropper->setCustomName(packet->title);
 
 			if( player->openTrap(dropper))
@@ -2965,7 +2978,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::TRAP:
 		{
-			shared_ptr<DispenserTileEntity> dispenser = shared_ptr<DispenserTileEntity>(new DispenserTileEntity());
+			shared_ptr<DispenserTileEntity> dispenser = std::make_shared<DispenserTileEntity>();
 			if (packet->customName) dispenser->setCustomName(packet->title);
 
 			if( player->openTrap(dispenser))
@@ -3004,7 +3017,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::TRADER_NPC:
 		{
-			shared_ptr<ClientSideMerchant> csm = shared_ptr<ClientSideMerchant>(new ClientSideMerchant(player, packet->title));
+			shared_ptr<ClientSideMerchant> csm = std::make_shared<ClientSideMerchant>(player, packet->title);
 			csm->createContainer();
 			if(player->openTrading(csm, packet->customName ? packet->title : L""))
 			{
@@ -3018,7 +3031,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		break;
 	case ContainerOpenPacket::BEACON:
 		{
-			shared_ptr<BeaconTileEntity> beacon = shared_ptr<BeaconTileEntity>(new BeaconTileEntity());
+			shared_ptr<BeaconTileEntity> beacon = std::make_shared<BeaconTileEntity>();
 			if (packet->customName) beacon->setCustomName(packet->title);
 
 			if(player->openBeacon(beacon))
@@ -3056,7 +3069,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 				iTitle = IDS_MULE;
 				break;
 			};
-			if(player->openHorseInventory(dynamic_pointer_cast<EntityHorse>(entity), shared_ptr<AnimalChest>(new AnimalChest(iTitle, packet->title, packet->customName, packet->size))))
+			if(player->openHorseInventory(dynamic_pointer_cast<EntityHorse>(entity), std::make_shared<AnimalChest>(iTitle, packet->title, packet->customName, packet->size)))
 			{
 				player->containerMenu->containerId = packet->containerId;
 			}
@@ -3091,7 +3104,7 @@ void ClientConnection::handleContainerOpen(shared_ptr<ContainerOpenPacket> packe
 		}
 		else
 		{
-			send(shared_ptr<ContainerClosePacket>(new ContainerClosePacket(packet->containerId)));
+			send(std::make_shared<ContainerClosePacket>(packet->containerId));
 		}
 	}
 }
@@ -3144,7 +3157,7 @@ void ClientConnection::handleContainerAck(shared_ptr<ContainerAckPacket> packet)
 	{
 		if (!packet->accepted)
 		{
-			send( shared_ptr<ContainerAckPacket>( new ContainerAckPacket(packet->containerId, packet->uid, true) ));
+			send(std::make_shared<ContainerAckPacket>(packet->containerId, packet->uid, true));
 		}
 	}
 }
@@ -3171,7 +3184,7 @@ void ClientConnection::handleTileEditorOpen(shared_ptr<TileEditorOpenPacket> pac
 	}
 	else if (packet->editorType == TileEditorOpenPacket::SIGN)
 	{
-		shared_ptr<SignTileEntity> localSignDummy = shared_ptr<SignTileEntity>(new SignTileEntity());
+		shared_ptr<SignTileEntity> localSignDummy = std::make_shared<SignTileEntity>();
 		localSignDummy->setLevel(level);
 		localSignDummy->x = packet->x;
 		localSignDummy->y = packet->y;
@@ -3576,7 +3589,7 @@ void ClientConnection::displayPrivilegeChanges(shared_ptr<MultiplayerLocalPlayer
 
 void ClientConnection::handleKeepAlive(shared_ptr<KeepAlivePacket> packet)
 {
-	send(shared_ptr<KeepAlivePacket>(new KeepAlivePacket(packet->id)));
+	send(std::make_shared<KeepAlivePacket>(packet->id));
 }
 
 void ClientConnection::handlePlayerAbilities(shared_ptr<PlayerAbilitiesPacket> playerAbilitiesPacket)

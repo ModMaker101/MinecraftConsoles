@@ -112,7 +112,7 @@ void ItemFrameRenderer::drawItem(shared_ptr<ItemFrame> entity)
 	shared_ptr<ItemInstance> instance = entity->getItem();
 	if (instance == nullptr) return;
 
-	shared_ptr<ItemEntity> itemEntity = shared_ptr<ItemEntity>(new ItemEntity(entity->level, 0, 0, 0, instance));
+	shared_ptr<ItemEntity> itemEntity = std::make_shared<ItemEntity>(entity->level, 0, 0, 0, instance);
 	itemEntity->getItem()->count = 1;
 	itemEntity->bobOffs = 0;
 

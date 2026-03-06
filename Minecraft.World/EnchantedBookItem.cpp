@@ -102,7 +102,7 @@ void EnchantedBookItem::addEnchantment(shared_ptr<ItemInstance> item, Enchantmen
 
 shared_ptr<ItemInstance> EnchantedBookItem::createForEnchantment(EnchantmentInstance *enchant)
 {
-	shared_ptr<ItemInstance> item = shared_ptr<ItemInstance>(new ItemInstance(this));
+	shared_ptr<ItemInstance> item = std::make_shared<ItemInstance>(this);
 	addEnchantment(item, enchant);
 	return item;
 }
@@ -118,7 +118,7 @@ void EnchantedBookItem::createForEnchantment(Enchantment *enchant, vector<shared
 shared_ptr<ItemInstance> EnchantedBookItem::createForRandomLoot(Random *random)
 {
 	Enchantment *enchantment = Enchantment::validEnchantments[random->nextInt(Enchantment::validEnchantments.size())];
-	shared_ptr<ItemInstance> book = shared_ptr<ItemInstance>(new ItemInstance(id, 1, 0));
+	shared_ptr<ItemInstance> book = std::make_shared<ItemInstance>(id, 1, 0);
 	int level = Mth::nextInt(random, enchantment->getMinLevel(), enchantment->getMaxLevel());
 
 	addEnchantment(book, new EnchantmentInstance(enchantment, level));
@@ -134,7 +134,7 @@ WeighedTreasure *EnchantedBookItem::createForRandomTreasure(Random *random)
 WeighedTreasure *EnchantedBookItem::createForRandomTreasure(Random *random, int minCount, int maxCount, int weight)
 {
 	Enchantment *enchantment = Enchantment::validEnchantments[random->nextInt(Enchantment::validEnchantments.size())];
-	shared_ptr<ItemInstance> book = shared_ptr<ItemInstance>(new ItemInstance(id, 1, 0));
+	shared_ptr<ItemInstance> book = std::make_shared<ItemInstance>(id, 1, 0);
 	int level = Mth::nextInt(random, enchantment->getMinLevel(), enchantment->getMaxLevel());
 
 	addEnchantment(book, new EnchantmentInstance(enchantment, level));

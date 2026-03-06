@@ -8,6 +8,7 @@
 #include "..\Minecraft.World\File.h"
 #include "..\Minecraft.World\StringHelpers.h"
 #include "Minimap.h"
+#include "Common/UI/UI.h"
 
 TexturePack *TexturePackRepository::DEFAULT_TEXTURE_PACK = nullptr;
 

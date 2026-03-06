@@ -100,7 +100,7 @@ void TopSnowTile::playerDestroy(Level *level, shared_ptr<Player> player, int x, 
 {
 	int type = Item::snowBall->id;
 	int height = data & HEIGHT_MASK;
-	popResource(level, x, y, z, shared_ptr<ItemInstance>( new ItemInstance(type, height + 1, 0)));
+	popResource(level, x, y, z, std::make_shared<ItemInstance>(type, height + 1, 0));
 	level->removeTile(x, y, z);
 }
 

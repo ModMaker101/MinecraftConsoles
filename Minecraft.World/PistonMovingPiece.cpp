@@ -99,7 +99,7 @@ void PistonMovingPiece::neighborChanged(Level *level, int x, int y, int z, int t
 
 shared_ptr<TileEntity> PistonMovingPiece::newMovingPieceEntity(int block, int data, int facing, bool extending, bool isSourcePiston)
 {
-	return shared_ptr<TileEntity>(new PistonPieceEntity(block, data, facing, extending, isSourcePiston));
+	return std::make_shared<PistonPieceEntity>(block, data, facing, extending, isSourcePiston);
 }
 
 AABB *PistonMovingPiece::getAABB(Level *level, int x, int y, int z)

@@ -56,7 +56,7 @@
 #ifndef _DURANGO
 #include "..\Minecraft.World\CommonStats.h"
 #endif
-
+extern ConsoleUIController ui;
 
 
 LocalPlayer::LocalPlayer(Minecraft *minecraft, Level *level, User *user, int dimension) : Player(level, user->name)
@@ -705,21 +705,21 @@ bool LocalPlayer::openTrading(shared_ptr<Merchant> traderTarget, const wstring &
 
 void LocalPlayer::crit(shared_ptr<Entity> e)
 {
-	shared_ptr<CritParticle> critParticle = shared_ptr<CritParticle>( new CritParticle((Level *)minecraft->level, e) );
+	shared_ptr<CritParticle> critParticle = std::make_shared<CritParticle>(reinterpret_cast<Level*>(minecraft->level), e);
 	critParticle->CritParticlePostConstructor();
 	minecraft->particleEngine->add(critParticle);
 }
 
 void LocalPlayer::magicCrit(shared_ptr<Entity> e)
 {
-	shared_ptr<CritParticle> critParticle = shared_ptr<CritParticle>( new CritParticle((Level *)minecraft->level, e, eParticleType_magicCrit) );
+	shared_ptr<CritParticle> critParticle = std::make_shared<CritParticle>(reinterpret_cast<Level*>(minecraft->level), e, eParticleType_magicCrit);
 	critParticle->CritParticlePostConstructor();
 	minecraft->particleEngine->add(critParticle);
 }
 
 void LocalPlayer::take(shared_ptr<Entity> e, int orgCount)
 {
-	minecraft->particleEngine->add( shared_ptr<TakeAnimationParticle>( new TakeAnimationParticle((Level *)minecraft->level, e, shared_from_this(), -0.5f) ) );
+	minecraft->particleEngine->add(std::make_shared<TakeAnimationParticle>(reinterpret_cast<Level*>(minecraft->level), e, shared_from_this(), -0.5f));
 }
 
 void LocalPlayer::chat(const wstring& message)

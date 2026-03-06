@@ -26,7 +26,7 @@ MultiPlayerLevel::ResetInfo::ResetInfo(int x, int y, int z, int tile, int data)
 }
 
 MultiPlayerLevel::MultiPlayerLevel(ClientConnection *connection, LevelSettings *levelSettings, int dimension, int difficulty)
-	: Level(shared_ptr<MockedLevelStorage >(new MockedLevelStorage()), L"MpServer", Dimension::getNew(dimension), levelSettings, false)
+	: Level(std::make_shared<MockedLevelStorage>(), L"MpServer", Dimension::getNew(dimension), levelSettings, false)
 {
 	minecraft = Minecraft::GetInstance();
 
@@ -618,7 +618,7 @@ void MultiPlayerLevel::disconnect(bool sendDisconnect /*= true*/)
         for (auto& it : connections )
         {
 			if ( it )
-				it->sendAndDisconnect( shared_ptr<DisconnectPacket>( new DisconnectPacket(DisconnectPacket::eDisconnect_Quitting) ) );
+				it->sendAndDisconnect(std::make_shared<DisconnectPacket>(DisconnectPacket::eDisconnect_Quitting));
 		}
 	}
 	else
@@ -781,7 +781,7 @@ void MultiPlayerLevel::playLocalSound(double x, double y, double z, int iSound, 
 
 void MultiPlayerLevel::createFireworks(double x, double y, double z, double xd, double yd, double zd, CompoundTag *infoTag)
 {
-	minecraft->particleEngine->add(shared_ptr<FireworksParticles::FireworksStarter>(new FireworksParticles::FireworksStarter(this, x, y, z, xd, yd, zd, minecraft->particleEngine, infoTag)));
+	minecraft->particleEngine->add(std::make_shared<FireworksParticles::FireworksStarter>(this, x, y, z, xd, yd, zd, minecraft->particleEngine, infoTag));
 }
 
 void MultiPlayerLevel::setScoreboard(Scoreboard *scoreboard)
@@ -899,7 +899,7 @@ void MultiPlayerLevel::removeClientConnection(ClientConnection *c, bool sendDisc
 {
 	if( sendDisconnect )
 	{
-		c->sendAndDisconnect( shared_ptr<DisconnectPacket>( new DisconnectPacket(DisconnectPacket::eDisconnect_Quitting) ) );
+		c->sendAndDisconnect(std::make_shared<DisconnectPacket>(DisconnectPacket::eDisconnect_Quitting));
 	}
 
     auto it = find(connections.begin(), connections.end(), c);

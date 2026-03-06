@@ -94,7 +94,7 @@ shared_ptr<Packet> CommandBlockEntity::getUpdatePacket()
 {
 	CompoundTag *tag = new CompoundTag();
 	save(tag);
-	return shared_ptr<TileEntityDataPacket>( new TileEntityDataPacket(x, y, z, TileEntityDataPacket::TYPE_ADV_COMMAND, tag) );
+	return std::make_shared<TileEntityDataPacket>(x, y, z, TileEntityDataPacket::TYPE_ADV_COMMAND, tag);
 }
 
 int CommandBlockEntity::getSuccessCount()
@@ -110,7 +110,7 @@ void CommandBlockEntity::setSuccessCount(int successCount)
 // 4J Added
 shared_ptr<TileEntity> CommandBlockEntity::clone()
 {
-	shared_ptr<CommandBlockEntity> result = shared_ptr<CommandBlockEntity>( new CommandBlockEntity() );
+	shared_ptr<CommandBlockEntity> result = std::make_shared<CommandBlockEntity>();
 	TileEntity::clone(result);
 
 	result->successCount = successCount;

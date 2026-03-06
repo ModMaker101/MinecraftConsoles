@@ -9,12 +9,12 @@
 #define PLAYER_ONLINE_TIMER_TIME 100
 
 // if the value is greater than 32000, it's an xzp icon that needs displayed, rather than the game icon
-const int UIScene_LeaderboardsMenu::TitleIcons[UIScene_LeaderboardsMenu::NUM_LEADERBOARDS][7] = 
+const int UIScene_LeaderboardsMenu::TitleIcons[UIScene_LeaderboardsMenu::NUM_LEADERBOARDS][7] =
 {
-	{ UIControl_LeaderboardList::e_ICON_TYPE_WALKED,		UIControl_LeaderboardList::e_ICON_TYPE_FALLEN,		Item::minecart_Id,		Item::boat_Id,					nullptr },
-	{ Tile::dirt_Id,		Tile::cobblestone_Id,	Tile::sand_Id,			Tile::stone_Id,			Tile::gravel_Id,		Tile::clay_Id,			Tile::obsidian_Id },
-	{ Item::egg_Id,			Item::wheat_Id,			Tile::mushroom_brown_Id,		Tile::reeds_Id,			Item::bucket_milk_Id,	Tile::pumpkin_Id,		nullptr },
-	{ UIControl_LeaderboardList::e_ICON_TYPE_ZOMBIE,		UIControl_LeaderboardList::e_ICON_TYPE_SKELETON,		UIControl_LeaderboardList::e_ICON_TYPE_CREEPER,		UIControl_LeaderboardList::e_ICON_TYPE_SPIDER,		UIControl_LeaderboardList::e_ICON_TYPE_SPIDERJOKEY,	UIControl_LeaderboardList::e_ICON_TYPE_ZOMBIEPIGMAN,	UIControl_LeaderboardList::e_ICON_TYPE_SLIME },
+    {UIControl_LeaderboardList::e_ICON_TYPE_WALKED, UIControl_LeaderboardList::e_ICON_TYPE_FALLEN, Item::minecart_Id, Item::boat_Id, -1},
+    {Tile::dirt_Id, Tile::cobblestone_Id, Tile::sand_Id, Tile::stone_Id, Tile::gravel_Id, Tile::clay_Id, Tile::obsidian_Id},
+    {Item::egg_Id, Item::wheat_Id, Tile::mushroom_brown_Id, Tile::reeds_Id, Item::bucket_milk_Id, Tile::pumpkin_Id, -1},
+    {UIControl_LeaderboardList::e_ICON_TYPE_ZOMBIE, UIControl_LeaderboardList::e_ICON_TYPE_SKELETON, UIControl_LeaderboardList::e_ICON_TYPE_CREEPER, UIControl_LeaderboardList::e_ICON_TYPE_SPIDER, UIControl_LeaderboardList::e_ICON_TYPE_SPIDERJOKEY, UIControl_LeaderboardList::e_ICON_TYPE_ZOMBIEPIGMAN, UIControl_LeaderboardList::e_ICON_TYPE_SLIME},
 };
 const UIScene_LeaderboardsMenu::LeaderboardDescriptor UIScene_LeaderboardsMenu::LEADERBOARD_DESCRIPTORS[UIScene_LeaderboardsMenu::NUM_LEADERBOARDS][4] = {
 	{
@@ -971,7 +971,7 @@ void UIScene_LeaderboardsMenu::customDraw(IggyCustomDrawCallbackRegion *region)
 	}
 	else
 	{
-		shared_ptr<ItemInstance> item = shared_ptr<ItemInstance>( new ItemInstance(TitleIcons[m_currentLeaderboard][slotId], 1, 0) );
+		shared_ptr<ItemInstance> item = std::make_shared<ItemInstance>(TitleIcons[m_currentLeaderboard][slotId], 1, 0);
 		customDrawSlotControl(region,m_iPad,item,1.0f,false,false);
 	}
 }

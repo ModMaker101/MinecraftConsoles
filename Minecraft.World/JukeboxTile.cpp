@@ -23,7 +23,7 @@ void JukeboxTile::Entity::load(CompoundTag *tag)
 	}
 	else if (tag->getInt(L"Record") > 0)
 	{
-		setRecord(shared_ptr<ItemInstance>( new ItemInstance(tag->getInt(L"Record"), 1, 0)));
+		setRecord(std::make_shared<ItemInstance>(tag->getInt(L"Record"), 1, 0));
 	}
 }
 
@@ -42,7 +42,7 @@ void JukeboxTile::Entity::save(CompoundTag *tag)
 // 4J Added
 shared_ptr<TileEntity> JukeboxTile::Entity::clone()
 {
-	shared_ptr<JukeboxTile::Entity> result = shared_ptr<JukeboxTile::Entity>( new JukeboxTile::Entity() );
+	shared_ptr<JukeboxTile::Entity> result = std::make_shared<JukeboxTile::Entity>();
 	TileEntity::clone(result);
 
 	result->record = record;
@@ -127,7 +127,7 @@ void JukeboxTile::dropRecording(Level *level, int x, int y, int z)
 
 	shared_ptr<ItemInstance> itemInstance = oldRecord->copy();
 
-	shared_ptr<ItemEntity> item = shared_ptr<ItemEntity>( new ItemEntity(level, x + xo, y + yo, z + zo, itemInstance ) );
+	shared_ptr<ItemEntity> item = std::make_shared<ItemEntity>(level, x + xo, y + yo, z + zo, itemInstance);
 	item->throwTime = 10;
 	level->addEntity(item);
 }
@@ -146,7 +146,7 @@ void JukeboxTile::spawnResources(Level *level, int x, int y, int z, int data, fl
 
 shared_ptr<TileEntity> JukeboxTile::newTileEntity(Level *level)
 {
-	return shared_ptr<JukeboxTile::Entity>( new JukeboxTile::Entity() );
+	return std::make_shared<JukeboxTile::Entity>();
 }
 
 void JukeboxTile::registerIcons(IconRegister *iconRegister)

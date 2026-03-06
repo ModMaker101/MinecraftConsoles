@@ -130,7 +130,7 @@ bool VillageSiege::trySpawn()
 	if (spawnPos == nullptr) return false;
 	shared_ptr<Zombie> mob;
 	{
-		mob = shared_ptr<Zombie>( new Zombie(level) );
+		mob = std::make_shared<Zombie>(level);
 		mob->finalizeMobSpawn(nullptr);
 		mob->setVillager(false);
 	}

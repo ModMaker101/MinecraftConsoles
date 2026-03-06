@@ -123,7 +123,7 @@ void ControlledByPlayerGoal::tick()
 
 			if (carriedItem->count == 0)
 			{
-				shared_ptr<ItemInstance> replacement = shared_ptr<ItemInstance>(new ItemInstance(Item::fishingRod));
+				shared_ptr<ItemInstance> replacement = std::make_shared<ItemInstance>(Item::fishingRod);
 				replacement->setTag(carriedItem->tag);
 				player->inventory->items[player->inventory->selected] = replacement;
 			}

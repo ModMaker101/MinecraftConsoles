@@ -60,7 +60,7 @@ HRESULT CXuiSceneInventoryCreative::OnInit( XUIMessageInit *pInitData, BOOL &bHa
 	initData->player->awardStat(GenericStats::openInventory(), GenericStats::param_noArgs());
 
 	// 4J JEV - Item Picker Menu
-	shared_ptr<SimpleContainer> creativeContainer = shared_ptr<SimpleContainer>(new SimpleContainer( 0, TabSpec::MAX_SIZE + 9 ));
+	shared_ptr<SimpleContainer> creativeContainer = std::make_shared<SimpleContainer>(0, TabSpec::MAX_SIZE + 9);
 	itemPickerMenu = new ItemPickerMenu(creativeContainer, initData->player->inventory);
 	
 	// 4J JEV - InitDataAssociations.

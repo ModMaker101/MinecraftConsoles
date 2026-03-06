@@ -37,7 +37,7 @@ void DeadBushTile::playerDestroy(Level *level, shared_ptr<Player> player, int x,
 			);
 
 		// drop leaf block instead of sapling
-		popResource(level, x, y, z, shared_ptr<ItemInstance>(new ItemInstance(Tile::deadBush, 1, data)));
+		popResource(level, x, y, z, std::make_shared<ItemInstance>(Tile::deadBush, 1, data));
 	}
 	else
 	{

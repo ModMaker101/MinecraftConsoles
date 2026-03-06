@@ -91,6 +91,8 @@ int Minecraft::frameTimePos = 0;
 __int64 Minecraft::warezTime = 0;
 File Minecraft::workDir = File(L"");
 
+extern ConsoleUIController ui;
+
 #ifdef __PSVITA__
 
 TOUCHSCREENRECT QuickSelectRect[3]=
@@ -932,7 +934,7 @@ bool Minecraft::addLocalPlayer(int idx)
 	if(success)
 	{
 		app.DebugPrintf("Adding temp local player on pad %d\n", idx);
-		localplayers[idx] = shared_ptr<MultiplayerLocalPlayer>( new MultiplayerLocalPlayer(this, level, user, nullptr ) );
+		localplayers[idx] = shared_ptr<MultiplayerLocalPlayer>(new MultiplayerLocalPlayer(this, level, user, nullptr));
 		localgameModes[idx] = nullptr;
 
 		updatePlayerViewportAssignments();
@@ -1131,7 +1133,7 @@ void Minecraft::removeLocalPlayerIdx(int idx)
 	}
 	else if( m_pendingLocalConnections[idx] != nullptr )
 	{
-		m_pendingLocalConnections[idx]->sendAndDisconnect( shared_ptr<DisconnectPacket>( new DisconnectPacket(DisconnectPacket::eDisconnect_Quitting) ) );;
+		m_pendingLocalConnections[idx]->sendAndDisconnect(std::make_shared<DisconnectPacket>(DisconnectPacket::eDisconnect_Quitting));;
 		delete m_pendingLocalConnections[idx];
 		m_pendingLocalConnections[idx] = nullptr;
 		g_NetworkManager.RemoveLocalPlayerByUserIndex(idx);

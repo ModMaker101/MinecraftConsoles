@@ -434,7 +434,7 @@ bool MineShaftPieces::MineShaftCorridor::createChest(Level *level, BoundingBox *
 		if (level->getTile(worldX, worldY, worldZ) == 0)
 		{
 			level->setTileAndData(worldX, worldY, worldZ, Tile::rail_Id, getOrientationData(Tile::rail_Id, random->nextBoolean() ? RailTile::DIR_FLAT_X : RailTile::DIR_FLAT_Z), Tile::UPDATE_CLIENTS);
-			shared_ptr<MinecartChest> chest = shared_ptr<MinecartChest>( new MinecartChest(level, worldX + 0.5f, worldY + 0.5f, worldZ + 0.5f) );
+			shared_ptr<MinecartChest> chest = std::make_shared<MinecartChest>(level, worldX + 0.5f, worldY + 0.5f, worldZ + 0.5f);
 			WeighedTreasure::addChestItems(random, treasure, chest, numRolls);
 			level->addEntity(chest);
 			return true;

@@ -32,7 +32,7 @@ void GiveItemCommand::execute(shared_ptr<CommandSender> source, byteArray comman
 	shared_ptr<ServerPlayer> player = getPlayer(uid);
 	if(player != nullptr && item > 0 && Item::items[item] != nullptr)
 	{
-		shared_ptr<ItemInstance> itemInstance = shared_ptr<ItemInstance>(new ItemInstance(item, amount, aux));
+		shared_ptr<ItemInstance> itemInstance = std::make_shared<ItemInstance>(item, amount, aux);
 		shared_ptr<ItemEntity> drop = player->drop(itemInstance);
 		drop->throwTime = 0;
 		//logAdminAction(source, L"commands.give.success", ChatPacket::e_ChatCustom, Item::items[item]->getName(itemInstance), item, amount, player->getAName());
@@ -53,5 +53,5 @@ shared_ptr<GameCommandPacket> GiveItemCommand::preparePacket(shared_ptr<Player> 
 	dos.writeInt(aux);
 	dos.writeUTF(tag);
 
-	return shared_ptr<GameCommandPacket>( new GameCommandPacket(eGameCommand_Give, baos.toByteArray() ));
+	return std::make_shared<GameCommandPacket>(eGameCommand_Give, baos.toByteArray());
 }

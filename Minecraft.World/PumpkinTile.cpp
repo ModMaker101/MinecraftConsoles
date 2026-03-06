@@ -45,7 +45,7 @@ void PumpkinTile::onPlace(Level *level, int x, int y, int z)
 				level->setTileAndData(x, y, z, 0, 0, Tile::UPDATE_CLIENTS);
 				level->setTileAndData(x, y - 1, z, 0, 0, Tile::UPDATE_CLIENTS);
 				level->setTileAndData(x, y - 2, z, 0, 0, Tile::UPDATE_CLIENTS);
-				shared_ptr<SnowMan> snowMan = shared_ptr<SnowMan>(new SnowMan(level));
+				shared_ptr<SnowMan> snowMan = std::make_shared<SnowMan>(level);
 				snowMan->moveTo(x + 0.5, y - 1.95, z + 0.5, 0, 0);
 				level->addEntity(snowMan);
 
@@ -94,7 +94,7 @@ void PumpkinTile::onPlace(Level *level, int x, int y, int z)
 						level->setTileAndData(x, y - 1, z + 1, 0, 0, Tile::UPDATE_CLIENTS);
 					}
 
-					shared_ptr<VillagerGolem> villagerGolem = shared_ptr<VillagerGolem>(new VillagerGolem(level));
+					shared_ptr<VillagerGolem> villagerGolem = std::make_shared<VillagerGolem>(level);
 					villagerGolem->setPlayerCreated(true);
 					villagerGolem->moveTo(x + 0.5, y - 1.95, z + 0.5, 0, 0);
 					level->addEntity(villagerGolem);

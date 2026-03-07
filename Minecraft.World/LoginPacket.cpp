@@ -66,7 +66,7 @@ LoginPacket::LoginPacket(const wstring& userName, int clientVersion, PlayerUID o
 }
 
 // Server -> Client
-LoginPacket::LoginPacket(const wstring& userName, int clientVersion, LevelType *pLevelType, __int64 seed, int gameType, char dimension, BYTE mapHeight, BYTE maxPlayers, char difficulty, INT multiplayerInstanceId, BYTE playerIndex, bool newSeaLevel, unsigned int uiGamePrivileges, int xzSize, int hellScale) 
+LoginPacket::LoginPacket(const wstring& userName, int clientVersion, LevelType *pLevelType, int64_t seed, int gameType, char dimension, BYTE mapHeight, BYTE maxPlayers, char difficulty, INT multiplayerInstanceId, BYTE playerIndex, bool newSeaLevel, unsigned int uiGamePrivileges, int xzSize, int hellScale)
 {
 	this->userName = userName;
 	this->clientVersion = clientVersion;
@@ -94,13 +94,17 @@ LoginPacket::LoginPacket(const wstring& userName, int clientVersion, LevelType *
 	m_hellScale = hellScale;
 }
 
-void LoginPacket::read(DataInputStream *dis) //throws IOException 
+void LoginPacket::read(DataInputStream *dis) //throws IOException
 {
 	clientVersion = dis->readInt();
 	userName = readUtf(dis, Player::MAX_NAME_LENGTH);
 	wstring typeName = readUtf(dis, 16);
 	m_pLevelType = LevelType::getLevelType(typeName);
+<<<<<<< HEAD
 	if (m_pLevelType == nullptr) 
+=======
+	if (m_pLevelType == NULL)
+>>>>>>> origin/main
 	{
 		m_pLevelType = LevelType::lvl_normal;
 	}
@@ -131,15 +135,19 @@ void LoginPacket::read(DataInputStream *dis) //throws IOException
 
 }
 
-void LoginPacket::write(DataOutputStream *dos) //throws IOException 
+void LoginPacket::write(DataOutputStream *dos) //throws IOException
 {
 	dos->writeInt(clientVersion);
 	writeUtf(userName, dos);
+<<<<<<< HEAD
 	if (m_pLevelType == nullptr) 
+=======
+	if (m_pLevelType == NULL)
+>>>>>>> origin/main
 	{
 		writeUtf(L"", dos);
-	} 
-	else 
+	}
+	else
 	{
 		writeUtf(m_pLevelType->getGeneratorName(), dos);
 	}
@@ -171,13 +179,21 @@ void LoginPacket::handle(PacketListener *listener)
 	listener->handleLogin(shared_from_this());
 }
 
-int LoginPacket::getEstimatedSize() 
+int LoginPacket::getEstimatedSize()
 {
 	int length=0;
+<<<<<<< HEAD
 	if (m_pLevelType != nullptr) 
+=======
+	if (m_pLevelType != NULL)
+>>>>>>> origin/main
 	{
 		length = static_cast<int>(m_pLevelType->getGeneratorName().length());
 	}
 
+<<<<<<< HEAD
 	return static_cast<int>(sizeof(int) + userName.length() + 4 + 6 + sizeof(__int64) + sizeof(char) + sizeof(int) + (2 * sizeof(PlayerUID)) + 1 + sizeof(char) + sizeof(BYTE) + sizeof(bool) + sizeof(bool) + length + sizeof(unsigned int));
+=======
+	return (int)(sizeof(int) + userName.length() + 4 + 6 + sizeof(int64_t) + sizeof(char) + sizeof(int) + (2*sizeof(PlayerUID)) +1 + sizeof(char) + sizeof(BYTE) + sizeof(bool) + sizeof(bool) + length + sizeof(unsigned int));
+>>>>>>> origin/main
 }

@@ -34,7 +34,7 @@ Biome *BiomeCache::Block::getBiome(int x, int z)
 {
 //	return biomes[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 
-	int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
+	const int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 	return Biome::biomes[biomeIndex];
 }
 
@@ -42,7 +42,7 @@ float BiomeCache::Block::getTemperature(int x, int z)
 {
 //	return temps[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 
-	int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
+	const int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 	return Biome::biomes[biomeIndex]->getTemperature();
 
 }
@@ -51,7 +51,7 @@ float BiomeCache::Block::getDownfall(int x, int z)
 {
 // 	return downfall[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 
-	int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
+	const int biomeIndex = biomeIndices[(x & ZONE_SIZE_MASK) | ((z & ZONE_SIZE_MASK) << ZONE_SIZE_BITS)];
 	return Biome::biomes[biomeIndex]->getDownfall();
 
 }
@@ -72,7 +72,7 @@ BiomeCache::~BiomeCache()
 	// 4J Stu - Delete source?
 	// delete source;
 
-	for( auto& it : all )
+	for(const auto& it : all )
 	{
 		delete it;
 	}
@@ -85,8 +85,8 @@ BiomeCache::Block *BiomeCache::getBlockAt(int x, int z)
 	EnterCriticalSection(&m_CS);
 	x >>= ZONE_SIZE_BITS;
 	z >>= ZONE_SIZE_BITS;
-	__int64 slot = (static_cast<__int64>(x) & 0xffffffffl) | ((static_cast<__int64>(z) & 0xffffffffl) << 32l);
-	auto it = cached.find(slot);
+	const int64_t slot = (static_cast<int64_t>(x) & 0xffffffffl) | ((static_cast<int64_t>(z) & 0xffffffffl) << 32l);
+	const auto it = cached.find(slot);
 	Block *block = nullptr;
 	if (it == cached.end())
 	{
@@ -124,20 +124,20 @@ float BiomeCache::getDownfall(int x, int z)
 void BiomeCache::update()
 {
 	EnterCriticalSection(&m_CS);
-	__int64 now = app.getAppTime();
-	__int64 utime = now - lastUpdateTime;
+	const int64_t now = app.getAppTime();
+	const int64_t utime = now - lastUpdateTime;
 	if (utime > DECAY_TIME / 4 || utime < 0)
 	{
 		lastUpdateTime = now;
 
 		for (auto it = all.begin(); it != all.end();)
 		{
-			Block *block = *it;
-			__int64 time = now - block->lastUse;
+			const Block *block = *it;
+			const int64_t time = now - block->lastUse;
 			if (time > DECAY_TIME || time < 0)
 			{
 				it = all.erase(it);
-				__int64 slot = (static_cast<__int64>(block->x) & 0xffffffffl) | ((static_cast<__int64>(block->z) & 0xffffffffl) << 32l);
+				int64_t slot = (static_cast<int64_t>(block->x) & 0xffffffffl) | ((static_cast<int64_t>(block->z) & 0xffffffffl) << 32l);
 				cached.erase(slot);
 				delete block;
 			}

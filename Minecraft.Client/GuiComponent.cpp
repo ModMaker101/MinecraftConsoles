@@ -105,6 +105,11 @@ void GuiComponent::drawString(Font *font, const wstring& str, int x, int y, int 
 	font->drawShadow(str, x, y, color);
 }
 
+void GuiComponent::drawStringLiteral(Font *font, const wstring& str, int x, int y, int color)
+{
+	font->drawShadowLiteral(str, x, y, color);
+}
+
 void GuiComponent::blit(int x, int y, int sx, int sy, int w, int h)
 {
     float us = 1 / 256.0f;
@@ -128,9 +133,9 @@ void GuiComponent::blit(int x, int y, int sx, int sy, int w, int h)
 	float fw = (floorf(static_cast<float>(w) * Gui::currentGuiScaleFactor)) / Gui::currentGuiScaleFactor;
 	float fh = (floorf(static_cast<float>(h) * Gui::currentGuiScaleFactor)) / Gui::currentGuiScaleFactor;
 
-    t->vertexUV(fx + 0 - dx,  fy + fh - dy, (float)( blitOffset), (float)( (sx + 0) * us), (float)( (sy + h) * vs));
-    t->vertexUV(fx + fw - dx, fy + fh - dy, (float)( blitOffset), (float)( (sx + w) * us), (float)( (sy + h) * vs));
-    t->vertexUV(fx + fw - dx, fy + 0 - dy, (float)( blitOffset), (float)( (sx + w) * us), (float)( (sy + 0) * vs));
-    t->vertexUV(fx + 0 - dx,  fy + 0 - dy, (float)( blitOffset), (float)( (sx + 0) * us), (float)( (sy + 0) * vs));
+    t->vertexUV(fx + 0 - dx,  fy + fh - dy, static_cast<float>(blitOffset), static_cast<float>((sx + 0) * us), static_cast<float>((sy + h) * vs));
+    t->vertexUV(fx + fw - dx, fy + fh - dy, static_cast<float>(blitOffset), static_cast<float>((sx + w) * us), static_cast<float>((sy + h) * vs));
+    t->vertexUV(fx + fw - dx, fy + 0 - dy, static_cast<float>(blitOffset), static_cast<float>((sx + w) * us), static_cast<float>((sy + 0) * vs));
+    t->vertexUV(fx + 0 - dx,  fy + 0 - dy, static_cast<float>(blitOffset), static_cast<float>((sx + 0) * us), static_cast<float>((sy + 0) * vs));
     t->end();
 }

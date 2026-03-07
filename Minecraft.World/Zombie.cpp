@@ -92,7 +92,12 @@ bool Zombie::isBaby()
 
 void Zombie::setBaby(bool baby)
 {
+<<<<<<< HEAD
 	getEntityData()->set(DATA_BABY_ID, static_cast<byte>(baby ? 1 : 0));
+=======
+	getEntityData()->set(DATA_BABY_ID, (byte) (baby ? 1 : 0));
+	updateSize(baby);
+>>>>>>> origin/main
 
 	if (level != nullptr && !level->isClientSide)
 	{
@@ -209,6 +214,11 @@ void Zombie::tick()
 	}
 
 	Monster::tick();
+
+	if (level->isClientSide)
+	{
+		updateSize(isBaby());
+	}
 }
 
 bool Zombie::doHurtTarget(shared_ptr<Entity> target)
@@ -224,6 +234,12 @@ bool Zombie::doHurtTarget(shared_ptr<Entity> target)
 	}
 
 	return result;
+}
+
+void Zombie::updateSize(bool isBaby)
+{
+	float scale = isBaby ? 0.5f : 1.0f;
+	setSize(0.6f, 1.8f * scale);
 }
 
 int Zombie::getAmbientSound()

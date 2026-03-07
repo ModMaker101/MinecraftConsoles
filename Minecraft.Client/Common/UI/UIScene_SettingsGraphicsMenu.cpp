@@ -2,24 +2,26 @@
 #include "UI.h"
 #include "UIScene_SettingsGraphicsMenu.h"
 #include "..\..\Minecraft.h"
+#include "..\..\Options.h"
 #include "..\..\GameRenderer.h"
 
 namespace
 {
-	const int FOV_MIN = 70;
-	const int FOV_MAX = 110;
-	const int FOV_SLIDER_MAX = 100;
+    constexpr int FOV_MIN = 70;
+    constexpr int FOV_MAX = 110;
+    constexpr int FOV_SLIDER_MAX = 100;
 
-	int clampFov(int value)
+	int ClampFov(int value)
 	{
 		if (value < FOV_MIN) return FOV_MIN;
 		if (value > FOV_MAX) return FOV_MAX;
 		return value;
 	}
 
-	int fovToSliderValue(float fov)
+    [[maybe_unused]]
+    int FovToSliderValue(float fov)
 	{
-		int clampedFov = clampFov(static_cast<int>(fov + 0.5f));
+		const int clampedFov = ClampFov(static_cast<int>(fov + 0.5f));
 		return ((clampedFov - FOV_MIN) * FOV_SLIDER_MAX) / (FOV_MAX - FOV_MIN);
 	}
 
@@ -29,6 +31,24 @@ namespace
 		if (sliderValue > FOV_SLIDER_MAX) sliderValue = FOV_SLIDER_MAX;
 		return FOV_MIN + ((sliderValue * (FOV_MAX - FOV_MIN)) / FOV_SLIDER_MAX);
 	}
+}
+
+int UIScene_SettingsGraphicsMenu::LevelToDistance(int level)
+{
+	static const int table[6] = {2,4,8,16,32,64};
+	if(level < 0) level = 0;
+	if(level > 5) level = 5;
+	return table[level];
+}
+
+int UIScene_SettingsGraphicsMenu::DistanceToLevel(int dist)
+{
+    static const int table[6] = {2,4,8,16,32,64};
+    for(int i = 0; i < 6; i++){
+        if(table[i] == dist)
+            return i;
+    }
+    return 3;
 }
 
 UIScene_SettingsGraphicsMenu::UIScene_SettingsGraphicsMenu(int iPad, void *initData, UILayer *parentLayer) : UIScene(iPad, parentLayer)
@@ -45,21 +65,25 @@ UIScene_SettingsGraphicsMenu::UIScene_SettingsGraphicsMenu(int iPad, void *initD
 
 	
 	WCHAR TempString[256];
+
+	swprintf(TempString, 256, L"Render Distance: %d",app.GetGameSettings(m_iPad,eGameSetting_RenderDistance));	
+	m_sliderRenderDistance.init(TempString,eControl_RenderDistance,0,5,DistanceToLevel(app.GetGameSettings(m_iPad,eGameSetting_RenderDistance)));
 	
-	swprintf( (WCHAR *)TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_GAMMA ),app.GetGameSettings(m_iPad,eGameSetting_Gamma));	
+	swprintf( TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_GAMMA ),app.GetGameSettings(m_iPad,eGameSetting_Gamma));	
 	m_sliderGamma.init(TempString,eControl_Gamma,0,100,app.GetGameSettings(m_iPad,eGameSetting_Gamma));
 
-	int initialFov = clampFov(static_cast<int>(pMinecraft->gameRenderer->GetFovVal() + 0.5f));
-	swprintf((WCHAR*)TempString, 256, L"FOV: %d", initialFov);
-	m_sliderFOV.init(TempString, eControl_FOV, 0, FOV_SLIDER_MAX, fovToSliderValue(static_cast<float>(initialFov)));
+    const int initialFovSlider = app.GetGameSettings(m_iPad, eGameSetting_FOV);
+	const int initialFovDeg = sliderValueToFov(initialFovSlider);
+	swprintf(TempString, 256, L"FOV: %d", initialFovDeg);
+	m_sliderFOV.init(TempString, eControl_FOV, 0, FOV_SLIDER_MAX, initialFovSlider);
 	
-	swprintf( (WCHAR *)TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_INTERFACEOPACITY ),app.GetGameSettings(m_iPad,eGameSetting_InterfaceOpacity));	
+	swprintf( TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_INTERFACEOPACITY ),app.GetGameSettings(m_iPad,eGameSetting_InterfaceOpacity));	
 	m_sliderInterfaceOpacity.init(TempString,eControl_InterfaceOpacity,0,100,app.GetGameSettings(m_iPad,eGameSetting_InterfaceOpacity));
 
 	doHorizontalResizeCheck();
-	
-	bool bInGame=(Minecraft::GetInstance()->level!=nullptr);
-	bool bIsPrimaryPad=(ProfileManager.GetPrimaryPad()==m_iPad);
+
+	const bool bInGame=(Minecraft::GetInstance()->level!=nullptr);
+	const bool bIsPrimaryPad=(ProfileManager.GetPrimaryPad()==m_iPad);
 	// if we're not in the game, we need to use basescene 0 
 	if(bInGame)
 	{
@@ -113,7 +137,7 @@ void UIScene_SettingsGraphicsMenu::updateTooltips()
 
 void UIScene_SettingsGraphicsMenu::updateComponents()
 {
-	bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
+	const bool bNotInGame=(Minecraft::GetInstance()->level==nullptr);
 	if(bNotInGame)
 	{
 		m_parentLayer->showComponent(m_iPad,eUIComponent_Panorama,true);
@@ -164,14 +188,29 @@ void UIScene_SettingsGraphicsMenu::handleInput(int iPad, int key, bool repeat, b
 void UIScene_SettingsGraphicsMenu::handleSliderMove(F64 sliderId, F64 currentValue)
 {
 	WCHAR TempString[256];
-	int value = static_cast<int>(currentValue);
+	const int value = static_cast<int>(currentValue);
 	switch(static_cast<int>(sliderId))
 	{
+	case eControl_RenderDistance:
+		{
+			m_sliderRenderDistance.handleSliderMove(value);
+
+			const int dist = LevelToDistance(value);
+
+			app.SetGameSettings(m_iPad,eGameSetting_RenderDistance,dist);
+
+			const Minecraft* mc = Minecraft::GetInstance();
+			mc->options->viewDistance = 3 - value;
+			swprintf(TempString,256,L"Render Distance: %d",dist);
+			m_sliderRenderDistance.setLabel(TempString);
+		}
+		break;
+
 	case eControl_Gamma:
 		m_sliderGamma.handleSliderMove(value);
 		
 		app.SetGameSettings(m_iPad,eGameSetting_Gamma,value);
-		swprintf( (WCHAR *)TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_GAMMA ),value);
+		swprintf( TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_GAMMA ),value);
 		m_sliderGamma.setLabel(TempString);
 
 		break;
@@ -179,12 +218,13 @@ void UIScene_SettingsGraphicsMenu::handleSliderMove(F64 sliderId, F64 currentVal
 	case eControl_FOV:
 		{
 			m_sliderFOV.handleSliderMove(value);
-			Minecraft* pMinecraft = Minecraft::GetInstance();
-			int fovValue = sliderValueToFov(value);
+			const Minecraft* pMinecraft = Minecraft::GetInstance();
+			const int fovValue = sliderValueToFov(value);
 			pMinecraft->gameRenderer->SetFovVal(static_cast<float>(fovValue));
-			WCHAR TempString[256];
-			swprintf((WCHAR*)TempString, 256, L"FOV: %d", fovValue);
-			m_sliderFOV.setLabel(TempString);
+			app.SetGameSettings(m_iPad, eGameSetting_FOV, value);
+			WCHAR tempString[256];
+			swprintf(tempString, 256, L"FOV: %d", fovValue);
+			m_sliderFOV.setLabel(tempString);
 		}
 		break;
 
@@ -192,7 +232,7 @@ void UIScene_SettingsGraphicsMenu::handleSliderMove(F64 sliderId, F64 currentVal
 		m_sliderInterfaceOpacity.handleSliderMove(value);
 		
 		app.SetGameSettings(m_iPad,eGameSetting_InterfaceOpacity,value);
-		swprintf( (WCHAR *)TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_INTERFACEOPACITY ),value);	
+		swprintf( TempString, 256, L"%ls: %d%%", app.GetString( IDS_SLIDER_INTERFACEOPACITY ),value);	
 		m_sliderInterfaceOpacity.setLabel(TempString);
 
 		break;

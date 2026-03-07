@@ -74,7 +74,7 @@ ResourceLocation GameRenderer::SNOW_LOCATION = ResourceLocation(TN_ENVIRONMENT_S
 GameRenderer::GameRenderer(Minecraft *mc)
 {
 	// 4J - added this block of initialisers
-	renderDistance = 0;
+	renderDistance = static_cast<float>(16 * 16 >> mc->options->viewDistance);
 	_tick = 0;
 	hovered = nullptr;
 	thirdDistance = 4;
@@ -615,7 +615,15 @@ void GameRenderer::getFovAndAspect(float& fov, float& aspect, float a, bool appl
 
 void GameRenderer::setupCamera(float a, int eye)
 {
-	renderDistance = static_cast<float>(16 * 16 >> (mc->options->viewDistance));
+	if (mc->options->viewDistance >= 0)
+	{
+		renderDistance = static_cast<float>(16 * 16 >> mc->options->viewDistance);
+	}
+	else
+	{
+		renderDistance = static_cast<float>((16 * 16) << (-mc->options->viewDistance));
+	}
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -938,9 +946,9 @@ float GameRenderer::ComputeGammaFromSlider(float slider0to100)
     slider = min(slider, 100.0f);
 
     if (slider > 50.0f)
-        return 1.0f + (slider - 50.0f) / 50.0f * 3.0f; // 1.0 -> 4.0
+        return 1.0f + (slider - 50.0f) / 50.0f * 0.5f; // 1.0 -> 1.5
     else
-        return 1.0f - (50.0f - slider) / 50.0f * 0.85f; // 1.0 -> 0.15
+        return 1.0f - (50.0f - slider) / 50.0f * 0.5f; // 1.0 -> 0.5
 }
 
 void GameRenderer::CachePlayerGammas()
@@ -1050,20 +1058,36 @@ void GameRenderer::ApplyGammaPostProcess() const
     D3D11_VIEWPORT vps[NUM_LIGHT_TEXTURES];
     float gammas[NUM_LIGHT_TEXTURES];
     const UINT n = BuildPlayerViewports(vps, gammas, NUM_LIGHT_TEXTURES);
-    if (n == 0)
-        return;
 
-    bool anyEffect = false;
-    for (UINT i = 0; i < n; ++i)
+    float gamma = 1.0f;
+    bool hasPlayers = n > 0;
+
+    if (hasPlayers)
     {
-        if (gammas[i] < 0.99f || gammas[i] > 1.01f)
+        bool anyEffect = false;
+        for (UINT i = 0; i < n; ++i)
         {
-            anyEffect = true;
-            break;
+            if (gammas[i] < 0.99f || gammas[i] > 1.01f)
+            {
+                anyEffect = true;
+                break;
+            }
         }
+        if (!anyEffect)
+            return;
     }
-    if (!anyEffect)
+    else
+    {
+        const float slider = app.GetGameSettings(0, eGameSetting_Gamma);
+        gamma = ComputeGammaFromSlider(slider);
+        if (gamma < 0.99f || gamma > 1.01f)
+        {
+            PostProcesser::GetInstance().SetGamma(gamma);
+            PostProcesser::GetInstance().Apply();
+            return;
+        }
         return;
+    }
 
     if (n == 1)
     {
@@ -1145,58 +1169,56 @@ void GameRenderer::render(float a, bool bFirst)
 	}
 #endif
 
-	if (mc->noRender) return;
-	GameRenderer::anaglyph3d = mc->options->anaglyph3d;
+    if (mc->noRender)
+        return;
+    GameRenderer::anaglyph3d = mc->options->anaglyph3d;
 
-	glViewport(0, 0, mc->width, mc->height);	// 4J - added
-	ScreenSizeCalculator ssc(mc->options, mc->width, mc->height);
-	int screenWidth = ssc.getWidth();
-	int screenHeight = ssc.getHeight();
-	int xMouse = Mouse::getX() * screenWidth / mc->width;
-	int yMouse = screenHeight - Mouse::getY() * screenHeight / mc->height - 1;
+    glViewport(0, 0, mc->width, mc->height); // 4J - added
+    ScreenSizeCalculator ssc(mc->options, mc->width, mc->height);
+    int screenWidth = ssc.getWidth();
+    int screenHeight = ssc.getHeight();
+    int xMouse = Mouse::getX() * screenWidth / mc->width;
+    int yMouse = screenHeight - Mouse::getY() * screenHeight / mc->height - 1;
 
-	int maxFps = getFpsCap(mc->options->framerateLimit);
+    int maxFps = getFpsCap(mc->options->framerateLimit);
 
-	if (mc->level != nullptr)
-	{
-		if (mc->options->framerateLimit == 0)
-		{
-			renderLevel(a, 0);
-		}
-		else
-		{
-			renderLevel(a, lastNsTime + 1000000000 / maxFps);
-		}
+    if (mc->level != nullptr)
+    {
+        if (mc->options->framerateLimit == 0)
+        {
+            renderLevel(a, 0);
+        }
+        else
+        {
+            renderLevel(a, lastNsTime + 1000000000 / maxFps);
+        }
 
-		lastNsTime = System::nanoTime();
+        lastNsTime = System::nanoTime();
 
-		ApplyGammaPostProcess();
+        if (!mc->options->hideGui || mc->screen != nullptr)
+        {
+            mc->gui->render(a, mc->screen != nullptr, xMouse, yMouse);
+        }
+    }
+    else
+    {
+        glViewport(0, 0, mc->width, mc->height);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        setupGuiScreen();
 
-		if (!mc->options->hideGui || mc->screen != nullptr)
-		{
-			mc->gui->render(a, mc->screen != nullptr, xMouse, yMouse);
-		}
-	}
-	else
-	{
-		glViewport(0, 0, mc->width, mc->height);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		setupGuiScreen();
+        lastNsTime = System::nanoTime();
+    }
 
-		lastNsTime = System::nanoTime();
-	}
-
-
-	if (mc->screen != nullptr)
-	{
-		glClear(GL_DEPTH_BUFFER_BIT);
-		mc->screen->render(xMouse, yMouse, a);
-		if (mc->screen != nullptr && mc->screen->particles != nullptr) mc->screen->particles->render(a);
-	}
-
+    if (mc->screen != nullptr)
+    {
+        glClear(GL_DEPTH_BUFFER_BIT);
+        mc->screen->render(xMouse, yMouse, a);
+        if (mc->screen != nullptr && mc->screen->particles != nullptr)
+            mc->screen->particles->render(a);
+    }
 }
 
 void GameRenderer::renderLevel(float a)
@@ -1352,7 +1374,7 @@ void GameRenderer::DisableUpdateThread()
 #endif
 }
 
-void GameRenderer::renderLevel(float a, __int64 until)
+void GameRenderer::renderLevel(float a, int64_t until)
 {
 	//	if (updateLightTexture) updateLightTexture();	// 4J - TODO - Java 1.0.1 has this line enabled, should check why - don't want to put it in now in case it breaks split-screen
 
@@ -1435,7 +1457,7 @@ void GameRenderer::renderLevel(float a, __int64 until)
 
 				if (until == 0) break;
 
-				__int64 diff = until - System::nanoTime();
+				int64_t diff = until - System::nanoTime();
 				if (diff < 0) break;
 				if (diff > 1000000000) break;
 			} while (true);
@@ -1923,7 +1945,7 @@ void GameRenderer::setupClearColor(float a)
 	shared_ptr<LivingEntity> player = mc->cameraTargetPlayer;
 
 	float whiteness = 1.0f / (4 - mc->options->viewDistance);
-	whiteness = 1 - static_cast<float>(pow((double)whiteness, 0.25));
+	whiteness = 1 - static_cast<float>(pow(static_cast<double>(whiteness), 0.25));
 
 	Vec3 *skyColor = level->getSkyColor(mc->cameraTargetPlayer, a);
 	float sr = static_cast<float>(skyColor->x);

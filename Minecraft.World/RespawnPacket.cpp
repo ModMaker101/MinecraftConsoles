@@ -5,7 +5,7 @@
 #include "RespawnPacket.h"
 #include "LevelType.h"
 
-RespawnPacket::RespawnPacket() 
+RespawnPacket::RespawnPacket()
 {
 	this->dimension = 0;
 	this->difficulty = 1;
@@ -19,7 +19,7 @@ RespawnPacket::RespawnPacket()
 	m_hellScale = HELL_LEVEL_MAX_SCALE;
 }
 
-RespawnPacket::RespawnPacket(char dimension, __int64 mapSeed, int mapHeight, GameType *playerGameType, char difficulty, LevelType *pLevelType, bool newSeaLevel, int newEntityId, int xzSize, int hellScale) 
+RespawnPacket::RespawnPacket(char dimension, int64_t mapSeed, int mapHeight, GameType *playerGameType, char difficulty, LevelType *pLevelType, bool newSeaLevel, int newEntityId, int xzSize, int hellScale)
 {
 	this->dimension = dimension;
 	this->mapSeed = mapSeed;
@@ -35,7 +35,7 @@ RespawnPacket::RespawnPacket(char dimension, __int64 mapSeed, int mapHeight, Gam
 
 }
 
-void RespawnPacket::handle(PacketListener *listener) 
+void RespawnPacket::handle(PacketListener *listener)
 {
 	listener->handleRespawn(shared_from_this());
 }
@@ -47,7 +47,11 @@ void RespawnPacket::read(DataInputStream *dis) //throws IOException
 	mapHeight = dis->readShort();
 	wstring typeName = readUtf(dis, 16);
 	m_pLevelType = LevelType::getLevelType(typeName);
+<<<<<<< HEAD
 	if (m_pLevelType == nullptr) 
+=======
+	if (m_pLevelType == NULL)
+>>>>>>> origin/main
 	{
 		m_pLevelType = LevelType::lvl_normal;
 	}
@@ -63,16 +67,20 @@ void RespawnPacket::read(DataInputStream *dis) //throws IOException
 
 }
 
-void RespawnPacket::write(DataOutputStream *dos) //throws IOException 
+void RespawnPacket::write(DataOutputStream *dos) //throws IOException
 {
 	dos->writeByte(dimension);
 	dos->writeByte(playerGameType->getId());
 	dos->writeShort(mapHeight);
+<<<<<<< HEAD
 	if (m_pLevelType == nullptr) 
+=======
+	if (m_pLevelType == NULL)
+>>>>>>> origin/main
 	{
 		writeUtf(L"", dos);
-	} 
-	else 
+	}
+	else
 	{
 		writeUtf(m_pLevelType->getGeneratorName(), dos);
 	}
@@ -86,10 +94,14 @@ void RespawnPacket::write(DataOutputStream *dos) //throws IOException
 #endif
 }
 
-int RespawnPacket::getEstimatedSize() 
+int RespawnPacket::getEstimatedSize()
 {
 	int length=0;
+<<<<<<< HEAD
 	if (m_pLevelType != nullptr) 
+=======
+	if (m_pLevelType != NULL)
+>>>>>>> origin/main
 	{
 		length = static_cast<int>(m_pLevelType->getGeneratorName().length());
 	}

@@ -51,9 +51,13 @@ int Mth::floor(float v)
 	return v < i ? i - 1 : i;
 }
 
-__int64 Mth::lfloor(double v)
+int64_t Mth::lfloor(double v)
 {
+<<<<<<< HEAD
 	__int64 i = static_cast<__int64>(v);
+=======
+	int64_t i = (int64_t) v;
+>>>>>>> origin/main
 	return v < i ? i - 1 : i;
 }
 
@@ -221,8 +225,8 @@ wstring Mth::createInsecureUUID(Random *random)
 {
 	wchar_t output[33];
 	output[32] = 0;
-	__int64 high = (random->nextLong() & ~UUID_VERSION) | UUID_VERSION_TYPE_4;
-	__int64 low = (random->nextLong() & ~UUID_VARIANT) | UUID_VARIANT_2;
+	int64_t high = (random->nextLong() & ~UUID_VERSION) | UUID_VERSION_TYPE_4;
+	int64_t low = (random->nextLong() & ~UUID_VARIANT) | UUID_VARIANT_2;
 	for(int i = 0; i < 16; i++ )
 	{
 		wchar_t nybbleHigh = high & 0xf;

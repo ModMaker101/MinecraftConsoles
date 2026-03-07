@@ -21,14 +21,16 @@ UIScene_DebugOverlay::UIScene_DebugOverlay(int iPad, void *initData, UILayer *pa
 	// Setup all the Iggy references we need for this scene
 	initialiseMovie();
 
-	Minecraft *pMinecraft = Minecraft::GetInstance();
-	WCHAR TempString[256];
-	swprintf( (WCHAR *)TempString, 256, L"Set fov (%d)", static_cast<int>(pMinecraft->gameRenderer->GetFovVal()));
-	m_sliderFov.init(TempString,eControl_FOV,0,100,static_cast<int>(pMinecraft->gameRenderer->GetFovVal()));
+	const Minecraft *pMinecraft = Minecraft::GetInstance();
+	WCHAR tempString[256];
+	const int fovSliderVal = app.GetGameSettings(m_iPad, eGameSetting_FOV);
+	const int fovDeg = 70 + fovSliderVal * 40 / 100;
+	swprintf( tempString, 256, L"Set fov (%d)", fovDeg);
+	m_sliderFov.init(tempString,eControl_FOV,0,100,fovSliderVal);
 
-	float currentTime = pMinecraft->level->getLevelData()->getGameTime() % 24000;
-	swprintf( (WCHAR *)TempString, 256, L"Set time (unsafe) (%d)", static_cast<int>(currentTime));
-	m_sliderTime.init(TempString,eControl_Time,0,240,currentTime/100);
+	const float currentTime = pMinecraft->level->getLevelData()->getGameTime() % 24000;
+	swprintf( tempString, 256, L"Set time (unsafe) (%d)", static_cast<int>(currentTime));
+	m_sliderTime.init(tempString,eControl_Time,0,240,currentTime/100);
 
 	m_buttonRain.init(L"Toggle Rain",eControl_Rain);
 	m_buttonThunder.init(L"Toggle Thunder",eControl_Thunder);
@@ -136,7 +138,7 @@ wstring UIScene_DebugOverlay::getMoviePath()
 
 void UIScene_DebugOverlay::customDraw(IggyCustomDrawCallbackRegion *region)
 {
-	Minecraft *pMinecraft = Minecraft::GetInstance();
+	const Minecraft *pMinecraft = Minecraft::GetInstance();
 	if(pMinecraft->localplayers[m_iPad] == nullptr || pMinecraft->localgameModes[m_iPad] == nullptr) return;
 
 	int itemId = -1;
@@ -147,7 +149,7 @@ void UIScene_DebugOverlay::customDraw(IggyCustomDrawCallbackRegion *region)
 	}
 	else
 	{
-		shared_ptr<ItemInstance> item = std::make_shared<ItemInstance>(itemId, 1, 0);
+		const auto item = std::make_shared<ItemInstance>(itemId, 1, 0);
 		if(item != nullptr) customDrawSlotControl(region,m_iPad,item,1.0f,false,false);
 	}
 }
@@ -264,20 +266,25 @@ void UIScene_DebugOverlay::handleSliderMove(F64 sliderId, F64 currentValue)
 			MinecraftServer::SetTime(currentValue * 100);
 			pMinecraft->level->getLevelData()->setGameTime(currentValue * 100);
 
-			WCHAR TempString[256];
+			WCHAR tempString[256];
 			float currentTime = currentValue * 100;
-			swprintf( (WCHAR *)TempString, 256, L"Set time (unsafe) (%d)", static_cast<int>(currentTime));
-			m_sliderTime.setLabel(TempString);
+			swprintf( tempString, 256, L"Set time (unsafe) (%d)", static_cast<int>(currentTime));
+			m_sliderTime.setLabel(tempString);
 		}
 		break;
 	case eControl_FOV:
 		{
 			Minecraft *pMinecraft = Minecraft::GetInstance();
-			pMinecraft->gameRenderer->SetFovVal(static_cast<float>(currentValue));
+			int v = static_cast<int>(currentValue);
+			if (v < 0) v = 0;
+			if (v > 100) v = 100;
+			int fovDeg = 70 + v * 40 / 100;
+			pMinecraft->gameRenderer->SetFovVal(static_cast<float>(fovDeg));
+			app.SetGameSettings(m_iPad, eGameSetting_FOV, v);
 
-			WCHAR TempString[256];
-			swprintf( (WCHAR *)TempString, 256, L"Set fov (%d)", static_cast<int>(currentValue));
-			m_sliderFov.setLabel(TempString);
+			WCHAR tempString[256];
+			swprintf( tempString, 256, L"Set fov (%d)", fovDeg);
+			m_sliderFov.setLabel(tempString);
 		}
 		break;
 	};

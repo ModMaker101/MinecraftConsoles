@@ -136,7 +136,9 @@ void PendingConnection::sendPreLoginResponse()
 	else
 #endif
 	{
-		connection->send(std::make_shared<PreLoginPacket>(L"-", ugcXuids, ugcXuidCount, ugcFriendsOnlyBits, server->m_ugcPlayersVersion, szUniqueMapName, app.GetGameHostOption(eGameHostOption_All), hostIndex, server->m_texturePackId));
+		DWORD cappedCount = (ugcXuidCount > 255u) ? 255u : ugcXuidCount;
+		BYTE cappedHostIndex = (hostIndex >= 255u) ? 254 : static_cast<BYTE>(hostIndex);
+		connection->send(std::make_shared<PreLoginPacket>(L"-", ugcXuids, cappedCount, ugcFriendsOnlyBits, server->m_ugcPlayersVersion, szUniqueMapName, app.GetGameHostOption(eGameHostOption_All), cappedHostIndex, server->m_texturePackId));
 	}
 }
 

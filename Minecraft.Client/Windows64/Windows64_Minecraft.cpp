@@ -22,6 +22,9 @@
 #include "..\..\Minecraft.World\net.minecraft.world.level.tile.h"
 
 #include "..\ClientConnection.h"
+#include "..\Minecraft.h"
+#include "..\ChatScreen.h"
+#include "KeyboardMouseInput.h"
 #include "..\User.h"
 #include "..\..\Minecraft.World\Socket.h"
 #include "..\..\Minecraft.World\ThreadName.h"
@@ -41,6 +44,7 @@
 #include "..\..\Minecraft.World\compression.h"
 #include "..\..\Minecraft.World\OldChunkStorage.h"
 #include "Common/PostProcesser.h"
+#include "..\GameRenderer.h"
 #include "Network\WinsockNetLayer.h"
 #include "Windows64_Xuid.h"
 #include "Common/UI/UI.h"
@@ -249,7 +253,7 @@ static Win64LaunchOptions ParseLaunchOptions()
 		else if (_wcsicmp(argv[i], L"-port") == 0 && (i + 1) < argc)
 		{
 			wchar_t* endPtr = nullptr;
-			long port = wcstol(argv[++i], &endPtr, 10);
+			const long port = wcstol(argv[++i], &endPtr, 10);
 			if (endPtr != argv[i] && *endPtr == 0 && port > 0 && port <= 65535)
 			{
 				if (options.serverMode)
@@ -579,7 +583,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 	{
 		int vk = static_cast<int>(wParam);
-		if (lParam & 0x40000000) break; // ignore auto-repeat
+		if ((lParam & 0x40000000) && vk != VK_LEFT && vk != VK_RIGHT && vk != VK_BACK)
+			break;
+#ifdef _WINDOWS64
+		const Minecraft* pm = Minecraft::GetInstance();
+		ChatScreen* chat = pm && pm->screen ? dynamic_cast<ChatScreen*>(pm->screen) : nullptr;
+		if (chat)
+		{
+			if (vk == 'V' && (GetKeyState(VK_CONTROL) & 0x8000))
+				{ chat->handlePasteRequest(); break; }
+			if ((vk == VK_UP || vk == VK_DOWN) && !(lParam & 0x40000000))
+				{ if (vk == VK_UP) chat->handleHistoryUp(); else chat->handleHistoryDown(); break; }
+			if (vk >= '1' && vk <= '9') // Prevent hotkey conflicts
+				break;
+			if (vk == VK_SHIFT)
+				break;
+		}
+#endif
 		if (vk == VK_SHIFT)
 			vk = (MapVirtualKey((lParam >> 16) & 0xFF, MAPVK_VSC_TO_VK_EX) == VK_RSHIFT) ? VK_RSHIFT : VK_LSHIFT;
 		else if (vk == VK_CONTROL)
@@ -587,7 +607,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		else if (vk == VK_MENU)
 			vk = (lParam & (1 << 24)) ? VK_RMENU : VK_LMENU;
 		g_KBMInput.OnKeyDown(vk);
-		break;
+		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
@@ -639,7 +659,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				BYTE rawBuffer[256];
 				if (GetRawInputData((HRAWINPUT)lParam, RID_INPUT, rawBuffer, &dwSize, sizeof(RAWINPUTHEADER)) == dwSize)
 				{
-					RAWINPUT* raw = (RAWINPUT*)rawBuffer;
+					const RAWINPUT* raw = (RAWINPUT*)rawBuffer;
 					if (raw->header.dwType == RIM_TYPEMOUSE)
 					{
 						g_KBMInput.OnRawMouseDelta(raw->data.mouse.lLastX, raw->data.mouse.lLastY);
@@ -896,7 +916,7 @@ HRESULT InitDevice()
 void Render()
 {
 	// Just clear the backbuffer
-	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
+	const float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
 
 	g_pImmediateContext->ClearRenderTargetView( g_pRenderTargetView, ClearColor );
 	g_pSwapChain->Present( 0, 0 );
@@ -907,7 +927,7 @@ void Render()
 //--------------------------------------------------------------------------------------
 void ToggleFullscreen()
 {
-	DWORD dwStyle = GetWindowLong(g_hWnd, GWL_STYLE);
+	const DWORD dwStyle = GetWindowLong(g_hWnd, GWL_STYLE);
 	if (!g_isFullscreen)
 	{
 		MONITORINFO mi = { sizeof(mi) };
@@ -1048,7 +1068,7 @@ static int RunHeadlessServer()
 	SetupHeadlessServerConsole();
 
 	Settings serverSettings(new File(L"server.properties"));
-	wstring configuredBindIp = serverSettings.getString(L"server-ip", L"");
+	const wstring configuredBindIp = serverSettings.getString(L"server-ip", L"");
 
 	const char* bindIp = "*";
 	if (g_Win64DedicatedServerBindIP[0] != 0)
@@ -1065,7 +1085,7 @@ static int RunHeadlessServer()
 	printf("Starting headless server on %s:%d\n", bindIp, port);
 	fflush(stdout);
 
-	Minecraft* pMinecraft = InitialiseMinecraftRuntime();
+	const Minecraft* pMinecraft = InitialiseMinecraftRuntime();
 	if (pMinecraft == nullptr)
 	{
 		fprintf(stderr, "Failed to initialise the Minecraft runtime.\n");
@@ -1219,7 +1239,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
     }
 
 	// Load stuff from launch options, including username
-	Win64LaunchOptions launchOptions = ParseLaunchOptions();
+	const Win64LaunchOptions launchOptions = ParseLaunchOptions();
 	ApplyScreenMode(launchOptions.screenMode);
 
 	// Ensure uid.dat exists from startup in client mode (before any multiplayer/login path).
@@ -1262,7 +1282,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	if (launchOptions.serverMode)
 	{
-		int serverResult = RunHeadlessServer();
+		const int serverResult = RunHeadlessServer();
 		CleanupDevice();
 		return serverResult;
 	}
@@ -1389,7 +1409,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		// Detect KBM vs controller input mode
 		if (InputManager.IsPadConnected(0))
 		{
-			bool controllerUsed = InputManager.ButtonPressed(0) ||
+			const bool controllerUsed = InputManager.ButtonPressed(0) ||
 				InputManager.GetJoypadStick_LX(0, false) != 0.0f ||
 				InputManager.GetJoypadStick_LY(0, false) != 0.0f ||
 				InputManager.GetJoypadStick_RX(0, false) != 0.0f ||
@@ -1498,6 +1518,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 #endif
 		ui.tick();
 		ui.render();
+
+		pMinecraft->gameRenderer->ApplyGammaPostProcess();
+
 #if 0
 		app.HandleButtonPresses();
 
@@ -1545,7 +1568,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		// Update mouse grab: grab when in-game and no menu is open
 		{
 			static bool altToggleSuppressCapture = false;
-			bool shouldCapture = app.GetGameStarted() && !ui.GetMenuDisplayed(0) && pMinecraft->screen == nullptr;
+			const bool shouldCapture = app.GetGameStarted() && !ui.GetMenuDisplayed(0) && pMinecraft->screen == nullptr;
 			// Left Alt key toggles capture on/off for debugging
 			if (g_KBMInput.IsKeyPressed(VK_LMENU) || g_KBMInput.IsKeyPressed(VK_RMENU))
 			{
@@ -1566,8 +1589,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		// F1 toggles the HUD
 		if (g_KBMInput.IsKeyPressed(VK_F1))
 		{
-			int primaryPad = ProfileManager.GetPrimaryPad();
-			unsigned char displayHud = app.GetGameSettings(primaryPad, eGameSetting_DisplayHUD);
+			const int primaryPad = ProfileManager.GetPrimaryPad();
+			const unsigned char displayHud = app.GetGameSettings(primaryPad, eGameSetting_DisplayHUD);
 			app.SetGameSettings(primaryPad, eGameSetting_DisplayHUD, displayHud ? 0 : 1);
 			app.SetGameSettings(primaryPad, eGameSetting_DisplayHand, displayHud ? 0 : 1);
 		}
@@ -1575,7 +1598,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		// F3 toggles onscreen debug info
 		if (g_KBMInput.IsKeyPressed(VK_F3))
 		{
-			if (Minecraft* pMinecraft = Minecraft::GetInstance())
+			if (const Minecraft* pMinecraft = Minecraft::GetInstance())
 			{
 				if (pMinecraft->options)
 				{
@@ -1610,6 +1633,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 				}
 			}
+		}
+
+		// Open chat
+		if (g_KBMInput.IsKeyPressed('T') && app.GetGameStarted() && !ui.GetMenuDisplayed(0) && pMinecraft->screen == NULL)
+		{
+			g_KBMInput.ClearCharBuffer();
+			pMinecraft->setScreen(new ChatScreen());
+			SetFocus(g_hWnd);
 		}
 
 #if 0

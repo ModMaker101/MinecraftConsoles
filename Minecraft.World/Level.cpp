@@ -178,7 +178,7 @@ void Level::initCacheComplete(lightCache_t *cache, int xc, int yc, int zc)
 }
 
 // Set a brightness value, going through the cache if  enabled for this thread
-void inline Level::setBrightnessCached(lightCache_t *cache, __uint64 *cacheUse, LightLayer::variety layer, int x, int y, int z, int brightness)
+void inline Level::setBrightnessCached(lightCache_t *cache, uint64_t *cacheUse, LightLayer::variety layer, int x, int y, int z, int brightness)
 {
 	if( cache == nullptr )
 	{
@@ -195,8 +195,13 @@ void inline Level::setBrightnessCached(lightCache_t *cache, __uint64 *cacheUse, 
 		( ( z & 0x3f0 ) >> 4 );
 #ifdef _LARGE_WORLDS
 	// Add in the higher bits for x and z
+<<<<<<< HEAD
 	posbits |=  ( ( static_cast<__uint64>(x) & 0x3FFFC00L) << 38) |
 		( ( static_cast<__uint64>(z) & 0x3FFFC00L) << 22);
+=======
+	posbits |=  ( ( ((uint64_t)x) & 0x3FFFC00L) << 38) |
+		( ( ((uint64_t)z) & 0x3FFFC00L) << 22);
+>>>>>>> origin/main
 #endif
 
 	lightCache_t cacheValue = cache[idx];
@@ -254,8 +259,13 @@ inline int Level::getBrightnessCached(lightCache_t *cache, LightLayer::variety l
 		( ( z & 0x3f0 ) >> 4 );
 #ifdef _LARGE_WORLDS
 	// Add in the higher bits for x and z
+<<<<<<< HEAD
 	posbits |=  ( ( static_cast<__uint64>(x) & 0x3FFFC00L) << 38) |
 		( ( static_cast<__uint64>(z) & 0x3FFFC00L) << 22);
+=======
+	posbits |=  ( ( ((uint64_t)x) & 0x3FFFC00L) << 38) |
+		( ( ((uint64_t)z) & 0x3FFFC00L) << 22);
+>>>>>>> origin/main
 #endif
 
 	lightCache_t cacheValue = cache[idx];
@@ -321,8 +331,13 @@ inline int Level::getEmissionCached(lightCache_t *cache, int ct, int x, int y, i
 		( ( z & 0x3f0 ) >> 4 );
 #ifdef _LARGE_WORLDS
 	// Add in the higher bits for x and z
+<<<<<<< HEAD
 	posbits |=  ( ( static_cast<__uint64>(x) & 0x3FFFC00) << 38) |
 		( ( static_cast<__uint64>(z) & 0x3FFFC00) << 22);
+=======
+	posbits |=  ( ( ((uint64_t)x) & 0x3FFFC00) << 38) |
+		( ( ((uint64_t)z) & 0x3FFFC00) << 22);
+>>>>>>> origin/main
 #endif
 
 	lightCache_t cacheValue = cache[idx];
@@ -397,8 +412,13 @@ inline int Level::getBlockingCached(lightCache_t *cache, LightLayer::variety lay
 		( ( z & 0x3f0 ) >> 4 );
 #ifdef _LARGE_WORLDS
 	// Add in the higher bits for x and z
+<<<<<<< HEAD
 	posbits |=  ( ( static_cast<__uint64>(x) & 0x3FFFC00L) << 38) |
 		( ( static_cast<__uint64>(z) & 0x3FFFC00L) << 22);
+=======
+	posbits |=  ( ( ((uint64_t)x) & 0x3FFFC00L) << 38) |
+		( ( ((uint64_t)z) & 0x3FFFC00L) << 22);
+>>>>>>> origin/main
 #endif
 
 	lightCache_t cacheValue = cache[idx];
@@ -460,7 +480,7 @@ inline int Level::getBlockingCached(lightCache_t *cache, LightLayer::variety lay
 // this hasn't been updated (for client threads) for each individual lighting update as would have been the case with the non-cached lighting. There's two reasons for this
 // (1) it's more efficient, since we aren't doing so many individual calls to the level listener to let the renderer know what has been updated
 // (2) it lets the lighting actually complete before we get any visual representation of the update, otherwise we end up seeing some strange partial updates
-void Level::flushCache(lightCache_t *cache, __uint64 cacheUse, LightLayer::variety layer)
+void Level::flushCache(lightCache_t *cache, uint64_t cacheUse, LightLayer::variety layer)
 {
 	// cacheUse has a single bit for each x, y and z to say whether anything with that x, y or z has been written to
 	if( cacheUse == 0 ) return;
@@ -3437,8 +3457,13 @@ int Level::getExpectedLight(lightCache_t *cache, int x, int y, int z, LightLayer
 // 4J - Made changes here so that lighting goes through a cache, if enabled for this thread
 void Level::checkLight(LightLayer::variety layer, int xc, int yc, int zc, bool force, bool rootOnlyEmissive)
 {
+<<<<<<< HEAD
 	lightCache_t *cache = static_cast<lightCache_t *>(TlsGetValue(tlsIdxLightCache));
 	__uint64 cacheUse = 0;
+=======
+	lightCache_t *cache = (lightCache_t *)TlsGetValue(tlsIdxLightCache);
+	uint64_t cacheUse = 0;
+>>>>>>> origin/main
 
 	if( force )
 	{
@@ -4281,13 +4306,13 @@ void Level::checkSession()
 }
 
 
-void Level::setGameTime(__int64 time)
+void Level::setGameTime(int64_t time)
 {
 	// 4J : WESTY : Added to track game time played by players for other awards.
 	if (time != 0) // Ignore setting time to 0, done at level start and during tutorial.
 	{
 		// Determine step in time and ensure it is reasonable ( we only have an int to store the player stat).
-		__int64 timeDiff = time - levelData->getGameTime();
+		int64_t timeDiff = time - levelData->getGameTime();
 
 		if (timeDiff < 0)
 		{
@@ -4313,22 +4338,22 @@ void Level::setGameTime(__int64 time)
 	levelData->setGameTime(time);
 }
 
-__int64 Level::getSeed()
+int64_t Level::getSeed()
 {
 	return levelData->getSeed();
 }
 
-__int64 Level::getGameTime()
+int64_t Level::getGameTime()
 {
 	return levelData->getGameTime();
 }
 
-__int64 Level::getDayTime()
+int64_t Level::getDayTime()
 {
 	return levelData->getDayTime();
 }
 
-void Level::setDayTime(__int64 newTime)
+void Level::setDayTime(int64_t newTime)
 {
 	levelData->setDayTime(newTime);
 }
@@ -4524,7 +4549,7 @@ Tickable *Level::makeSoundUpdater(shared_ptr<Minecart> minecart)
 
 Random *Level::getRandomFor(int x, int z, int blend)
 {
-	__int64 seed = (x * 341873128712l + z * 132897987541l) + getLevelData()->getSeed() + blend;
+	int64_t seed = (x * 341873128712l + z * 132897987541l) + getLevelData()->getSeed() + blend;
 	random->setSeed(seed);
 	return random;
 }

@@ -45,8 +45,8 @@
 CGameNetworkManager g_NetworkManager;
 CPlatformNetworkManager *CGameNetworkManager::s_pPlatformNetworkManager;
 
-__int64 CGameNetworkManager::messageQueue[512];
-__int64 CGameNetworkManager::byteQueue[512];
+int64_t CGameNetworkManager::messageQueue[512];
+int64_t CGameNetworkManager::byteQueue[512];
 int CGameNetworkManager::messageQueuePos = 0;
 
 CGameNetworkManager::CGameNetworkManager()
@@ -194,8 +194,8 @@ bool	CGameNetworkManager::StartNetworkGame(Minecraft *minecraft, LPVOID lpParame
 	ProfileManager.SetDeferredSignoutEnabled(true);
 #endif
 
-	__int64 seed = 0;
-	if(lpParameter != nullptr)
+    int64_t seed = 0;
+    if (lpParameter != nullptr)
 	{
 		NetworkGameInitData *param = static_cast<NetworkGameInitData *>(lpParameter);
 		seed = param->seed;
@@ -287,7 +287,7 @@ bool	CGameNetworkManager::StartNetworkGame(Minecraft *minecraft, LPVOID lpParame
 		}
 	}
 
-	static __int64 sseed = seed;	// Create static version so this will be valid until next call to this function & whilst thread is running
+	static int64_t sseed = seed;	// Create static version so this will be valid until next call to this function & whilst thread is running
 	ServerStoppedCreate(false);
 	if( g_NetworkManager.IsHost() )
 	{
@@ -929,8 +929,8 @@ int CGameNetworkManager::RunNetworkGameThreadProc( void* lpParameter )
 
 int CGameNetworkManager::ServerThreadProc( void* lpParameter )
 {
-	__int64 seed = 0;
-	if(lpParameter != nullptr)
+    int64_t seed = 0;
+    if (lpParameter != nullptr)
 	{
 		NetworkGameInitData *param = static_cast<NetworkGameInitData *>(lpParameter);
 		seed = param->seed;

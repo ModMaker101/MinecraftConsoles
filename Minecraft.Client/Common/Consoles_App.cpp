@@ -5564,7 +5564,7 @@ void CMinecraftApp::HandleDLC(DLCPack *pack)
 	// 4J Stu - I don't know why we handle more than one file here any more, however this doesn't seem to work with the PS4 patches
 	if(dlcFilenames.size() > 0) m_dlcManager.readDLCDataFile(dwFilesProcessed, dlcFilenames[0], pack);
 #else
-	for(int i=0; i<dlcFilenames.size();i++)
+	for(size_t i=0; i<dlcFilenames.size();i++)
 	{
 		m_dlcManager.readDLCDataFile(dwFilesProcessed, dlcFilenames[i], pack);
 	}
@@ -7190,7 +7190,7 @@ DLC_INFO *CMinecraftApp::GetDLCInfoFromTPackID(int iTPID)
 {
 	unordered_map<string, DLC_INFO *>::iterator it= DLCInfo.begin();
 
-	for(int i=0;i<DLCInfo.size();i++)
+	for(size_t i=0;i<DLCInfo.size();i++)
 	{
 		if(((DLC_INFO *)it->second)->iConfig==iTPID)
 		{
@@ -7392,7 +7392,7 @@ DLC_INFO *CMinecraftApp::GetDLCInfoForProductName(WCHAR *pwchProductName)
 	unordered_map<wstring, DLC_INFO *>::iterator it= DLCInfo_Full.begin();
 	wstring wsProductName=pwchProductName;
 
-	for(int i=0;i<DLCInfo_Full.size();i++)
+	for(size_t i=0;i<DLCInfo_Full.size();i++)
 	{
 		DLC_INFO *pDLCInfo=(DLC_INFO *)it->second;
 		if(wsProductName==pDLCInfo->wsDisplayName)
@@ -7697,8 +7697,8 @@ void CMinecraftApp::RemoveLevelFromBannedLevelList(int iPad, PlayerUID xuid, cha
 	{
 		PBANNEDLISTDATA pBannedList = (BANNEDLISTDATA *)(new BYTE [dwDataBytes]);
 
-		int iSize=static_cast<int>(m_vBannedListA[iPad]->size());
-		for(int i=0;i<iSize;i++)
+		size_t iSize=m_vBannedListA[iPad]->size();
+		for(size_t i=0;i<iSize;i++)
 		{
 			PBANNEDLISTDATA pBannedListData =m_vBannedListA[iPad]->at(i);
 
@@ -9809,7 +9809,7 @@ void CMinecraftApp::getLocale(vector<wstring> &vecWstrLocales)
 	locales.push_back(eMCLang_enUS);
 	locales.push_back(eMCLang_null);
 
-	for (int i=0; i<locales.size(); i++)
+	for (size_t i=0; i<locales.size(); i++)
 	{
 		eMCLang lang = locales.at(i);
 		vecWstrLocales.push_back( m_localeA[lang] );

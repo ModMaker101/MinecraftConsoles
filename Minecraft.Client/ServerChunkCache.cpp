@@ -679,19 +679,19 @@ bool ServerChunkCache::save(bool force, ProgressListener *progressListener)
 
 		vector<LevelChunk *> sortedChunkList;
 
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x < 0 ) && ( m_loadedChunkList[i]->z < 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x >= 0 ) && ( m_loadedChunkList[i]->z < 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x >= 0 ) && ( m_loadedChunkList[i]->z >= 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x < 0 ) && ( m_loadedChunkList[i]->z >= 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
@@ -764,19 +764,19 @@ bool ServerChunkCache::save(bool force, ProgressListener *progressListener)
 
 		vector<LevelChunk *> sortedChunkList;
 
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x < 0 ) && ( m_loadedChunkList[i]->z < 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x >= 0 ) && ( m_loadedChunkList[i]->z < 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x >= 0 ) && ( m_loadedChunkList[i]->z >= 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}
-		for( int i = 0; i < m_loadedChunkList.size(); i++ )
+		for( size_t i = 0; i < m_loadedChunkList.size(); i++ )
 		{
 			if( ( m_loadedChunkList[i]->x < 0 ) && ( m_loadedChunkList[i]->z >= 0 ) ) sortedChunkList.push_back(m_loadedChunkList[i]);
 		}

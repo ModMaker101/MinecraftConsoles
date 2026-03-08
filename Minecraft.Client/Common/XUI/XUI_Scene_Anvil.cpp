@@ -89,8 +89,8 @@ HRESULT CXuiSceneAnvil::OnNotifyValueChanged (HXUIOBJ hObjSource, XUINotifyValue
 
 		// strip leading spaces
 		wstring b;
-		int start = static_cast<int>(newValue.find_first_not_of(L" "));
-		int end = static_cast<int>(newValue.find_last_not_of(L" "));
+		size_t start = newValue.find_first_not_of(L" ");
+		size_t end = newValue.find_last_not_of(L" ");
 
 		if( start == wstring::npos )
 		{
@@ -99,7 +99,7 @@ HRESULT CXuiSceneAnvil::OnNotifyValueChanged (HXUIOBJ hObjSource, XUINotifyValue
 		}
 		else
 		{
-			if( end == wstring::npos ) end = static_cast<int>(newValue.size())-1;
+			if( end == wstring::npos ) end = newValue.size() - 1;
 			b = newValue.substr(start,(end-start)+1);
 			newValue=b;
 		}

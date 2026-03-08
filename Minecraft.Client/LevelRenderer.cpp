@@ -389,7 +389,7 @@ void LevelRenderer::setLevel(int playerIndex, MultiPlayerLevel *level)
 
 void LevelRenderer::AddDLCSkinsToMemTextures()
 {
-	for(int i=0;i<app.vSkinNames.size();i++)
+	for(size_t i=0;i<app.vSkinNames.size();i++)
 	{
 		textures->addMemTexture(app.vSkinNames[i], new MobSkinMemTextureProcessor());
 	}

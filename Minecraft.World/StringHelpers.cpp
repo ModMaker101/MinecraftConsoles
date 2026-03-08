@@ -10,10 +10,10 @@ wstring toLower(const wstring& a)
 wstring trimString(const wstring& a)
 {
 	wstring b;
-	int start = static_cast<int>(a.find_first_not_of(L" \t\n\r"));
-	int end = static_cast<int>(a.find_last_not_of(L" \t\n\r"));
+	size_t start = a.find_first_not_of(L" \t\n\r");
+	size_t end = a.find_last_not_of(L" \t\n\r");
 	if( start == wstring::npos ) start = 0;
-	if( end == wstring::npos ) end = static_cast<int>(a.size())-1;
+	if( end == wstring::npos ) end = a.size() - 1;
 	b = a.substr(start,(end-start)+1);
 	return b;
 }

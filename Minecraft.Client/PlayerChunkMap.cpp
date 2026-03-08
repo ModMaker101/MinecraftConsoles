@@ -375,7 +375,7 @@ void PlayerChunkMap::tick()
 	{
         lastInhabitedUpdate = time;
 
-        for (int i = 0; i < knownChunks.size(); i++)
+        for (size_t i = 0; i < knownChunks.size(); i++)
 		{
             PlayerChunk *chunk = knownChunks.at(i);
 
@@ -784,7 +784,7 @@ void PlayerChunkMap::setRadius(int newRadius)
 	if( radius != newRadius )
 	{
 		PlayerList* players = level->getServer()->getPlayerList();
-		for( int i = 0;i < players->players.size();i += 1 )
+		for( size_t i = 0;i < players->players.size();i += 1 )
 		{
 			shared_ptr<ServerPlayer> player = players->players[i];
 			if( player->level == level )

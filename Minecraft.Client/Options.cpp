@@ -422,7 +422,7 @@ void Options::load()
 			// 4J - removed try/catch
 //            try {
                 wstring cmds[2];
-				int splitpos = static_cast<int>(line.find(L":"));
+				size_t splitpos = line.find(L":");
 				if( splitpos == wstring::npos )
 				{
 					cmds[0] = line;

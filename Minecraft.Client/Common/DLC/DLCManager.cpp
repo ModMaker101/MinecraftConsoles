@@ -373,7 +373,7 @@ bool DLCManager::readDLCDataFile(DWORD &dwFilesProcessed, const string &path, DL
 
 bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD dwLength, DLCPack *pack)
 {
-	unordered_map<int, DLCManager::EDLCParameterType> parameterMapping;
+	unordered_map<int, EDLCParameterType> parameterMapping;
 	unsigned int uiCurrentByte=0;
 
 	// File format defined in the DLC_Creator
@@ -405,8 +405,8 @@ bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD
 	{
 		// Map DLC strings to application strings, then store the DLC index mapping to application index
 		wstring parameterName(static_cast<WCHAR *>(pParams->wchData));
-		DLCManager::EDLCParameterType type = DLCManager::getParameterType(parameterName);
-		if( type != DLCManager::e_DLCParamType_Invalid )
+		EDLCParameterType type = getParameterType(parameterName);
+		if( type != e_DLCParamType_Invalid )
 		{
 			parameterMapping[pParams->dwType] = type;
 		}
@@ -430,7 +430,7 @@ bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD
 
 	for(unsigned int i=0;i<uiFileCount;i++)
 	{
-		DLCManager::EDLCType type = static_cast<DLCManager::EDLCType>(pFile->dwType);
+		EDLCType type = static_cast<EDLCType>(pFile->dwType);
 
 		DLCFile *dlcFile = nullptr;
 		DLCPack *dlcTexturePack = nullptr;
@@ -485,7 +485,7 @@ bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD
 			{
 				pack->addChildPack(dlcTexturePack);
 
-				if(dlcTexturePack->getDLCItemsCount(DLCManager::e_DLCType_Texture) > 0)
+				if(dlcTexturePack->getDLCItemsCount(e_DLCType_Texture) > 0)
 				{
 					Minecraft::GetInstance()->skins->addTexturePackFromDLC(dlcTexturePack, dlcTexturePack->GetPackId() );
 				}
@@ -500,7 +500,7 @@ bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD
 			// TODO - 4J Stu Remove the need for this vSkinNames vector, or manage it differently
 			switch(pFile->dwType)
 			{
-			case DLCManager::e_DLCType_Skin:
+			case e_DLCType_Skin:
 				app.vSkinNames.push_back((WCHAR *)pFile->wchFile);
 				break;
 			}
@@ -515,13 +515,13 @@ bool DLCManager::processDLCDataFile(DWORD &dwFilesProcessed, PBYTE pbData, DWORD
 		pFile=(C4JStorage::DLC_FILE_DETAILS *)&pbData[uiCurrentByte];
 	}
 
-	if( pack->getDLCItemsCount(DLCManager::e_DLCType_GameRules) > 0
-		|| pack->getDLCItemsCount(DLCManager::e_DLCType_GameRulesHeader) > 0)
+	if( pack->getDLCItemsCount(e_DLCType_GameRules) > 0
+		|| pack->getDLCItemsCount(e_DLCType_GameRulesHeader) > 0)
 	{
 		app.m_gameRules.loadGameRules(pack);
 	}
 
-	if(pack->getDLCItemsCount(DLCManager::e_DLCType_Audio) > 0)
+	if(pack->getDLCItemsCount(e_DLCType_Audio) > 0)
 	{
 		//app.m_Audio.loadAudioDetails(pack);
 	}
@@ -580,7 +580,7 @@ DWORD DLCManager::retrievePackID(PBYTE pbData, DWORD dwLength, DLCPack *pack)
 {
 	DWORD packId=0;
 	bool bPackIDSet=false;
-	unordered_map<int, DLCManager::EDLCParameterType> parameterMapping;
+	unordered_map<int, EDLCParameterType> parameterMapping;
 	unsigned int uiCurrentByte=0;
 
 	// File format defined in the DLC_Creator
@@ -610,8 +610,8 @@ DWORD DLCManager::retrievePackID(PBYTE pbData, DWORD dwLength, DLCPack *pack)
 	{
 		// Map DLC strings to application strings, then store the DLC index mapping to application index
 		wstring parameterName(static_cast<WCHAR *>(pParams->wchData));
-		DLCManager::EDLCParameterType type = DLCManager::getParameterType(parameterName);
-		if( type != DLCManager::e_DLCParamType_Invalid )
+		EDLCParameterType type = getParameterType(parameterName);
+		if( type != e_DLCParamType_Invalid )
 		{
 			parameterMapping[pParams->dwType] = type;
 		}
@@ -634,7 +634,7 @@ DWORD DLCManager::retrievePackID(PBYTE pbData, DWORD dwLength, DLCPack *pack)
 
 	for(unsigned int i=0;i<uiFileCount;i++)
 	{
-		DLCManager::EDLCType type = static_cast<DLCManager::EDLCType>(pFile->dwType);
+		EDLCType type = static_cast<EDLCType>(pFile->dwType);
 
 		// Params
 		uiParameterCount=*(unsigned int *)pbTemp;

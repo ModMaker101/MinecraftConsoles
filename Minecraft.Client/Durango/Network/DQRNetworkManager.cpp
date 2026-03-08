@@ -892,7 +892,7 @@ void DQRNetworkManager::Tick_VoiceChat()
 #endif
 	// If we have to inform the chat integration layer of any players that have joined, do that now
 	EnterCriticalSection(&m_csVecChatPlayers);
-	for( int i = 0; i < m_vecChatPlayersJoined.size(); i++ )
+	for( size_t i = 0; i < m_vecChatPlayersJoined.size(); i++ )
 	{
 		int idx = m_vecChatPlayersJoined[i];
 		if( m_chat )
@@ -1509,12 +1509,12 @@ void DQRNetworkManager::UpdateRoomSyncPlayers(RoomSyncData *pNewSyncData)
 	}
 	memcpy(&m_roomSyncData, pNewSyncData, sizeof(m_roomSyncData));
 
-	for( int i = 0; i < tempPlayers.size(); i++ )
+	for( size_t i = 0; i < tempPlayers.size(); i++ )
 	{
 		m_listener->HandlePlayerLeaving(tempPlayers[i]);
 		delete tempPlayers[i];
 	}
-	for( int i = 0; i < newPlayers.size(); i++ )
+	for( size_t i = 0; i < newPlayers.size(); i++ )
 	{
 		m_listener->HandlePlayerJoined(newPlayers[i]);	// For clients, this is where we get notified of local and remote players joining
 	}
@@ -1592,7 +1592,7 @@ void DQRNetworkManager::RemoveRoomSyncPlayersWithSessionAddress(unsigned int ses
 	}
 	m_roomSyncData.playerCount = iWriteIdx;
 
-	for( int i = 0; i < removedPlayers.size(); i++ )
+	for( size_t i = 0; i < removedPlayers.size(); i++ )
 	{
 		m_listener->HandlePlayerLeaving(removedPlayers[i]);
 		delete removedPlayers[i];
@@ -1623,7 +1623,7 @@ void DQRNetworkManager::RemoveRoomSyncPlayer(DQRNetworkPlayer *pPlayer)
 	}
 	m_roomSyncData.playerCount = iWriteIdx;
 
-	for( int i = 0; i < removedPlayers.size(); i++ )
+	for( size_t i = 0; i < removedPlayers.size(); i++ )
 	{
 		m_listener->HandlePlayerLeaving(removedPlayers[i]);
 		delete removedPlayers[i];

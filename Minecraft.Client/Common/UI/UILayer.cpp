@@ -102,7 +102,7 @@ void UILayer::render(S32 width, S32 height, C4JRender::eViewportType viewport)
 bool UILayer::IsSceneInStack(EUIScene scene)
 {
 	bool inStack = false;
-	for(int i = m_sceneStack.size() - 1;i >= 0; --i)
+	for(size_t i = (int)m_sceneStack.size() - 1;i >= 0; --i)
 	{
 		if(m_sceneStack[i]->getSceneType() == scene)
 		{
@@ -118,7 +118,7 @@ bool UILayer::HasFocus(int iPad)
 	bool hasFocus = false;
 	if(m_hasFocus)
 	{
-		for(int i = m_sceneStack.size() - 1;i >= 0; --i)
+		for(size_t i = (int)m_sceneStack.size() - 1;i >= 0; --i)
 		{
 			if(m_sceneStack[i]->stealsFocus() )
 			{
@@ -146,7 +146,7 @@ bool UILayer::hidesLowerScenes()
 	}
 	if(!hidesScenes && !m_sceneStack.empty())
 	{
-		for(int i = m_sceneStack.size() - 1;i >= 0; --i)
+		for(size_t i = (int)m_sceneStack.size() - 1;i >= 0; --i)
 		{
 			if(m_sceneStack[i]->hidesLowerScenes())
 			{
@@ -897,7 +897,7 @@ void UILayer::PrintTotalMemoryUsage(int64_t &totalStatic, int64_t &totalDynamic)
 // Returns the first scene of given type if it exists, nullptr otherwise
 UIScene *UILayer::FindScene(EUIScene sceneType)
 {
-	for (int i = 0; i < m_sceneStack.size(); i++)
+	for (size_t i = 0; i < m_sceneStack.size(); i++)
 	{
 		if (m_sceneStack[i]->getSceneType() == sceneType)
 		{

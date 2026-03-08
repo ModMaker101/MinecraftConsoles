@@ -19,8 +19,8 @@ UIScene_NewUpdateMessage::UIScene_NewUpdateMessage(int iPad, void *initData, UIL
 	message=app.FormatHTMLString(m_iPad,message);
 
 	vector<wstring> paragraphs;
-	int lastIndex = 0;
-	for (	int index = message.find(L"\r\n", lastIndex, 2);
+	size_t lastIndex = 0;
+	for (	size_t index = message.find(L"\r\n", lastIndex, 2);
 			index != wstring::npos; 
 			index = message.find(L"\r\n", lastIndex, 2)
 		)

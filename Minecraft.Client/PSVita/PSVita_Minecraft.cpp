@@ -1078,7 +1078,7 @@ uint8_t * AddRichPresenceString(int iID)
 void FreeRichPresenceStrings()
 {
 	uint8_t *strUtf8;
-	for(int i=0;i<vRichPresenceStrings.size();i++)
+	for(size_t i=0;i<vRichPresenceStrings.size();i++)
 	{
 		strUtf8=vRichPresenceStrings.at(i);
 		free(strUtf8);

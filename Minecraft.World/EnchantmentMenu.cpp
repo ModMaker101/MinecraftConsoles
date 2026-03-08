@@ -53,7 +53,7 @@ void EnchantmentMenu::broadcastChanges()
 	// 4J Added m_costsChanged to stop continually sending update packets even when no changes have been made
 	if(m_costsChanged)
 	{
-		for (int i = 0; i < containerListeners.size(); i++)
+		for (size_t i = 0; i < containerListeners.size(); i++)
 		{
 			ContainerListener *listener = containerListeners.at(i);
 			listener->setContainerData(this, 0, costs[0]);

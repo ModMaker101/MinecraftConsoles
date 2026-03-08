@@ -34,7 +34,7 @@ BaseRailTile::Rail::Rail(Level *level, int x, int y, int z)
 
 BaseRailTile::Rail::~Rail()
 {
-	for( int i = 0; i < connections.size(); i++ )
+	for( size_t i = 0; i < connections.size(); i++ )
 	{
 		delete connections[i];
 	}
@@ -44,7 +44,7 @@ void BaseRailTile::Rail::updateConnections(int direction)
 {
 	if(m_bValidRail)
 	{
-		for( int i = 0; i < connections.size(); i++ )
+		for( size_t i = 0; i < connections.size(); i++ )
 		{
 			delete connections[i];
 		}

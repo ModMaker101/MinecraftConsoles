@@ -2895,7 +2895,7 @@ shared_ptr<TileEntity> Level::getTileEntity(int x, int y, int z)
 	if (updatingTileEntities)
 	{
 		EnterCriticalSection(&m_tileEntityListCS);
-		for (int i = 0; i < pendingTileEntities.size(); i++)
+		for (size_t i = 0; i < pendingTileEntities.size(); i++)
 		{
 			shared_ptr<TileEntity> e = pendingTileEntities.at(i);
 			if (!e->isRemoved() && e->x == x && e->y == y && e->z == z)

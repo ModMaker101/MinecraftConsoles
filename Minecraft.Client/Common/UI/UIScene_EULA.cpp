@@ -48,8 +48,8 @@ UIScene_EULA::UIScene_EULA(int iPad, void *initData, UILayer *parentLayer) : UIS
 #endif
 
 	vector<wstring> paragraphs;
-	int lastIndex = 0;
-	for (	int index = EULA.find(L"\r\n", lastIndex, 2);
+	size_t lastIndex = 0;
+	for (	size_t index = EULA.find(L"\r\n", lastIndex, 2);
 			index != wstring::npos; 
 			index = EULA.find(L"\r\n", lastIndex, 2)
 		)

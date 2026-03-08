@@ -2178,7 +2178,7 @@ void MinecraftServer::tick()
 
 	// 4J - removed
 #if 0
-	for (int i = 0; i < tickables.size(); i++) {
+	for (size_t i = 0; i < tickables.size(); i++) {
 		tickables.get(i)-tick();
 	}
 #endif
@@ -2275,7 +2275,7 @@ bool MinecraftServer::chunkPacketManagement_CanSendTo(INetworkPlayer *player)
 	if( s_hasSentEnoughPackets ) return false;
 	if( player == nullptr ) return false;
 
-	for( int i = 0; i < s_sentTo.size(); i++ )
+	for( size_t i = 0; i < s_sentTo.size(); i++ )
 	{
 		if( s_sentTo[i]->IsSameSystem(player) )
 		{

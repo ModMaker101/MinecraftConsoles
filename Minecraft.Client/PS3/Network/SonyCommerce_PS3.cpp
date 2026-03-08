@@ -766,7 +766,7 @@ int SonyCommerce_PS3::checkout(CheckoutInputParams &params)
 		}
 	}
 
-	for (int i = 0; i < params.skuIds.size(); i++) {
+	for (size_t i = 0; i < params.skuIds.size(); i++) {
 		skuIdsTemp[i] = (const char *)(*iter);
 		iter++;
 	}
@@ -794,7 +794,7 @@ int SonyCommerce_PS3::downloadList(DownloadListInputParams &params)
 		}
 	}
 
-	for (int i = 0; i < params.skuIds.size(); i++) {
+	for (size_t i = 0; i < params.skuIds.size(); i++) {
 		skuIdsTemp[i] = (const char *)(*iter);
 		iter++;
 	}

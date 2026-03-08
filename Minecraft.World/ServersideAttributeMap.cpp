@@ -69,7 +69,7 @@ unordered_set<AttributeInstance *> *ServersideAttributeMap::getSyncableAttribute
 	unordered_set<AttributeInstance *> *result = new unordered_set<AttributeInstance *>();
 	vector<AttributeInstance *> atts;
 	getAttributes(atts);
-	for (int i = 0; i < atts.size(); i++)
+	for (size_t i = 0; i < atts.size(); i++)
 	{
 		AttributeInstance *instance = atts.at(i);
 

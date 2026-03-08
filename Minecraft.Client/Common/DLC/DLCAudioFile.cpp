@@ -87,7 +87,7 @@ void DLCAudioFile::addParameter(EAudioType type, EAudioParameterType ptype, cons
 					{
 						i++;
 					}
-					int iLast=static_cast<int>(creditValue.find_last_of(L" ", i));
+					size_t iLast=creditValue.find_last_of(L" ", i);
 					switch(XGetLanguage())
 					{
 					case XC_LANGUAGE_JAPANESE:
@@ -96,7 +96,7 @@ void DLCAudioFile::addParameter(EAudioType type, EAudioParameterType ptype, cons
 						iLast = maximumChars;
 						break;
 					default:
-						iLast=static_cast<int>(creditValue.find_last_of(L" ", i));
+						iLast=creditValue.find_last_of(L" ", i);
 						break;
 					}
 
@@ -198,7 +198,7 @@ bool DLCAudioFile::processDLCDataFile(PBYTE pbData, DWORD dwLength)
 	return true;
 }
 
-int DLCAudioFile::GetCountofType(DLCAudioFile::EAudioType eType)
+int DLCAudioFile::GetCountofType(EAudioType eType)
 {
 	return m_parameters[eType].size();
 }

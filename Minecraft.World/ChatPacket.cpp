@@ -71,12 +71,12 @@ void ChatPacket::write(DataOutputStream *dos)
 
 	dos->writeShort(packedCounts);
 
-	for(int i = 0; i < m_stringArgs.size(); i++)
+	for(size_t i = 0; i < m_stringArgs.size(); i++)
 	{
 		writeUtf(m_stringArgs[i], dos);
 	}
 
-	for(int i = 0; i < m_intArgs.size(); i++)
+	for(size_t i = 0; i < m_intArgs.size(); i++)
 	{
 		dos->writeInt(m_intArgs[i]);
 	}
@@ -92,7 +92,7 @@ void ChatPacket::handle(PacketListener *listener)
 int ChatPacket::getEstimatedSize() 
 {
 	int stringsSize = 0;
-	for(int i = 0; i < m_stringArgs.size(); i++)
+	for(size_t i = 0; i < m_stringArgs.size(); i++)
 	{
 		stringsSize += m_stringArgs[i].length();
 	}

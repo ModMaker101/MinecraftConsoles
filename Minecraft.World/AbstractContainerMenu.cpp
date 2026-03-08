@@ -480,7 +480,7 @@ shared_ptr<ItemInstance> AbstractContainerMenu::clicked(int slotIndex, int butto
 			for (int pass = 0; pass < 2; pass++ )
 			{
 				// In the first pass, we only get partial stacks.
-				for (int i = start; i >= 0 && i < static_cast<int>(slots.size()) && carried->count < carried->getMaxStackSize(); i += step)
+				for (size_t i = start; i >= 0 && i < static_cast<int>(slots.size()) && carried->count < carried->getMaxStackSize(); i += step)
 				{
 					Slot *target = slots.at(i);
 

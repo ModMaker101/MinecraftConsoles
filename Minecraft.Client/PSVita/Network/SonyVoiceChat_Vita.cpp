@@ -378,7 +378,7 @@ uint32_t					lastReadFrameCnt = 0;
 
 void PrintAllOutputVoiceStates( std::vector<SQRVoiceConnection*>& connections)
 {
-	for(int rIdx=0;rIdx<connections.size(); rIdx++)
+	for(size_t rIdx=0;rIdx<connections.size(); rIdx++)
 	{
 		SQRVoiceConnection* pVoice = connections[rIdx];
 		SceVoiceBasePortInfo        portInfo;
@@ -565,7 +565,7 @@ void SonyVoiceChat_Vita::sendAllVoiceData()
 		EnterCriticalSection(&m_csRemoteConnections);
 
 		// send this packet out to all our remote connections
-		for(int rIdx=0;rIdx<m_remoteConnections.size(); rIdx++)
+		for(size_t rIdx=0;rIdx<m_remoteConnections.size(); rIdx++)
 		{
 			SQRVoiceConnection* pVoice = m_remoteConnections[rIdx];
 			if(pVoice->m_bConnected)
@@ -668,7 +668,7 @@ void SonyVoiceChat_Vita::tick()
 		
 		EnterCriticalSection(&m_csRemoteConnections);
 		
-		for(int i=m_remoteConnections.size()-1;i>=0;i--)
+		for(size_t i=m_remoteConnections.size()-1;i>=0;i--)
 		{
 			if(m_remoteConnections[i]->m_bFlaggedForShutdown)
 			{
@@ -998,7 +998,7 @@ void SonyVoiceChat_Vita::disconnectLocalPlayer( int localIdx )
 
  	if(m_numLocalDevicesConnected == 0) // no more local players, kill all the remote connections
  	{
- 		for(int i=0;i<m_remoteConnections.size();i++)
+	for(size_t i=0;i<m_remoteConnections.size();i++)
  		{
  			delete m_remoteConnections[i];
  		}

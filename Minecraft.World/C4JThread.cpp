@@ -439,7 +439,7 @@ C4JThread* C4JThread::getCurrentThread()
 #endif //__PS3__
 	EnterCriticalSection(&ms_threadListCS);
 
-	for(int i=0;i<ms_threadList.size(); i++)
+	for(size_t i=0;i<ms_threadList.size(); i++)
 	{
 		if(currThreadID == ms_threadList[i]->m_threadID)
 		{

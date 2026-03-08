@@ -219,13 +219,13 @@ wstring UIComponent_TutorialPopup::_SetIcon(int icon, int iAuxVal, bool isFoil, 
 		m_iconItem = nullptr;
 		wstring openTag(L"{*ICON*}");
 		wstring closeTag(L"{*/ICON*}");
-		int iconTagStartPos = static_cast<int>(temp.find(openTag));
-		int iconStartPos = iconTagStartPos + static_cast<int>(openTag.length());
-		if( iconTagStartPos > 0 && iconStartPos < static_cast<int>(temp.length()) )
+		size_t iconTagStartPos = temp.find(openTag);
+		size_t iconStartPos = iconTagStartPos + openTag.length();
+		if( iconTagStartPos > 0 && iconStartPos < temp.length() )
 		{
-			int iconEndPos = static_cast<int>(temp.find(closeTag, iconStartPos));
+			size_t iconEndPos = temp.find(closeTag, iconStartPos);
 
-			if(iconEndPos > iconStartPos && iconEndPos < static_cast<int>(temp.length()) )
+			if(iconEndPos > iconStartPos && iconEndPos < temp.length() )
 			{
 				wstring id = temp.substr(iconStartPos, iconEndPos - iconStartPos);
 
@@ -341,13 +341,13 @@ wstring UIComponent_TutorialPopup::_SetImage(wstring &desc)
 
 	wstring openTag(L"{*IMAGE*}");
 	wstring closeTag(L"{*/IMAGE*}");
-	int imageTagStartPos = (int)desc.find(openTag);
-	int imageStartPos = imageTagStartPos + (int)openTag.length();
-	if( imageTagStartPos > 0 && imageStartPos < (int)desc.length() )
+	size_t imageTagStartPos = desc.find(openTag);
+	size_t imageStartPos = imageTagStartPos + openTag.length();
+	if( imageTagStartPos > 0 && imageStartPos < desc.length() )
 	{
-		int imageEndPos = (int)desc.find( closeTag, imageStartPos );
+		size_t imageEndPos = desc.find( closeTag, imageStartPos );
 
-		if(imageEndPos > imageStartPos && imageEndPos < (int)desc.length() )
+		if(imageEndPos > imageStartPos && imageEndPos < desc.length() )
 		{
 			wstring id = desc.substr(imageStartPos, imageEndPos - imageStartPos);
 			m_image.SetImagePath( id.c_str() );

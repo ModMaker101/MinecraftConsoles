@@ -57,13 +57,13 @@ HRESULT CScene_Win::OnInit( XUIMessageInit* pInitData, BOOL& bHandled )
 	noNoiseString = app.FormatHTMLString(m_iPad, noNoiseString, 0xff000000);
 
 	Random random(8124371);
-	int found=static_cast<int>(noNoiseString.find_first_of(L"{"));
-	int length;
+	size_t found=noNoiseString.find_first_of(L"{");
+	size_t length;
 	while (found!=string::npos)
 	{
 		length = random.nextInt(4) + 3;
 		m_noiseLengths.push_back(length);
-		found=static_cast<int>(noNoiseString.find_first_of(L"{", found + 1));
+		found=noNoiseString.find_first_of(L"{", found + 1);
 	}
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();

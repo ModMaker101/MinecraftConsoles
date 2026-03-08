@@ -521,7 +521,7 @@ void Chunk::rebuild()
 		else
 		{
 			// Easy case - nothing already existing for this chunk. Add them all in.
-			for( int i = 0; i < renderableTileEntities.size(); i++ )
+			for( size_t i = 0; i < renderableTileEntities.size(); i++ )
 			{
 				(*globalRenderableTileEntities)[key].push_back(renderableTileEntities[i]);
 			}
@@ -826,7 +826,7 @@ void Chunk::rebuild_SPU()
 			}
 
 			// Now go through the current list. If these are already in the list, then unflag the remove flag. If they aren't, then add
-			for( int i = 0; i < renderableTileEntities.size(); i++ )
+			for( size_t i = 0; i < renderableTileEntities.size(); i++ )
 			{
 				auto it2 = find( it->second.begin(), it->second.end(), renderableTileEntities[i] );
 				if( it2 == it->second.end() )
@@ -842,7 +842,7 @@ void Chunk::rebuild_SPU()
 		else
 		{
 			// Easy case - nothing already existing for this chunk. Add them all in.
-			for( int i = 0; i < renderableTileEntities.size(); i++ )
+			for( size_t i = 0; i < renderableTileEntities.size(); i++ )
 			{
 				(*globalRenderableTileEntities)[key].push_back(renderableTileEntities[i]);
 			}

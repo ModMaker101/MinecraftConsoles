@@ -69,7 +69,7 @@ void FireworksItem::appendHoverText(shared_ptr<ItemInstance> itemInstance, share
 			if (eLines.size() > 0)
 			{
 				// Indent lines after first line
-				for (int i = 1; i < eLines.size(); i++)
+				for (size_t i = 1; i < eLines.size(); i++)
 				{
 					eLines[i].indent = true;
 				}

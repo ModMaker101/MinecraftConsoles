@@ -170,7 +170,7 @@ CombatEntry *CombatTracker::getMostSignificantFall()
 	int altDamage = 0;
 	float bestFall = 0;
 
-	for (int i = 0; i < entries.size(); i++)
+	for (size_t i = 0; i < entries.size(); i++)
 	{
 		CombatEntry *entry = entries.at(i);
 		CombatEntry *previous = i > 0 ? entries.at(i - 1) : nullptr;

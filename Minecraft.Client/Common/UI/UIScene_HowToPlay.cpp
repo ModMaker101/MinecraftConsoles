@@ -300,8 +300,8 @@ void UIScene_HowToPlay::StartPage( EHowToPlayPage ePage )
 	finalText = startTags + finalText;
 
 	vector<wstring> paragraphs;
-	int lastIndex = 0;
-	for (	int index = finalText.find(L"\r\n", lastIndex, 2);
+	size_t lastIndex = 0;
+	for (	size_t index = finalText.find(L"\r\n", lastIndex, 2);
 		index != wstring::npos; 
 		index = finalText.find(L"\r\n", lastIndex, 2)
 		)

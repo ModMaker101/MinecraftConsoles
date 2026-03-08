@@ -341,7 +341,7 @@ bool Connection::readTick()
 //		printf("Con:0x%x readTick close EOS\n",this);
 
 		// 4J Stu - Remove this line
-		// Fix for #10410 - UI: If the player is removed from a splitscreened host’s game, the next game that player joins will produce a message stating that the host has left.
+		// Fix for #10410 - UI: If the player is removed from a splitscreened hostï¿½s game, the next game that player joins will produce a message stating that the host has left.
 		//close(DisconnectPacket::eDisconnect_EndOfStream);
 	}
 
@@ -498,7 +498,7 @@ void Connection::tick()
 	LeaveCriticalSection(&incoming_cs);
 
 	// MGH - moved the packet handling outside of the incoming_cs block, as it was locking up sometimes when disconnecting
-	for(int i=0; i<packetsToHandle.size();i++)
+	for(size_t i = 0; i < packetsToHandle.size(); i++)
 	{
 		PIXBeginNamedEvent(0,"Handling packet %d\n",packetsToHandle[i]->getId());
 		packetsToHandle[i]->handle(packetListener);

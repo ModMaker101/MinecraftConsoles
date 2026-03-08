@@ -665,7 +665,7 @@ void CConsoleMinecraftApp::GetDLCSkuIDFromProductList(char * pchDLCProductID, ch
 	// find the DLC
 	for(int i=0;i<m_ProductListCategoriesC;i++)
 	{
-		for(int j=0;j<m_ProductListA[i].size();j++)
+		for(size_t j=0;j<m_ProductListA[i].size();j++)
 		{
 			std::vector<SonyCommerce::ProductInfo>* pProductList=&m_ProductListA[i];
 			for ( SonyCommerce::ProductInfo& : *pProductList )

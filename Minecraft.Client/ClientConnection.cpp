@@ -3898,7 +3898,7 @@ void ClientConnection::handleSetPlayerTeamPacket(shared_ptr<SetPlayerTeamPacket>
 
 	if (packet->method == SetPlayerTeamPacket::METHOD_ADD || packet->method == SetPlayerTeamPacket::METHOD_JOIN)
 	{
-		for (int i = 0; i < packet->players.size(); i++)
+		for (size_t i = 0; i < packet->players.size(); i++)
 		{
 			scoreboard->addPlayerToTeam(packet->players[i], team);
 		}
@@ -3906,7 +3906,7 @@ void ClientConnection::handleSetPlayerTeamPacket(shared_ptr<SetPlayerTeamPacket>
 
 	if (packet->method == SetPlayerTeamPacket::METHOD_LEAVE)
 	{
-		for (int i = 0; i < packet->players.size(); i++)
+		for (size_t i = 0; i < packet->players.size(); i++)
 		{
 			scoreboard->removePlayerFromTeam(packet->players[i], team);
 		}
@@ -3980,7 +3980,7 @@ void ClientConnection::checkDeferredEntityLinkPackets(int newEntityId)
 {
 	if (deferredEntityLinkPackets.empty()) return;
 
-	for (int i = 0; i < deferredEntityLinkPackets.size(); i++)
+	for (size_t i = 0; i < deferredEntityLinkPackets.size(); i++)
 	{
 		DeferredEntityLinkPacket *deferred = &deferredEntityLinkPackets[i];
 

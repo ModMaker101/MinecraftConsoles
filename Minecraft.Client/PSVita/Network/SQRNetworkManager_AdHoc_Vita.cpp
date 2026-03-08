@@ -388,7 +388,7 @@ bool SQRNetworkManager_AdHoc_Vita::CreateMatchingContext(bool bServer /*= false*
 
 
 	// Free up any external data that we received from the previous search
-	for( int i = 0; i < m_aFriendSearchResults.size(); i++ )
+	for( size_t i = 0; i < m_aFriendSearchResults.size(); i++ )
 	{
 		if(m_aFriendSearchResults[i].m_RoomExtDataReceived)
 			free(m_aFriendSearchResults[i].m_RoomExtDataReceived);
@@ -1086,7 +1086,7 @@ void SQRNetworkManager_AdHoc_Vita::ResetToIdle()
 		{
 			memberIDs.push_back(m_aRoomSlotPlayers[i]->m_roomMemberId);
 		}
-		for(int i=0;i<memberIDs.size();i++)
+		for(size_t i=0;i<memberIDs.size();i++)
 		{
 			if(memberIDs[i] != m_hostMemberId)
 				RemoveRemotePlayersAndSync(memberIDs[i], 15);
@@ -1137,7 +1137,7 @@ bool SQRNetworkManager_AdHoc_Vita::JoinRoom(SceNetInAddr netAddr, int localPlaye
 	}
 	else
 	{
-		for(int i=0;i<m_aFriendSearchResults.size();i++)
+		for(size_t i=0;i<m_aFriendSearchResults.size();i++)
 		{
 			if(m_aFriendSearchResults[i].m_netAddr.s_addr == netAddr.s_addr)
 			{
@@ -1807,7 +1807,7 @@ void SQRNetworkManager_AdHoc_Vita::MatchingEventHandler(int id, int event, SceNe
 						// check we don't have this already
 						int currIndex = -1;
 						bool bChanged = false;
-						for(int i=0; i<manager->m_aFriendSearchResults.size(); i++)
+						for(size_t i=0; i<manager->m_aFriendSearchResults.size(); i++)
 						{
 							if(manager->m_aFriendSearchResults[i].m_netAddr.s_addr == peer->s_addr)
 							{
@@ -2852,7 +2852,7 @@ int	SQRNetworkManager_AdHoc_Vita::GetRemovedMask(int newMask, int oldMask)
 void SQRNetworkManager_AdHoc_Vita::GetExtDataForRoom( SceNpMatching2RoomId roomId, void *extData, void (* FriendSessionUpdatedFn)(bool success, void *pParam), void *pParam )
 {
 
-	for(int i=0;i<m_aFriendSearchResults.size();i++)
+	for(size_t i=0;i<m_aFriendSearchResults.size();i++)
 	{
 		if(m_aFriendSearchResults[i].m_netAddr.s_addr == roomId)
 		{

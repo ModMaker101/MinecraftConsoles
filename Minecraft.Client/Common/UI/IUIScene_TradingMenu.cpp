@@ -243,7 +243,7 @@ void IUIScene_TradingMenu::updateDisplay()
 			// 4J-PB - need to get the villager type here
 			wsTemp = app.GetString(IDS_VILLAGER_OFFERS_ITEM);
 			wsTemp = replaceAll(wsTemp,L"{*VILLAGER_TYPE*}",m_merchant->getDisplayName());
-			int iPos=wsTemp.find(L"%s");
+			size_t iPos=wsTemp.find(L"%s");
 			wsTemp.replace(iPos,2,activeRecipe->getSellItem()->getHoverName());
 
 			setTitle(wsTemp.c_str());

@@ -463,7 +463,7 @@ void PlayerList::add(shared_ptr<ServerPlayer> player)
 	changeDimension(player, nullptr);
 	level->addEntity(player);
 
-	for (int i = 0; i < players.size(); i++)
+	for (size_t i = 0; i < players.size(); i++)
 	{
 		shared_ptr<ServerPlayer> op = players.at(i);
 		//player->connection->send(shared_ptr<PlayerInfoPacket>( new PlayerInfoPacket(op->name, true, op->latency) ) );
@@ -1145,7 +1145,7 @@ shared_ptr<ServerPlayer> PlayerList::getNearestPlayer(Pos *position, int range)
 	double dist = -1;
 	int rangeSqr = range * range;
 
-	for (int i = 0; i < players.size(); i++)
+	for (size_t i = 0; i < players.size(); i++)
 	{
 		shared_ptr<ServerPlayer> next = players.at(i);
 		double newDist = position->distSqr(next->getCommandSenderWorldPosition());
@@ -1177,7 +1177,7 @@ vector<ServerPlayer> *PlayerList::getPlayers(Pos *position, int rangeMin, int ra
 	if (playerNameNot) playerName = playerName.substring(1);
 	if (teamNameNot) teamName = teamName.substring(1);
 
-	for (int i = 0; i < players.size(); i++) {
+	for (size_t i = 0; i < players.size(); i++) {
 	ServerPlayer player = players.get(i);
 
 	if (level != null && player.level != level) continue;

@@ -34,7 +34,7 @@ MerchantRecipe *MerchantRecipeList::getRecipeFor(shared_ptr<ItemInstance> buyA, 
 		}
 		return nullptr;
 	}
-	for (int i = 0; i < m_recipes.size(); i++)
+	for (size_t i = 0; i < m_recipes.size(); i++)
 	{
 		MerchantRecipe *r = m_recipes.at(i);
 		if (buyA->id == r->getBuyAItem()->id && buyA->count >= r->getBuyAItem()->count
@@ -49,7 +49,7 @@ MerchantRecipe *MerchantRecipeList::getRecipeFor(shared_ptr<ItemInstance> buyA, 
 bool MerchantRecipeList::addIfNewOrBetter(MerchantRecipe *recipe)
 {
 	bool added = false;
-	for (int i = 0; i < m_recipes.size(); i++)
+	for (size_t i = 0; i < m_recipes.size(); i++)
 	{
 		MerchantRecipe *r = m_recipes.at(i);
 		if (recipe->isSame(r))
@@ -69,7 +69,7 @@ bool MerchantRecipeList::addIfNewOrBetter(MerchantRecipe *recipe)
 
 MerchantRecipe *MerchantRecipeList::getMatchingRecipeFor(shared_ptr<ItemInstance> buy, shared_ptr<ItemInstance> buyB, shared_ptr<ItemInstance> sell)
 {
-	for (int i = 0; i < m_recipes.size(); i++)
+	for (size_t i = 0; i < m_recipes.size(); i++)
 	{
 		MerchantRecipe *r = m_recipes.at(i);
 		if (buy->id == r->getBuyAItem()->id && buy->count >= r->getBuyAItem()->count && sell->id == r->getSellItem()->id)
@@ -86,7 +86,7 @@ MerchantRecipe *MerchantRecipeList::getMatchingRecipeFor(shared_ptr<ItemInstance
 void MerchantRecipeList::writeToStream(DataOutputStream *stream)
 {
 	stream->writeByte(static_cast<byte>(m_recipes.size() & 0xff));
-	for (int i = 0; i < m_recipes.size(); i++)
+	for (size_t i = 0; i < m_recipes.size(); i++)
 	{
 		MerchantRecipe *r = m_recipes.at(i);
 		Packet::writeItem(r->getBuyAItem(), stream);
@@ -149,7 +149,7 @@ CompoundTag *MerchantRecipeList::createTag()
 	CompoundTag *tag = new CompoundTag();
 
 	ListTag<CompoundTag> *list = new ListTag<CompoundTag>(L"Recipes");
-	for (int i = 0; i < m_recipes.size(); i++)
+	for (size_t i = 0; i < m_recipes.size(); i++)
 	{
 		MerchantRecipe *merchantRecipe = m_recipes.at(i);
 		list->add(merchantRecipe->createTag());

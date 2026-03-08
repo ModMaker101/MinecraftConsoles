@@ -602,7 +602,7 @@ bool Font::AllCharactersValid(const wstring &str)
 			continue;
 		}
 
-		int index = SharedConstants::acceptableLetters.find(c);
+		size_t index = SharedConstants::acceptableLetters.find(c);
 
 		if ((c != ' ') && !(index > 0 && !enforceUnicodeSheet))
 		{

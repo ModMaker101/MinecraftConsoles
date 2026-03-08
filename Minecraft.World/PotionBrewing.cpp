@@ -325,16 +325,16 @@ int PotionBrewing::parseEffectFormulaValue(const wstring &definition, int start,
 	}
 
 	// split by and
-	int andIndex = static_cast<int>(definition.find_first_of(L'&', start));
-	if (andIndex >= 0 && andIndex < end)
+	size_t andIndex = definition.find_first_of(L'&', start);
+	if (andIndex != wstring::npos && andIndex < static_cast<size_t>(end))
 	{
-		int leftSide = parseEffectFormulaValue(definition, start, andIndex - 1, brew);
+		int leftSide = parseEffectFormulaValue(definition, start, static_cast<int>(andIndex) - 1, brew);
 		if (leftSide <= 0)
 		{
 			return 0;
 		}
 
-		int rightSide = parseEffectFormulaValue(definition, andIndex + 1, end, brew);
+		int rightSide = parseEffectFormulaValue(definition, static_cast<int>(andIndex) + 1, end, brew);
 		if (rightSide <= 0)
 		{
 			return 0;
@@ -413,16 +413,16 @@ int PotionBrewing::parseEffectFormulaValue(const wstring &definition, int start,
 	}
 
 	// split by or
-	int orIndex = definition.find_first_of(L'|', start);
-	if (orIndex >= 0 && orIndex < end)
+	size_t orIndex = definition.find_first_of(L'|', start);
+	if (orIndex != wstring::npos && orIndex < static_cast<size_t>(end))
 	{
-		int leftSide = parseEffectFormulaValue(definition, start, orIndex - 1, brew);
+		int leftSide = parseEffectFormulaValue(definition, start, static_cast<int>(orIndex) - 1, brew);
 		if (leftSide > 0)
 		{
 			return leftSide;
 		}
 
-		int rightSide = parseEffectFormulaValue(definition, orIndex + 1, end, brew);
+		int rightSide = parseEffectFormulaValue(definition, static_cast<int>(orIndex) + 1, end, brew);
 		if (rightSide > 0)
 		{
 			return rightSide;
@@ -430,10 +430,10 @@ int PotionBrewing::parseEffectFormulaValue(const wstring &definition, int start,
 		return 0;
 	}
 	// split by and
-	int andIndex = definition.find_first_of(L'&', start);
-	if (andIndex >= 0 && andIndex < end)
+	size_t andIndex = definition.find_first_of(L'&', start);
+	if (andIndex != wstring::npos && andIndex < static_cast<size_t>(end))
 	{
-		int leftSide = parseEffectFormulaValue(definition, start, andIndex - 1, brew);
+		int leftSide = parseEffectFormulaValue(definition, start, static_cast<int>(andIndex) - 1, brew);
 		if (leftSide <= 0)
 		{
 			return 0;

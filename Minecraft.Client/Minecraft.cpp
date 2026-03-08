@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Minecraft.h"
+#include "Common/UI/UIScene.h"
 #include "GameMode.h"
 #include "Timer.h"
 #include "ProgressRenderer.h"
@@ -9,6 +10,7 @@
 #include "User.h"
 #include "Textures.h"
 #include "GameRenderer.h"
+#include "ItemInHandRenderer.h"
 #include "HumanoidModel.h"
 #include "Options.h"
 #include "TexturePackRepository.h"
@@ -217,7 +219,8 @@ Minecraft::Minecraft(Component *mouseComponent, Canvas *parent, MinecraftApplet 
 	{
 		m_pendingLocalConnections[i] = nullptr;
 		m_connectionFailed[i] = false;
-		localgameModes[i]=nullptr;
+		localgameModes[i]= nullptr;
+		localitemInHandRenderers[i] = nullptr;
 	}
 
 	animateTickLevel = nullptr;	// 4J added
@@ -1481,9 +1484,22 @@ void Minecraft::run_middle()
 							if(g_KBMInput.IsMouseButtonPressed(KeyboardMouseInput::MOUSE_RIGHT))
 								localplayers[i]->ullButtonsPressed|=1LL<<MINECRAFT_ACTION_USE;
 
+							bool isClosableByEitherKey = ui.IsSceneInStack(i, eUIScene_FurnaceMenu) ||
+								ui.IsSceneInStack(i, eUIScene_ContainerMenu) ||
+								ui.IsSceneInStack(i, eUIScene_DispenserMenu) ||
+								ui.IsSceneInStack(i, eUIScene_EnchantingMenu) ||
+								ui.IsSceneInStack(i, eUIScene_BrewingStandMenu) ||
+								ui.IsSceneInStack(i, eUIScene_TradingMenu) ||
+								ui.IsSceneInStack(i, eUIScene_AnvilMenu) ||
+								ui.IsSceneInStack(i, eUIScene_HopperMenu) ||
+								ui.IsSceneInStack(i, eUIScene_BeaconMenu) ||
+								ui.IsSceneInStack(i, eUIScene_InventoryMenu) ||
+								ui.IsSceneInStack(i, eUIScene_HorseMenu);
+							bool isEditing = ui.GetTopScene(i) && ui.GetTopScene(i)->isDirectEditBlocking();
+
 							if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_INVENTORY))
 							{
-								if(ui.IsSceneInStack(i, eUIScene_InventoryMenu))
+								if(isClosableByEitherKey && !isEditing)
 								{
 									ui.CloseUIScenes(i);
 								}
@@ -1498,7 +1514,7 @@ void Minecraft::run_middle()
 
 							if(g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_CRAFTING) || g_KBMInput.IsKeyPressed(KeyboardMouseInput::KEY_CRAFTING_ALT))
 							{
-							if(ui.IsSceneInStack(i, eUIScene_Crafting2x2Menu) || ui.IsSceneInStack(i, eUIScene_Crafting3x3Menu) || ui.IsSceneInStack(i, eUIScene_CreativeMenu))
+							if((ui.IsSceneInStack(i, eUIScene_Crafting2x2Menu) || ui.IsSceneInStack(i, eUIScene_Crafting3x3Menu) || ui.IsSceneInStack(i, eUIScene_CreativeMenu) || isClosableByEitherKey) && !isEditing)
 							{
 								ui.CloseUIScenes(i);
 							}
@@ -2359,16 +2375,21 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures)
 	}
 
 #ifdef _WINDOWS64
-	if ((screen != nullptr || ui.GetMenuDisplayed(iPad)) && g_KBMInput.IsMouseGrabbed())
+	// Mouse grab/release only for the primary (KBM) player — splitscreen
+	// players use controllers and must never fight over the cursor state.
+	if (iPad == ProfileManager.GetPrimaryPad())
 	{
-		g_KBMInput.SetMouseGrabbed(false);
+		if ((screen != nullptr || ui.GetMenuDisplayed(iPad)) && g_KBMInput.IsMouseGrabbed())
+		{
+			g_KBMInput.SetMouseGrabbed(false);
+		}
 	}
 #endif
 
 	if (screen == nullptr && !ui.GetMenuDisplayed(iPad) )
 	{
 #ifdef _WINDOWS64
-		if (!g_KBMInput.IsMouseGrabbed() && g_KBMInput.IsWindowFocused())
+		if (iPad == ProfileManager.GetPrimaryPad() && !g_KBMInput.IsMouseGrabbed() && g_KBMInput.IsWindowFocused())
 		{
 			g_KBMInput.SetMouseGrabbed(true);
 		}
@@ -4228,6 +4249,17 @@ void Minecraft::setLevel(MultiPlayerLevel *level, int message /*=-1*/, shared_pt
 	// 4J - stop update thread from processing this level, which blocks until it is safe to move on - will be re-enabled if we set the level to be non-nullptr
 	gameRenderer->DisableUpdateThread();
 
+	if (level == nullptr || player == nullptr)
+	{
+		for (int i = 0; i < XUSER_MAX_COUNT; ++i)
+		{
+			if (localitemInHandRenderers[i] != nullptr)
+			{
+				localitemInHandRenderers[i]->reset();
+			}
+		}
+	}
+
 	for(unsigned int i = 0; i < levels.length; ++i)
 	{
 		// 4J We only need to save out in multiplayer is we are setting the level to nullptr
@@ -4623,8 +4655,8 @@ void Minecraft::start(const wstring& name, const wstring& sid)
 
 void Minecraft::startAndConnectTo(const wstring& name, const wstring& sid, const wstring& url)
 {
-	bool fullScreen = false;
-	wstring userName = name;
+	const bool fullScreen = false;
+	const wstring userName = name;
 
 	/* 4J - removed window handling things here
 	final Frame frame = new Frame("Minecraft");
@@ -4643,10 +4675,15 @@ void Minecraft::startAndConnectTo(const wstring& name, const wstring& sid, const
 	*/
 
 	Minecraft *minecraft;
-	// 4J - was new Minecraft(frame, canvas, nullptr, 854, 480, fullScreen);
+	// 4J - was new Minecraft(frame, canvas, NULL, 854, 480, fullScreen);
+	// Logical width is proportional to the real screen aspect ratio so that
+	// the ortho projection and HUD layout match the viewport without stretching.
+	extern int g_iScreenWidth;
+	extern int g_iScreenHeight;
+	constexpr int logicalH = 720;
+	const int logicalW = logicalH * g_iScreenWidth / g_iScreenHeight;
 
-	minecraft = new Minecraft(nullptr, nullptr, nullptr, 1280, 720, fullScreen);
-
+	minecraft = new Minecraft(nullptr, nullptr, nullptr, logicalW, logicalH, fullScreen);
 	/* - 4J - removed
 	{
 	@Override

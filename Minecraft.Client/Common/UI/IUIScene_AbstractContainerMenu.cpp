@@ -482,25 +482,14 @@ void IUIScene_AbstractContainerMenu::onMouseTick()
 #endif
 
 #ifdef _WINDOWS64
-	if (!g_KBMInput.IsMouseGrabbed() && g_KBMInput.IsKBMActive())
+	if (iPad == 0 && !g_KBMInput.IsMouseGrabbed() && g_KBMInput.IsKBMActive())
 	{
 		int deltaX = g_KBMInput.GetMouseDeltaX();
 		int deltaY = g_KBMInput.GetMouseDeltaY();
-
-		extern HWND g_hWnd;
-		RECT rc;
-		GetClientRect(g_hWnd, &rc);
-		int winW = rc.right - rc.left;
-		int winH = rc.bottom - rc.top;
-
-		if (winW > 0 && winH > 0)
-		{
-			float scaleX = static_cast<float>(getMovieWidth()) / static_cast<float>(winW);
-			float scaleY = static_cast<float>(getMovieHeight()) / static_cast<float>(winH);
-
-			vPointerPos.x += static_cast<float>(deltaX) * scaleX;
-			vPointerPos.y += static_cast<float>(deltaY) * scaleY;
-		}
+		float scaleX, scaleY;
+		getMouseToSWFScale(scaleX, scaleY);
+		vPointerPos.x += static_cast<float>(deltaX) * scaleX;
+		vPointerPos.y += static_cast<float>(deltaY) * scaleY;
 
 		if (deltaX != 0 || deltaY != 0)
 		{

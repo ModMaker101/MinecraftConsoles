@@ -19,6 +19,9 @@
 #include "..\Minecraft.World\net.minecraft.network.packet.h"
 #include "..\Minecraft.World\net.minecraft.network.h"
 #include "Windows64\Windows64_Xuid.h"
+#ifdef _WINDOWS64
+#include "Windows64\Network\WinsockNetLayer.h"
+#endif
 #include "..\Minecraft.World\Pos.h"
 #include "..\Minecraft.World\ProgressListener.h"
 #include "..\Minecraft.World\HellRandomLevelSource.h"
@@ -245,10 +248,25 @@ bool PlayerList::placeNewPlayer(Connection *connection, shared_ptr<ServerPlayer>
 	addPlayerToReceiving( player );
 
 	int maxPlayersForPacket = getMaxPlayers() > 255 ? 255 : getMaxPlayers();
-	playerConnection->send(std::make_shared<LoginPacket>(L"", player->entityId, level->getLevelData()->getGenerator(), level->getSeed(), player->gameMode->getGameModeForPlayer()->getId(),
-                                                         static_cast<byte>(level->dimension->id), static_cast<byte>(level->getMaxBuildHeight()), static_cast<byte>(maxPlayersForPacket),
-                                                         level->difficulty, TelemetryManager->GetMultiplayerInstanceID(), static_cast<BYTE>(playerIndex), level->useNewSeaLevel(), player->getAllPlayerGamePrivileges(),
-                                                         level->getLevelData()->getXZSize(), level->getLevelData()->getHellScale()));
+
+	BYTE newSmallId = 0;
+	Socket *sock = connection->getSocket();
+	INetworkPlayer *np = sock ? sock->getPlayer() : nullptr;
+	if (np) newSmallId = np->GetSmallId();
+	app.DebugPrintf("RECONNECT: placeNewPlayer smallId=%d entityId=%d dim=%d\n",
+		newSmallId, player->entityId, level->dimension->id);
+
+	playerConnection->send(std::make_shared<LoginPacket>(L"", player->entityId, level->getLevelData()->getGenerator(),
+	                                                     level->getSeed(),
+	                                                     player->gameMode->getGameModeForPlayer()->getId(),
+	                                                     static_cast<byte>(level->dimension->id), static_cast<byte>(level->getMaxBuildHeight()),
+	                                                     static_cast<byte>(maxPlayersForPacket),
+	                                                     level->difficulty,
+	                                                     TelemetryManager->GetMultiplayerInstanceID(),
+	                                                     static_cast<BYTE>(playerIndex), level->useNewSeaLevel(),
+	                                                     player->getAllPlayerGamePrivileges(),
+	                                                     level->getLevelData()->getXZSize(),
+	                                                     level->getLevelData()->getHellScale()));
 	playerConnection->send(std::make_shared<SetSpawnPositionPacket>(spawnPos->x, spawnPos->y, spawnPos->z));
 	playerConnection->send(std::make_shared<PlayerAbilitiesPacket>(&player->abilities));
 	playerConnection->send(std::make_shared<SetCarriedItemPacket>(player->inventory->selected));
@@ -930,8 +948,8 @@ void PlayerList::repositionAcrossDimension(shared_ptr<Entity> entity, int lastDi
 
 	if (lastDimension != 1)
 	{
-		xt = static_cast<double>(Mth::clamp((int)xt, -Level::MAX_LEVEL_SIZE + 128, Level::MAX_LEVEL_SIZE - 128));
-		zt = static_cast<double>(Mth::clamp((int)zt, -Level::MAX_LEVEL_SIZE + 128, Level::MAX_LEVEL_SIZE - 128));
+		xt = static_cast<double>(Mth::clamp(static_cast<int>(xt), -Level::MAX_LEVEL_SIZE + 128, Level::MAX_LEVEL_SIZE - 128));
+		zt = static_cast<double>(Mth::clamp(static_cast<int>(zt), -Level::MAX_LEVEL_SIZE + 128, Level::MAX_LEVEL_SIZE - 128));
 		if (entity->isAlive())
 		{
 			newLevel->addEntity(entity);
@@ -987,6 +1005,14 @@ void PlayerList::tick()
 		{
 			player->connection->disconnect( DisconnectPacket::eDisconnect_Closed );
 		}
+
+#ifdef _WINDOWS64
+		// The old Connection's read/write threads are now dead (disconnect waits
+		// for them). Safe to recycle the smallId — no stale write thread can
+		// resolve getPlayer() to a new connection that reuses this slot.
+		WinsockNetLayer::PushFreeSmallId(smallId);
+		WinsockNetLayer::ClearSocketForSmallId(smallId);
+#endif
 	}
 	LeaveCriticalSection(&m_closePlayersCS);
 
@@ -1623,6 +1649,13 @@ void  PlayerList::closePlayerConnectionBySmallId(BYTE networkSmallId)
 {
 	EnterCriticalSection(&m_closePlayersCS);
 	m_smallIdsToClose.push_back(networkSmallId);
+	LeaveCriticalSection(&m_closePlayersCS);
+}
+
+void PlayerList::queueSmallIdForRecycle(BYTE smallId)
+{
+	EnterCriticalSection(&m_closePlayersCS);
+	m_smallIdsToClose.push_back(smallId);
 	LeaveCriticalSection(&m_closePlayersCS);
 }
 

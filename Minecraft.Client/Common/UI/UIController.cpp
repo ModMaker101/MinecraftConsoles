@@ -13,6 +13,7 @@
 #include "..\..\EnderDragonRenderer.h"
 #include "..\..\MultiPlayerLocalPlayer.h"
 #include "UIFontData.h"
+#include "UISplitScreenHelpers.h"
 #ifdef _WINDOWS64
 #include "..\..\Windows64\KeyboardMouseInput.h"
 #endif
@@ -56,6 +57,8 @@ CRITICAL_SECTION UIController::ms_reloadSkinCS;
 bool UIController::ms_bReloadSkinCSInitialised = false;
 
 DWORD UIController::m_dwTrialTimerLimitSecs=DYNAMIC_CONFIG_DEFAULT_TRIAL_TIME;
+
+// GetViewportRect and Fit16x9 are now in UISplitScreenHelpers.h
 
 #ifdef _WINDOWS64
 static UIControl_Slider *FindSliderById(UIScene *pScene, int sliderId)
@@ -801,20 +804,22 @@ void UIController::tickInput()
 #ifndef _CONTENT_PACKAGE
                     eUILayer_Debug,
 #endif
-                    eUILayer_Error,
-                    eUILayer_Alert,
-                    eUILayer_Popup,
-                    eUILayer_Fullscreen,
-                    eUILayer_Scene,
-                };
-
-                for (int l = 0; l < _countof(mouseLayers) && !pScene; ++l)
+					eUILayer_Error,
+					eUILayer_Alert,
+					eUILayer_Popup,
+					eUILayer_Fullscreen,
+					eUILayer_Scene,
+				};
+				// Only check the fullscreen group and the primary (KBM) player's group.
+			// Other splitscreen players use controllers — mouse must not affect them.
+			const int mouseGroups[] = { static_cast<int>(eUIGroup_Fullscreen), ProfileManager.GetPrimaryPad() + 1 };
+			for (int l = 0; l < _countof(mouseLayers) && !pScene; ++l)
+			{
+				for (int g = 0; g < _countof(mouseGroups) && !pScene; ++g)
 				{
-					for (int grp = 0; grp < eUIGroup_COUNT && !pScene; ++grp)
-					{
-						pScene = m_groups[grp]->GetTopScene(mouseLayers[l]);
-					}
+					pScene = m_groups[mouseGroups[g]]->GetTopScene(mouseLayers[l]);
 				}
+			}
 				if (pScene && pScene->getMovie())
                 {
                     int rawMouseX = g_KBMInput.GetMouseX();
@@ -843,9 +848,14 @@ void UIController::tickInput()
 					m_lastHoverMouseX = rawMouseX;
 					m_lastHoverMouseY = rawMouseY;
 
-					// Convert mouse to scene/movie coordinates
-					F32 sceneMouseX = (F32)rawMouseX;
-					F32 sceneMouseY = (F32)rawMouseY;
+					// Convert mouse window-pixel coords to Flash/SWF authoring coords.
+					// In split-screen the scene is rendered at a tile-origin offset
+					// and at a smaller display size, so we must:
+					//   1. Map window pixels -> UIController screen space
+					//   2. Subtract the viewport tile origin
+					//   3. Scale from display dimensions to SWF authoring dimensions
+					F32 sceneMouseX = static_cast<F32>(rawMouseX);
+					F32 sceneMouseY = static_cast<F32>(rawMouseY);
 					{
 						extern HWND g_hWnd;
 						RECT rc;
@@ -855,8 +865,30 @@ void UIController::tickInput()
 							int winH = rc.bottom - rc.top;
 							if (winW > 0 && winH > 0)
 							{
-								sceneMouseX = sceneMouseX * ((F32)pScene->getRenderWidth() / (F32)winW);
-								sceneMouseY = sceneMouseY * ((F32)pScene->getRenderHeight() / (F32)winH);
+								// Step 1: window pixels -> screen space
+								F32 screenX = sceneMouseX * (getScreenWidth() / static_cast<F32>(winW));
+								F32 screenY = sceneMouseY * (getScreenHeight() / static_cast<F32>(winH));
+
+								// Step 2 & 3: account for split-screen viewport
+								C4JRender::eViewportType vp = pScene->GetParentLayer()->getViewport();
+								S32 displayW = 0, displayH = 0;
+								getRenderDimensions(vp, displayW, displayH);
+
+								F32 vpOriginX, vpOriginY, vpW, vpH;
+								GetViewportRect(getScreenWidth(), getScreenHeight(), vp, vpOriginX, vpOriginY, vpW, vpH);
+								// All viewports use Fit16x9 for menu scenes
+								S32 fitW, fitH, fitOffsetX, fitOffsetY;
+								Fit16x9(vpW, vpH, fitW, fitH, fitOffsetX, fitOffsetY);
+								S32 originX = static_cast<S32>(vpOriginX) + fitOffsetX;
+								S32 originY = static_cast<S32>(vpOriginY) + fitOffsetY;
+								displayW = fitW;
+								displayH = fitH;
+
+								if (displayW > 0 && displayH > 0)
+								{
+									sceneMouseX = (screenX - originX) * (static_cast<F32>(pScene->getRenderWidth()) / static_cast<F32>(displayW));
+									sceneMouseY = (screenY - originY) * (static_cast<F32>(pScene->getRenderHeight()) / static_cast<F32>(displayH));
+								}
 							}
 						}
 					}
@@ -908,7 +940,7 @@ void UIController::tickInput()
 								// TexturePackList origin is where the slot area starts,
 								// not the top-left of the whole control — use GetRealHeight.
 								if (type == UIControl::eTexturePackList)
-									ch = ((UIControl_TexturePackList *)ctrl)->GetRealHeight();
+									ch = static_cast<UIControl_TexturePackList*>(ctrl)->GetRealHeight();
 								if (cw <= 0 || ch <= 0)
 									continue;
 
@@ -919,8 +951,8 @@ void UIController::tickInput()
 									{
 										// ButtonList manages focus internally via Flash —
 										// pass mouse coords so it can highlight the right item.
-										((UIControl_ButtonList *)ctrl)->SetTouchFocus(
-											(S32)sceneMouseX, (S32)sceneMouseY, false);
+										static_cast<UIControl_ButtonList*>(ctrl)->SetTouchFocus(
+											static_cast<S32>(sceneMouseX), static_cast<S32>(sceneMouseY), false);
 										hitControlId = -1;
 										hitArea = INT_MAX;
 										hitCtrl = NULL;
@@ -929,10 +961,10 @@ void UIController::tickInput()
 									if (type == UIControl::eTexturePackList)
 									{
 										// TexturePackList expects coords relative to its origin.
-										UIControl_TexturePackList *pList = (UIControl_TexturePackList *)ctrl;
+										UIControl_TexturePackList *pList = static_cast<UIControl_TexturePackList*>(ctrl);
 										pScene->SetFocusToElement(ctrl->getId());
 										pList->SetTouchFocus(
-											(S32)(sceneMouseX - cx), (S32)(sceneMouseY - cy), false);
+											static_cast<S32>(sceneMouseX - cx), static_cast<S32>(sceneMouseY - cy), false);
 										m_bMouseHoverHorizontalList = true;
 										hitControlId = -1;
 										hitArea = INT_MAX;
@@ -968,7 +1000,7 @@ void UIController::tickInput()
 									// happens after both tickInput and scene tick, so no flicker.
 									if (hitCtrl && hitCtrl->getControlType() == UIControl::eTextInput)
 									{
-										((UIControl_TextInput *)hitCtrl)->setCaretVisible(false);
+										static_cast<UIControl_TextInput*>(hitCtrl)->setCaretVisible(false);
 									}
 								}
 							}
@@ -1584,73 +1616,48 @@ void UIController::renderScenes()
 
 void UIController::getRenderDimensions(C4JRender::eViewportType viewport, S32 &width, S32 &height)
 {
-	switch( viewport )
+	F32 originX, originY, viewW, viewH;
+	GetViewportRect(getScreenWidth(), getScreenHeight(), viewport, originX, originY, viewW, viewH);
+
+	if(viewport == C4JRender::VIEWPORT_TYPE_FULLSCREEN)
 	{
-	case C4JRender::VIEWPORT_TYPE_FULLSCREEN:
-		width = static_cast<S32>(getScreenWidth());
-		height = static_cast<S32>(getScreenHeight());
-		break;
-	case C4JRender::VIEWPORT_TYPE_SPLIT_TOP:
-	case C4JRender::VIEWPORT_TYPE_SPLIT_BOTTOM:
-		width = static_cast<S32>(getScreenWidth() / 2);
-		height = static_cast<S32>(getScreenHeight() / 2);
-		break;
-	case C4JRender::VIEWPORT_TYPE_SPLIT_LEFT:
-	case C4JRender::VIEWPORT_TYPE_SPLIT_RIGHT:
-		width = static_cast<S32>(getScreenWidth() / 2);
-		height = static_cast<S32>(getScreenHeight() / 2);
-		break;
-	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-	case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-	case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
-		width = static_cast<S32>(getScreenWidth() / 2);
-		height = static_cast<S32>(getScreenHeight() / 2);
-		break;
+		S32 offsetX, offsetY;
+		Fit16x9(viewW, viewH, width, height, offsetX, offsetY);
+	}
+	else
+	{
+		// Split-screen: use raw viewport dims — the SWF tiling code handles non-16:9
+		width = static_cast<S32>(viewW);
+		height = static_cast<S32>(viewH);
 	}
 }
 
 void UIController::setupRenderPosition(C4JRender::eViewportType viewport)
 {
-	if(m_bCustomRenderPosition || m_currentRenderViewport != viewport)
+	m_currentRenderViewport = viewport;
+	m_bCustomRenderPosition = false;
+
+	F32 vpOriginX, vpOriginY, vpW, vpH;
+	GetViewportRect(getScreenWidth(), getScreenHeight(), viewport, vpOriginX, vpOriginY, vpW, vpH);
+
+	S32 xPos, yPos;
+	if(viewport == C4JRender::VIEWPORT_TYPE_FULLSCREEN)
 	{
-		m_currentRenderViewport = viewport;
-		m_bCustomRenderPosition = false;
-		S32 xPos = 0;
-		S32 yPos = 0;
-		switch( viewport )
-		{
-		case C4JRender::VIEWPORT_TYPE_SPLIT_TOP:
-			xPos = static_cast<S32>(getScreenWidth() / 4);
-			break;
-		case C4JRender::VIEWPORT_TYPE_SPLIT_BOTTOM:
-			xPos = static_cast<S32>(getScreenWidth() / 4);
-			yPos = static_cast<S32>(getScreenHeight() / 2);
-			break;
-		case C4JRender::VIEWPORT_TYPE_SPLIT_LEFT:
-			yPos = static_cast<S32>(getScreenHeight() / 4);
-			break;
-		case C4JRender::VIEWPORT_TYPE_SPLIT_RIGHT:
-			xPos = static_cast<S32>(getScreenWidth() / 2);
-			yPos = static_cast<S32>(getScreenHeight() / 4);
-			break;
-		case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-			break;
-		case C4JRender::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-			xPos = static_cast<S32>(getScreenWidth() / 2);
-			break;
-		case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-			yPos = static_cast<S32>(getScreenHeight() / 2);
-			break;
-		case C4JRender::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
-			xPos = static_cast<S32>(getScreenWidth() / 2);
-			yPos = static_cast<S32>(getScreenHeight() / 2);
-			break;
-		}
-		m_tileOriginX = xPos;
-		m_tileOriginY = yPos;
-		setTileOrigin(xPos, yPos);
+		S32 fitW, fitH, fitOffsetX, fitOffsetY;
+		Fit16x9(vpW, vpH, fitW, fitH, fitOffsetX, fitOffsetY);
+		xPos = static_cast<S32>(vpOriginX) + fitOffsetX;
+		yPos = static_cast<S32>(vpOriginY) + fitOffsetY;
 	}
+	else
+	{
+		// Split-screen: position at viewport origin, no 16:9 fitting
+		xPos = static_cast<S32>(vpOriginX);
+		yPos = static_cast<S32>(vpOriginY);
+	}
+
+	m_tileOriginX = xPos;
+	m_tileOriginY = yPos;
+	setTileOrigin(xPos, yPos);
 }
 
 void UIController::setupRenderPosition(S32 xOrigin, S32 yOrigin)
@@ -1858,8 +1865,11 @@ void RADLINK UIController::TextureSubstitutionDestroyCallback ( void * user_call
 
 	ui.destroySubstitutionTexture(user_callback_data, handle);
 
-	Textures *t = Minecraft::GetInstance()->textures;
-	t->releaseTexture( id );
+	Minecraft* mc = Minecraft::GetInstance();
+	if (mc && mc->textures)
+	{
+		mc->textures->releaseTexture( id );
+	}
 }
 
 void UIController::registerSubstitutionTexture(const wstring &textureName, PBYTE pbData, DWORD dwLength)

@@ -395,6 +395,7 @@ float GameRenderer::getFov(float a, bool applyEffects)
 		fov += mc->options->fov * 40;
 		fov *= oFov[playerIdx] + (this->fov[playerIdx] - oFov[playerIdx]) * a;
 	}
+	fov = min(fov, 170.0f);
 	if (player->getHealth() <= 0)
 	{
 		float duration = player->deathTime + a;

@@ -38,7 +38,8 @@ void UpdateGameRuleProgressPacket::read(DataInputStream *dis) //throws IOExcepti
 	m_dataTag = dis->readInt();
 	int dataLength = dis->readInt();
 
-	if(dataLength > 0)
+	const int MAX_DATA_LENGTH = 65536;
+	if(dataLength > 0 && dataLength <= MAX_DATA_LENGTH)
 	{
 		m_data = byteArray(dataLength);
 		dis->readFully(m_data);

@@ -629,6 +629,11 @@ void SparseLightStorage::write(DataOutputStream *dos)
 void SparseLightStorage::read(DataInputStream *dis)
 {
 	int count = dis->readInt();
+	const int MAX_COUNT = 512;
+	if(count <= 0 || count > MAX_COUNT)
+	{
+		return;
+	}
 	unsigned char *dataPointer = static_cast<unsigned char *>(malloc(count * 128 + 128));
 	byteArray wrapper(dataPointer, count * 128 + 128);
 	dis->readFully(wrapper);

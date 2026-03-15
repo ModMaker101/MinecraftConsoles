@@ -1353,7 +1353,8 @@ void CompressedTileStorage::write(DataOutputStream *dos)
 void CompressedTileStorage::read(DataInputStream *dis)
 {
 	allocatedSize = dis->readInt();
-	if(allocatedSize > 0)
+	const size_t MAX_CHUNK_SIZE = 10 * 1024 * 1024; // 10MB max
+	if(allocatedSize > 0 && static_cast<size_t>(allocatedSize) <= MAX_CHUNK_SIZE)
 	{
 		// This delete should be safe to do in a non-thread safe way as the chunk is fully read before any external reference is available to it from another thread
 		if( indicesAndData )

@@ -612,6 +612,11 @@ void SparseDataStorage::write(DataOutputStream *dos)
 void SparseDataStorage::read(DataInputStream *dis)
 {
 	const int count = dis->readInt();
+	const int MAX_COUNT = 512;
+	if(count <= 0 || count > MAX_COUNT)
+	{
+		return;
+	}
 	unsigned char *dataPointer = static_cast<unsigned char *>(malloc(count * 128 + 128));
 	const byteArray wrapper(dataPointer, count * 128 + 128);
 	dis->readFully(wrapper);

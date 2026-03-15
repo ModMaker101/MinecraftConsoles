@@ -52,8 +52,9 @@ wstring convStringToWstring(const string& converting)
 const char *wstringtofilename(const wstring& name)
 {
 	static char buf[256];
-	assert(name.length()<256);
-	for(unsigned int i = 0; i < name.length(); i++ )
+	size_t len = name.length();
+	if (len >= 256) len = 255;
+	for(unsigned int i = 0; i < len; i++ )
 	{
 		wchar_t c = name[i];
 #if defined __PS3__ || defined __ORBIS__
@@ -61,24 +62,25 @@ const char *wstringtofilename(const wstring& name)
 #else
 		if(c=='/') c='\\';
 #endif
-		assert(c<128);	// Will we have to do any conversion of non-ASCII characters in filenames?
+		assert(c<128);
 		buf[i] = static_cast<char>(c);
 	}
-	buf[name.length()] = 0;
+	buf[len] = 0;
 	return buf;
 }
 
 const char *wstringtochararray(const wstring& name)
 {
 	static char buf[256];
-	assert(name.length()<256);
-	for(unsigned int i = 0; i < name.length(); i++ )
+	size_t len = name.length();
+	if (len >= 256) len = 255;
+	for(unsigned int i = 0; i < len; i++ )
 	{
-		wchar_t c = name[i];
-		assert(c<128);	// Will we have to do any conversion of non-ASCII characters in filenames?
+		const wchar_t c = name[i];
+		assert(c<128);
 		buf[i] = static_cast<char>(c);
 	}
-	buf[name.length()] = 0;
+	buf[len] = 0;
 	return buf;
 }
 
